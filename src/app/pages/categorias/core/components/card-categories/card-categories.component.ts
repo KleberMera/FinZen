@@ -13,7 +13,7 @@ import {
 import { PlusIconComponent } from '../../../../../components/Icons/plus-icon/plus-icon.component';
 import { CloseIconComponent } from '../../../../../components/Icons/close-icon/close-icon.component';
 import { DiskIconComponent } from '../../../../../components/Icons/disk-icon/disk-icon.component';
-import { CardUserComponent } from "../card-user/card-user.component";
+import { Modal } from 'flowbite';
 
 @Component({
   selector: 'flowbite-categories',
@@ -22,7 +22,6 @@ import { CardUserComponent } from "../card-user/card-user.component";
     CloseIconComponent,
     ReactiveFormsModule,
     DiskIconComponent,
-    CardUserComponent
 ],
   templateUrl: './card-categories.component.html',
   styleUrl: './card-categories.component.scss',
@@ -50,6 +49,17 @@ export class CarCategoriesComponent {
     },
   });
   
+  openModal() {
+    const modalElement = document.getElementById('nueva-categoria-modal');
+    const modal = new Modal(modalElement);
+    modal.show();
+  }
+
+  closeModal() {
+    const modalElement = document.getElementById('nueva-categoria-modal');
+    const modal = new Modal(modalElement);
+    modal.hide();
+  }
 
   async saveCategory() {
     try {
@@ -65,6 +75,7 @@ export class CarCategoriesComponent {
         this.form().patchValue({tipo:'Ingreso',usuario_id: this.seletedUser()});
         //Cargar nuevas categorias
         this.categoriasResource.reload();
+        this.closeModal();
        }
     } catch (error) {
       this.toast.show({

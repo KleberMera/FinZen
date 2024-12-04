@@ -16,6 +16,10 @@ export const pagesRoutes: Routes = [
         component: DashboardComponent,
       },
       {
+        path: 'categorias',
+        component: CategoriasComponent,
+      },
+      {
         path: 'sales',
         component: SalesComponent,
       },
@@ -23,10 +27,7 @@ export const pagesRoutes: Routes = [
         path: 'transacciones',
         component: TransaccionesComponent,
       },
-      {
-        path: 'categorias',
-        component: CategoriasComponent,
-      },
+      
       {
         path: '**',
         redirectTo: 'dashboard',

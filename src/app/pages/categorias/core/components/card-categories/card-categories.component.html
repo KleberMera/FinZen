@@ -1,5 +1,5 @@
 <!-- user-categories.component.html -->
-<flowbite-user></flowbite-user>
+
 <p class="text-3xl font-semibold text-gray-900 dark:text-white mb-7 mt-2">
   Categorías del Usuario
 </p>
@@ -27,8 +27,7 @@
   <!-- Botón de añadir categoría -->
   <div
     class="flex items-center justify-center bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
-    data-modal-target="nueva-categoria-modal"
-    data-modal-toggle="nueva-categoria-modal"
+      (click)="openModal()"
   >
     <div class="text-center p-6">
       <plus-icon
@@ -39,7 +38,6 @@
       </p>
     </div>
   </div>
-
   <!-- Modal Nueva Categoría -->
   <div
     id="nueva-categoria-modal"
@@ -59,8 +57,8 @@
           </h3>
           <button
             type="button"
-            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-hide="nueva-categoria-modal"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"   
+            (click)="closeModal()"
           >
             <close-icon></close-icon>
             <span class="sr-only">Cerrar modal</span>
@@ -107,7 +105,7 @@
         >
           <button
             type="submit"
-            data-modal-hide="nueva-categoria-modal"
+          
             [disabled]="form().invalid"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
@@ -116,16 +114,16 @@
             Guardar
           </button>
           <button
-            data-modal-hide="nueva-categoria-modal"
+            (click)="closeModal()"
             type="button"
             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
+
             Cancelar
           </button>
         </div>
         </form>
-        <!-- Modal footer -->
-        
+    
       </div>
     </div>
   </div>
