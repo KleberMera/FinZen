@@ -5,7 +5,7 @@ import { CarCategoriesComponent } from './core/components/card-categories/card-c
 
 @Component({
   selector: 'app-transacciones',
-  imports: [CarCategoriesComponent, CardUserComponent],
+  imports: [CarCategoriesComponent],
   templateUrl: './transacciones.component.html',
   styleUrl: './transacciones.component.scss',
 })

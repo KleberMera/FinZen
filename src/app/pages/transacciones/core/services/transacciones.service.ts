@@ -21,4 +21,9 @@ export class TransaccionesService {
     const url = `${this.apiUrl}/usuarios/${id}`;
     return this.htpp.get<Usuarios[]>(url);
   }
+
+  createCategoria(categoria: Categorias): Observable<Categorias> {
+    const url = `${this.apiUrl}/categorias`;
+    return this.htpp.post<Categorias>(url, categoria);
+  }
 }

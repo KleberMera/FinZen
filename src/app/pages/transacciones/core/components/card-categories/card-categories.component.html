@@ -1,10 +1,11 @@
 <!-- user-categories.component.html -->
-<p class="text-3xl font-semibold text-gray-900 dark:text-white mb-6">
+<app-card-user></app-card-user>
+<p class="text-3xl font-semibold text-gray-900 dark:text-white mb-7 mt-2">
   Categorías del Usuario
 </p>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  @for (categoria of categoriasResource.value(); track categoria.nombre) {
+  @for (categoria of categoriasResource.value(); track categoria.id) {
   <div
     (click)="saveCategory()"
     class="transform transition-all duration-300 hover:-translate-y-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg hover:shadow-2xl overflow-hidden"
@@ -31,20 +32,9 @@
     data-modal-toggle="nueva-categoria-modal"
   >
     <div class="text-center p-6">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
+      <plus-icon
         class="h-12 w-12 mx-auto text-gray-500 dark:text-gray-400"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 4v16m8-8H4"
-        />
-      </svg>
+      ></plus-icon>
       <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
         Añadir Categoría
       </p>
@@ -55,7 +45,7 @@
   <div
     id="nueva-categoria-modal"
     tabindex="-1"
-    aria-hidden="true"
+    
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
   >
     <div class="relative p-4 w-full max-w-md max-h-full">
@@ -73,26 +63,16 @@
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
             data-modal-hide="nueva-categoria-modal"
           >
-            <svg
-              class="w-3 h-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
+            <close-icon></close-icon>
             <span class="sr-only">Cerrar modal</span>
           </button>
         </div>
         <!-- Modal body -->
-        <div class="p-4 md:p-5 space-y-4">
+        <form
+          class="p-4 md:p-5 space-y-4"
+          [formGroup]="form()"
+          (submit)="saveCategory()"
+        >
           <div>
             <label
               for="nombre"
@@ -102,9 +82,9 @@
             <input
               type="text"
               id="nombre"
+              formControlName="nombre"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               placeholder="Nombre de la categoría"
-              required
             />
           </div>
           <div>
@@ -115,26 +95,26 @@
             >
             <select
               id="tipo"
+              formControlName="tipo"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              required
             >
               <option value="">Selecciona un tipo</option>
-              <option value="Personal">Ingreso</option>
+              <option value="Ingreso">Ingreso</option>
               <option value="Gasto">Gasto</option>
             </select>
           </div>
-        </div>
-        <!-- Modal footer -->
-        <div
-          class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+          <div
+          
         >
           <button
-            (click)="saveCategory()"
+            type="submit"
             data-modal-hide="nueva-categoria-modal"
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            [disabled]="form().invalid"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Guardar Categoría
+           <disk-icon></disk-icon>
+
+            Guardar
           </button>
           <button
             data-modal-hide="nueva-categoria-modal"
@@ -144,6 +124,9 @@
             Cancelar
           </button>
         </div>
+        </form>
+        <!-- Modal footer -->
+        
       </div>
     </div>
   </div>
