@@ -7,7 +7,6 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
   @for (categoria of categoriasResource.value(); track categoria.id) {
   <div
-    (click)="saveCategory()"
     class="transform transition-all duration-300 hover:-translate-y-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg hover:shadow-2xl overflow-hidden"
   >
     <div class="p-6">
