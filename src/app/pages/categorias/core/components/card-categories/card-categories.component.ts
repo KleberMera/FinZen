@@ -1,6 +1,6 @@
 import { Component, inject, resource, signal } from '@angular/core';
 import { Categorias } from '../../models/categorias.models';
-import { TransaccionesService } from '../../services/transacciones.service';
+import { TransaccionesService } from '../../../../../services/transacciones.service';
 import { firstValueFrom } from 'rxjs';
 
 import { ToastService } from '../../../../../components/toast/toast.service';
@@ -14,6 +14,7 @@ import { PlusIconComponent } from '../../../../../components/Icons/plus-icon/plu
 import { CloseIconComponent } from '../../../../../components/Icons/close-icon/close-icon.component';
 import { DiskIconComponent } from '../../../../../components/Icons/disk-icon/disk-icon.component';
 import { Modal } from 'flowbite';
+import { CategoriasService } from '../../../../../services/categorias.service';
 
 @Component({
   selector: 'flowbite-categories',
@@ -37,14 +38,14 @@ export class CarCategoriesComponent {
     })
   );
 
-  private tranService = inject(TransaccionesService);
+  private _categService = inject(CategoriasService);
   private toast = inject(ToastService);
 
   categoriasResource = resource({
     request: () => ({ userId: this.seletedUser() }),
     loader: async ({ request }) => {
       const userId = request.userId;
-      const res = await firstValueFrom(this.tranService.getCategorias(userId));
+      const res = await firstValueFrom(this._categService.getCategorias(userId));
       return res;
     },
   });
@@ -66,7 +67,7 @@ export class CarCategoriesComponent {
       const payload = this.form().value;
       console.log(payload);
       
-      const res = await firstValueFrom(this.tranService.createCategoria(payload));
+      const res = await firstValueFrom(this._categService.createCategoria(payload));
        if (res.nombre) {
         this.toast.show(
           { message: `Categoria ${payload.nombre} creada exitosamente`, type: 'success'}, { position: 'top-right', duration: 3000 }
