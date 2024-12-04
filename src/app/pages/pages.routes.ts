@@ -5,6 +5,7 @@ import { SalesComponent } from './sales/sales.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoriasComponent } from './categorias/categorias.component';
+import { ChartsFinanceComponent } from './charts-finance/charts-finance.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -26,6 +27,10 @@ export const pagesRoutes: Routes = [
       {
         path: 'transacciones',
         component: TransaccionesComponent,
+      },
+      {
+        path: 'graficas',
+        component: ChartsFinanceComponent,
       },
       
       {
