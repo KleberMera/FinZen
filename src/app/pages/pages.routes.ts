@@ -4,6 +4,7 @@ import LayoutComponent from '../layout/layout.component';
 import { SalesComponent } from './sales/sales.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -21,6 +22,10 @@ export const pagesRoutes: Routes = [
       {
         path: 'transacciones',
         component: TransaccionesComponent,
+      },
+      {
+        path: 'categorias',
+        component: CategoriasComponent,
       },
       {
         path: '**',

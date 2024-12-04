@@ -4,7 +4,7 @@ import { Usuarios } from '../../models/usuarios.modles';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-card-user',
+  selector: 'flowbite-user',
   imports: [],
   templateUrl: './card-user.component.html',
   styleUrl: './card-user.component.scss',
