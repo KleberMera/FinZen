@@ -1,1 +1,69 @@
 
+
+<form-transactions></form-transactions>
+<div class="container mx-auto p-4">
+    <!-- Filter Dropdown -->
+    <div class="mb-4 flex items-center space-x-4">
+      <label for="categoryFilter" class="dark:text-white">Filtrar por Categoría:</label>
+      <select 
+        id="categoryFilter" 
+        (change)="filterByCategory($event)"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        <option value="">Todas las Categorías</option>
+        @for (categoria of uniqueCategories(); track categoria) {
+            <option  [value]="categoria">
+                {{ categoria }}
+              </option>
+        }
+
+        
+      </select>
+    </div>
+  
+    <!-- Transactions Table -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">ID</th>
+            <th scope="col" class="px-6 py-3">Categoría</th>
+            <th scope="col" class="px-6 py-3">Monto</th>
+            <th scope="col" class="px-6 py-3">Fecha</th>
+            <th scope="col" class="px-6 py-3">Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            *ngFor="let transaccion of filteredTransacciones()" 
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          >
+            <td class="px-6 py-4">{{ transaccion.id }}</td>
+            <td class="px-6 py-4">{{ transaccion.categoria_nombre }}</td>
+            <td class="px-6 py-4">
+              <span [ngClass]="{
+                'text-green-600 dark:text-green-400': transaccion.tipo === 'Ingreso',
+                'text-red-600 dark:text-red-400': transaccion.tipo === 'Gasto'
+              }">
+                {{ transaccion.monto | currency:'USD':'symbol':'1.2-2' }}
+              </span>
+            </td>
+            <td class="px-6 py-4">{{ transaccion.fecha | date:'shortDate' }}</td>
+            <td class="px-6 py-4">
+              <span [ngClass]="{
+                'text-green-600 dark:text-green-400': transaccion.tipo === 'Ingreso',
+                'text-red-600 dark:text-red-400': transaccion.tipo === 'Gasto'
+              }">
+                {{ transaccion.tipo }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="filteredTransacciones().length === 0">
+            <td colspan="5" class="text-center py-4 dark:text-white">
+              No hay transacciones para mostrar
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

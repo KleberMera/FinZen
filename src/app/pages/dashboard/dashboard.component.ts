@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Modal } from 'flowbite';
 import type { ModalOptions, ModalInterface } from 'flowbite';
 import type { InstanceOptions } from 'flowbite';
+import { CardUserComponent } from "../categorias/core/components/card-user/card-user.component";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [CardUserComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
