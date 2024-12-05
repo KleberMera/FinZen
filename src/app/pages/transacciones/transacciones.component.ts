@@ -2,12 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transacciones.service';
 import { Transacciones } from '../../core/models/transacciones.models';
 import { firstValueFrom } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormTransactionsComponent } from "./components/form-transactions/form-transactions.component";
 
 @Component({
   selector: 'app-transacciones',
-  imports: [CommonModule, FormTransactionsComponent],
+  imports: [FormTransactionsComponent, CurrencyPipe, DatePipe],
   templateUrl: './transacciones.component.html',
   styleUrl: './transacciones.component.scss',
 })

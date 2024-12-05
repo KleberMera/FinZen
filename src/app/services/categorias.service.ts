@@ -6,10 +6,11 @@ import { Categorias } from '../pages/categorias/core/models/categorias.models';
 import { Usuarios } from '../pages/categorias/core/models/usuarios.modles';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CategoriasService {
 
+//Servicio de categorias
+export class CategoriasService {
   private apiUrl = environment.apiUrl;
   private readonly htpp = inject(HttpClient);
 

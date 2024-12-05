@@ -5,11 +5,11 @@ import { firstValueFrom } from 'rxjs';
 import { ToastService } from '../../../../components/toast/toast.service';
 import { Categorias } from '../../../categorias/core/models/categorias.models';
 import { CategoriasService } from '../../../../services/categorias.service';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'form-transactions',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })
@@ -38,30 +38,24 @@ export class FormTransactionsComponent implements OnInit {
 
   async getCategorias() {
     try {
-      const res: Categorias[] = await firstValueFrom(
-        this._categoriasService.getCategorias(this.seletedUser())
-      );
+      const res: Categorias[] = await firstValueFrom(this._categoriasService.getCategorias(this.seletedUser()));
       this.categorias.set(res);
       console.log(this.categorias());
-      
     } catch (error) {
       console.log(error);
     }
   }
+
+  //Guardar transacciones
   async saveTransaccion() {
     if (this.form().valid) {
       const payload = this.form().value;
-      console.log(payload);
-      const res = await firstValueFrom(
-        this._transaccionesService.createTransaccion(payload)
-      ) as any;
+      const res = await firstValueFrom(this._transaccionesService.createTransaccion(payload)) as any;
       if (res) {
-        this.toast.show(
-          { message: `Transacción  creada exitosamente`, type: 'success' },
+        this.toast.show({ message: `Transacción  creada exitosamente`, type: 'success' },
           { position: 'top-right', duration: 3000 }
         );
         this.form().reset();
-        
       }
     }
   }

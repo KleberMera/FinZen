@@ -6,6 +6,7 @@ import { TransaccionesComponent } from './transacciones/transacciones.component'
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { ChartsFinanceComponent } from './charts-finance/charts-finance.component';
+import { DeudasComponent } from './deudas/deudas.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -32,11 +33,15 @@ export const pagesRoutes: Routes = [
         path: 'graficas',
         component: ChartsFinanceComponent,
       },
-      
+      {
+        path: 'deudas',
+        component: DeudasComponent,
+      },
+
       {
         path: '**',
         redirectTo: 'dashboard',
       },
     ],
-  }
+  },
 ];
