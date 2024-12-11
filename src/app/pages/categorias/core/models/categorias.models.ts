@@ -7,3 +7,7 @@ export interface Categorias {
 }
 
 
+export interface CategoriasResponse {
+    message: string;
+    data: Categorias[];
+}

@@ -11,3 +11,9 @@ export interface Usuarios {
     activo: number;
     rol_nombre: string;
 }
+
+
+export interface UsuariosResponse {
+    message: string;
+    data: Usuarios[];
+}
