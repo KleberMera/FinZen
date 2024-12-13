@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../components/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
-import { SidebarComponent } from "../components/sidebar/sidebar.component";
+import { NavbarComponent } from '@shared/layout/navbar/navbar.component';
+import { SidebarComponent } from '@shared/layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',

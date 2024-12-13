@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../../../services/transacciones.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { ToastService } from '../../../../components/toast/toast.service';
+import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Categorias } from '../../../categorias/core/models/categorias.models';
 import { CategoriasService } from '../../../../services/categorias.service';
 

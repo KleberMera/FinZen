@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
-import { ToastComponent } from './components/toast/toast.component';
 import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
