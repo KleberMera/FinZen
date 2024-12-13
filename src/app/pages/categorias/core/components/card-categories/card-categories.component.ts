@@ -1,19 +1,23 @@
-import { Component, inject, resource, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Categorias } from '../../models/categorias.models';
-import { ToastService } from '../../../../../components/toast/toast.service';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PlusIconComponent } from '../../../../../components/Icons/plus-icon/plus-icon.component';
-import { CloseIconComponent } from '../../../../../components/Icons/close-icon/close-icon.component';
-import { DiskIconComponent } from '../../../../../components/Icons/disk-icon/disk-icon.component';
+
 import { Modal } from 'flowbite';
-import { CategoriasService } from '../../../../../services/categorias.service';
+
 import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
+import { PlusIconComponent } from '@shared/icons/plus-icon/plus-icon.component';
+import { DiskIconComponent } from '@shared/icons/disk-icon/disk-icon.component';
+import { CloseIconComponent } from '@shared/icons/close-icon/close-icon.component';
+import { CategoriasService } from '@services/categorias.service';
+
+
 
 @Component({
   selector: 'flowbite-categories',
@@ -38,7 +42,7 @@ export class CarCategoriesComponent {
   );
 
   private _categService = inject(CategoriasService);
-  private toast = inject(ToastService);
+  // private toast = inject(ToastService);
 
   categoriasResource = rxResource({
     request: () => ({ userId: this.seletedUser() }),
@@ -62,34 +66,16 @@ export class CarCategoriesComponent {
       const payload = this.form().value;
       console.log(payload);
 
-      const res = await firstValueFrom(
-        this._categService.createCategoria(payload)
-      );
+      const res = await firstValueFrom(this._categService.createCategoria(payload));
       if (res.nombre) {
-        this.toast.show(
-          {
-            message: `Categoria ${payload.nombre} creada exitosamente`,
-            type: 'success',
-          },
-          { position: 'top-right', duration: 3000 }
-        );
+        toast.success('Exito', { description: `Categoria ${payload.nombre} creada`,});
         this.form().reset();
-        this.form().patchValue({
-          tipo: 'Ingreso',
-          usuario_id: this.seletedUser(),
-        });
-        //Cargar nuevas categorias
+        this.form().patchValue({ tipo: 'Ingreso', usuario_id: this.seletedUser()});
         this.categoriasResource.reload();
         this.closeModal();
       }
-    } catch (error) {
-      this.toast.show(
-        {
-          message: `Error al crear la categoria`,
-          type: 'warning',
-        },
-        { position: 'top-right' }
-      );
+    } catch (error: any) {
+      toast.error(`Error al crear la categoria`, {description: error.error.message});
     }
   }
 }

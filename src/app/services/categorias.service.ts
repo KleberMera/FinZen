@@ -14,7 +14,7 @@ export class CategoriasService {
   private apiUrl = environment.apiUrl;
   private readonly htpp = inject(HttpClient);
 
-  getCategorias(id: number){
+  getCategorias(id: number): Observable<Categorias[]> {
     const url = `${this.apiUrl}/categorias/${id}`;
     return this.htpp.get<Categorias[]>(url);
   }
@@ -25,7 +25,7 @@ export class CategoriasService {
   }
 
   createCategoria(categoria: Categorias): Observable<Categorias> {
-    const url = `${this.apiUrl}/categorias`;
+    const url = `${this.apiUrl}/caddtegorias`;
     return this.htpp.post<Categorias>(url, categoria);
   }
 }
