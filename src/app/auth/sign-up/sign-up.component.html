@@ -1,12 +1,11 @@
 <!-- signup.component.html -->
-<section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center px-3 py-4">
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center py-4">
   <div class="w-full max-w-4xl">
     <!-- Contenedor principal con diseño flexible -->
     <div class="bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col md:flex-row">
       
       <!-- Columna del logotipo (opcional, para escritorio) -->
-      <!-- Columna del logotipo (opcional, para escritorio) -->
-      <div class="hidden md:flex md:w-1/2 bg-gray-700 items-center justify-center p-8">
+      <div class="hidden md:flex md:w-1/2 bg-gray-700 items-center justify-center">
         <div class="text-center text-white">
           <logo-app class="mx-auto mb-4 w-32 h-32"></logo-app>
           <h2 class="text-2xl font-bold">Bienvenido a FinZenApp</h2>
@@ -14,10 +13,13 @@
         </div>
       </div>
       
-      <!-- Columna del formulario -->
       <div class="w-full md:w-1/2 p-6 space-y-4 md:space-y-6 sm:p-8">
         <div class="flex items-center justify-center mb-6">
-          <logo-app class="w-8 h-8 mr-2"></logo-app>
+          <img
+            class="w-8 h-8 mr-2"
+            src="logo.svg"
+            alt="logo"
+          />
           <span class="text-2xl font-semibold text-gray-900 dark:text-white">
             FinZenApp
           </span>
@@ -28,7 +30,7 @@
         </h1>
         
         <form 
-          class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+          class="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-3"
           [formGroup]="form()" 
           (ngSubmit)="saveUser()"
         >
@@ -44,8 +46,8 @@
               type="email"
               formControlName="email"
               id="email"
-              placeholder="name@company.com"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              placeholder="nombre@example.com"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -62,7 +64,7 @@
               formControlName="password"
               id="password"
               placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -78,7 +80,7 @@
               type="password"
               id="confirm-password"
               placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -95,7 +97,7 @@
               formControlName="name"
               id="name"
               placeholder="Tu nombre"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -112,7 +114,7 @@
               formControlName="last_name"
               id="last_name"
               placeholder="Tu apellido"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -129,7 +131,7 @@
               formControlName="username"
               id="username"
               placeholder="Nombre de usuario"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -146,7 +148,7 @@
               formControlName="user"
               id="user"
               placeholder="Identificador único"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -163,7 +165,7 @@
               formControlName="phone"
               id="phone"
               placeholder="Tu número de teléfono"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -174,7 +176,7 @@
               [disabled]="form().invalid"
               class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
             >
-              Registrar
+              Crear
             </button>
           </div>
 
