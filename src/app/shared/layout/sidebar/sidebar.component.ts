@@ -6,7 +6,7 @@ import { SidebarConfComponent } from '../sidebar-conf/sidebar-conf.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SidebarItemsComponent, SidebarConfComponent],
+  imports: [SidebarItemsComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
