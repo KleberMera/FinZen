@@ -12,4 +12,5 @@ import { SidebarConfComponent } from '../sidebar-conf/sidebar-conf.component';
 })
 export class SidebarComponent {
 
+ 
 }

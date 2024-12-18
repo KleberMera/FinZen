@@ -59,9 +59,9 @@ export class SidebarItemsComponent {
 
   // Método para alternar menús desplegables
   toggleDropdown(label: string) {
-    this.openDropdowns.update((current: any) =>
+    this.openDropdowns.update((current) =>
       current.includes(label)
-        ? current.find((item: any) => item !== label)
+        ? current.filter((item) => item !== label)
         : [...current, label]
     );
   }
