@@ -1,15 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { User, UserResponse } from '../../models/user';
+import { User } from '../../core/models/user';
 import { environment } from '../../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from './storage.service';
+import { ApiResponse } from '../../core/models/apiResponse';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly _http = inject(HttpClient);
+  private readonly _storage = inject(StorageService);
+  private keyUser = signal<string>('user');
+  private keyAccessToken = signal<string>('access_token');
 
   formUser(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
@@ -51,16 +56,22 @@ export class AuthService {
 
   login(user: User) {
     const url = `${environment.apiUrl}/auth/login`;
-    return this._http.post<UserResponse>(url, user);
+    return this._http.post<ApiResponse<User>>(url, user).pipe(
+      tap((res) => {
+        // console.log(res);
+        this._storage.set(this.keyUser(), res.data);
+        this._storage.set(this.keyAccessToken(), res.access_token);
+      })
+    );
   }
 
-  signUp(user: User): Observable<UserResponse> {
+  signUp(user: User): Observable<ApiResponse<User>> {
     const url = `${environment.apiUrl}/auth/signup`;
-    return this._http.post<UserResponse>(url, user);
+    return this._http.post<ApiResponse<User>>(url, user);
   }
 
   logout() {
     const url = `${environment.apiUrl}/auth/logout`;
-    return this._http.post<UserResponse>(url, {});
+    return this._http.post<ApiResponse<User>>(url, {});
   }
 }

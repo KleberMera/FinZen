@@ -11,9 +11,3 @@ export interface User {
   status: boolean;
 }
 
-export interface UserResponse {
-  message: string;
-  error?: boolean;
-  statusCode?: number;
-  data?: User;
-}
