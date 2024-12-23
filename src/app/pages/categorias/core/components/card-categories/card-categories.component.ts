@@ -12,10 +12,11 @@ import { Modal } from 'flowbite';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
-import { PlusIconComponent } from '@shared/icons/plus-icon/plus-icon.component';
-import { DiskIconComponent } from '@shared/icons/disk-icon/disk-icon.component';
-import { CloseIconComponent } from '@shared/icons/close-icon/close-icon.component';
+
 import { CategoriasService } from '@services/categorias.service';
+import { CloseIconComponent } from '@icons/close-icon/close-icon.component';
+import { DiskIconComponent } from '@icons/disk-icon/disk-icon.component';
+import { PlusIconComponent } from '@icons/plus-icon/plus-icon.component';
 
 
 
@@ -24,8 +25,8 @@ import { CategoriasService } from '@services/categorias.service';
   imports: [
     PlusIconComponent,
     CloseIconComponent,
-    ReactiveFormsModule,
     DiskIconComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './card-categories.component.html',
   styleUrl: './card-categories.component.scss',

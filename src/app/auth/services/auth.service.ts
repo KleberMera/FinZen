@@ -18,6 +18,34 @@ export class AuthService {
   private keyUser = signal<string>('user');
   private keyAccessToken = signal<string>('access_token');
 
+
+  formLogin(initialData: Partial<User> = {}) {
+    const form = signal<FormGroup>(
+      new FormGroup({
+        user: new FormControl(initialData.user || '', [Validators.required]),
+        password: new FormControl(initialData.password || '', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+      })
+    );
+
+    return form;
+  }
+
+  login(user: User) {
+    const url = `${environment.apiUrl}/auth/login`;
+    return this._http.post<apiResponse<User>>(url, user).pipe(
+      tap((res) => {
+        // console.log(res);
+        this._storage.set(this.keyUser(), res.data);
+        this._storage.set(this.keyAccessToken(), res.access_token);
+      })
+    );
+  }
+
+
+
   formUser(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
@@ -43,29 +71,7 @@ export class AuthService {
     return form;
   }
 
-  formLogin(initialData: Partial<User> = {}) {
-    const form = signal<FormGroup>(
-      new FormGroup({
-        user: new FormControl(initialData.user || '', [Validators.required]),
-        password: new FormControl(initialData.password || '', [
-          Validators.required,
-        ]),
-      })
-    );
 
-    return form;
-  }
-
-  login(user: User) {
-    const url = `${environment.apiUrl}/auth/login`;
-    return this._http.post<apiResponse<User>>(url, user).pipe(
-      tap((res) => {
-        // console.log(res);
-        this._storage.set(this.keyUser(), res.data);
-        this._storage.set(this.keyAccessToken(), res.access_token);
-      })
-    );
-  }
 
   signUp(user: User): Observable<apiResponse<User>> {
     const url = `${environment.apiUrl}/auth/signup`;

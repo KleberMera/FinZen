@@ -1,8 +1,9 @@
 import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal, Type } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { BookComponent } from '@shared/icons/book/book.component';
-import { OverviewComponent } from '@shared/icons/overview/overview.component';
+import { BookComponent } from '@icons/book/book.component';
+import { OverviewComponent } from '@icons/overview/overview.component';
+
 
 interface MenuItem {
   type: 'link' | 'dropdown';

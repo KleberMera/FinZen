@@ -4,8 +4,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@shared/*": ["./src/app/shared/*"],
+      //"@shared/*": ["./src/app/shared/*"],
+      "@icons/*": ["./src/app/shared/icons/*"],
       "@services/*": ["./src/app/services/*"],
+      "@components/*": ["./src/app/components/*"],
       "@models/*": ["./src/app/core/models/*"],
       
     },
