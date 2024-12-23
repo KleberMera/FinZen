@@ -3,7 +3,7 @@
   <div class="w-full max-w-4xl">
     <!-- Contenedor principal con diseño flexible -->
     <div class="bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col md:flex-row">
-      
+
       <!-- Columna del logotipo (opcional, para escritorio) -->
       <div class="hidden md:flex md:w-1/2 bg-gray-700 items-center justify-center">
         <div class="text-center text-white">
@@ -12,170 +12,127 @@
           <p class="mt-2">Administra tus finanzas con tranquilidad</p>
         </div>
       </div>
-      
+
       <div class="w-full md:w-1/2 p-6 space-y-4 md:space-y-6 sm:p-8">
         <div class="flex items-center justify-center mb-6">
-          <img
-            class="w-8 h-8 mr-2"
-            src="logo.svg"
-            alt="logo"
-          />
+          <img class="w-8 h-8 mr-2" src="logo.svg" alt="logo" />
           <span class="text-2xl font-semibold text-gray-900 dark:text-white">
             FinZenApp
           </span>
         </div>
-        
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+
+        <h1
+          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
           Crear una cuenta
         </h1>
-        
-        <form 
-          class="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-3"
-          [formGroup]="form()" 
-          (ngSubmit)="saveUser()"
-        >
+
+        <form class="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-3" [formGroup]="form()" (ngSubmit)="saveUser()">
           <!-- Email - Ocupa columnas completas en móvil y la mitad en escritorio -->
           <div class="md:col-span-2">
-            <label
-              for="email"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Email
             </label>
-            <input
-              type="email"
-              formControlName="email"
-              id="email"
-              placeholder="nombre@example.com"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-
-          <!-- Contraseña -->
-          <div>
-            <label
-              for="password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Contraseña
-            </label>
-            <input
-              type="password"
-              formControlName="password"
-              id="password"
-              placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-
-          <!-- Confirmar Contraseña -->
-          <div>
-            <label
-              for="confirm-password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Confirmar contraseña
-            </label>
-            <input
-              type="password"
-              id="confirm-password"
-              placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
+            <input type="email" formControlName="email" id="email" placeholder="nombre@example.com"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('email')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('email') }}
+            </p>
+            }
           </div>
 
           <!-- Nombre -->
           <div>
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Nombre
             </label>
-            <input
-              type="text"
-              formControlName="name"
-              id="name"
-              placeholder="Tu nombre"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
+            <input type="text" formControlName="name" id="name" placeholder="Tu nombre"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('name')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('name') }}
+            </p>
+            }
           </div>
 
           <!-- Apellido -->
           <div>
-            <label
-              for="last_name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Apellido
             </label>
-            <input
-              type="text"
-              formControlName="last_name"
-              id="last_name"
-              placeholder="Tu apellido"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
+            <input type="text" formControlName="last_name" id="last_name" placeholder="Tu apellido"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('last_name')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('last_name') }}
+            </p>
+            }
+          </div>
+
+          <!-- Contraseña -->
+          <div>
+            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Contraseña
+            </label>
+            <input type="password" formControlName="password" id="password" placeholder="••••••••"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('password')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('password') }}
+            </p>
+            }
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div>
+            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Confirmar contraseña
+            </label>
+            <input type="password" id="confirm_password" formControlName="confirm_password" placeholder="••••••••"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('confirm_password')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('confirm_password') }}
+            </p>
+            }
           </div>
 
           <!-- Nombre de Usuario -->
           <div>
-            <label
-              for="username"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Nombre de usuario
+            <label for="user" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Usuario
             </label>
-            <input
-              type="text"
-              formControlName="username"
-              id="username"
-              placeholder="Nombre de usuario"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
+            <input type="text" formControlName="user" id="user" placeholder="Identificador único"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
           </div>
 
           <!-- Usuario -->
           <div>
-            <label
-              for="user"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Usuario
-            </label>
-            <input
-              type="text"
-              formControlName="user"
-              id="user"
-              placeholder="Identificador único"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
-          </div>
-
-          <!-- Teléfono - Ocupa columnas completas en móvil y escritorio -->
-          <div class="md:col-span-2">
-            <label
-              for="phone"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Teléfono
             </label>
-            <input
-              type="text"
-              formControlName="phone"
-              id="phone"
-              placeholder="Tu número de teléfono"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white"
-            />
+            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono "
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
           </div>
+
+          <!-- Teléfono - Ocupa columnas completas en móvil y escritorio
+          <div class="md:col-span-2">
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Teléfono
+            </label>
+            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('phone')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('phone') }}
+            </p>
+            }
+          </div> -->
 
           <!-- Botón de registro - Ocupa columnas completas -->
           <div class="md:col-span-2">
-            <button
-              type="submit"
-              [disabled]="form().invalid"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
+            <button type="submit"
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
               Crear
             </button>
           </div>
@@ -184,10 +141,7 @@
           <div class="md:col-span-2 text-center">
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               ¿Ya tienes una cuenta?
-              <a
-                routerLink=""
-                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-              >
+              <a routerLink="" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
                 Iniciar sesión aquí
               </a>
             </p>
@@ -197,3 +151,6 @@
     </div>
   </div>
 </section>
+
+
+<h1>Json {{ form().value | json }}</h1>

@@ -7,8 +7,6 @@ import { StorageService } from './storage.service';
 import { User } from '@models/user';
 import { apiResponse } from '@models/apiResponse';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -18,18 +16,12 @@ export class AuthService {
   private keyUser = signal<string>('user');
   private keyAccessToken = signal<string>('access_token');
 
-
   formLogin(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
         user: new FormControl(initialData.user || '', [Validators.required]),
-        password: new FormControl(initialData.password || '', [
-          Validators.required,
-          Validators.minLength(8),
-        ]),
-      })
-    );
-
+        password: new FormControl(initialData.password || '', [Validators.required,Validators.minLength(8)]),
+      }));
     return form;
   }
 
@@ -44,37 +36,28 @@ export class AuthService {
     );
   }
 
-
-
   formUser(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
         id: new FormControl(initialData.id || null),
         rol_id: new FormControl(initialData.rol_id || 2, [Validators.required]),
         name: new FormControl(initialData.name || '', [Validators.required]),
-        last_name: new FormControl(initialData.last_name || '', [
-          Validators.required,
-        ]),
+        last_name: new FormControl(initialData.last_name || '', [Validators.required,]),
         username: new FormControl(initialData.username || ''),
         user: new FormControl(initialData.user || '', [Validators.required]),
-        email: new FormControl(initialData.email || ''),
-        password: new FormControl(initialData.password || '', [
-          Validators.required,
-        ]),
-        phone: new FormControl(initialData.phone || ''),
-        status: new FormControl(initialData.status || true, [
-          Validators.required,
-        ]),
+        email: new FormControl(initialData.email || '', [Validators.email]),
+        password: new FormControl(initialData.password || '', [ Validators.required, Validators.minLength(8)]),
+        confirm_password: new FormControl(initialData.confirm_password || '', [Validators.required, Validators.minLength(8)]),
+        phone: new FormControl(initialData.phone || '', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]),
+        status: new FormControl(initialData.status || true, [Validators.required,]),
       })
     );
 
     return form;
   }
 
-
-
   signUp(user: User): Observable<apiResponse<User>> {
-    const url = `${environment.apiUrl}/auth/signup`;
+    const url = `${environment.apiUrl}/auth/sign-up`;
     return this._http.post<apiResponse<User>>(url, user);
   }
 
