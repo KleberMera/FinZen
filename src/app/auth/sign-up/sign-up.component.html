@@ -44,7 +44,7 @@
           <!-- Nombre -->
           <div>
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Nombre
+              Nombres
             </label>
             <input type="text" formControlName="name" id="name" placeholder="Tu nombre"
               class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
@@ -58,7 +58,7 @@
           <!-- Apellido -->
           <div>
             <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Apellido
+              Apellidos
             </label>
             <input type="text" formControlName="last_name" id="last_name" placeholder="Tu apellido"
               class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
@@ -104,6 +104,11 @@
             </label>
             <input type="text" formControlName="user" id="user" placeholder="Identificador único"
               class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('user')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('user') }}
+            </p>
+            }
           </div>
 
           <!-- Usuario -->
@@ -113,21 +118,14 @@
             </label>
             <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono "
               class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
-          </div>
-
-          <!-- Teléfono - Ocupa columnas completas en móvil y escritorio
-          <div class="md:col-span-2">
-            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Teléfono
-            </label>
-            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
             @if (isFieldInvalid('phone')) {
             <p class="mt-1 text-xs text-red-500">
               {{ getErrorMessage('phone') }}
             </p>
             }
-          </div> -->
+          </div>
+
+
 
           <!-- Botón de registro - Ocupa columnas completas -->
           <div class="md:col-span-2">
@@ -153,4 +151,17 @@
 </section>
 
 
-<h1>Json {{ form().value | json }}</h1>
+
+<!-- Teléfono - Ocupa columnas completas en móvil y escritorio
+          <div class="md:col-span-2">
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Teléfono
+            </label>
+            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono"
+              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            @if (isFieldInvalid('phone')) {
+            <p class="mt-1 text-xs text-red-500">
+              {{ getErrorMessage('phone') }}
+            </p>
+            }
+          </div> -->

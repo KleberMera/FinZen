@@ -5,18 +5,17 @@ import { AuthService } from '../services/auth.service';
 import { LogoComponent } from '../../shared/icons/logo/logo.component';
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule, LogoComponent, JsonPipe],
+  imports: [RouterLink, ReactiveFormsModule, LogoComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
 export class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
-  form = this._authService.formUser();
+  protected form = this._authService.formUser();
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
     return this._validationService.getErrorMessage(
