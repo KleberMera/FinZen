@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { User } from '@models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
   private readonly _storage = localStorage;
+  private readonly _userId = signal<string>('user');
 
   get<T>(key: string): T | null {
     const value = this._storage.getItem(key);
@@ -19,5 +21,11 @@ export class StorageService {
 
   remove(key: string) {
     this._storage.removeItem(key);
+  }
+
+  getUserId() {
+    const dataUser: User | null = this.get(this._userId());
+    // recorrer dataUser y retornar el  id
+    return dataUser?.id as number;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Deudas } from '../../core/models/deudas.models';
+import { Deudas } from '../../core/models/deudas';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DeudasService } from '../../services/deudas.service';
 import { firstValueFrom } from 'rxjs';

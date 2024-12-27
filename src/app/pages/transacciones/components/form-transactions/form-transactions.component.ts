@@ -3,8 +3,10 @@ import { TransaccionesService } from '../../../../services/transacciones.service
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
-import { Categorias } from '../../../categorias/core/models/categorias.models';
-import { CategoriasService } from '../../../../services/categorias.service';
+
+
+import { Category } from '@models/category';
+import { CategoriasService } from '../../../categorias/services/categorias.service';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class FormTransactionsComponent implements OnInit {
   private toast = inject(ToastService);
   seletedUser = signal<number>(2);
   public readonly selectedCategory = signal<string>('');
-  readonly categorias = signal<Categorias[]>([]);
+  readonly categorias = signal<Category[]>([]);
 
   public readonly form = signal<FormGroup>(
     new FormGroup({
@@ -37,13 +39,13 @@ export class FormTransactionsComponent implements OnInit {
  }
 
   async getCategorias() {
-    try {
-      const res: Categorias[] = await firstValueFrom(this._categoriasService.getCategorias(this.seletedUser()));
+   /* try {
+      const res: Category[] = await firstValueFrom(this._categoriasService.getCategorias(this.seletedUser()));
       this.categorias.set(res);
       console.log(this.categorias());
     } catch (error) {
       console.log(error);
-    }
+    }/*/
   }
 
   //Guardar transacciones

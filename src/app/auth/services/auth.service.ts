@@ -3,9 +3,10 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable, tap } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from './storage.service';
+
 import { User } from '@models/user';
 import { apiResponse } from '@models/apiResponse';
+import { StorageService } from '@services/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,12 @@ export class AuthService {
     const form = signal<FormGroup>(
       new FormGroup({
         user: new FormControl(initialData.user || '', [Validators.required]),
-        password: new FormControl(initialData.password || '', [Validators.required,Validators.minLength(8)]),
-      }));
+        password: new FormControl(initialData.password || '', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+      })
+    );
     return form;
   }
 
@@ -42,14 +47,28 @@ export class AuthService {
         id: new FormControl(initialData.id || null),
         rol_id: new FormControl(initialData.rol_id || 2, [Validators.required]),
         name: new FormControl(initialData.name || '', [Validators.required]),
-        last_name: new FormControl(initialData.last_name || '', [Validators.required,]),
+        last_name: new FormControl(initialData.last_name || '', [
+          Validators.required,
+        ]),
         username: new FormControl(initialData.username || ''),
         user: new FormControl(initialData.user || '', [Validators.required]),
         email: new FormControl(initialData.email || '', [Validators.email]),
-        password: new FormControl(initialData.password || '', [ Validators.required, Validators.minLength(8)]),
-        confirm_password: new FormControl(initialData.confirm_password || '', [Validators.required, Validators.minLength(8)]),
-        phone: new FormControl(initialData.phone || '', [Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]),
-        status: new FormControl(initialData.status || true, [Validators.required,]),
+        password: new FormControl(initialData.password || '', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+        confirm_password: new FormControl(initialData.confirm_password || '', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+        phone: new FormControl(initialData.phone || '', [
+          Validators.maxLength(10),
+          Validators.minLength(10),
+          Validators.pattern('^[0-9]*$'),
+        ]),
+        status: new FormControl(initialData.status || true, [
+          Validators.required,
+        ]),
       })
     );
 

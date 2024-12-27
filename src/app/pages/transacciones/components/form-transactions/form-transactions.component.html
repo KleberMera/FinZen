@@ -29,7 +29,7 @@
         <option value="0">Seleccionar Categoría</option>
         @for (categoria of categorias(); track categoria.id) {
           <option [value]="categoria.id">
-            {{ categoria.nombre }}
+            {{ categoria.name }}
           </option>
         }
       </select>

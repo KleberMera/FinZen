@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transacciones.service';
-import { Transacciones } from '../../core/models/transacciones.models';
+import { Transacciones } from '../../core/models/transacciones';
 import { firstValueFrom } from 'rxjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormTransactionsComponent } from "./components/form-transactions/form-transactions.component";
