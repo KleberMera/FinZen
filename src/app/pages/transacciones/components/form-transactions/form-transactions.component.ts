@@ -6,7 +6,7 @@ import { ToastService } from '../../../../shared/ui/toast/toast.service';
 
 
 import { Category } from '@models/category';
-import { CategoriasService } from '../../../categorias/services/categorias.service';
+import { CategoryService } from '../../../categorias/services/category.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { CategoriasService } from '../../../categorias/services/categorias.servi
 })
 export class FormTransactionsComponent implements OnInit {
   private readonly _transaccionesService = inject(TransaccionesService);
-  private readonly _categoriasService = inject(CategoriasService);
+  private readonly _categoriasService = inject(CategoryService);
   private toast = inject(ToastService);
   seletedUser = signal<number>(2);
   public readonly selectedCategory = signal<string>('');

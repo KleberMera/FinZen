@@ -1,37 +1,35 @@
-import { Component, inject, input, output, signal } from '@angular/core';
-import { DiskIconComponent } from '../../../../shared/icons/disk-icon/disk-icon.component';
+import { Component, inject, output, signal } from '@angular/core';
 import { CloseIconComponent } from '../../../../shared/icons/close-icon/close-icon.component';
-import { Modal } from 'flowbite';
-import { CategoriasService } from '../../services/categorias.service';
-import { StorageService } from '@services/storage.service';
+import { CategoryService } from '../../services/category.service';
 import { toast } from 'ngx-sonner';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'Modalcategory',
-  imports: [DiskIconComponent, CloseIconComponent, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CloseIconComponent],
   templateUrl: './modal-category.component.html',
   styleUrl: './modal-category.component.scss',
 })
 export class ModalCategoryComponent {
-  onReload = output<SubmitEvent>();
-  readonly userid = input.required<number>();
-  private _categService = inject(CategoriasService);
-  //private _storageService = inject(StorageService);
-  //protected readonly seletedUser = signal<number>(this._storageService.getUserId());
+  readonly onReload = output<SubmitEvent>();
+  readonly showModalForm = signal(false);
+  readonly userid = signal<number | null>(null);
+  readonly showMoreIcons = signal<boolean | null>(false);
+
+  private _categService = inject(CategoryService);
+
+  protected readonly icons = this._categService.getPrimeIcons();
   protected form = this._categService.formCategory();
 
-  openModal() {
-    const modalElement = document.getElementById('nueva-categoria-modal');
-    const modal = new Modal(modalElement);
-    modal.show();
+  openModal(id: number) {
+    this.userid.set(id);
+    this.showModalForm.set(true);
   }
 
   closeModal() {
-    const modalElement = document.getElementById('nueva-categoria-modal');
-    const modal = new Modal(modalElement);
-    modal.hide();
+    this.showModalForm.set(false);
+    this.userid.set(null);
   }
 
   async saveCategory(event: SubmitEvent) {
@@ -48,7 +46,6 @@ export class ModalCategoryComponent {
         this.form().reset();
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
         toast.error(err.error.message);
       },
     });

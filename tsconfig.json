@@ -9,6 +9,7 @@
       "@services/*": ["./src/app/services/*"],
       "@components/*": ["./src/app/components/*"],
       "@models/*": ["./src/app/core/models/*"],
+      "@environments/*": ["./src/environments/*"],
       
     },
     "outDir": "./dist/out-tsc",
