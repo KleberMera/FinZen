@@ -9,4 +9,4 @@ import { CarCategoriesComponent } from './ui/card-categories/card-categories.com
     <div></div>
     } `,
 })
-export class CategoriasComponent {}
+export class CategoryComponent {}

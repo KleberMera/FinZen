@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
-import { ModalCategoryComponent } from '../modal-category/modal-category.component';
 import { CategoryService } from '../../services/category.service';
+import { ModalCategoryComponent } from '../modal-category/modal-category.component';
 import { ModalCategoryDeleteComponent } from '../modal-category-delete/modal-category-delete.component';
 
 export const Modals = [ModalCategoryComponent, ModalCategoryDeleteComponent];

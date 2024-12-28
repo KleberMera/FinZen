@@ -6,7 +6,8 @@ import { ToastService } from '../../../../shared/ui/toast/toast.service';
 
 
 import { Category } from '@models/category';
-import { CategoryService } from '../../../categorias/services/category.service';
+import { CategoryService } from '../../../category/services/category.service';
+
 
 
 @Component({

@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
 import { LockComponent } from '@icons/lock/lock.component';
@@ -36,18 +36,7 @@ export class LoginComponent {
 
   //Funcion para iniciar sesión
   onSubmit() {
-    if (this.form().invalid) {
-      // console.log(this.form().invalid);
-      // console.log(this.form().controls);
-
-      // Object.keys(this.form().controls).forEach(key => {
-      //   const control = this.form().get(key);
-      //   if (control) {
-      //     control.markAsTouched();
-      //   }
-      // });
-      return;
-    }
+    if (this.form().invalid) return;
     const user = this.form().value;
     this._authService.login(user).subscribe({
       next: (res) => {

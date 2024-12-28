@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 import { SalesComponent } from './sales/sales.component';
 import { TransaccionesComponent } from './transacciones/transacciones.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CategoriasComponent } from './categorias/categorias.component';
+
 import { ChartsFinanceComponent } from './charts-finance/charts-finance.component';
 import { DeudasComponent } from './deudas/deudas.component';
 
 import LayoutComponent from '../layout/layout.component';
+import { CategoryComponent } from './category/categorias.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -19,7 +20,7 @@ export const pagesRoutes: Routes = [
       },
       {
         path: 'categorias',
-        component: CategoriasComponent,
+        component: CategoryComponent,
       },
       {
         path: 'sales',

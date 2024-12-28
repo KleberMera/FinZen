@@ -5,7 +5,8 @@ import { Category } from '@models/category';
 import { apiResponse } from '@models/apiResponse';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment.development';
-import iconsData from '../../../../../public/icons.json';
+import  iconsData  from '@public/icons.json';
+
 export interface primeIcons {
   icon: string;
 }
@@ -14,11 +15,12 @@ export interface primeIcons {
   providedIn: 'root',
 })
 
-//Servicio de categorias
+
 export class CategoryService {
   private apiUrl = environment.apiUrl;
   public readonly primeIcons = signal<primeIcons[]>(iconsData);
   private readonly htpp = inject(HttpClient);
+
   public getPrimeIcons() {
     return this.primeIcons;
   }
