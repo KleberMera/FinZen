@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
 import { LockComponent } from '@icons/lock/lock.component';
@@ -38,15 +38,9 @@ export class LoginComponent {
   onSubmit() {
     if (this.form().invalid) return;
     const user = this.form().value;
-    this._authService.login(user).subscribe({
-      next: (res) => {
-        toast.success(res.message);
-        this._router.navigate(['home']);
-      },
-      error: (err) => {
-        console.log(err);
-        toast.error(err.error.message);
-      },
+    this._authService.login(user).subscribe((res) => {
+      toast.success(res.message);
+      this._router.navigate(['home']);
     });
   }
 }

@@ -1,17 +1,17 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transacciones.service';
-import { Transacciones } from '../../core/models/transacciones';
+import { Transacciones } from '../../core/models/transaction';
 import { firstValueFrom } from 'rxjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { FormTransactionsComponent } from "./components/form-transactions/form-transactions.component";
+import { FormTransactionsComponent } from "./ui/form-transactions/form-transactions.component";
 
 @Component({
   selector: 'app-transacciones',
   imports: [FormTransactionsComponent, CurrencyPipe, DatePipe],
-  templateUrl: './transacciones.component.html',
-  styleUrl: './transacciones.component.scss',
+  templateUrl: './transaction.component.html',
+  styleUrl: './transaction.component.scss',
 })
-export class TransaccionesComponent implements OnInit {
+export class TransactionComponent implements OnInit {
   private _transaccionesService = inject(TransaccionesService);
   public readonly transacciones = signal<Transacciones[]>([]);
   readonly seletedUser = signal<number>(2);
@@ -39,12 +39,12 @@ export class TransaccionesComponent implements OnInit {
   filteredTransacciones() {
     return this.transacciones().filter(transaccion => 
       !this.selectedCategory() || 
-      transaccion.categoria_nombre === this.selectedCategory()
+      transaccion.name === this.selectedCategory()
     );
   }
 
   uniqueCategories(): string[] {
-    return [...new Set(this.transacciones().map(t => t.categoria_nombre))];
+    return [...new Set(this.transacciones().map(t => t.name))];
   }
   
 }
