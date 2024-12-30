@@ -1,7 +1,4 @@
-
-
-
-export  interface Transacciones {
+export interface Transaction {
   id?: number;
   category_id: number;
   name: string;

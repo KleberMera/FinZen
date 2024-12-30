@@ -1,14 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { TransaccionesService } from '../../../../services/transacciones.service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
-import { ToastService } from '../../../../shared/ui/toast/toast.service';
-
-
-import { Category } from '@models/category';
-import { CategoryService } from '../../../category/services/category.service';
-
-
+import { Component, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TransactionService } from '../../services/transaction.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { StorageService } from '@services/storage.service';
+import { toast } from 'ngx-sonner';
+import { FormValidationService } from '@services/form-validation.service';
 
 @Component({
   selector: 'form-transactions',
@@ -16,50 +12,43 @@ import { CategoryService } from '../../../category/services/category.service';
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })
-export class FormTransactionsComponent implements OnInit {
-  private readonly _transaccionesService = inject(TransaccionesService);
-  private readonly _categoriasService = inject(CategoryService);
-  private toast = inject(ToastService);
-  seletedUser = signal<number>(2);
-  public readonly selectedCategory = signal<string>('');
-  readonly categorias = signal<Category[]>([]);
-
-  public readonly form = signal<FormGroup>(
-    new FormGroup({
-      id: new FormControl(0),
-      usuario_id: new FormControl(this.seletedUser()),
-      categoria_id: new FormControl( 0, [Validators.required, Validators.min(1)]),
-      monto: new FormControl(0, [Validators.required]),
-      fecha: new FormControl(''),
-      descripcion: new FormControl(''),
-      tipo: new FormControl(''),
-    })
+export class FormTransactionsComponent {
+  private readonly _transactionService = inject(TransactionService);
+  private readonly _storageService = inject(StorageService);
+  private readonly _validationService = inject(FormValidationService);
+  protected readonly isSubmitting = signal(false);
+  protected readonly seletedUser = signal<number>(
+    this._storageService.getUserId()
   );
- ngOnInit(): void {
-   this.getCategorias();
- }
+  readonly categories = toSignal(
+    this._transactionService.getCategoriesByUserId(this.seletedUser())
+  );
 
-  async getCategorias() {
-   /* try {
-      const res: Category[] = await firstValueFrom(this._categoriasService.getCategorias(this.seletedUser()));
-      this.categorias.set(res);
-      console.log(this.categorias());
-    } catch (error) {
-      console.log(error);
-    }/*/
+  public readonly form = this._transactionService.formTransaction();
+
+  // Helper methods para la validación
+  getErrorMessage(fieldName: string): string {
+    return this._validationService.getErrorMessage(
+      this.form().get(fieldName) as FormControl
+    );
   }
 
-  //Guardar transacciones
+  isFieldInvalid(fieldName: string): boolean {
+    return this._validationService.isFieldInvalid(this.form(), fieldName);
+  }
+
   async saveTransaccion() {
-    if (this.form().valid) {
-      const payload = this.form().value;
-      const res = await firstValueFrom(this._transaccionesService.createTransaccion(payload)) as any;
-      if (res) {
-        this.toast.show({ message: `Transacción  creada exitosamente`, type: 'success' },
-          { position: 'top-right', duration: 3000 }
-        );
-        this.form().reset();
-      }
-    }
+    if (this.form().invalid || this.isSubmitting()) return;
+    console.log(this.form().value);
+    try {
+      this.isSubmitting.set(true);
+      this._transactionService
+        .createTransaction(this.form().value)
+        .subscribe((res) => {
+          toast.success(res.message);
+          this.form().reset();
+          this.isSubmitting.set(false);
+        });
+    } catch (error) {}
   }
 }

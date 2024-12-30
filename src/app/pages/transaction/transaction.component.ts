@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transacciones.service';
-import { Transacciones } from '../../core/models/transaction';
+
 import { firstValueFrom } from 'rxjs';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormTransactionsComponent } from "./ui/form-transactions/form-transactions.component";
+import { Transaction } from '@models/transaction';
 
 @Component({
   selector: 'app-transacciones',
@@ -13,13 +14,13 @@ import { FormTransactionsComponent } from "./ui/form-transactions/form-transacti
 })
 export class TransactionComponent implements OnInit {
   private _transaccionesService = inject(TransaccionesService);
-  public readonly transacciones = signal<Transacciones[]>([]);
+  public readonly transacciones = signal<Transaction[]>([]);
   readonly seletedUser = signal<number>(2);
   public readonly selectedCategory = signal<string>('');
   ngOnInit(): void {
-    this.getTransacciones();
+   //this.getTransacciones();
   }
-  async getTransacciones() {
+  /*async getTransacciones() {
     try {
       const res: any = await firstValueFrom(
         this._transaccionesService.getTranccionesbyUser(this.seletedUser())
@@ -29,7 +30,7 @@ export class TransactionComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
-  }
+  }*/
 
   filterByCategory(event: Event) {
     const category = (event.target as HTMLSelectElement).value;
