@@ -19,14 +19,9 @@
 
 <!-- Estado de carga mejorado -->
 @if (categoriasResource.isLoading()) {
-<div class="flex items-center justify-center p-8">
-  <div class="flex flex-col items-center gap-3">
-    <span class="pi pi-spin pi-spinner text-3xl text-blue-500 dark:text-blue-400"></span>
-    <p class="text-gray-700 dark:text-gray-300 text-base font-medium">
-      Cargando categorías...
-    </p>
-  </div>
-</div>
+
+      <LoaderUi></LoaderUi>
+
 }
 
 @if (!categoriasResource.isLoading()) {
