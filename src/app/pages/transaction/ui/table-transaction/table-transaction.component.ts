@@ -5,10 +5,12 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { AsyncPipe, CurrencyPipe, DatePipe, NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BreakpointService } from '@services/breakpoint.service';
+import { LoaderComponent } from '@components/loader/loader.component';
+
 
 @Component({
   selector: 'table-transaction',
-  imports: [DatePipe, CurrencyPipe, FormsModule, AsyncPipe, NgTemplateOutlet],
+  imports: [DatePipe, CurrencyPipe, FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
