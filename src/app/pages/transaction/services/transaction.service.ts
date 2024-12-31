@@ -31,8 +31,13 @@ export class TransactionService {
     return this._http.get<apiResponse<Category[]>>(url)
   }
 
-  createTransaction(data: Partial<Transaction> = {}) {
+  createTransaction(data: Transaction): Observable<apiResponse<Transaction>> {
     const url = `${environment.apiUrl}/transaction`;
     return this._http.post<apiResponse<Transaction>>(url, data);
+  }
+
+  getTransactionByUserId(userId: number): Observable<apiResponse<Transaction[]>> {
+    const url = `${environment.apiUrl}/transaction/user/${userId}`;
+    return this._http.get<apiResponse<Transaction[]>>(url)
   }
 }

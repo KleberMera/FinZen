@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +27,7 @@ export class LoginComponent {
   private readonly _router = inject(Router);
   private readonly _validationService = inject(FormValidationService);
   protected form = this._authService.formLogin();
+  readonly isSubmitting = signal<boolean>(false);
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
@@ -37,10 +43,17 @@ export class LoginComponent {
   //Funcion para iniciar sesión
   onSubmit() {
     if (this.form().invalid) return;
+    this.isSubmitting.set(true);
     const user = this.form().value;
-    this._authService.login(user).subscribe((res) => {
-      toast.success(res.message);
-      this._router.navigate(['home']);
+    this._authService.login(user).subscribe({
+      next: (res) => {
+        toast.success(res.message);
+        this._router.navigate(['home']);
+        this.isSubmitting.set(false);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
+      },
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Output, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,6 +15,7 @@ import { FormValidationService } from '@services/form-validation.service';
 export class FormTransactionsComponent {
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
+
   private readonly _validationService = inject(FormValidationService);
   protected readonly isSubmitting = signal(false);
   protected readonly seletedUser = signal<number>(
@@ -25,6 +26,8 @@ export class FormTransactionsComponent {
   );
 
   public readonly form = this._transactionService.formTransaction();
+ 
+ 
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
@@ -37,18 +40,23 @@ export class FormTransactionsComponent {
     return this._validationService.isFieldInvalid(this.form(), fieldName);
   }
 
-  async saveTransaccion() {
+  async saveTransaccion( event: SubmitEvent) {
     if (this.form().invalid || this.isSubmitting()) return;
     console.log(this.form().value);
+    //Convertir category id a number
+    this.form().value.category_id = Number(this.form().value.category_id);
     try {
       this.isSubmitting.set(true);
       this._transactionService
         .createTransaction(this.form().value)
         .subscribe((res) => {
           toast.success(res.message);
-          this.form().reset();
+          this.form().reset();         
           this.isSubmitting.set(false);
         });
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+        this.isSubmitting.set(false);
+    }
   }
 }
