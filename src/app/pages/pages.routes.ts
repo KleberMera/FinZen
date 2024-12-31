@@ -7,6 +7,8 @@ import { DeudasComponent } from './deudas/deudas.component';
 import LayoutComponent from '../layout/layout.component';
 import { CategoryComponent } from './category/category.component';
 import { TransactionComponent } from './transaction/transaction.component';
+import { TableTransactionComponent } from './transaction/ui/table-transaction/table-transaction.component';
+import { FormTransactionsComponent } from './transaction/ui/form-transactions/form-transactions.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -27,7 +29,11 @@ export const pagesRoutes: Routes = [
       },
       {
         path: 'transacciones',
-        component: TransactionComponent,
+        component: FormTransactionsComponent,
+      },
+      {
+        path: 'transacciones-listado',
+        component: TableTransactionComponent,
       },
       {
         path: 'graficas',
@@ -37,7 +43,6 @@ export const pagesRoutes: Routes = [
         path: 'deudas',
         component: DeudasComponent,
       },
-
       {
         path: '**',
         redirectTo: 'dashboard',

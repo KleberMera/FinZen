@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, signal, Type } from '@ang
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BookComponent } from '@icons/book/book.component';
 import { OverviewComponent } from '@icons/overview/overview.component';
+import { TagComponent } from '@icons/tag/tag.component';
 
 
 interface MenuItem {
@@ -38,21 +39,24 @@ export class SidebarItemsComponent {
       activeClass: 'bg-gray-100 dark:bg-gray-700',
     },
     {
+      type: 'link',
+      label: 'Categorias',
+      icon: TagComponent,
+      route: 'categorias',
+      activeClass: 'bg-gray-100 dark:bg-gray-700',
+    },
+    {
       type: 'dropdown',
-      label: 'Finanzas',
+      label: 'Transacciones',
       icon: BookComponent,
       subItems: [
         {
-          label: 'Categorías',
-          route: 'categorias',
-        },
-        {
-          label: 'Transacciones',
+          label: 'Registro',
           route: 'transacciones',
         },
         {
-          label: 'Graficas',
-          route: 'graficas',
+          label: 'Listado',
+          route: 'transacciones-listado',
         },
       ],
     },
