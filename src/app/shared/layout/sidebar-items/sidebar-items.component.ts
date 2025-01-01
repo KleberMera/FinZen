@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, signal, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, output, signal, Type } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BookComponent } from '@icons/book/book.component';
 import { OverviewComponent } from '@icons/overview/overview.component';
@@ -29,6 +29,7 @@ interface SubMenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarItemsComponent {
+  itemSelected = output<void>();
   // Señal para los elementos del menú
   menuItems = signal<MenuItem[]>([
     {
@@ -78,4 +79,8 @@ export class SidebarItemsComponent {
   isDropdownOpen = computed(
     () => (label: string) => this.openDropdowns().includes(label)
   );
+
+  onItemClick() {
+    this.itemSelected.emit();
+  }
 }
