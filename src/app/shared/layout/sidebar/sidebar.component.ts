@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { SidebarItemsComponent } from '../sidebar-items/sidebar-items.component';
 import { SidebarConfComponent } from '../sidebar-conf/sidebar-conf.component';
 
@@ -11,6 +11,13 @@ import { SidebarConfComponent } from '../sidebar-conf/sidebar-conf.component';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
+  isOpen = input(false);
+  closeSidebar = output<void>();
 
+  onItemSelected() {
+    if (window.innerWidth < 768) {
+      this.closeSidebar.emit();
+    }
+  }
  
 }
