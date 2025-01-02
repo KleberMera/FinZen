@@ -2,6 +2,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, output, signal, Type } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BookComponent } from '@icons/book/book.component';
+import { CashIconComponent } from '@icons/cash-icon/cash-icon.component';
 import { OverviewComponent } from '@icons/overview/overview.component';
 import { TagComponent } from '@icons/tag/tag.component';
 
@@ -58,6 +59,21 @@ export class SidebarItemsComponent {
         {
           label: 'Listado',
           route: 'transacciones-listado',
+        },
+      ],
+    },
+    {
+      type: 'dropdown',
+      label: 'Deudas',
+      icon: CashIconComponent,
+      subItems: [
+        {
+          label: 'Registro',
+          route: 'deudas',
+        },
+        {
+          label: 'Listado',
+          route: 'deudas-listado',
         },
       ],
     },
