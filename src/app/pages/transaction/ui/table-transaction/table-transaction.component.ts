@@ -6,16 +6,17 @@ import { AsyncPipe, CurrencyPipe, DatePipe, NgTemplateOutlet } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { BreakpointService } from '@services/breakpoint.service';
 import { LoaderComponent } from '@components/loader/loader.component';
+import { SkeletonFiltersComponent } from "../../components/skeleton-filters/skeleton-filters.component";
 
 
 @Component({
   selector: 'table-transaction',
-  imports: [DatePipe, CurrencyPipe, FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent],
+  imports: [DatePipe, CurrencyPipe, FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent, SkeletonFiltersComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
 export class TableTransactionComponent {
- 
+
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
   protected readonly seletedUser = signal<number>(this._storageService.getUserId());
@@ -42,23 +43,50 @@ export class TableTransactionComponent {
     });
   });
 
-    // Signals para las opciones de los filtros
+  constructor() {
+    document.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('[id$="-dropdown"]')) {
+        document.querySelectorAll('[id$="-dropdown-menu"]').forEach(menu => {
+          menu.classList.add('hidden');
+        });
+      }
+    });
+  }
+
+
+  toggleDropdown(dropdownId: 'name' | 'category' | 'type'): void {
+    const menu = document.getElementById(`${dropdownId}-dropdown-menu`);
+    const allMenus = document.querySelectorAll('[id$="-dropdown-menu"]');
+
+    // Ocultar todos los demás dropdowns
+    allMenus.forEach(element => {
+      if (element.id !== `${dropdownId}-dropdown-menu`) {
+        element.classList.add('hidden');
+      }
+    });
+
+    // Alternar el dropdown actual
+    menu?.classList.toggle('hidden');
+  }
+
+  // Signals para las opciones de los filtros
   protected readonly uniqueCategories = computed(() => {
-      const transactions = this.transactions.value()?.data ?? [];
-      return [...new Set(transactions.map(t => t.category?.name ?? ''))].filter(Boolean);
+    const transactions = this.transactions.value()?.data ?? [];
+    return [...new Set(transactions.map(t => t.category?.name ?? ''))].filter(Boolean);
   });
-    
+
   protected readonly uniqueNames = computed(() => {
-      const transactions = this.transactions.value()?.data ?? [];
-      return [...new Set(transactions.map(t => t.name))];
+    const transactions = this.transactions.value()?.data ?? [];
+    return [...new Set(transactions.map(t => t.name))];
   });
-    
+
   protected readonly types = ['Ingreso', 'Gasto'];
 
   public transactions = rxResource({
     request: () => ({ userId: this.seletedUser() }),
     loader: ({ request }) =>
       this._transactionService.getTransactionByUserId(request.userId),
-      
+
   });
 }
