@@ -7,11 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { BreakpointService } from '@services/breakpoint.service';
 import { LoaderComponent } from '@components/loader/loader.component';
 import { SkeletonFiltersComponent } from "../../components/skeleton-filters/skeleton-filters.component";
+import { ViewDesktopComponent } from "../../components/view-desktop/view-desktop.component";
+import { ViewMobileComponent } from "../../components/view-mobile/view-mobile.component";
 
 
 @Component({
   selector: 'table-transaction',
-  imports: [DatePipe, CurrencyPipe, FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent, SkeletonFiltersComponent],
+  imports: [FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent, SkeletonFiltersComponent, ViewDesktopComponent, ViewMobileComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })

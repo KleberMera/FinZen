@@ -1,262 +1,135 @@
-
-
-  <!-- Loading State -->
-  @if (transactions.isLoading()) {
-    <skeleton-filters></skeleton-filters>
-  <LoaderUi></LoaderUi>
-  } @else {
-    <div class="mb-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-        Filtros de búsqueda
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Name Filter -->
-        <div class="relative">
-          <label for="name-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Nombre
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            <button id="name-dropdown" (click)="toggleDropdown('name')" type="button"
-              class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
-              <input type="text" [ngModel]="nameFilter()" (ngModelChange)="nameFilter.set($event)"
-                class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por nombre">
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div id="name-dropdown-menu" 
-                 class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                @for(name of uniqueNames(); track name) {
-                <li>
-                  <button type="button" (click)="nameFilter.set(name)"
-                    class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
-                    {{name}}
-                  </button>
-                </li>
-                }
-              </ul>
-            </div>
-          </div>
+<!-- Loading State -->
+@if (transactions.isLoading()) {
+<skeleton-filters></skeleton-filters>
+<LoaderUi></LoaderUi>
+} @else {
+<div class="mb-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+  <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+    Filtros de búsqueda
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Name Filter -->
+    <div class="relative">
+      <label for="name-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Nombre
+      </label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
         </div>
-    
-        <!-- Category Filter -->
-        <div class="relative">
-          <label for="category-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Categoría
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </div>
-            <button id="category-dropdown" (click)="toggleDropdown('category')" type="button"
-              class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
-              <input type="text" [ngModel]="categoryFilter()" (ngModelChange)="categoryFilter.set($event)"
-                class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por categoría">
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div id="category-dropdown-menu"
-                 class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                @for(category of uniqueCategories(); track category) {
-                <li>
-                  <button type="button" (click)="categoryFilter.set(category)"
-                    class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
-                    {{category}}
-                  </button>
-                </li>
-                }
-              </ul>
-            </div>
-          </div>
-        </div>
-    
-        <!-- Type Filter -->
-        <div class="relative">
-          <label for="type-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Tipo
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-              </svg>
-            </div>
-            <button id="type-dropdown" (click)="toggleDropdown('type')" type="button"
-              class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
-              <input type="text" [ngModel]="typeFilter()" (ngModelChange)="typeFilter.set($event)"
-                class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por tipo">
-              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <!-- Dropdown menu -->
-            <div id="type-dropdown-menu"
-                 class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                @for(type of types; track type) {
-                <li>
-                  <button type="button" (click)="typeFilter.set(type)"
-                    class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
-                    {{type}}
-                  </button>
-                </li>
-                }
-              </ul>
-            </div>
-          </div>
+        <button id="name-dropdown" (click)="toggleDropdown('name')" type="button"
+          class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
+          <input type="text" [ngModel]="nameFilter()" (ngModelChange)="nameFilter.set($event)"
+            class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por nombre" />
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <!-- Dropdown menu -->
+        <div id="name-dropdown-menu"
+          class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+            @for(name of uniqueNames(); track name) {
+            <li>
+              <button type="button" (click)="nameFilter.set(name)"
+                class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
+                {{ name }}
+              </button>
+            </li>
+            }
+          </ul>
         </div>
       </div>
     </div>
-    @if (isMobile$ | async) {
-  <ng-container *ngTemplateOutlet="mobileView"></ng-container>
-  } @else {
-  <ng-container *ngTemplateOutlet="desktopView"></ng-container>
-  } }
 
+    <!-- Category Filter -->
+    <div class="relative">
+      <label for="category-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Categoría
+      </label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </div>
+        <button id="category-dropdown" (click)="toggleDropdown('category')" type="button"
+          class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
+          <input type="text" [ngModel]="categoryFilter()" (ngModelChange)="categoryFilter.set($event)"
+            class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por categoría" />
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <!-- Dropdown menu -->
+        <div id="category-dropdown-menu"
+          class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+            @for(category of uniqueCategories(); track category) {
+            <li>
+              <button type="button" (click)="categoryFilter.set(category)"
+                class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
+                {{ category }}
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
 
-
-
+    <!-- Type Filter -->
+    <div class="relative">
+      <label for="type-filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Tipo
+      </label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+          </svg>
+        </div>
+        <button id="type-dropdown" (click)="toggleDropdown('type')" type="button"
+          class="w-full h-12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white text-left flex justify-between items-center">
+          <input type="text" [ngModel]="typeFilter()" (ngModelChange)="typeFilter.set($event)"
+            class="bg-transparent border-none focus:ring-0 w-full" placeholder="Buscar por tipo" />
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <!-- Dropdown menu -->
+        <div id="type-dropdown-menu"
+          class="hidden absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg dark:bg-gray-700 max-h-60 overflow-y-auto">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+            @for(type of types; track type) {
+            <li>
+              <button type="button" (click)="typeFilter.set(type)"
+                class="w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-left">
+                {{ type }}
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@if (isMobile$ | async) {
+<ng-container *ngTemplateOutlet="mobileView"></ng-container>
+} @else {
+<ng-container *ngTemplateOutlet="desktopView"></ng-container>
+} }
 <!-- Template para vista Desktop -->
 <ng-template #desktopView>
-  <div class="overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="px-6 py-3 hidden sm:table-cell">Nº</th>
-          <th scope="col" class="px-6 py-3">Categoría</th>
-          <th scope="col" class="px-6 py-3">Nombre</th>
-          <th scope="col" class="px-6 py-3">Monto</th>
-          <th scope="col" class="px-6 py-3 hidden md:table-cell">Fecha</th>
-          <th scope="col" class="px-6 py-3">Tipo</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (transaccion of filteredTransactions(); track transaccion.id) {
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td class="px-6 py-4 hidden sm:table-cell">{{ transaccion.id }}</td>
-          <td class="px-6 py-4">
-            <span class="whitespace-nowrap">{{
-              transaccion.category?.name
-              }}</span>
-          </td>
-          <td class="px-6 py-4">
-            <span class="whitespace-nowrap">{{ transaccion.name }}</span>
-          </td>
-          <td class="px-6 py-4">
-            <span [class]="
-                transaccion.category?.type === 'Ingreso'
-                  ? 'px-2 py-1 rounded text-green-600 dark:text-green-400 font-medium'
-                  : 'px-2 py-1 rounded text-red-600 dark:text-red-400 font-medium'
-              ">
-              {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
-            </span>
-          </td>
-          <td class="px-6 py-4 hidden md:table-cell">
-            <span class="whitespace-nowrap">{{
-              transaccion.date | date : "shortDate"
-              }}</span>
-          </td>
-          <td class="px-6 py-4">
-            <span [class]="
-                transaccion.category?.type === 'Ingreso'
-                  ? 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'
-                  : 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300'
-              ">
-              {{ transaccion.category?.type }}
-            </span>
-          </td>
-        </tr>
-        } @empty {
-        <tr>
-          <td colspan="6" class="text-center py-4 dark:text-white">
-            <div class="flex flex-col items-center justify-center p-6">
-              <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p class="text-gray-600 dark:text-gray-400">
-                No hay transacciones para mostrar
-              </p>
-            </div>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+  <view-desktop [filteredTransactions]="filteredTransactions()"></view-desktop>
 </ng-template>
 
 <!-- Template para vista Mobile -->
 <ng-template #mobileView>
-  <div class="space-y-4">
-    @for (transaccion of filteredTransactions(); track transaccion.id) {
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      <div class="p-4">
-        <!-- Header con Tipo y Fecha -->
-        <div class="flex justify-between items-center mb-3">
-          <span [class]="
-              transaccion.category?.type === 'Ingreso'
-                ? 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'
-                : 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300'
-            ">
-            {{ transaccion.category?.type }}
-          </span>
-          <span class="text-sm text-gray-500 dark:text-gray-400">
-            {{ transaccion.date | date : "shortDate" }}
-          </span>
-        </div>
-
-        <!-- Nombre y Categoría -->
-        <div class="mb-3">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {{ transaccion.name }}
-          </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400">
-            {{ transaccion.category?.name }}
-          </p>
-        </div>
-
-        <!-- Monto -->
-        <div class="flex justify-end">
-          <span [class]="
-              transaccion.category?.type === 'Ingreso'
-                ? 'text-xl font-bold text-green-600 dark:text-green-400'
-                : 'text-xl font-bold text-red-600 dark:text-red-400'
-            ">
-            {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
-          </span>
-        </div>
-
-        <!-- ID en texto pequeño -->
-        <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          ID: {{ transaccion.id }}
-        </div>
-      </div>
-    </div>
-    } @empty {
-    <div class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-      <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <p class="text-gray-600 dark:text-gray-400">
-        No hay transacciones para mostrar
-      </p>
-    </div>
-    }
-  </div>
+  <view-mobile [filteredTransactions]="filteredTransactions()"></view-mobile>
 </ng-template>
