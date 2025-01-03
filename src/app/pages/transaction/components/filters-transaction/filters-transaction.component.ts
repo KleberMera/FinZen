@@ -1,33 +1,25 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { StorageService } from '@services/storage.service';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { AsyncPipe, CurrencyPipe, DatePipe, NgTemplateOutlet } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { BreakpointService } from '@services/breakpoint.service';
-import { LoaderComponent } from '@components/loader/loader.component';
-import { SkeletonFiltersComponent } from "../../components/skeleton-filters/skeleton-filters.component";
-import { ViewDesktopComponent } from "../../components/view-desktop/view-desktop.component";
-import { ViewMobileComponent } from "../../components/view-mobile/view-mobile.component";
+import { rxResource } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { apiResponse } from '@models/apiResponse';
 import { Transaction } from '@models/transaction';
-import { User } from '@models/user';
-import { FiltersTransactionComponent } from "../../components/filters-transaction/filters-transaction.component";
-
 
 @Component({
-  selector: 'table-transaction',
-  imports: [FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent, SkeletonFiltersComponent, ViewDesktopComponent, ViewMobileComponent],
-  templateUrl: './table-transaction.component.html',
-  styleUrl: './table-transaction.component.scss',
+  selector: 'filters-transaction',
+  imports: [FormsModule],
+  templateUrl: './filters-transaction.component.html',
+  styleUrl: './filters-transaction.component.scss'
 })
-export class TableTransactionComponent {
+export class FiltersTransactionComponent {
 
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
   protected readonly seletedUser = signal<number>(this._storageService.getUserId());
   private readonly _breakpointService = inject(BreakpointService);
-
+  public transactions = input.required<apiResponse<Transaction[]>>( );
   protected readonly isMobile$ = this._breakpointService.isMobileView();
   // Signals para los filtros
   protected readonly categoryFilter = signal<string>('');
@@ -36,7 +28,7 @@ export class TableTransactionComponent {
 
   // Signal computada para las transacciones filtradas
   protected readonly filteredTransactions = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
+    const transactions = this.transactions().data ?? [];
     return transactions.filter(trans => {
       const matchCategory = this.categoryFilter() === '' ||
         trans.category?.name.toLowerCase().includes(this.categoryFilter().toLowerCase());
@@ -78,20 +70,16 @@ export class TableTransactionComponent {
 
   // Signals para las opciones de los filtros
   protected readonly uniqueCategories = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
+    const transactions = this.transactions().data ?? [];
     return [...new Set(transactions.map(t => t.category?.name ?? ''))].filter(Boolean);
   });
 
   protected readonly uniqueNames = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
+    const transactions = this.transactions().data ?? [];
     return [...new Set(transactions.map(t => t.name))];
   });
 
   protected readonly types = ['Ingreso', 'Gasto'];
 
-  public transactions = rxResource<apiResponse<Transaction[]>, { userId: number }>({
-    request: () => ({ userId: this.seletedUser() }),
-    loader: ({ request }) =>
-      this._transactionService.getTransactionByUserId(request.userId),
-  });
+  
 }
