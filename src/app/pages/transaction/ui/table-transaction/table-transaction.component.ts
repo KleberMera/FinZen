@@ -11,13 +11,12 @@ import { ViewDesktopComponent } from "../../components/view-desktop/view-desktop
 import { ViewMobileComponent } from "../../components/view-mobile/view-mobile.component";
 import { apiResponse } from '@models/apiResponse';
 import { Transaction } from '@models/transaction';
-import { User } from '@models/user';
 import { FiltersTransactionComponent } from "../../components/filters-transaction/filters-transaction.component";
-
+export const AppComponent = [LoaderComponent, SkeletonFiltersComponent, ViewDesktopComponent, ViewMobileComponent, FiltersTransactionComponent];
 
 @Component({
   selector: 'table-transaction',
-  imports: [FormsModule, AsyncPipe, NgTemplateOutlet, LoaderComponent, SkeletonFiltersComponent, ViewDesktopComponent, ViewMobileComponent],
+  imports: [AsyncPipe, NgTemplateOutlet, AppComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
@@ -25,73 +24,38 @@ export class TableTransactionComponent {
 
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
-  protected readonly seletedUser = signal<number>(this._storageService.getUserId());
   private readonly _breakpointService = inject(BreakpointService);
 
+  protected readonly seletedUser = signal<number>(this._storageService.getUserId());
   protected readonly isMobile$ = this._breakpointService.isMobileView();
-  // Signals para los filtros
-  protected readonly categoryFilter = signal<string>('');
-  protected readonly nameFilter = signal<string>('');
-  protected readonly typeFilter = signal<string>('');
 
-  // Signal computada para las transacciones filtradas
+  protected readonly filters = signal<{
+    category: string;
+    name: string;
+    type: string;
+  }>({ category: '', name: '', type: '' });
+
   protected readonly filteredTransactions = computed(() => {
     const transactions = this.transactions.value()?.data ?? [];
     return transactions.filter(trans => {
-      const matchCategory = this.categoryFilter() === '' ||
-        trans.category?.name.toLowerCase().includes(this.categoryFilter().toLowerCase());
-      const matchName = this.nameFilter() === '' ||
-        trans.name.toLowerCase().includes(this.nameFilter().toLowerCase());
-      const matchType = this.typeFilter() === '' ||
-        trans.category?.type === this.typeFilter();
+      const matchCategory = this.filters().category === '' ||
+        trans.category?.name.toLowerCase().includes(this.filters().category.toLowerCase());
+      const matchName = this.filters().name === '' ||
+        trans.name.toLowerCase().includes(this.filters().name.toLowerCase());
+      const matchType = this.filters().type === '' ||
+        trans.category?.type === this.filters().type;
 
       return matchCategory && matchName && matchType;
     });
   });
-
-  constructor() {
-    document.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest('[id$="-dropdown"]')) {
-        document.querySelectorAll('[id$="-dropdown-menu"]').forEach(menu => {
-          menu.classList.add('hidden');
-        });
-      }
-    });
-  }
-
-
-  toggleDropdown(dropdownId: 'name' | 'category' | 'type'): void {
-    const menu = document.getElementById(`${dropdownId}-dropdown-menu`);
-    const allMenus = document.querySelectorAll('[id$="-dropdown-menu"]');
-
-    // Ocultar todos los demás dropdowns
-    allMenus.forEach(element => {
-      if (element.id !== `${dropdownId}-dropdown-menu`) {
-        element.classList.add('hidden');
-      }
-    });
-
-    // Alternar el dropdown actual
-    menu?.classList.toggle('hidden');
-  }
-
-  // Signals para las opciones de los filtros
-  protected readonly uniqueCategories = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
-    return [...new Set(transactions.map(t => t.category?.name ?? ''))].filter(Boolean);
-  });
-
-  protected readonly uniqueNames = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
-    return [...new Set(transactions.map(t => t.name))];
-  });
-
-  protected readonly types = ['Ingreso', 'Gasto'];
 
   public transactions = rxResource<apiResponse<Transaction[]>, { userId: number }>({
     request: () => ({ userId: this.seletedUser() }),
     loader: ({ request }) =>
       this._transactionService.getTransactionByUserId(request.userId),
   });
+
+  onFilterChange(newFilters: { category: string; name: string; type: string }) {
+    this.filters.set(newFilters);
+  }
 }

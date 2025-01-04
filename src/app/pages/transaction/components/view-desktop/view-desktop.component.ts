@@ -22,29 +22,26 @@ export class ViewDesktopComponent {
     const ingresos = this.filteredTransactions()
       .filter(t => t.category?.type === 'Ingreso')
       .reduce((sum, t) => sum + (t.amount || 0), 0);
-    
+
     const gastos = this.filteredTransactions()
       .filter(t => t.category?.type !== 'Ingreso')
       .reduce((sum, t) => sum + (t.amount || 0), 0);
-    console.log(ingresos, gastos);
-    
     return ingresos >= gastos ? 'Ingreso' : 'Gasto';
   }
 
+  // get totalIngresos() {
+  //   return this.filteredTransactions()
+  //     .filter(t => t.category?.type === 'Ingreso')
+  //     .reduce((sum, t) => sum + (t.amount || 0), 0);
+  // }
 
-  get totalIngresos() {
-    return this.filteredTransactions()
-      .filter(t => t.category?.type === 'Ingreso')
-      .reduce((sum, t) => sum + (t.amount || 0), 0);
-  }
-  
-  get totalEgresos() {
-    return this.filteredTransactions()
-      .filter(t => t.category?.type !== 'Ingreso')
-      .reduce((sum, t) => sum + (t.amount || 0), 0);
-  }
-  
-  get saldoTotal() {
-    return this.totalIngresos - this.totalEgresos;
-  }
+  // get totalEgresos() {
+  //   return this.filteredTransactions()
+  //     .filter(t => t.category?.type !== 'Ingreso')
+  //     .reduce((sum, t) => sum + (t.amount || 0), 0);
+  // }
+
+  // get saldoTotal() {
+  //   return this.totalIngresos - this.totalEgresos;
+  // }
 }
