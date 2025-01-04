@@ -11,4 +11,40 @@ import { Transaction } from '@models/transaction';
 export class ViewDesktopComponent {
   //Signals input que recibe filteredTransactions
   readonly filteredTransactions = input.required<Transaction[]>();
+
+  get total() {
+    return this.filteredTransactions()
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+  }
+
+  // Nuevo método para determinar el tipo dominante
+  get totalType() {
+    const ingresos = this.filteredTransactions()
+      .filter(t => t.category?.type === 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+    
+    const gastos = this.filteredTransactions()
+      .filter(t => t.category?.type !== 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+    console.log(ingresos, gastos);
+    
+    return ingresos >= gastos ? 'Ingreso' : 'Gasto';
+  }
+
+
+  get totalIngresos() {
+    return this.filteredTransactions()
+      .filter(t => t.category?.type === 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+  }
+  
+  get totalEgresos() {
+    return this.filteredTransactions()
+      .filter(t => t.category?.type !== 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+  }
+  
+  get saldoTotal() {
+    return this.totalIngresos - this.totalEgresos;
+  }
 }
