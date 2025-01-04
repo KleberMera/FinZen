@@ -1,1 +1,166 @@
-<p>register-debt works!</p>
+<div class="mb-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+      Nueva Deuda
+    </h3>
+  
+    <form [formGroup]="form()" (submit)="saveDebt()" class="space-y-6">
+      <!-- Nombre -->
+      <div class="relative">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          Nombre de la Deuda
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </div>
+          <input type="text" id="name" formControlName="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            placeholder="Ej: Préstamo personal" />
+        </div>
+        @if (isFieldInvalid('name')) {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-500">
+          {{ getErrorMessage('name') }}
+        </p>
+        }
+      </div>
+  
+      <!-- Grid de datos principales -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Monto -->
+        <div class="relative">
+          <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Monto
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <span class="text-gray-500 dark:text-gray-400">$</span>
+            </div>
+            <input type="number" id="amount" formControlName="amount"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              placeholder="0.00" step="0.01" min="0" />
+          </div>
+          @if (isFieldInvalid('amount')) {
+          <p class="mt-1 text-sm text-red-600 dark:text-red-500">
+            {{ getErrorMessage('amount') }}
+          </p>
+          }
+        </div>
+  
+        <!-- Tasa de interés -->
+        <div class="relative">
+          <label for="interest_rate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Tasa de Interés (%)
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <span class="text-gray-500 dark:text-gray-400">%</span>
+            </div>
+            <input type="number" id="interest_rate" formControlName="interest_rate"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              placeholder="0.00" step="0.01" min="0" />
+          </div>
+        </div>
+  
+        <!-- Duración en meses -->
+        <div class="relative">
+          <label for="duration_months" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Duración (Meses)
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input type="number" id="duration_months" formControlName="duration_months"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              placeholder="12" min="1" />
+          </div>
+          @if (isFieldInvalid('duration_months')) {
+          <p class="mt-1 text-sm text-red-600 dark:text-red-500">
+            {{ getErrorMessage('duration_months') }}
+          </p>
+          }
+        </div>
+      </div>
+  
+      <!-- Fechas -->
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Fecha inicial con checkbox -->
+    <div class="relative space-y-2">
+      <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Fecha Inicial
+      </label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <span class="pi pi-calendar text-gray-500 dark:text-gray-400"></span>
+        </div>
+        <input type="date" id="start_date" formControlName="start_date" (change)="calculateEndDate()"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+      </div>
+      <div class="flex items-center">
+        <input type="checkbox" id="fixedDay" formControlName="fixedDay" (change)="calculateEndDate()"
+          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+        <label for="fixedDay" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">
+          Mantener día fijo del mes
+        </label>
+      </div>
+    </div>
+  
+    <!-- Fecha final (readonly) -->
+    <div class="relative">
+      <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        Fecha Final
+      </label>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <span class="pi pi-calendar text-gray-500 dark:text-gray-400"></span>
+        </div>
+        <input type="date" id="end_date" formControlName="end_date" readonly
+          class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white cursor-not-allowed" />
+      </div>
+    </div>
+    </div>
+
+      <!-- Descripción -->
+      <div class="relative">
+        <label for="description" class="mb-2 text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
+          Descripción
+          <span class="text-xs text-gray-500 dark:text-gray-400">(Opcional)</span>
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </div>
+          <textarea id="description" formControlName="description" rows="3"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            placeholder="Añade detalles adicionales de la deuda..."></textarea>
+        </div>
+      </div>
+  
+      <!-- Botones -->
+      <div class="flex items-center justify-end gap-4">
+        <button type="button" (click)="form().reset()"
+          class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+          <span class="pi pi-times mr-2"></span>
+          Limpiar
+        </button>
+  
+        <button type="submit" [disabled]="form().invalid || isSubmitting()"
+          class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center">
+          @if (isSubmitting()) {
+          <span class="pi pi-spin pi-spinner mr-2"></span>
+          Guardando...
+          } @else {
+          <span class="pi pi-save mr-2"></span>
+          Guardar
+          }
+        </button>
+      </div>
+    </form>
+  </div>
