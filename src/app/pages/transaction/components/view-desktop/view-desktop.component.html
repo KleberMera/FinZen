@@ -70,11 +70,11 @@
         <td colspan="5" class="px-6 py-3 text-right">Total:</td>
         <td class="px-6 py-3">
           <span [class]="
-            totalType === 'Ingreso'
+            totalType() === 'Ingreso'
               ? 'px-2 py-1 font-medium text-green-600 dark:text-green-400'
               : 'px-2 py-1 font-medium text-red-600 dark:text-red-400'
           ">
-            {{ total | currency : "USD" : "symbol" : "1.2-2" }}
+            {{ total() | currency : "USD" : "symbol" : "1.2-2" }}
           </span>
         </td>
         <td colspan="2"></td>

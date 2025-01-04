@@ -28,7 +28,7 @@ export class TransactionService {
 
   getCategoriesByUserId(userId: number): Observable<apiResponse<Category[]>> {
     const url = `${environment.apiUrl}/category/user/${userId}`;
-    return this._http.get<apiResponse<Category[]>>(url)
+    return this._http.get<apiResponse<Category[]>>(url);
   }
 
   createTransaction(data: Transaction): Observable<apiResponse<Transaction>> {
@@ -36,8 +36,24 @@ export class TransactionService {
     return this._http.post<apiResponse<Transaction>>(url, data);
   }
 
-  getTransactionByUserId(userId: number): Observable<apiResponse<Transaction[]>> {
-    const url = `${environment.apiUrl}/transaction/user/${userId}`;
-    return this._http.get<apiResponse<Transaction[]>>(url)
+  getTransactionByUserId(id: number): Observable<apiResponse<Transaction[]>> {
+    const url = `${environment.apiUrl}/transaction/user/${id}`;
+    return this._http.get<apiResponse<Transaction[]>>(url);
+  }
+
+  getTotalType(transactions: Transaction[]) {
+    const ingresos = transactions
+      .filter((t) => t.category?.type === 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+
+    const gastos = transactions
+      .filter((t) => t.category?.type !== 'Ingreso')
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+
+    return ingresos >= gastos ? 'Ingreso' : 'Gasto';
+  }
+
+  getTotal(transactions: Transaction[]) {
+    return transactions.reduce((sum, t) => sum + (t.amount || 0), 0);
   }
 }
