@@ -24,7 +24,6 @@ export class DebtService {
         method: new FormControl(data.method),
         start_date: new FormControl(data.start_date, [Validators.required]),
         end_date: new FormControl(data.end_date, [Validators.required]),
-        fixedDay: new FormControl(data.fixedDay),
         status: new FormControl(data.status),
         amortizations: new FormArray(data.amortizations?.map(
           (amortizations) =>
