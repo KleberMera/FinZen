@@ -202,9 +202,9 @@
 
   @if (this.form().get('amount')?.value && this.form().get('interest_rate')?.value &&
   this.form().get('duration_months')?.value && this.form().get('start_date')?.value) {
-  <table-frances [amount]="this.form().get('amount')?.value" [interestRate]="this.form().get('interest_rate')?.value"
-    [durationMonths]="this.form().get('duration_months')?.value" [startDate]="this.form().get('start_date')?.value"
-    [amortizationArray]="amortizationArray"></table-frances>
+  <table-frances  
+    [formData]="this.form()"
+    ></table-frances>
   }
 
 </div>

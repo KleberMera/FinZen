@@ -15,14 +15,14 @@
           </tr>
         </thead>
         <tbody>
-          @for (row of amortizationArray().controls; track row.value.number_months) {
+          @for (row of this.formData().get('amortizations')?.value; track row.number_months) {
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <td class="px-6 py-4">{{row.value.number_months}}</td>
-            <td class="px-6 py-4">{{row.value.date | date:'dd/MM/yyyy'}}</td>
-            <td class="px-6 py-4 text-right">{{row.value.quota | currency : "USD" : "symbol" : "1.2-2"}}</td>
-            <td class="px-6 py-4 text-right">{{row.value.interest | currency : "USD" : "symbol" : "1.2-2"}}</td>
-            <td class="px-6 py-4 text-right">{{row.value.amortized | currency : "USD" : "symbol" : "1.2-2"}}</td>
-            <td class="px-6 py-4 text-right">{{row.value.outstanding | currency : "USD" : "symbol" : "1.2-2"}}</td>
+            <td class="px-6 py-4">{{row.number_months}}</td>
+            <td class="px-6 py-4">{{row.date | date:'dd/MM/yyyy'}}</td>
+            <td class="px-6 py-4 text-right">{{row.quota | currency : "USD" : "symbol" : "1.2-2"}}</td>
+            <td class="px-6 py-4 text-right">{{row.interest | currency : "USD" : "symbol" : "1.2-2"}}</td>
+            <td class="px-6 py-4 text-right">{{row.amortized | currency : "USD" : "symbol" : "1.2-2"}}</td>
+            <td class="px-6 py-4 text-right">{{row.outstanding | currency : "USD" : "symbol" : "1.2-2"}}</td>
           </tr>
           }
         </tbody>
