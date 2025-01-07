@@ -1,5 +1,5 @@
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
-import { Component, computed, input, SimpleChanges } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, input, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { addMonth, format } from '@formkit/tempo';
 
@@ -10,9 +10,15 @@ import { addMonth, format } from '@formkit/tempo';
   styleUrl: './table-frances.component.scss'
 })
 export class TableFrancesComponent {
+  totalMonths: number = 0;
   
+  ngOnInit() {
+    // Calcula el total de meses para el indicador de progreso
+    const amortizations = this.formData().get('amortizations')?.value || [];
+    this.totalMonths = amortizations.length;
+  }
+  readonly formData = input.required<FormGroup>();
 
-  formData = input.required<FormGroup>();
 
   ngOnChanges(changes: SimpleChanges) {
      if (this.formData().get('method')?.value === 'frances') {
@@ -24,31 +30,19 @@ export class TableFrancesComponent {
  
   }
 
-  private calculateAmortization() {
+  calculateAmortization() {
     const monthlyRate = (this.formData().get('interest_rate')?.value / 100) / 12;
     const quota = this.formData().get('amount')?.value * (monthlyRate * Math.pow(1 + monthlyRate, this.formData().get('duration_months')?.value)) / 
                  (Math.pow(1 + monthlyRate, this.formData().get('duration_months')?.value) - 1);
-    console.log(monthlyRate, quota);
-    
     let outstanding = this.formData().get('amount')?.value;
     const amortizations = this.formData().get('amortizations') as FormArray;
     amortizations.clear();
 
     for (let month = 1; month <= this.formData().get('duration_months')?.value; month++) {
       const interest = outstanding * monthlyRate;
-      const amortized = quota - interest;
-      
-      
+      const amortized = quota - interest;     
       outstanding = outstanding - amortized;
-      console.log('---------------');
-      
-      console.log(month, interest, amortized);
       const date = addMonth(format(this.formData().get('start_date')?.value, 'YYYY-MM-DD'), month - 1);
-
-     console.log('-----------');
-     
-      console.log(month, date, interest, amortized, outstanding);
-      
       amortizations.push(
         new FormGroup({
           number_months: new FormControl(month),
