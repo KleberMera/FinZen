@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^19.0.5",
     "@angular/platform-browser-dynamic": "^19.0.5",
     "@angular/router": "^19.0.5",
+    "@angular/service-worker": "^19.0.5",
     "@formkit/tempo": "^0.1.2",
     "apexcharts": "^4.3.0",
     "flowbite": "^2.5.2",

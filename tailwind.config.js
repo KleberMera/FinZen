@@ -60,10 +60,6 @@ module.exports = {
       ],
     },
   },
-  safelist: [
-    'bg-red-500',
-    'text-3xl',
-    'lg:text-4xl',
-  ],
+  safelist: ["bg-red-500", "text-3xl", "lg:text-4xl"],
   plugins: [require("flowbite/plugin")({ charts: true })],
 };
