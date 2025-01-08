@@ -1,8 +1,8 @@
 {
   "name": "FinZen",
   "short_name": "FinZen",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#111827",
+  "background_color": "#111827",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
