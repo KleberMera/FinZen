@@ -15,6 +15,7 @@ export class RegisterDebtComponent {
   private readonly _debtService = inject(DebtService);
   private readonly _validationService = inject(FormValidationService);
   readonly form = this._debtService.formDebt();
+
   protected readonly isSubmitting = signal(false);
   constructor() {
     // Asignar método francés por defecto

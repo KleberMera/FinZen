@@ -1,7 +1,8 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, input, SimpleChanges } from '@angular/core';
+import { Component, inject, input, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { addMonth, format } from '@formkit/tempo';
+import { MethodService } from '../../services/method.service';
 
 @Component({
   selector: 'table-frances',
@@ -11,6 +12,7 @@ import { addMonth, format } from '@formkit/tempo';
 })
 export class TableFrancesComponent {
   totalMonths: number = 0;
+  private readonly _methodService = inject(MethodService);
   
   ngOnInit() {
     // Calcula el total de meses para el indicador de progreso
@@ -23,9 +25,9 @@ export class TableFrancesComponent {
   ngOnChanges(changes: SimpleChanges) {
      if (this.formData().get('method')?.value === 'frances') {
       this.calculateAmortization();
+      this._methodService.methodFrances(this.formData());
     } else {
       console.log('Posible implementation');
-      
     }
  
   }

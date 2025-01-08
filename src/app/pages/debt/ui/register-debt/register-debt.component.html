@@ -131,15 +131,9 @@
             <span class="pi pi-calendar text-gray-500 dark:text-gray-400"></span>
           </div>
           <input type="date" id="start_date" formControlName="start_date" (change)="calculateEndDate()"
+            
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
         </div>
-        <!-- <div class="flex items-center">
-        <input type="checkbox" id="fixedDay" formControlName="fixedDay" (change)="calculateEndDate()"
-          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <label for="fixedDay" class="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-          Mantener día fijo del mes
-        </label>
-      </div> -->
       </div>
 
       <!-- Fecha final (readonly) -->
@@ -201,9 +195,7 @@
 
   @if (this.form().get('amount')?.value && this.form().get('interest_rate')?.value &&
   this.form().get('duration_months')?.value && this.form().get('start_date')?.value) {
-  <table-frances  
-    [formData]="this.form()"
-    ></table-frances>
+  <table-frances [formData]="this.form()"></table-frances>
   }
 
 </div>
