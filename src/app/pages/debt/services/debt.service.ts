@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { Observable } from 'rxjs';
