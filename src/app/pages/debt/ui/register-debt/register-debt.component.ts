@@ -15,34 +15,33 @@ export class RegisterDebtComponent {
   private readonly _debtService = inject(DebtService);
   private readonly _validationService = inject(FormValidationService);
   readonly form = this._debtService.formDebt();
-
   protected readonly isSubmitting = signal(false);
+
+  readonly endDate = computed(() => {
+    const startDate = this.form().get('start_date')?.value;
+    const duration = this.form().get('duration_months')?.value;
+
+    if (startDate && duration) {
+      const endDate = addMonth(format(startDate, 'YYYY-MM-DD'), duration - 1);
+      const formattedEndDate = format(endDate, 'YYYY-MM-DD');
+      
+      // Actualizar el valor en el formulario
+      this.form().patchValue({ end_date: formattedEndDate }, { emitEvent: false });
+      
+      return  formattedEndDate;
+    }
+    
+    return null;
+  });
+
+ 
   constructor() {
     // Asignar método francés por defecto
     this.form().patchValue({
       method: 'frances',
     });
   }
-   
- 
-
-  calculateEndDate() {
-    const startDate = this.form().get('start_date')?.value;
-    const duration = this.form().get('duration_months')?.value - 1;
-
-    if (startDate && duration) {
-      const formatedDate = format(startDate, 'YYYY-MM-DD');
-      const endDate = addMonth(formatedDate, duration);
-      const newEndDate = format(endDate, 'YYYY-MM-DD');
-      this.form().patchValue({
-        end_date: newEndDate,
-      });
-    }
-  }
-
-  get amortizationArray() {
-    return this.form().get('amortizations') as FormArray;
-  }
+  
   async saveDebt() {
     console.log(this.form().value);
     
