@@ -29,7 +29,7 @@ export class MethodService {
           interest: new FormControl(interest),
           amortized: new FormControl(amortized),
           outstanding: new FormControl(outstanding),
-          status: new FormControl('pending')
+          status: new FormControl('Pendiente')
         })
       );
     }
@@ -68,7 +68,7 @@ export class MethodService {
           interest: new FormControl(interest),
           amortized: new FormControl(fixedAmortization),
           outstanding: new FormControl(outstanding),
-          status: new FormControl('pending')
+          status: new FormControl('Pendiente')
         })
       );
     }
