@@ -195,7 +195,7 @@
   <!-- Después del formulario pero antes del div de cierre -->
 
   @if (this.form().get('amount')?.value && this.form().get('interest_rate')?.value &&
-  this.form().get('duration_months')?.value && this.form().get('start_date')?.value) {
+  this.form().get('duration_months')?.value && this.form().get('start_date')?.value && this.form().get('end_date')?.value) {
   <table-frances [formData]="this.form()"></table-frances>
   }
 
