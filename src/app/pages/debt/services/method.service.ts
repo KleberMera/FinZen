@@ -34,4 +34,43 @@ export class MethodService {
       );
     }
   }
+
+
+  calculateGermanAmortization(data: FormGroup) {
+    const monthlyRate = (data.get('interest_rate')?.value / 100) / 12;
+    const loanAmount = data.get('amount')?.value;
+    const durationMonths = data.get('duration_months')?.value;
+    
+    // En el sistema alemán, la amortización es constante
+    const fixedAmortization = loanAmount / durationMonths;
+    let outstanding = loanAmount;
+    
+    const amortizations = data.get('amortizations') as FormArray;
+    amortizations.clear();
+  
+    for (let month = 1; month <= durationMonths; month++) {
+      // Calculamos el interés sobre el saldo pendiente
+      const interest = outstanding * monthlyRate;
+      
+      // La cuota es la suma de la amortización fija más los intereses
+      const quota = fixedAmortization + interest;
+      
+      // Actualizamos el saldo pendiente
+      outstanding = outstanding - fixedAmortization;
+  
+      const date = addMonth(format(data.get('start_date')?.value, 'YYYY-MM-DD'), month - 1);
+      
+      amortizations.push(
+        new FormGroup({
+          number_months: new FormControl(month),
+          date: new FormControl(format(date, 'YYYY-MM-DD')),
+          quota: new FormControl(quota),
+          interest: new FormControl(interest),
+          amortized: new FormControl(fixedAmortization),
+          outstanding: new FormControl(outstanding),
+          status: new FormControl('pending')
+        })
+      );
+    }
+  }
 }

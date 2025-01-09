@@ -11,11 +11,10 @@ import { MethodService } from '../../services/method.service';
   styleUrl: './table-frances.component.scss'
 })
 export class TableFrancesComponent {
-  totalMonths = signal<number>(0);
+  readonly totalMonths = signal<number>(0);
   private readonly _methodService = inject(MethodService);
   
   ngOnInit() {
-    // Calcula el total de meses para el indicador de progreso
     const amortizations = this.formData().get('amortizations')?.value || [];
     this.totalMonths.set(amortizations.length);
   }
@@ -23,11 +22,10 @@ export class TableFrancesComponent {
 
 
   ngOnChanges(changes: SimpleChanges) {
-     if (this.formData().get('method')?.value === 'frances') {
-      
+     if (this.formData().get('method')?.value === 'frances') {  
       this._methodService.calculateFrenchAmortization(this.formData());
     } else {
-      console.log('Posible implementation');
+      this._methodService.calculateGermanAmortization(this.formData());
     }
  
   }
