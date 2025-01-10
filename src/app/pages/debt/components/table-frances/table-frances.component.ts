@@ -8,7 +8,7 @@ import { Debt } from '@models/debt';
 
 @Component({
   selector: 'table-frances',
-  imports: [DatePipe, CurrencyPipe, CardTableComponent],
+  imports: [DatePipe, CurrencyPipe, ],
   templateUrl: './table-frances.component.html',
   styleUrl: './table-frances.component.scss'
 })
