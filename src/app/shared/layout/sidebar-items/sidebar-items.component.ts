@@ -68,7 +68,7 @@ export class SidebarItemsComponent {
       icon: CashIconComponent,
       subItems: [
         {
-          label: 'Registro',
+          label: 'Nueva Deuda',
           route: 'deudas',
         },
         {

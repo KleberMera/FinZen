@@ -1,0 +1,14 @@
+@for (item of debts(); track $index) {
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+  <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+    {{ item.description }}
+  </h4>
+  <p class="text-gray-600 dark:text-gray-400">
+    Fecha Inicial: {{ item.start_date | date : "dd/MM/yyyy" }}
+    <br />
+    Fecha Final: {{ item.end_date | date : "dd/MM/yyyy" }}
+  </p>
+
+  <p>Monto: {{ item.amount| currency : "USD" : "symbol" : "1.2-2" }}</p>
+</div>
+}

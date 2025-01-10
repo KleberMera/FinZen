@@ -7,6 +7,7 @@ import { TableAmortizationComponent } from "../../components/table-amortization/
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { SkeletonDebtsComponent } from "../../components/skeleton-debts/skeleton-debts.component";
+import { CardDetailsComponent } from "../../components/card-details/card-details.component";
 
 export interface Filter {
   name: string;
@@ -14,7 +15,7 @@ export interface Filter {
 
 @Component({
   selector: 'app-list-debt',
-  imports: [FiltersDebtComponent, TableAmortizationComponent, SkeletonDebtsComponent],
+  imports: [FiltersDebtComponent, TableAmortizationComponent, SkeletonDebtsComponent, CardDetailsComponent],
   templateUrl: './list-debt.component.html',
   styleUrl: './list-debt.component.scss',
 })
@@ -36,12 +37,14 @@ export class ListDebtComponent {
 
   protected readonly filteredDebts = computed(() => {
     const debts = this.debts.value()?.data ?? [];
+   
     return debts.filter((trans) => {
       const matchName =
         this.filters().name === '' ||
         trans.name.toLowerCase().includes(this.filters().name.toLowerCase());
       return matchName;
     });
+    
 
   });
 

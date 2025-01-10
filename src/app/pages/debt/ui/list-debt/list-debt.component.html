@@ -10,6 +10,7 @@
 
 @if (selectedDebt()) {
 <div class="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <app-card-details [debts]="filteredDebts()"></app-card-details>
   <app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
 </div>
 } }
