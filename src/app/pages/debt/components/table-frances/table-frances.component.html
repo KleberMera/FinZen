@@ -52,94 +52,11 @@
     </table>
   </div>
 
-  <div class="md:hidden space-y-3">
-    @for (row of this.formData().get('amortizations')?.value; track row.number_months) {
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-        <!-- Encabezado con gradiente -->
-        <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-              <span class="text-white text-lg font-bold">
-                Mes {{row.number_months}}
-              </span>
-              <span class="bg-blue-400/30 text-white text-xs px-2 py-1 rounded-full">
-                {{row.date | date:'dd/MM/yyyy'}}
-              </span>
-            </div>
-            <div class="flex items-center">
-              <span class="text-xs text-blue-100">Cuota mensual</span>
-              <span class="ml-2 text-white font-bold">
-                {{row.quota | currency : "USD" : "symbol" : "1.2-2"}}
-              </span>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Contenido Principal -->
-        <div class="p-4">
-          <!-- Grid de Información -->
-          <div class="grid grid-cols-2 gap-4">
-            <!-- Interés -->
-            <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-              <div class="text-sm text-gray-500 dark:text-gray-400">Interés</div>
-              <div class="text-gray-900 dark:text-white font-semibold mt-1">
-                {{row.interest | currency : "USD" : "symbol" : "1.2-2"}}
-              </div>
-            </div>
-  
-            <!-- Amortización -->
-            <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-              <div class="text-sm text-gray-500 dark:text-gray-400">Amortización</div>
-              <div class="text-gray-900 dark:text-white font-semibold mt-1">
-                {{row.amortized | currency : "USD" : "symbol" : "1.2-2"}}
-              </div>
-            </div>
-          </div>
-  
-          <!-- Saldo Pendiente -->
-          <div class="mt-4 border-t dark:border-gray-700 pt-4">
-            <div class="flex justify-between items-center">
-              <div>
-                <span class="text-sm text-gray-500 dark:text-gray-400">
-                  Saldo Pendiente
-                </span>
-                <div class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
-                  {{row.outstanding | currency : "USD" : "symbol" : "1.2-2"}}
-                </div>
-              </div>
-              <!-- Indicador de Progreso -->
-              <div class="w-16 h-16 relative">
-                <svg class="w-16 h-16 transform -rotate-90">
-                  <circle
-                    class="text-gray-200 dark:text-gray-700"
-                    stroke-width="4"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="28"
-                    cx="32"
-                    cy="32"
-                  />
-                  <circle
-                    class="text-blue-500 dark:text-blue-400"
-                    stroke-width="4"
-                    stroke="currentColor"
-                    fill="transparent"
-                    r="28"
-                    cx="32"
-                    cy="32"
-                    
-                  />
-                </svg>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-medium text-gray-600 dark:text-gray-300">
-                  {{(row.number_months/totalMonths() * 100).toFixed(0)}}%
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
+
+   
+    <app-card-table [formData]="formData()"></app-card-table>
+ 
+
 </div>
 
 

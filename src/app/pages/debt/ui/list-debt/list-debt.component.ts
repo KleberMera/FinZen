@@ -4,6 +4,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FiltersDebtComponent } from '../../components/filters-debt/filters-debt.component';
+import { TableFrancesComponent } from "../../components/table-frances/table-frances.component";
 
 export interface Filter {
   name: string;

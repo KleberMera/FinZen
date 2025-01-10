@@ -16,7 +16,7 @@ export class DebtService {
     const form = signal<FormGroup>(
       new FormGroup({
         user_id: new FormControl(data.user_id, [Validators.required]),
-        name: new FormControl(data.name),
+        name: new FormControl(data.name, [Validators.required]),
         description: new FormControl(data.description || ''),
         amount: new FormControl(data.amount, [Validators.required]),
         interest_rate: new FormControl(data.interest_rate,),
