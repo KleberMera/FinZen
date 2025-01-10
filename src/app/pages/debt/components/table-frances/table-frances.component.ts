@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, input, signal, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, input, signal, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { addMonth, format } from '@formkit/tempo';
 import { MethodService } from '../../services/method.service';
@@ -18,13 +18,19 @@ export class TableFrancesComponent {
   private readonly _methodService = inject(MethodService);
   
   
-  ngOnChanges(changes: SimpleChanges) {
-     if (this.formData().get('method')?.value === 'frances') {  
-      this._methodService.calculateFrenchAmortization(this.formData());
-    } else {
-      this._methodService.calculateGermanAmortization(this.formData());
-    }
- 
+  constructor() {
+    // Effect solo para el caso del formulario
+    effect(() => {
+      // Solo ejecutamos si tenemos formData
+      if (this.formData()) {
+        const method = this.formData()!.get('method')?.value;
+        if (method === 'frances') {
+          this._methodService.calculateFrenchAmortization(this.formData()!);
+        } else {
+          this._methodService.calculateGermanAmortization(this.formData()!);
+        }
+      }
+    });
   }
 
 }

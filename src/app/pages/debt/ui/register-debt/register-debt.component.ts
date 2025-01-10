@@ -3,13 +3,13 @@ import { DebtService } from '../../services/debt.service';
 import { FormValidationService } from '@services/form-validation.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { addMonth, format } from '@formkit/tempo';
-import { TableFrancesComponent } from '../../components/table-frances/table-frances.component';
 import { toast } from 'ngx-sonner';
 import { StorageService } from '@services/storage.service';
+import { TableAmortizationComponent } from "../../components/table-amortization/table-amortization.component";
 
 @Component({
   selector: 'app-register-debt',
-  imports: [ReactiveFormsModule, TableFrancesComponent],
+  imports: [ReactiveFormsModule, TableAmortizationComponent],
   templateUrl: './register-debt.component.html',
   styleUrl: './register-debt.component.scss',
 })
@@ -59,6 +59,8 @@ export class RegisterDebtComponent {
       },
     });
   }
+
+  
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {

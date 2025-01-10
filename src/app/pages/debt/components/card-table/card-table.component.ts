@@ -18,5 +18,5 @@ export class CardTableComponent {
     const amortizations = this.formData().get('amortizations')?.value || [];
     this.totalMonths.set(amortizations.length);
   }
-  
+
 }

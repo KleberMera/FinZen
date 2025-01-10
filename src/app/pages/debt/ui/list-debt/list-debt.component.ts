@@ -4,11 +4,10 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FiltersDebtComponent } from '../../components/filters-debt/filters-debt.component';
-import { TableFrancesComponent } from "../../components/table-frances/table-frances.component";
-
 export interface Filter {
   name: string;
 }
+
 @Component({
   selector: 'app-list-debt',
   imports: [DatePipe, CurrencyPipe, FiltersDebtComponent],
@@ -40,13 +39,20 @@ export class ListDebtComponent {
   }
 
   protected readonly filteredDebts = computed(() => {
-    const debts = this.debts.value()?.data?? [];
+    const debts = this.debts.value()?.data?? []; 
+    console.log(debts);
+    
     return debts.filter((trans) => {
       const matchName =
         this.filters().name === '' ||
         trans.name.toLowerCase().includes(this.filters().name.toLowerCase());
-
       return matchName;
     });
+  });
+
+  protected readonly filteredAmortizations = computed(() => {
+    const debts = this.debts.value()?.data?? [];
+    const selectedDebt = debts.find((d) => d.name === this.filters().name);
+    return selectedDebt?.amortizations || [];
   });
 }
