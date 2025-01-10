@@ -1,11 +1,10 @@
-
 <filters-debt
   [debts]="debts.value()?.data ?? []"
   (filterChange)="onFilterChange($event)"
 ></filters-debt>
 
-
-<div class="bg-white dark:bg-gray-800  transition-colors duration-200">
+@if (selectedDebt()) {
+  <div class="bg-white dark:bg-gray-800  transition-colors duration-200">
     <!-- Encabezado -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 p-2">
       <h4 class="text-2xl font-semibold text-gray-800 dark:text-white">
@@ -46,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (data of debts.value()?.data; track data.id) {
+          @for (data of filteredDebts(); track data.id) {
            @for (item of data.amortizations; track item.number_months) {
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{item.number_months}}</td>
@@ -162,4 +161,4 @@
       }
     </div>
   </div>
-  
+}

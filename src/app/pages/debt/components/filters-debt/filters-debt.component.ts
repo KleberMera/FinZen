@@ -26,20 +26,22 @@ export class FiltersDebtComponent {
     name: string;
   }>();
 
-  protected readonly nameFilter = signal<string>('');
+  protected readonly nameFilter = signal<string| null>(null);
 
   protected readonly uniqueNames = computed(() => {
     return [...new Set(this.debts().map((t) => t.name))];
   });
 
-  protected readonly types = ['Ingreso', 'Gasto'];
+ // protected readonly types = ['Ingreso', 'Gasto'];
 
   constructor() {
     // Observar cambios en los filtros y emitirlos
     effect(() => {
-      this.filterChange.emit({
-        name: this.nameFilter(),
-      });
+      if (this.nameFilter() !== null) {
+        this.filterChange.emit({
+          name: this.nameFilter() as string,
+        });
+      }
     });
 
     document.addEventListener('click', (event: Event) => {
