@@ -23,10 +23,7 @@ export class ListDebtComponent {
     inject(StorageService).getUserId()
   );
   readonly totalMonths = signal<number>(0);
-  ngOnInit() {
-    //const amortizations = this.formData().get('amortizations')?.value || [];
-    // this.totalMonths.set(amortizations.length);
-  }
+
   readonly debts = rxResource({
     request: () => ({ userId: this.seletedUser() }),
     loader: ({ request }) => this._debtService.getDebtsByUserId(request.userId),
@@ -35,10 +32,15 @@ export class ListDebtComponent {
   onFilterChange(newFilters: { name: string }) {
     this.filters.set(newFilters);
     this.selectedDebt.set(true);
+    const data = this.debts.value()?.data || [];
+    const amortizations =
+      data.find((d) => d.name === newFilters.name)?.amortizations || [];
+
+    this.totalMonths.set(amortizations.length);
   }
 
   protected readonly filteredDebts = computed(() => {
-    const debts = this.debts.value()?.data ?? [];
+    const debts = this.debts.value()?.data?? [];
     return debts.filter((trans) => {
       const matchName =
         this.filters().name === '' ||

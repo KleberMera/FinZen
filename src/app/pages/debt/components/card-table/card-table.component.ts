@@ -1,6 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, input, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Debt } from '@models/debt';
 
 @Component({
   selector: 'app-card-table',

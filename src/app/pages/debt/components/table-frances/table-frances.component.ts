@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { addMonth, format } from '@formkit/tempo';
 import { MethodService } from '../../services/method.service';
 import { CardTableComponent } from "../card-table/card-table.component";
+import { Debt } from '@models/debt';
 
 @Component({
   selector: 'table-frances',
