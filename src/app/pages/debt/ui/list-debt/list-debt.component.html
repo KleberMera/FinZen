@@ -1,164 +1,174 @@
-<filters-debt
-  [debts]="debts.value()?.data ?? []"
-  (filterChange)="onFilterChange($event)"
-></filters-debt>
-
+<filters-debt [debts]="debts.value()?.data ?? []" (filterChange)="onFilterChange($event)"></filters-debt>
 @if (selectedDebt()) {
-  <div class="bg-white dark:bg-gray-800  transition-colors duration-200">
+<div class="mb-7 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+  <div class="bg-white dark:bg-gray-800 transition-colors duration-200">
     <!-- Encabezado -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 p-2">
       <h4 class="text-2xl font-semibold text-gray-800 dark:text-white">
         Tabla de Amortización
       </h4>
-      
+
       <!-- Barra de búsqueda -->
       <div class="mt-4 md:mt-0 w-full md:w-auto">
         <div class="relative">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <input 
-            type="text" 
-            class="block w-full md:w-80 p-2 pl-10 text-sm text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg 
-                   bg-gray-50 dark:bg-gray-700 
-                   focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600" 
-            placeholder="Buscar por fecha..."
-          >
+          <input type="text"
+            class="block w-full md:w-80 p-2 pl-10 text-sm text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600"
+            placeholder="Buscar por fecha..." />
         </div>
       </div>
     </div>
-  
+
     <!-- Vista Desktop (Tabla) - Se oculta en móvil -->
     <div class="hidden md:block relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left">
         <thead class="text-xs uppercase bg-gray-100 dark:bg-gray-700">
           <tr>
-            <th scope="col" class="px-6 py-4 text-gray-800 dark:text-gray-200">Nº Mes</th>
-            <th scope="col" class="px-6 py-4 text-gray-800 dark:text-gray-200">Fecha</th>
-            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">Cuota</th>
-            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">Interés</th>
-            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">Amortización</th>
-            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">Saldo Pendiente</th>
-            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">Estado</th>
+            <th scope="col" class="px-6 py-4 text-gray-800 dark:text-gray-200">
+              Nº Mes
+            </th>
+            <th scope="col" class="px-6 py-4 text-gray-800 dark:text-gray-200">
+              Fecha
+            </th>
+            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
+              Cuota
+            </th>
+            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
+              Interés
+            </th>
+            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
+              Amortización
+            </th>
+            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
+              Saldo Pendiente
+            </th>
+            <th scope="col" class="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
+              Estado
+            </th>
           </tr>
         </thead>
         <tbody>
-          @for (data of filteredDebts(); track data.id) {
-           @for (item of data.amortizations; track item.number_months) {
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{item.number_months}}</td>
-                <td class="px-6 py-4 text-gray-700 dark:text-gray-300">{{item.date | date:'dd/MM/yyyy'}}</td>
-                <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">{{item.quota | currency : "USD" : "symbol" : "1.2-2"}}</td>
-                <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">{{item.interest | currency : "USD" : "symbol" : "1.2-2"}}</td>
-                <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">{{item.amortized | currency : "USD" : "symbol" : "1.2-2"}}</td>
-                <td class="px-6 py-4 text-right font-medium text-gray-900 dark:text-white">{{item.outstanding | currency : "USD" : "symbol" : "1.2-2"}}</td>
-                <td class="px-6 py-4 text-right font-medium text-gray-900 dark:text-white">
-                    <span [class]="
-                          item.status === 'Pagado'
-                            ? 'px-2 py-1 rounded text-green-600 dark:text-green-400 font-medium'
-                            : 'px-2 py-1 rounded text-red-600 dark:text-red-400 font-medium'
-                        ">
-                      {{ item.status }}
-                    </span>
-                  </td>
-              </tr>
-           }
-          }
+          @for (data of filteredDebts(); track data.id) { @for (item of
+          data.amortizations; track item.number_months) {
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+              {{ item.number_months }}
+            </td>
+            <td class="px-6 py-4 text-gray-700 dark:text-gray-300">
+              {{ item.date | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">
+              {{ item.quota | currency : "USD" : "symbol" : "1.2-2" }}
+            </td>
+            <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">
+              {{ item.interest | currency : "USD" : "symbol" : "1.2-2" }}
+            </td>
+            <td class="px-6 py-4 text-right text-gray-700 dark:text-gray-300">
+              {{ item.amortized | currency : "USD" : "symbol" : "1.2-2" }}
+            </td>
+            <td class="px-6 py-4 text-right font-medium text-gray-900 dark:text-white">
+              {{ item.outstanding | currency : "USD" : "symbol" : "1.2-2" }}
+            </td>
+            <td class="px-6 py-4 text-right font-medium text-gray-900 dark:text-white">
+              <span [class]="
+                  item.status === 'Pagado'
+                    ? 'px-2 py-1 rounded text-green-600 dark:text-green-400 font-medium'
+                    : 'px-2 py-1 rounded text-red-600 dark:text-red-400 font-medium'
+                ">
+                {{ item.status }}
+              </span>
+            </td>
+          </tr>
+          } }
         </tbody>
       </table>
     </div>
-  
+
     <div class="md:hidden space-y-3">
-        @for (data of debts.value()?.data; track data.id) {
-            @for (item of data.amortizations; track item.number_months) {
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-            <!-- Encabezado con gradiente -->
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3">
-              <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                  <span class="text-white text-lg font-bold">
-                    Mes {{item.number_months}}
-                  </span>
-                  <span class="bg-blue-400/30 text-white text-xs px-2 py-1 rounded-full">
-                    {{item.date | date:'dd/MM/yyyy'}}
-                  </span>
-                </div>
-                <div class="flex items-center">
-                  <span class="text-xs text-blue-100">Cuota mensual</span>
-                  <span class="ml-2 text-white font-bold">
-                    {{item.quota | currency : "USD" : "symbol" : "1.2-2"}}
-                  </span>
-                </div>
+      @for (data of debts.value()?.data; track data.id) { @for (item of
+      data.amortizations; track item.number_months) {
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <!-- Encabezado con gradiente -->
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+              <span class="text-white text-lg font-bold">
+                Mes {{ item.number_months }}
+              </span>
+              <span class="bg-blue-400/30 text-white text-xs px-2 py-1 rounded-full">
+                {{ item.date | date : "dd/MM/yyyy" }}
+              </span>
+            </div>
+            <div class="flex items-center">
+              <span class="text-xs text-blue-100">Cuota mensual</span>
+              <span class="ml-2 text-white font-bold">
+                {{ item.quota | currency : "USD" : "symbol" : "1.2-2" }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="p-4">
+          <!-- Grid de Información -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Interés -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                Interés
+              </div>
+              <div class="text-gray-900 dark:text-white font-semibold mt-1">
+                {{ item.interest | currency : "USD" : "symbol" : "1.2-2" }}
               </div>
             </div>
-      
-            <!-- Contenido Principal -->
-            <div class="p-4">
-              <!-- Grid de Información -->
-              <div class="grid grid-cols-2 gap-4">
-                <!-- Interés -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Interés</div>
-                  <div class="text-gray-900 dark:text-white font-semibold mt-1">
-                    {{item.interest | currency : "USD" : "symbol" : "1.2-2"}}
-                  </div>
-                </div>
-      
-                <!-- Amortización -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Amortización</div>
-                  <div class="text-gray-900 dark:text-white font-semibold mt-1">
-                    {{item.amortized | currency : "USD" : "symbol" : "1.2-2"}}
-                  </div>
+
+            <!-- Amortización -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                Amortización
+              </div>
+              <div class="text-gray-900 dark:text-white font-semibold mt-1">
+                {{ item.amortized | currency : "USD" : "symbol" : "1.2-2" }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Saldo Pendiente -->
+          <div class="mt-4 border-t dark:border-gray-700 pt-4">
+            <div class="flex justify-between items-center">
+              <div>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  Saldo Pendiente
+                </span>
+                <div class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
+                  {{ item.outstanding | currency : "USD" : "symbol" : "1.2-2" }}
                 </div>
               </div>
-      
-              <!-- Saldo Pendiente -->
-              <div class="mt-4 border-t dark:border-gray-700 pt-4">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">
-                      Saldo Pendiente
-                    </span>
-                    <div class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
-                      {{item.outstanding | currency : "USD" : "symbol" : "1.2-2"}}
-                    </div>
-                  </div>
-                  <!-- Indicador de Progreso -->
-                  <div class="w-16 h-16 relative">
-                    <svg class="w-16 h-16 transform -rotate-90">
-                      <circle
-                        class="text-gray-200 dark:text-gray-700"
-                        stroke-width="4"
-                        stroke="currentColor"
-                        fill="transparent"
-                        r="28"
-                        cx="32"
-                        cy="32"
-                      />
-                      <circle
-                        class="text-blue-500 dark:text-blue-400"
-                        stroke-width="4"
-                        stroke="currentColor"
-                        fill="transparent"
-                        r="28"
-                        cx="32"
-                        cy="32"
-                        
-                      />
-                    </svg>
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-medium text-gray-600 dark:text-gray-300">
-                      {{(item.number_months/totalMonths() * 100).toFixed(0)}}%
-                    </div>
-                  </div>
+              <!-- Indicador de Progreso -->
+              <div class="w-16 h-16 relative">
+                <svg class="w-16 h-16 transform -rotate-90">
+                  <circle class="text-gray-200 dark:text-gray-700" stroke-width="4" stroke="currentColor"
+                    fill="transparent" r="28" cx="32" cy="32" />
+                  <circle class="text-blue-500 dark:text-blue-400" stroke-width="4" stroke="currentColor"
+                    fill="transparent" r="28" cx="32" cy="32" />
+                </svg>
+                <div
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-medium text-gray-600 dark:text-gray-300">
+                  {{ ((item.number_months / totalMonths()) * 100).toFixed(0) }}%
                 </div>
               </div>
             </div>
           </div>
-       } 
-      }
+        </div>
+      </div>
+      } }
     </div>
   </div>
+</div>
 }
