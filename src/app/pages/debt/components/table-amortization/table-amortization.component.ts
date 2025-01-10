@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
+import {Component, computed, effect, inject, input, signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MethodService } from '../../services/method.service';
@@ -19,43 +13,33 @@ import { Debt } from '@models/debt';
 })
 export class TableAmortizationComponent {
   readonly totalMonths = signal<number>(0);
-  readonly formData = input.required<FormGroup>();
-  readonly filters = input<Debt>();
+  readonly formData = input<FormGroup>();
+  readonly filters = input<Debt[]>();
 
   private readonly _methodService = inject(MethodService);
 
-  // Computed para manejar los datos que se mostrarán
   protected readonly datos = computed(() => {
-    // Si viene de configuración directa, usamos esos datos
     if (this.filters()) {
-      return this.filters()!.amortizations;
+      return this.filters()![0].amortizations;
     }
-    // Si viene del formulario, usamos los datos de amortización
+
     return this.formData()?.get('amortizations')?.value || [];
   });
 
-  // Computed para determinar si mostrar el estado
-  /* protected readonly mostrarEstado = computed(() => {
-    return this.configuracion()?.mostrarEstado ?? false;
-  });*/
-
   constructor() {
-    // Effect solo para el caso del formulario
     effect(() => {
-      // Solo ejecutamos si tenemos formData
       if (this.formData()) {
         const method = this.formData()!.get('method')?.value;
         if (method === 'frances') {
           this._methodService.calculateFrenchAmortization(this.formData()!);
-          const amortizations =
-            this.formData().get('amortizations')?.value || [];
-          this.totalMonths.set(amortizations.length);
+          this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
         } else {
           this._methodService.calculateGermanAmortization(this.formData()!);
-          const amortizations =
-            this.formData().get('amortizations')?.value || [];
-          this.totalMonths.set(amortizations.length);
+          this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
         }
+      } else {
+        const data = this.filters()![0].amortizations;
+        this.totalMonths.set(data.length);
       }
     });
   }
