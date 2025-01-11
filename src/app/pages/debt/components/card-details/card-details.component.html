@@ -1,14 +1,129 @@
 @for (item of debts(); track $index) {
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
-  <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-    {{ item.description }}
-  </h4>
-  <p class="text-gray-600 dark:text-gray-400">
-    Fecha Inicial: {{ item.start_date | date : "dd/MM/yyyy" }}
-    <br />
-    Fecha Final: {{ item.end_date | date : "dd/MM/yyyy" }}
-  </p>
-
-  <p>Monto: {{ item.amount| currency : "USD" : "symbol" : "1.2-2" }}</p>
-</div>
-}
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-6 hover:shadow-xl transition-all duration-300">
+    <!-- Header con badge de estado y monto -->
+    <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+      <div class="flex-1">
+        <div class="flex items-center gap-3">
+          <h4 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+            {{ item.name }}
+          </h4>
+          <span class="px-3 py-1 rounded-full text-xs sm:text-sm font-medium" 
+                [class]="item.status === 'Pendiente' ? 
+                  'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' : 
+                  'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'">
+            {{ item.status }}
+          </span>
+        </div>
+        @if (item.description) {
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">
+          {{ item.description }}
+        </p>
+        }
+      </div>
+      <div class="w-full sm:w-auto bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+        <p class="text-xs text-gray-500 dark:text-gray-400">Monto Total del Préstamo</p>
+        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+          {{ item.amount | currency : "USD" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+    </div>
+  
+    <!-- Información principal en grid responsivo -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
+        <p class="text-xs text-gray-500 dark:text-gray-400">Tasa de Interés</p>
+        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          {{ item.interest_rate }}%
+        </p>
+      </div>
+      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
+        <p class="text-xs text-gray-500 dark:text-gray-400">Duración</p>
+        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          {{ item.duration_months }} meses
+        </p>
+      </div>
+      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
+        <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Inicio</p>
+        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          {{ item.start_date | date : "dd/MM/yyyy" }}
+        </p>
+      </div>
+      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
+        <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Fin</p>
+        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+          {{ item.end_date | date : "dd/MM/yyyy" }}
+        </p>
+      </div>
+    </div>
+  
+    <!-- Estado de pagos con indicadores visuales -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-100 dark:border-green-900/30">
+        <div class="flex items-center gap-2">
+          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-green-500"></span>
+          <p class="text-xs text-green-600 dark:text-green-400">Total Pagado</p>
+        </div>
+        <p class="text-lg font-bold text-green-700 dark:text-green-300 mt-1">
+          {{ getTotalPagado(item) | currency : "USD" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-900/30">
+        <div class="flex items-center gap-2">
+          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-yellow-500"></span>
+          <p class="text-xs text-yellow-600 dark:text-yellow-400">Por Pagar</p>
+        </div>
+        <p class="text-lg font-bold text-yellow-700 dark:text-yellow-300 mt-1">
+          {{ getTotalPorPagar(item) | currency : "USD" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+      <div class="relative bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-100 dark:border-red-900/30">
+        <div class="flex items-center gap-2">
+          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-red-500"></span>
+          <p class="text-xs text-red-600 dark:text-red-400">Cuotas Atrasadas</p>
+        </div>
+        <p class="text-lg font-bold text-red-700 dark:text-red-300 mt-1">
+          {{ getCuotasAtrasadas(item) }}
+          <span class="text-sm font-normal">cuota(s)</span>
+        </p>
+        @if (getCuotasAtrasadas(item) > 0) {
+        <span class="absolute top-2 right-2 flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+        </span>
+        }
+      </div>
+    </div>
+  
+    <!-- Barra de progreso mejorada -->
+    <div class="mb-4">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600 dark:text-gray-400">Progreso de pagos</span>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
+            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ getPagadas(item) }}/{{ item.duration_months }}
+            </span>
+          </div>
+          <span class="text-sm text-gray-500">
+            ({{ (getPagadas(item) / item.duration_months * 100).toFixed(1) }}%)
+          </span>
+        </div>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" 
+             [style.width]="(getPagadas(item) / item.duration_months * 100) + '%'">
+        </div>
+      </div>
+    </div>
+  
+    <!-- Método de pago -->
+    <div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+      <span>Método de pago: <span class="font-medium">{{ item.method | titlecase }}</span></span>
+    </div>
+  </div>
+  }
