@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
 import { LockComponent } from '@icons/lock/lock.component';
+import { FirebaseService } from '../services/firebase.service';
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
@@ -24,10 +25,12 @@ export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 })
 export class LoginComponent {
   private readonly _authService = inject(AuthService);
+  private readonly _firebaseService = inject(FirebaseService);
   private readonly _router = inject(Router);
   private readonly _validationService = inject(FormValidationService);
   protected form = this._authService.formLogin();
   readonly isSubmitting = signal<boolean>(false);
+  readonly showPassword = signal<boolean>(false);
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
@@ -52,6 +55,16 @@ export class LoginComponent {
         this.isSubmitting.set(false);
       },
       error: (error) => {
+        this.isSubmitting.set(false);
+      },
+    });
+  }
+
+  async loginWithGoogle() {
+    (await this._firebaseService.loginWithGoogle()).subscribe({
+      next: (res) => {
+        toast.success(res.message);
+        this._router.navigate(['home']);
         this.isSubmitting.set(false);
       },
     });

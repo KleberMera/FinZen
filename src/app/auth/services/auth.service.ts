@@ -30,7 +30,7 @@ export class AuthService {
     return form;
   }
 
-  login(user: User) {
+  login(user: User): Observable<apiResponse<User>> {
     const url = `${environment.apiUrl}/auth/login`;
     return this._http.post<apiResponse<User>>(url, user).pipe(
       tap((res) => {
