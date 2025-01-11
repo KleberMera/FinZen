@@ -60,6 +60,7 @@ export class SidebarItemsComponent {
           label: 'Listado',
           route: 'transacciones-listado',
         },
+
       ],
     },
     {
@@ -74,6 +75,10 @@ export class SidebarItemsComponent {
         {
           label: 'Listado',
           route: 'deudas-listado',
+        },
+        {
+          label: 'Pagar',
+          route: 'deudas-pagar',
         },
       ],
     },
