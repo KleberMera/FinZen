@@ -20,5 +20,6 @@ export class ViewDesktopComponent {
   
   readonly total = computed(() =>
     this._transactionService.getTotal(this.filteredTransactions())
+    
   );
 }

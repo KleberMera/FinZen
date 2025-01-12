@@ -8,9 +8,9 @@
   (filterChange)="onFilterChange($event)"
 ></filters-transaction>
 @if (isMobile$ | async) {
-<ng-container *ngTemplateOutlet="mobileView"></ng-container>
+<ng-container [ngTemplateOutlet]="mobileView"></ng-container>
 } @else {
-<ng-container *ngTemplateOutlet="desktopView"></ng-container>
+<ng-container [ngTemplateOutlet]="desktopView"></ng-container>
 } }
 <!-- Template para vista Desktop -->
 <ng-template #desktopView>

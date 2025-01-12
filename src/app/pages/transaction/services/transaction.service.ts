@@ -44,16 +44,23 @@ export class TransactionService {
   getTotalType(transactions: Transaction[]) {
     const ingresos = transactions
       .filter((t) => t.category?.type === 'Ingreso')
-      .reduce((sum, t) => sum + (t.amount || 0), 0);
+      .reduce((sum, t) => sum + Number(t.amount) || 0, 0);
 
     const gastos = transactions
       .filter((t) => t.category?.type !== 'Ingreso')
-      .reduce((sum, t) => sum + (t.amount || 0), 0);
+      .reduce((sum, t) => sum + Number(t.amount) || 0, 0);
+
 
     return ingresos >= gastos ? 'Ingreso' : 'Gasto';
   }
 
+
   getTotal(transactions: Transaction[]) {
-    return transactions.reduce((sum, t) => sum + (t.amount || 0), 0);
+
+    const total = transactions
+      .reduce((sum, t) => sum + Number(t.amount) || 0, 0);
+    console.log(total);
+    return total;
   }
+    
 }
