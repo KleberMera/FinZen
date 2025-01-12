@@ -4,14 +4,21 @@
       <li>
         <a 
           [routerLink]="item.route" 
-          [routerLinkActive]="item.activeClass || ''"
+          routerLinkActive="bg-primary-50/50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
           (click)="onItemClick()"
-          class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+          class="flex items-center p-2.5 text-base font-medium text-gray-700 rounded-lg dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-800/60 group transition-all duration-300 hover:shadow-sm relative overflow-hidden"
         >
+          <!-- Efecto de resplandor en hover -->
+          <div class="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/5 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          
           @if (item.icon) {
-            <ng-container *ngComponentOutlet="item.icon" />
+            <div class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+              <ng-container *ngComponentOutlet="item.icon" />
+            </div>
           }
-          <span class="flex-1 ml-3 whitespace-nowrap">{{ item.label }}</span>
+          <span class="relative z-10 flex-1 ml-3 whitespace-nowrap group-hover:translate-x-0.5 transition-transform duration-300">
+            {{ item.label }}
+          </span>
         </a>
       </li>
     } @else if (item.type === 'dropdown') {
@@ -20,14 +27,21 @@
           <button 
             type="button" 
             (click)="toggleDropdown(item.label)"
-            class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-300 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+            class="flex items-center p-2.5 w-full text-base font-medium text-gray-700 dark:text-gray-300 rounded-lg transition-all duration-300 group hover:bg-white/60 dark:hover:bg-gray-800/60 hover:shadow-sm relative overflow-hidden"
           >
+            <!-- Efecto de resplandor en hover -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/5 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
             @if (item.icon) {
-              <ng-container *ngComponentOutlet="item.icon" />
+              <div class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                <ng-container *ngComponentOutlet="item.icon" />
+              </div>
             }
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ item.label }}</span>
+            <span class="relative z-10 flex-1 ml-3 text-left whitespace-nowrap group-hover:translate-x-0.5 transition-transform duration-300">
+              {{ item.label }}
+            </span>
             <svg 
-              class="w-5 h-5 transition-transform duration-300" 
+              class="relative z-10 w-5 h-5 text-gray-500 dark:text-gray-400 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400" 
               [class.rotate-180]="isDropdownOpen()(item.label)"
               fill="none" 
               stroke="currentColor" 
@@ -37,20 +51,28 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
+          
           @if (isDropdownOpen()(item.label)) {
-            <ul class="py-2 space-y-2 pl-4 animate-fade-in">
+            <ul class="py-2 space-y-1 pl-4 mt-1 animate-[slideDown_0.2s_ease-out]">
               @for (subItem of item.subItems; track subItem.label) {
                 <li>
                   <a 
                     [routerLink]="subItem.route" 
-                    routerLinkActive="bg-gray-100 dark:bg-gray-700"
+                    routerLinkActive="bg-primary-50/50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
                     (click)="onItemClick()"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center p-2.5 w-full text-sm font-medium text-gray-600 dark:text-gray-400 rounded-lg transition-all duration-300 group hover:bg-white/60 dark:hover:bg-gray-800/60 relative overflow-hidden"
                   >
+                    <!-- Efecto de resplandor en hover -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/5 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
                     @if (subItem.icon) {
-                      <ng-container *ngComponentOutlet="subItem.icon" />
+                      <div class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                        <ng-container *ngComponentOutlet="subItem.icon" />
+                      </div>
                     }
-                    {{ subItem.label }}
+                    <span class="relative z-10 ml-3 group-hover:translate-x-0.5 transition-transform duration-300">
+                      {{ subItem.label }}
+                    </span>
                   </a>
                 </li>
               }

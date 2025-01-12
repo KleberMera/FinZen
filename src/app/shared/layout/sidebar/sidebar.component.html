@@ -1,16 +1,31 @@
 <aside
-      [class.translate-x-0]="isOpen()"
-      [class.-translate-x-full]="!isOpen()"
-      class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-    >
-      <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
-        <app-sidebar-items (itemSelected)="onItemSelected()" />
-      </div>
-    </aside>
+  [class.translate-x-0]="isOpen()"
+  [class.-translate-x-full]="!isOpen()"
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform duration-300 bg-white/80 backdrop-blur-xl border-r border-gray-200/50 md:translate-x-0 dark:bg-gray-900/80 dark:border-gray-700/50 shadow-[5px_0_30px_-15px_rgba(0,0,0,0.1)]"
+>
+  <div class="overflow-y-auto py-5 px-3 h-full bg-gradient-to-b from-white/50 to-white/30 dark:from-gray-800/50 dark:to-gray-800/30">
+    <!-- Efecto de resplandor superior -->
+    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary-500/5 to-transparent pointer-events-none"></div>
     
-    @if (isOpen()) {
-      <div 
-        class="fixed inset-0 bg-gray-900 bg-opacity-50 z-30 md:hidden"
-        (click)="closeSidebar">
-      </div>
-    }
+    <!-- Contenedor del contenido con efecto de scroll personalizado -->
+    <div class="relative z-10">
+      <app-sidebar-items 
+        (itemSelected)="onItemSelected()" 
+        class="space-y-1"
+      />
+    </div>
+    
+    <!-- Efecto de resplandor inferior -->
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-500/5 to-transparent pointer-events-none"></div>
+  </div>
+</aside>
+
+@if (isOpen()) {
+  <div 
+    class="fixed inset-0 backdrop-blur-sm bg-gray-900/50 z-30 md:hidden transition-all duration-300"
+    (click)="closeSidebar"
+  >
+    <!-- Efecto de resplandor radial al hacer click -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+  </div>
+}

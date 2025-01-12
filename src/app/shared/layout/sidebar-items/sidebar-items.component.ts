@@ -38,7 +38,7 @@ export class SidebarItemsComponent {
       label: 'Overview',
       icon: OverviewComponent,
       route: 'dashboard',
-      activeClass: 'bg-gray-100 dark:bg-gray-700',
+      //activeClass: 'bg-gray-100 dark:bg-gray-700',
     },
     {
       type: 'link',
