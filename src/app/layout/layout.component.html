@@ -8,6 +8,19 @@
     (closeSidebar)="closeSidebar()"
   ></app-sidebar>
   <!-- Sidebar -->
-  <main class="p-4 md:ml-64 h-auto pt-20">
-    <router-outlet />
+  <main class="relative transition-all duration-300 p-4 md:ml-64 min-h-screen pt-20">
+    <!-- Efecto de resplandor en las esquinas -->
+    <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary-500/5 rounded-full blur-3xl"></div>
+    
+    <!-- Grid pattern de fondo -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-5 dark:opacity-[0.07] pointer-events-none"></div>
+
+    <!-- Contenedor del contenido principal -->
+    <div class="relative z-10 max-w-7xl mx-auto">
+      <!-- Backdrop blur para el contenido -->
+      <div class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md rounded-l shadow-lg border border-white/20 dark:border-gray-700/20 p-6">
+        <router-outlet />
+      </div>
+    </div>
   </main>
