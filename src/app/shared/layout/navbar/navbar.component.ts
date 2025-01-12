@@ -8,7 +8,7 @@ import { BarsDrawComponent } from "../../icons/bars-draw/bars-draw.component";
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, LogoComponent],
+  imports: [RouterLink, LogoComponent, BarsDrawComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
