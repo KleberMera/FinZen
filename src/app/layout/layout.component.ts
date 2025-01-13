@@ -11,7 +11,7 @@ import { filter } from 'rxjs';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export default class LayoutComponent {
+export class LayoutComponent {
   sidebarOpen = signal(false);
   private router = inject(Router);
 
