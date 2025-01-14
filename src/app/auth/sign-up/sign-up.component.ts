@@ -5,10 +5,11 @@ import { AuthService } from '../services/auth.service';
 import { LogoComponent } from '../../shared/icons/logo/logo.component';
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
+import { GoogleComponent } from "../icons/google/google.component";
 
 @Component({
   selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule, LogoComponent],
+  imports: [RouterLink, ReactiveFormsModule, GoogleComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })

@@ -1,145 +1,156 @@
-<!-- signup.component.html -->
-<section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center py-4">
-  <div class="w-full max-w-4xl">
-    <!-- Contenedor principal con diseño flexible -->
-    <div class="bg-white rounded-lg shadow-lg dark:bg-gray-800 flex flex-col md:flex-row">
+<section
+  class="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-5xl mx-auto">
+    <div
+      class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl dark:bg-gray-800/90 flex flex-col md:flex-row overflow-hidden">
+      <!-- Columna del logotipo - Mejorada para tablets y desktop -->
+      <div
+        class="hidden md:flex md:w-5/12 lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 items-center justify-center p-8 relative">
+        <!-- Efecto de fondo con degradado -->
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-950/20 to-blue-400/20"></div>
 
-      <!-- Columna del logotipo (opcional, para escritorio) -->
-      <div class="hidden md:flex md:w-1/2 bg-gray-700 items-center justify-center">
-        <div class="text-center text-white">
-          <logo-app class="mx-auto mb-4 w-32 h-32"></logo-app>
-          <h2 class="text-2xl font-bold">Bienvenido a FinZenApp</h2>
-          <p class="mt-2">Administra tus finanzas con tranquilidad</p>
+        <div class="relative text-center text-white space-y-6">
+          <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/authentication/illustration.svg" alt="logo"
+            class="mx-auto w-72 h-72 lg:w-80 lg:h-80 animate-float" />
+          <div class="space-y-3">
+            <h2 class="text-3xl lg:text-4xl font-bold">Bienvenido a FinZenApp</h2>
+            <p class="text-lg text-gray-300 max-w-md mx-auto">
+              Administra tus finanzas con tranquilidad y toma el control de tu futuro financiero
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="w-full md:w-1/2 p-6 space-y-4 md:space-y-6 sm:p-8">
-        <div class="flex items-center justify-center mb-6">
-          <img class="w-8 h-8 mr-2" src="logo.svg" alt="logo" />
-          <span class="text-2xl font-semibold text-gray-900 dark:text-white">
+      <!-- Formulario - Mejorado para todos los dispositivos -->
+      <div class="w-full md:w-7/12 lg:w-1/2 p-6 md:p-8 lg:p-12 space-y-6">
+        <!-- Logo para móvil - Mejorado -->
+        <div class="flex items-center justify-center mb-8 md:mb-6">
+          <img class="w-12 h-12 mr-3" src="logo.svg" alt="logo" />
+          <span
+            class="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
             FinZenApp
           </span>
         </div>
 
         <h1
-          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+          class="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-8">
           Crear una cuenta
         </h1>
 
-        <form class="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-3" [formGroup]="form()" (ngSubmit)="saveUser()">
-          <!-- Email - Ocupa columnas completas en móvil y la mitad en escritorio -->
-          <div class="md:col-span-2">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Email
-            </label>
-            <input type="email" formControlName="email" id="email" placeholder="nombre@example.com"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
-            @if (isFieldInvalid('email')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('email') }}
-            </p>
-            }
-          </div>
+        <!-- Botón de Google - Mejorado -->
+        <div class="space-y-6">
+          <button type="button"
+            class="group w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-white font-semibold py-3.5 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+            <app-google></app-google>
+            <span class="text-base">Continuar con Google</span>
+          </button>
 
-          <!-- Nombre -->
-          <div>
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <div class="flex items-center gap-4">
+            <hr class="flex-grow border-gray-200 dark:border-gray-700" />
+            <span class="text-sm text-gray-500 dark:text-gray-400 font-medium">o regístrate con</span>
+            <hr class="flex-grow border-gray-200 dark:border-gray-700" />
+          </div>
+        </div>
+
+        <!-- Formulario - Campos mejorados -->
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-5" [formGroup]="form()" (ngSubmit)="saveUser()">
+          <!-- Input compartido para todos los campos -->
+          <div class="space-y-1.5">
+            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Nombres
             </label>
-            <input type="text" formControlName="name" id="name" placeholder="Tu nombre"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            <input type="text" formControlName="name" id="name" placeholder="Tus nombre"
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
             @if (isFieldInvalid('name')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('name') }}
-            </p>
+            <p class="text-xs text-red-500 mt-1">{{ getErrorMessage('name') }}</p>
             }
           </div>
-
-          <!-- Apellido -->
-          <div>
-            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <div class="space-y-1.5">
+            <label for="last_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Apellidos
             </label>
-            <input type="text" formControlName="last_name" id="last_name" placeholder="Tu apellido"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+            <input type="text" formControlName="last_name" id="last_name" placeholder="Tus apellido"
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
             @if (isFieldInvalid('last_name')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('last_name') }}
-            </p>
+            <p class="text-xs text-red-500 mt-1">{{ getErrorMessage('name') }}</p>
             }
           </div>
 
-          <!-- Contraseña -->
-          <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Contraseña
-            </label>
-            <input type="password" formControlName="password" id="password" placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
-            @if (isFieldInvalid('password')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('password') }}
-            </p>
-            }
-          </div>
 
-          <!-- Confirmar Contraseña -->
-          <div>
-            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Confirmar contraseña
-            </label>
-            <input type="password" id="confirm_password" formControlName="confirm_password" placeholder="••••••••"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
-            @if (isFieldInvalid('confirm_password')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('confirm_password') }}
-            </p>
-            }
-          </div>
 
           <!-- Nombre de Usuario -->
-          <div>
-            <label for="user" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <div class="space-y-1.5">
+            <label for="user" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Usuario
             </label>
             <input type="text" formControlName="user" id="user" placeholder="Identificador único"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
             @if (isFieldInvalid('user')) {
-            <p class="mt-1 text-xs text-red-500">
+            <p class="text-xs text-red-500 mt-1">
               {{ getErrorMessage('user') }}
             </p>
             }
           </div>
 
           <!-- Usuario -->
-          <div>
-            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          <div class="space-y-1.5">
+            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Teléfono
             </label>
             <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono "
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
             @if (isFieldInvalid('phone')) {
-            <p class="mt-1 text-xs text-red-500">
+            <p class="text-xs text-red-500 mt-1">
               {{ getErrorMessage('phone') }}
             </p>
             }
           </div>
 
+          <!-- Contraseña -->
+          <div class="space-y-1.5">
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Contraseña
+            </label>
+            <input type="password" formControlName="password" id="password" placeholder="••••••••"
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
+            @if (isFieldInvalid('password')) {
+            <p class="text-xs text-red-500 mt-1">
+              {{ getErrorMessage('password') }}
+            </p>
+            }
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="space-y-1.5">
+            <label for="confirm-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Confirmar contraseña
+            </label>
+            <input type="password" id="confirm_password" formControlName="confirm_password" placeholder="••••••••"
+              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
+            @if (isFieldInvalid('confirm_password')) {
+            <p class="text-xs text-red-500 mt-1">
+              {{ getErrorMessage('confirm_password') }}
+            </p>
+            }
+          </div>
 
 
-          <!-- Botón de registro - Ocupa columnas completas -->
-          <div class="md:col-span-2">
+          <!-- Aplicar el mismo patrón de estilo a los demás inputs -->
+
+          <!-- Botón de registro - Mejorado -->
+          <div class="md:col-span-2 mt-4">
             <button type="submit"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-              Crear
+              class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 focus:ring-4 focus:ring-blue-500/50">
+              Crear cuenta
             </button>
           </div>
 
-          <!-- Enlace de inicio de sesión - Ocupa columnas completas -->
-          <div class="md:col-span-2 text-center">
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+          <!-- Enlace de inicio de sesión - Mejorado -->
+          <div class="md:col-span-2 text-center mt-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
               ¿Ya tienes una cuenta?
-              <a routerLink="" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
+              <a routerLink=""
+                class="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline transition-colors duration-200">
                 Iniciar sesión aquí
               </a>
             </p>
@@ -149,19 +160,3 @@
     </div>
   </div>
 </section>
-
-
-
-<!-- Teléfono - Ocupa columnas completas en móvil y escritorio
-          <div class="md:col-span-2">
-            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Teléfono
-            </label>
-            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono"
-              class="w-full p-2.5 text-sm rounded-lg border bg-gray-50 dark:bg-gray-700 dark:text-white" />
-            @if (isFieldInvalid('phone')) {
-            <p class="mt-1 text-xs text-red-500">
-              {{ getErrorMessage('phone') }}
-            </p>
-            }
-          </div> -->
