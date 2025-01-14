@@ -13,6 +13,9 @@ export class AppComponent {
   title = 'FinZen';
 
   ngOnInit(): void {
+    //Modo Oscuro por defecto
+    document.documentElement.classList.add('dark');
     initFlowbite();
+    
   }
 }
