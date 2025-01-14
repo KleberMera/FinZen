@@ -37,4 +37,30 @@ export class FirebaseService {
       throw error;
     }
   }
+
+
+
+  // Método para registro con Google
+async signUpWithGoogle() {
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(this._auth, provider);
+    const idToken = await result.user.getIdToken();
+    const url = `${environment.apiUrl}/firebase/signup`;
+    
+    return this._http.post<apiResponse<User>>(url, { idToken }).pipe(
+      tap((res) => {
+        this._storage.set(this.keyUser(), res.data);
+        this._storage.set(this.keyAccessToken(), res.access_token);
+      })
+    );
+  } catch (error) {
+    console.error('Error en registro con Google:', error);
+    throw error;
+  }
+}
+
+
+
+  
 }

@@ -20,12 +20,13 @@ import { EyeComponent } from "../icons/eye/eye.component";
 import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
 import { SpinnerComponent } from "../icons/spinner/spinner.component";
 import { SignComponent } from "../icons/sign/sign.component";
+import { LoadingGoogleComponent } from "../components/loading-google/loading-google.component";
 
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [IconsApp, RouterLink, ReactiveFormsModule, CommonModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent],
+  imports: [IconsApp, RouterLink, ReactiveFormsModule, CommonModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +39,7 @@ export class LoginComponent {
   protected form = this._authService.formLogin();
   readonly isSubmitting = signal<boolean>(false);
   readonly showPassword = signal<boolean>(false);
+  readonly isGoogleLoading = signal(false);
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
@@ -68,11 +70,16 @@ export class LoginComponent {
   }
 
   async loginWithGoogle() {
+    this.isGoogleLoading.set(true);
     (await this._firebaseService.loginWithGoogle()).subscribe({
       next: (res) => {
         toast.success(res.message);
         this._router.navigate(['home']);
         this.isSubmitting.set(false);
+        this.isGoogleLoading.set(false);
+      },
+      error: (error) => {
+        this.isGoogleLoading.set(false);
       },
     });
   }

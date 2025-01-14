@@ -2,21 +2,24 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { LogoComponent } from '../../shared/icons/logo/logo.component';
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
 import { GoogleComponent } from "../icons/google/google.component";
+import { FirebaseService } from '../services/firebase.service';
+import { LoadingGoogleComponent } from "../components/loading-google/loading-google.component";
 
 @Component({
   selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule, GoogleComponent],
+  imports: [RouterLink, ReactiveFormsModule, GoogleComponent, LoadingGoogleComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
 export class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
+  private readonly _firebaseService = inject(FirebaseService);
   protected form = this._authService.formUser();
+  readonly isGoogleLoading = signal(false);
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
     return this._validationService.getErrorMessage(
@@ -65,5 +68,18 @@ export class SignUpComponent {
     const last_name = this.form().value.last_name;
     const username = name.split(' ').join('') + last_name.split(' ').join('');
     return username;
+  }
+
+
+  async signUpWithGoogle() {
+    this.isGoogleLoading.set(true);
+    (await this._firebaseService.signUpWithGoogle()).subscribe({
+      next: (res) => {
+        toast.success(res.message);
+      },
+      error: (error) => {
+        this.isGoogleLoading.set(false);
+      },
+    });
   }
 }
