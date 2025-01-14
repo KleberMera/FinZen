@@ -14,11 +14,18 @@ import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
 import { LockComponent } from '@icons/lock/lock.component';
 import { FirebaseService } from '../services/firebase.service';
+import { UserCicleIconComponent } from "../icons/user-cicle-icon/user-cicle-icon.component";
+import { GoogleComponent } from "../icons/google/google.component";
+import { EyeComponent } from "../icons/eye/eye.component";
+import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
+import { SpinnerComponent } from "../icons/spinner/spinner.component";
+import { SignComponent } from "../icons/sign/sign.component";
+
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [IconsApp, RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [IconsApp, RouterLink, ReactiveFormsModule, CommonModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

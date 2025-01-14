@@ -1,9 +1,9 @@
-<section class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-  <div class="flex min-h-screen">
+<section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+  <div class="flex ">
     <!-- Panel izquierdo - Ilustración -->
     <div class="hidden lg:flex lg:w-1/2 bg-primary-50 dark:bg-gray-800 flex-col items-center justify-center p-30">
       <!-- Contenido anterior... -->
-      <img src="desktop2.svg" alt="logo"  />
+      <img src="desktop2.svg" alt="logo" />
     </div>
 
     <!-- Panel derecho - Formulario -->
@@ -11,7 +11,8 @@
       <div class="w-full max-w-md">
         <!-- Logo y título -->
         <div class="flex flex-col items-center mb-8">
-          <div class="w-16 h-16 md:w-20 md:h-20 mb-4 transform hover:scale-105 transition-transform duration-300 text-primary-600">
+          <div
+            class="w-16 h-16 md:w-20 md:h-20 mb-4 transform hover:scale-105 transition-transform duration-300 text-primary-600">
             <logo-app></logo-app>
           </div>
           <span class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -26,18 +27,16 @@
           </h1>
 
           <!-- Botón de Google -->
-          <button 
-           (click)="loginWithGoogle()"
-          type="button" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 border border-gray-300 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
-            <svg class="w-5 h-5" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-              <path fill="#4285f4" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-            </svg>
+          <button (click)="loginWithGoogle()" type="button"
+            class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-600 hover:text-white text-gray-700 font-semibold py-3 px-4 border border-gray-300 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+            <app-google></app-google>
             Continuar con Google
           </button>
 
           <div class="relative flex items-center justify-center">
             <div class="absolute w-full border-t border-gray-300 dark:border-gray-600"></div>
-            <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400">O inicia sesión con</span>
+            <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400">O inicia
+              sesión con</span>
           </div>
 
           <!-- Formulario -->
@@ -50,142 +49,102 @@
               <div class="relative">
                 <!-- Contenedor específico para input e ícono -->
                 <div class="relative">
-                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
-                    
-                    
+                  <span
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                    <app-user-cicle-icon></app-user-cicle-icon>
                   </span>
-                  <input 
-                    type="text" 
-                    name="user" 
-                    id="user" 
-                    formControlName="user"
+                  <input type="text" name="user" id="user" formControlName="user"
                     class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
-                    [class.border-red-500]="isFieldInvalid('user')"
-                    placeholder="Ingresa tu usuario" 
-                  />
+                    [class.border-red-500]="isFieldInvalid('user')" placeholder="Ingresa tu usuario" />
                 </div>
                 @if (isFieldInvalid('user')) {
-                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
                 }
               </div>
             </div>
 
             <!-- Campo Contraseña -->
-             <div class="relative">
+            <div class="relative">
               <label for="password" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
                 Contraseña
               </label>
               <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
-                  </svg>
-                  
-                  
+                <span
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <lock-icon></lock-icon>
+
                 </span>
-                <input 
-                  [type]="showPassword() ? 'text' : 'password'"
-                  name="password" 
-                  id="password" 
+                <input [type]="showPassword() ? 'text' : 'password'" name="password" id="password"
                   formControlName="password"
                   class="w-full pl-10 pr-12 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
-                  [class.border-red-500]="isFieldInvalid('password')"
-                  placeholder="••••••••" 
-                />
-                <button 
-                  type="button"
-                  (click)="showPassword.set(!showPassword())"
-                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                >
+                  [class.border-red-500]="isFieldInvalid('password')" placeholder="••••••••" />
+                <button type="button" (click)="showPassword.set(!showPassword())"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                   @if (showPassword()) {
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
-                    
+                  <app-eye-slash />
                   } @else {
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
-                      <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                    </svg>
-                    
+                  <app-eye />
                   }
                 </button>
-                
+
               </div>
               @if (isFieldInvalid('password')) {
-                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("password") }}</p>
-                }
-             </div>
+              <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("password") }}</p>
+              }
+            </div>
             <div>
-             
+
             </div>
 
             <!-- Opciones adicionales -->
             <div class="flex items-center justify-between flex-wrap gap-2">
               <div class="flex items-center">
-                <input 
-                  id="remember" 
-                  type="checkbox"
-                  class="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 transition duration-150" 
-                />
+                <input id="remember" type="checkbox"
+                  class="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 transition duration-150" />
                 <label for="remember" class="ml-2 text-sm text-gray-600 dark:text-gray-300">
                   Recordarme
                 </label>
               </div>
-              <a 
-                routerLink="forgot-password" 
-                class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1"
-              >
-                
+              <a routerLink="forgot-password"
+                class="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1">
+
                 ¿Olvidaste tu contraseña?
               </a>
             </div>
 
             <!-- Botón submit -->
-            <button 
-              type="submit" 
-              [disabled]="form().invalid || isSubmitting()"
-              class="w-full py-3 px-4 rounded-xl font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
-            >
+            <button type="submit" [disabled]="form().invalid || isSubmitting()"
+              class="w-full py-3 px-4 rounded-xl font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
               @if (isSubmitting()) {
-                <svg class="animate-spin w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.4 2.6L12 12"/>
-                </svg>
-                Iniciando Sesión...
+              <app-spinner></app-spinner>
+              Iniciando Sesión...
               } @else {
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
-                </svg>
-                Iniciar Sesión
+              <app-sign></app-sign>
+              Iniciar Sesión
               }
             </button>
 
-           <!-- Link de registro -->
-           <div class="text-center">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              ¿No tienes una cuenta?
-              <a 
-                routerLink="sign-up" 
-                class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1"
-              >
-                
-                Regístrate aquí
-              </a>
-            </p>
-          </div>
-        </form>
-      </div>
+            <!-- Link de registro -->
+            <div class="text-center">
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                ¿No tienes una cuenta?
+                <a routerLink="sign-up"
+                  class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1">
 
-      <!-- Footer -->
-      <div class="text-center mt-6">
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          © 2024 FinZenApp. Todos los derechos reservados.
-        </p>
+                  Regístrate aquí
+                </a>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6">
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            © 2024 FinZenApp. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </section>

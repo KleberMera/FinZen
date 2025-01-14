@@ -16,7 +16,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 //import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '@environments/environment';
+import { environment } from '@environments/environment.development';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     //provideFirestore(() => getFirestore()),
