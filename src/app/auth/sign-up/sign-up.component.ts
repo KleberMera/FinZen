@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
@@ -18,6 +18,7 @@ export class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
   private readonly _firebaseService = inject(FirebaseService);
+  private readonly _router = inject(Router);  
   protected form = this._authService.formUser();
   readonly isGoogleLoading = signal(false);
   // Helper methods para la validación
@@ -76,6 +77,8 @@ export class SignUpComponent {
     (await this._firebaseService.signUpWithGoogle()).subscribe({
       next: (res) => {
         toast.success(res.message);
+        this._router.navigate(['auth']);
+       
       },
       error: (error) => {
         this.isGoogleLoading.set(false);
