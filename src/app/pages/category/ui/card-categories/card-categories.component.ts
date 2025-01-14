@@ -7,11 +7,12 @@ import { ModalCategoryComponent } from '../modal-category/modal-category.compone
 import { ModalCategoryDeleteComponent } from '../modal-category-delete/modal-category-delete.component';
 import { LoaderComponent } from '@components/loader/loader.component';
 import { CardSkeletonComponent } from "../../components/card-skeleton/card-skeleton.component";
+import { HeaderCategoryComponent } from '../../components/header-category/header-category.component';
 
 export const Modals = [ModalCategoryComponent, ModalCategoryDeleteComponent];
 @Component({
   selector: 'flowbite-categories',
-  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent],
+  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent, HeaderCategoryComponent],
   templateUrl: './card-categories.component.html',
   styleUrl: './card-categories.component.scss',
 })

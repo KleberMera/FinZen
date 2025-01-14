@@ -16,6 +16,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 //import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from '@environments/environment';
 export const appConfig: ApplicationConfig = {
   providers: [
     //provideFirestore(() => getFirestore()),
@@ -29,15 +30,7 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideFirebaseApp(() =>
-      initializeApp({
-        apiKey: 'AIzaSyCzisdNiu6Q2L6vvs5mFvcSWelZVZWOuaU',
-        authDomain: 'finzen-7e19c.firebaseapp.com',
-        projectId: 'finzen-7e19c',
-        storageBucket: 'finzen-7e19c.firebasestorage.app',
-        messagingSenderId: '119155339545',
-        appId: '1:119155339545:web:de2efa367f9ac3c15dd588',
-        measurementId: 'G-BZNEC94VVF',
-      })
+      initializeApp(environment.firebaseConfig)
     ),
   ],
 };
