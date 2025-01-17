@@ -26,7 +26,7 @@ export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [IconsApp, RouterLink, ReactiveFormsModule, CommonModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent],
+  imports: [IconsApp, RouterLink, ReactiveFormsModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

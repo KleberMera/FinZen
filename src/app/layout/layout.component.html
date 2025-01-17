@@ -1,13 +1,6 @@
-
-  <app-navbar
-    [sidebarOpen]="sidebarOpen()"
-    (toggleSidebar)="toggleSidebar()"
-  ></app-navbar>
-  <app-sidebar
-    [isOpen]="sidebarOpen()"
-    (closeSidebar)="closeSidebar()"
-  ></app-sidebar>
-  <!-- Sidebar -->
-  <main class="p-4 md:ml-64 h-auto pt-20">
-    <router-outlet />
-  </main>
+<app-navbar [sidebarOpen]="sidebarOpen()" (toggleSidebar)="toggleSidebar()"></app-navbar>
+<app-sidebar [isOpen]="sidebarOpen()" (closeSidebar)="closeSidebar()"></app-sidebar>
+<!-- Sidebar -->
+<main class="p-4 md:ml-64 h-auto pt-20">
+  <router-outlet />
+</main>
