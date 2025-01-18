@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -6,15 +6,18 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class BreakpointService {
 
-  private isMobile = new BehaviorSubject<boolean>(window.innerWidth < 768);
+  private readonly screenWidth = signal<number>(window.innerWidth);
+  readonly isMobile = computed(() => this.screenWidth() < 768);
 
   constructor() {
+    // Usar el addEventListener moderno con options
     window.addEventListener('resize', () => {
-      this.isMobile.next(window.innerWidth < 768);
-    });
-  }
+      this.screenWidth.set(window.innerWidth);
+    }, { passive: true });
 
-  isMobileView(): Observable<boolean> {
-    return this.isMobile.asObservable();
+    // Opcional: Efecto para debugging
+    effect(() => {
+      console.debug('[ScreenService] isMobile:', this.isMobile());
+    }, { allowSignalWrites: true });
   }
 }

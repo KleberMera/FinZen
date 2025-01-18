@@ -21,7 +21,7 @@ export interface Filters {
 
 @Component({
   selector: 'table-transaction',
-  imports: [AsyncPipe, NgTemplateOutlet, AppComponent],
+  imports: [NgTemplateOutlet, AppComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
@@ -29,7 +29,7 @@ export class TableTransactionComponent {
 
   private readonly _transactionService = inject(TransactionService);
   private readonly seletedUser = signal<number>(inject(StorageService).getUserId());
-  public readonly isMobile$ = inject(BreakpointService).isMobileView();
+  public readonly _screenService = inject(BreakpointService);
   protected readonly filters = signal<Filters>({ category: '', name: '', type: '' });
 
   transactions = rxResource<apiResponse<Transaction[]>, { userId: number }>({
