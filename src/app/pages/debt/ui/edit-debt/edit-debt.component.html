@@ -1,1 +1,53 @@
-<h1>DSKDASJDHK</h1>
+<div class="container mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @if (debts.value(); as debtResponse) {
+        @for (debt of debtResponse.data; track debt.id) {
+          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-5">
+              <!-- Título de la deuda -->
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {{ debt.name }}
+              </h5>
+  
+              <!-- Contenido de la deuda -->
+              <div class="mb-3 space-y-2">
+                <!-- Monto -->
+                <p class="flex justify-between items-center text-gray-700 dark:text-gray-300">
+                  <span class="font-semibold">Monto:</span>
+                  <span>${{ debt.amount }}</span>
+                </p>
+  
+                <!-- Duración -->
+                <p class="flex justify-between items-center text-gray-700 dark:text-gray-300">
+                  <span class="font-semibold">Duración:</span>
+                  <span>{{ debt.duration_months }} meses</span>
+                </p>
+  
+                <!-- Fecha de inicio -->
+                <p class="flex justify-between items-center text-gray-700 dark:text-gray-300">
+                  <span class="font-semibold">Fecha inicio:</span>
+                  <span>{{ debt.start_date | date:'dd/MM/yyyy' }}</span>
+                </p>
+  
+                <!-- Estado -->
+                <p class="mt-4">
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                    {{ debt.status }}
+                  </span>
+                </p>
+              </div>
+  
+              <!-- Botón (opcional) -->
+              <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                Ver detalles
+              </button>
+            </div>
+          </div>
+        } @empty {
+          <div class="col-span-full text-center p-4 text-gray-500 dark:text-gray-400">
+            No hay deudas registradas
+          </div>
+        }
+      } 
+    </div>
+  </div>

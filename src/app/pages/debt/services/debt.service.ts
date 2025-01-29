@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
+import { Amortization } from '@models/amortization';
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { Observable } from 'rxjs';
@@ -48,6 +49,16 @@ export class DebtService {
   getDebtsByUserId(userId: number): Observable<apiResponse<Debt[]>> {
     const url = `${environment.apiUrl}/debt/user/${userId}`;
     return this._http.get<apiResponse<Debt[]>>(url);
+  }
+
+  getDebtsByUserIdDebt(userId: number): Observable<apiResponse<Debt[]>> {
+    const url = `${environment.apiUrl}/debt/user/${userId}/debt`;
+    return this._http.get<apiResponse<Debt[]>>(url);
+  }
+
+  getAmortizationsByDebtId(debtId: number): Observable<apiResponse<Amortization[]>> {
+    const url = `${environment.apiUrl}/debt/amortizations/${debtId}`;
+    return this._http.get<apiResponse<Amortization[]>>(url);
   }
 
   createDebt(data: Debt): Observable<apiResponse<Debt>> {

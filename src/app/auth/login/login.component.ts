@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
-import { CommonModule } from '@angular/common';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
 import { LockComponent } from '@icons/lock/lock.component';
