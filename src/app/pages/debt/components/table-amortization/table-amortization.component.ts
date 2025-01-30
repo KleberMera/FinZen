@@ -43,4 +43,15 @@ export class TableAmortizationComponent {
       }
     });
   }
+
+  protected calculateProgress(currentMonth: number, totalMonths: number): string {
+    const circumference = 2 * Math.PI * 35; // radio = 35
+    const percent = currentMonth / totalMonths;
+    const offset = circumference * (1 - percent);
+    return `${circumference} ${offset}`;
+  }
+
+  protected calculateTotal(field: 'quota' | 'interest' | 'amortized'): number {
+    return this.datos().reduce((sum: any, item: any) => sum + item[field], 0);
+  }
 }
