@@ -8,11 +8,14 @@ import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DebtSearchComponent } from '../../components/debt-search/debt-search.component';
 import { DebtCardComponent } from '../../components/debt-card/debt-card.component';
-import { SkeletonDebtsComponent } from "../../components/skeleton-debts/skeleton-debts.component";
+import { SkeletonDebtsComponent } from '../../components/skeleton-debts/skeleton-debts.component';
+import { Amortization } from '@models/amortization';
+import { AmortizationViewComponent } from "../../components/amortization-view/amortization-view.component";
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-debt',
-  imports: [FormsModule, DebtSearchComponent, DebtCardComponent],
+  imports: [FormsModule, DebtSearchComponent, DebtCardComponent, AmortizationViewComponent],
   templateUrl: './edit-debt.component.html',
   styleUrl: './edit-debt.component.scss',
 })
@@ -22,6 +25,8 @@ export class EditDebtComponent {
     inject(StorageService).getUserId()
   );
   readonly searchTerm = signal('');
+  selectedDebt = signal<Debt | null>(null);
+  amortizations = signal<Amortization[]>([]);
 
   readonly debts = rxResource<apiResponse<Debt[]>, { userId: number }>({
     request: () => ({ userId: this.seletedUser() }),
@@ -50,4 +55,37 @@ export class EditDebtComponent {
       ),
     };
   });
+
+  async onDebtSelect(debt: Debt) {
+    this._debtService.getAmortizationsByDebtId(debt.id!).subscribe(
+      {
+        next: (response) => {
+          this.amortizations.set(response.data!);
+          this.selectedDebt.set(debt);
+        },
+        error: (error) => {
+          console.error('Error al cargar amortizaciones:', error);
+        }
+      }
+    );
+  }
+
+  protected async onUpdateAmortizations(event: {debtId: number, amortizationIds: number[]}) {
+    console.log('Actualizar amortizaciones:', event);
+    
+    try {
+      // Aquí iría tu llamada al servicio para actualizar los estados
+      // await this._debtService.updateAmortizationStatus(event.debtId, event.amortizationIds);
+      
+      // Recargar las amortizaciones
+     
+    } catch (error) {
+      console.error('Error al actualizar amortizaciones:', error);
+    }
+  }
+
+  protected onBack() {
+    this.selectedDebt.set(null);
+    this.amortizations.set([]);
+  }
 }
