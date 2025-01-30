@@ -18,6 +18,6 @@ export class BreakpointService {
     // Opcional: Efecto para debugging
     effect(() => {
       console.debug('[ScreenService] isMobile:', this.isMobile());
-    }, { allowSignalWrites: true });
+    });
   }
 }

@@ -8,6 +8,8 @@ import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { SkeletonDebtsComponent } from "../../components/skeleton-debts/skeleton-debts.component";
 import { CardDetailsComponent } from "../../components/card-details/card-details.component";
+import { BreakpointService } from '@services/breakpoint.service';
+import { CardAmortizationComponent } from "../../components/card-amortization/card-amortization.component";
 
 export interface Filter {
   name: string;
@@ -15,7 +17,7 @@ export interface Filter {
 
 @Component({
   selector: 'app-list-debt',
-  imports: [FiltersDebtComponent, TableAmortizationComponent, SkeletonDebtsComponent, CardDetailsComponent],
+  imports: [FiltersDebtComponent, TableAmortizationComponent, SkeletonDebtsComponent, CardDetailsComponent, CardAmortizationComponent],
   templateUrl: './list-debt.component.html',
   styleUrl: './list-debt.component.scss',
 })
@@ -24,7 +26,7 @@ export class ListDebtComponent {
   protected readonly filters = signal<Filter>({ name: '' });
   protected readonly selectedDebt = signal<boolean>(false);
   private readonly seletedUser = signal<number>(inject(StorageService).getUserId());
- 
+   public readonly _screenService = inject(BreakpointService);
   readonly debts = rxResource<apiResponse<Debt[]>, { userId: number }>({
     request: () => ({ userId: this.seletedUser() }),
     loader: ({ request }) => this._debtService.getDebtsByUserId(request.userId),

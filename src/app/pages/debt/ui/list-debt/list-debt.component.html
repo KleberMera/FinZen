@@ -12,6 +12,12 @@
   <app-card-details [debts]="filteredDebts()"></app-card-details>
 <div class="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
   
-  <app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
+  @if (_screenService.isMobile()) {
+    <app-card-amortization
+      [filters]="filteredDebts()"
+    ></app-card-amortization>
+  } @else {
+    <app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
+  }
 </div>
 } }

@@ -199,5 +199,11 @@
  
 </div>
 @if (isData()) {
-  <app-table-amortization [formData]="this.form()"></app-table-amortization>
+  @if (_screenService.isMobile()) {
+    <app-card-amortization
+    [formData]="this.form()"
+  ></app-card-amortization>
+  } @else {
+    <app-table-amortization [formData]="this.form()"></app-table-amortization>
+  }
 }

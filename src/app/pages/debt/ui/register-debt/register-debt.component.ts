@@ -6,16 +6,19 @@ import { addMonth, format } from '@formkit/tempo';
 import { toast } from 'ngx-sonner';
 import { StorageService } from '@services/storage.service';
 import { TableAmortizationComponent } from "../../components/table-amortization/table-amortization.component";
+import { BreakpointService } from '@services/breakpoint.service';
+import { CardAmortizationComponent } from "../../components/card-amortization/card-amortization.component";
 
 @Component({
   selector: 'app-register-debt',
-  imports: [ReactiveFormsModule, TableAmortizationComponent],
+  imports: [ReactiveFormsModule, TableAmortizationComponent, CardAmortizationComponent],
   templateUrl: './register-debt.component.html',
   styleUrl: './register-debt.component.scss',
 })
 export class RegisterDebtComponent {
   private readonly _debtService = inject(DebtService);
   protected readonly seletedUser = signal<number>(inject(StorageService).getUserId());
+  public readonly _screenService = inject(BreakpointService);
   private readonly _validationService = inject(FormValidationService);
   readonly form = this._debtService.formDebt();
   protected readonly isSubmitting = signal(false);
