@@ -21,7 +21,7 @@ export class AmortizationViewComponent {
   onUpdateStatus = output<{debtId: number, amortizationIds: number[]}>();
 
   selectedIds = signal<number[]>([]);
-
+  statusSortDirection = signal<'asc' | 'desc'>('asc');
   protected onCheckboxChange(id: number) {
     const currentIds = this.selectedIds();
     if (currentIds.includes(id)) {
@@ -29,5 +29,25 @@ export class AmortizationViewComponent {
     } else {
       this.selectedIds.set([...currentIds, id]);
     }
+  }
+
+  protected sortedAmortizations() {
+    return [...this.amortizations()].sort((a, b) => {
+      // Primero ordenamos por number_months
+      const monthsOrder = a.number_months - b.number_months;
+      
+      // Si hay un ordenamiento por estado activo
+      const statusOrder = this.statusSortDirection() === 'asc' 
+        ? a.status.localeCompare(b.status)
+        : b.status.localeCompare(a.status);
+      
+      return statusOrder || monthsOrder;
+    });
+  }
+
+  protected toggleStatusSort() {
+    this.statusSortDirection.update(current => 
+      current === 'asc' ? 'desc' : 'asc'
+    );
   }
 }
