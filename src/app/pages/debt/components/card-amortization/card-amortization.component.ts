@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Debt } from '@models/debt';
 import { MethodService } from '../../services/method.service';
@@ -24,9 +24,28 @@ export class CardAmortizationComponent {
 
     return this.formData()?.get('amortizations')?.value || [];
   });
-
+  
+ constructor() {
+    effect(() => {
+      if (this.formData()) {
+        const method = this.formData()!.get('method')?.value;
+        if (method === 'frances') {
+          this._methodService.calculateFrenchAmortization(this.formData()!);
+          this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
+        } else {
+          this._methodService.calculateGermanAmortization(this.formData()!);
+          this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
+        }
+      } else {
+        const data = this.filters()![0].amortizations;
+        this.totalMonths.set(data.length);
+      }
+    });
+  }
 
   protected calculateProgress(currentMonth: number, totalMonths: number): string {
+    console.log(this.datos().length);
+    
     const circumference = 2 * Math.PI * 35; // radio = 35
     const percent = currentMonth / totalMonths;
     const offset = circumference * (1 - percent);
