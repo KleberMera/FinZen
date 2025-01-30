@@ -72,6 +72,8 @@ export class EditDebtComponent {
 
   protected async onUpdateAmortizations(event: {debtId: number, amortizationIds: number[]}) {
     console.log('Actualizar amortizaciones:', event);
+    this.debts.reload();
+    this.onBack();
     
     try {
       // Aquí iría tu llamada al servicio para actualizar los estados
