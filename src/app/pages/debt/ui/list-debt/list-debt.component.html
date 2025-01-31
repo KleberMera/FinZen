@@ -10,7 +10,7 @@
 
 @if (selectedDebt()) {
   <app-card-details [debts]="filteredDebts()"></app-card-details>
-<div class="mb-5 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+<div class="">
   
   @if (_screenService.isMobile()) {
     <app-card-amortization
