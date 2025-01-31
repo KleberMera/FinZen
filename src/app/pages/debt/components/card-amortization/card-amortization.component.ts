@@ -18,11 +18,12 @@ export class CardAmortizationComponent {
   private readonly _methodService = inject(MethodService);
 
   protected readonly datos = computed(() => {
-    if (this.filters()) {
-      return this.filters()![0].amortizations;
-    }
-
-    return this.formData()?.get('amortizations')?.value || [];
+    const rawData = this.filters() 
+      ? this.filters()![0].amortizations 
+      : this.formData()?.get('amortizations')?.value || [];
+  
+    // Ordenar por número de mes
+    return [...rawData].sort((a, b) => a.number_months - b.number_months);
   });
   
  constructor() {
