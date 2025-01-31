@@ -11,7 +11,6 @@ export interface Debt {
     method: string;
     start_date: string;
     end_date: string;
-    //fixedDay: boolean;
     status: string;
     amortizations: Amortization[];
   }

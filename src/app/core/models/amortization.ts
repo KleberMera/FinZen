@@ -8,3 +8,9 @@ export interface Amortization {
   outstanding: number;
   status: string;
 }
+
+// Primero crea la interfaz del DTO (en tu archivo de interfaces)
+export interface UpdateStatusDto {
+  ids: number[];
+  status: 'Pagado' | 'Pendiente'; // Ajusta los valores según tus necesidades
+}

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
-import { Amortization } from '@models/amortization';
+import { Amortization, UpdateStatusDto } from '@models/amortization';
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { Observable } from 'rxjs';
@@ -64,6 +64,15 @@ export class DebtService {
   createDebt(data: Debt): Observable<apiResponse<Debt>> {
     const url = `${environment.apiUrl}/debt`;
     return this._http.post<apiResponse<Debt>>(url, data);
+  }
+
+  updateDebtStatus(debtId: number, updateData: UpdateStatusDto): Observable<apiResponse<Debt>> {
+    console.log('updateData', updateData);
+    console.log('debtId', debtId);
+    
+    
+    const url = `${environment.apiUrl}/debt/update-status/${debtId}`;
+    return this._http.put<apiResponse<Debt>>(url, updateData);
   }
 
 

@@ -9,9 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { DebtSearchComponent } from '../../components/debt-search/debt-search.component';
 import { DebtCardComponent } from '../../components/debt-card/debt-card.component';
 import { SkeletonDebtsComponent } from '../../components/skeleton-debts/skeleton-debts.component';
-import { Amortization } from '@models/amortization';
+import { Amortization, UpdateStatusDto } from '@models/amortization';
 import { AmortizationViewComponent } from "../../components/amortization-view/amortization-view.component";
 import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-edit-debt',
@@ -70,20 +71,25 @@ export class EditDebtComponent {
     );
   }
 
-  protected async onUpdateAmortizations(event: {debtId: number, amortizationIds: number[]}) {
-    console.log('Actualizar amortizaciones:', event);
-    this.debts.reload();
-    this.onBack();
+   async onUpdateAmortizations(event: {debtId: number, amortizationIds: number[]}) {
     
-    try {
-      // Aquí iría tu llamada al servicio para actualizar los estados
-      // await this._debtService.updateAmortizationStatus(event.debtId, event.amortizationIds);
-      
-      // Recargar las amortizaciones
-     
-    } catch (error) {
-      console.error('Error al actualizar amortizaciones:', error);
-    }
+    const updateDto: UpdateStatusDto = {
+      ids: event.amortizationIds.map(id => Number(id)), // Conversión segura
+      status: 'Pagado'
+    };
+
+    this._debtService.updateDebtStatus(event.debtId, updateDto).subscribe(
+      {
+        next: (response) => {
+          console.log('Amortizaciones actualizadas:', response);
+          this.onBack();
+          this.debts.reload();
+          toast.success('Pagos actualizados correctamente');
+          //this.onDebtSelect(this.selectedDebt());
+        }
+      }
+    );
+   
   }
 
   protected onBack() {
