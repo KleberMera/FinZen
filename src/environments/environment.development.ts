@@ -1,6 +1,6 @@
 export const environment = {
-  apiUrl : 'http://localhost:3000/api',
-  //apiUrl: 'https://finzenapirest.onrender.com/api',
+  //apiUrl : 'http://localhost:3000/api',
+  apiUrl: 'https://finzenapirest.onrender.com/api',
   firebaseConfig: {
     apiKey: 'AIzaSyCzisdNiu6Q2L6vvs5mFvcSWelZVZWOuaU',
     authDomain: 'finzen-7e19c.firebaseapp.com',
