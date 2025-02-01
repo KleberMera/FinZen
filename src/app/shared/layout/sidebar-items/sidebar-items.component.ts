@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, output, signal, Type } fr
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BookComponent } from '@icons/book/book.component';
 import { CashIconComponent } from '@icons/cash-icon/cash-icon.component';
+import { CashRegisterIconComponent } from '@icons/cash-register-icon/cash-register-icon.component';
 import { OverviewComponent } from '@icons/overview/overview.component';
 import { TagComponent } from '@icons/tag/tag.component';
 
@@ -80,6 +81,18 @@ export class SidebarItemsComponent {
           label: 'Pagar',
           route: 'deudas-pagar',
         },
+      ],
+    },
+    {
+      type: 'dropdown',
+      label: 'Metas',
+      icon: CashRegisterIconComponent,
+      subItems: [
+        {
+          label: 'Nueva Meta',
+          route: 'metas',
+        },
+               
       ],
     },
   ]);
