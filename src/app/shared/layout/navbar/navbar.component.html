@@ -2,7 +2,6 @@
   <div class="flex flex-wrap justify-between items-center relative">
     <!-- Efecto de resplandor sutíl -->
     <div class="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-transparent to-primary-500/10 dark:from-primary-400/10 dark:to-primary-400/10 blur-xl opacity-50"></div>
-    
     <div class="flex justify-start items-center gap-3 z-10">
       <button 
         (click)="toggleSidebar.emit()"
@@ -16,16 +15,16 @@
       <a routerLink="dashboard" class="flex items-center gap-3 group">
         <div class="relative">
           <!-- Reemplazamos logo-app por un logo temporal -->
-          <div class="w-8 h-8 rounded-lg  text-white font-bold transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+          <div class="w-8 h-8 rounded-lg  text-white font-bold transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
            <logo-app></logo-app>
           </div>
           <!-- Efecto de brillo detrás del logo -->
-          <div class="absolute inset-0 bg-primary-500/20 rounded-lg blur-md transform scale-110 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+          <div class="absolute inset-0 bg-primary-500/20 rounded-lg blur-md transform scale-110 opacity-0 group-hover:opacity-100 transition-transform duration-300"></div>
         </div>
         <span class="self-center text-xl font-semibold whitespace-nowrap text-gray-800 dark:text-white transition-colors duration-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 relative">
           FinZenApp
           <!-- Línea de subrayado animada -->
-          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500/50 group-hover:w-full transition-all duration-300"></span>
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500/50 group-hover:w-full transition-transform duration-300"></span>
         </span>
       </a>
     </div>

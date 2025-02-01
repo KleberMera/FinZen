@@ -10,7 +10,7 @@
       @if (item.icon) {
       <div
         class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-        <ng-container *ngComponentOutlet="item.icon" />
+        <ng-container [ngComponentOutlet]="item.icon" />
       </div>
       }
       <span
@@ -32,7 +32,7 @@
         @if (item.icon) {
         <div
           class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-          <ng-container *ngComponentOutlet="item.icon" />
+          <ng-container [ngComponentOutlet]="item.icon" />
         </div>
         }
         <span
@@ -63,7 +63,7 @@
             @if (subItem.icon) {
             <div
               class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-              <ng-container *ngComponentOutlet="subItem.icon" />
+              <ng-container [ngComponentOutlet]="subItem.icon" />
             </div>
             }
             <span class="relative z-10 ml-3 group-hover:translate-x-0.5 transition-transform duration-300">

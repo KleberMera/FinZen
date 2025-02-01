@@ -1,11 +1,11 @@
 <aside
   [class.translate-x-0]="isOpen()"
   [class.-translate-x-full]="!isOpen()"
-  class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform backdrop-blur-xl border-r border-gray-200/50 md:translate-x-0 dark:bg-gray-900/80 dark:border-gray-700/50"
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform  will-change-transform backdrop-blur-xl border-r border-gray-200/50 md:translate-x-0 dark:bg-gray-900/80 dark:border-gray-700/50"
 >
   <div class="overflow-y-auto py-5 px-3 h-full bg-gradient-to-b from-white/50 to-white/30 dark:from-gray-800/50 dark:to-gray-800/30">
     <!-- Efecto de resplandor superior -->
-    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary-500/5 to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary-500/5 to-transparent pointer-events-none backdrop-blur-lg md:backdrop-blur-xl"></div>
     
     <!-- Contenedor del contenido con efecto de scroll personalizado -->
 
