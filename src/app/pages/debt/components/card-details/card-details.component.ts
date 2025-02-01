@@ -1,5 +1,6 @@
-import { AsyncPipe, CurrencyPipe, DatePipe, NgFor, TitleCasePipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
+import { format } from '@formkit/tempo';
 import { Debt } from '@models/debt';
 
 @Component({
@@ -30,11 +31,15 @@ export class CardDetailsComponent {
       .reduce((sum, a) => sum + Number(a.quota), 0);
   }
 
-  // Método para obtener cuotas atrasadas
+  // Método para obtener el total de cuotas atrasadas
   protected getCuotasAtrasadas(debt: Debt): number {
-    const today = new Date();
+    const today = format(new Date(), 'YYYY-MM-DD');
+    console.log(today);
+
     return debt.amortizations.filter((a) => {
-      const fechaCuota = new Date(a.date);
+      const fechaCuota = format(new Date(a.date), 'YYYY-MM-DD');
+      console.log(fechaCuota);
+
       return a.status === 'Pendiente' && fechaCuota < today;
     }).length;
   }
