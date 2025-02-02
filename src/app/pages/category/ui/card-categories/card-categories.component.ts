@@ -8,11 +8,12 @@ import { ModalCategoryDeleteComponent } from '../modal-category-delete/modal-cat
 import { LoaderComponent } from '@components/loader/loader.component';
 import { CardSkeletonComponent } from "../../components/card-skeleton/card-skeleton.component";
 import { HeaderCategoryComponent } from '../../components/header-category/header-category.component';
+import { NgClass, NgFor } from '@angular/common';
 
 export const Modals = [ModalCategoryComponent, ModalCategoryDeleteComponent];
 @Component({
   selector: 'flowbite-categories',
-  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent, HeaderCategoryComponent],
+  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent, HeaderCategoryComponent, NgFor, NgClass],
   templateUrl: './card-categories.component.html',
   styleUrl: './card-categories.component.scss',
 })

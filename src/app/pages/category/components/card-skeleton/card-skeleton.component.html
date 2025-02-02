@@ -1,46 +1,61 @@
 <div class="animate-pulse">
-    <!-- Skeleton del Header -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 mt-4">
-      <!-- Lado izquierdo del header -->
-      <div class="flex items-center gap-4 mb-4 sm:mb-0">
-        <!-- Skeleton del ícono -->
-        <div class="h-14 w-14 rounded-xl bg-gray-200 dark:bg-gray-700"></div>
-        <!-- Skeleton del título y subtítulo -->
-        <div class="space-y-2">
-          <div class="h-8 w-48 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
-          <div class="h-4 w-32 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
-        </div>
+  <!-- Skeleton del Header mejorado -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 mt-4">
+    <div class="flex items-center gap-4 mb-4 sm:mb-0">
+      <!-- Icono con gradiente simulado -->
+      <div class="h-14 w-14 rounded-xl bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-700 dark:to-gray-600"></div>
+      <div class="space-y-2">
+        <div class="h-8 w-48 rounded-lg bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700"></div>
+        <div class="h-4 w-36 rounded-lg bg-gray-100 dark:bg-gray-700/80"></div>
       </div>
-      <!-- Skeleton del contador -->
-      <div class="h-12 w-32 rounded-xl bg-gray-200 dark:bg-gray-700"></div>
     </div>
-  
-    <!-- Grid de Skeletons para las cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Repetimos 6 skeleton cards -->
-      @for (item of [1,2,3,4,5,6]; track item) {
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <!-- Barra superior del skeleton -->
-          <div class="h-2 bg-gray-200 dark:bg-gray-700"></div>
-          
-          <div class="p-6">
-            <!-- Contenedor superior -->
-            <div class="flex items-start gap-4 mb-6">
-              <!-- Skeleton del ícono -->
-              <div class="h-14 w-14 rounded-xl bg-gray-200 dark:bg-gray-700 flex-shrink-0"></div>
-              <!-- Skeleton del título -->
-              <div class="flex-1 space-y-3">
-                <div class="h-6 w-3/4 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
-                <div class="h-8 w-1/2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+    <!-- Contador mejorado -->
+    <div class="hidden sm:block h-12 w-28 rounded-xl bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-600/80"></div>
+  </div>
+
+  <!-- Grid de Skeletons actualizado -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+    @for (item of [1,2,3,4,5,6]; track item) {
+      <div class="group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+        <!-- Barra superior animada -->
+        <div class="h-1.5 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-gradient-shift"></div>
+
+        <div class="p-5">
+          <div class="flex items-start gap-4 mb-5">
+            <!-- Icono con efecto de gradiente -->
+            <div class="flex-shrink-0">
+              <div class="h-14 w-14 rounded-xl bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-700 dark:to-gray-600"></div>
+            </div>
+
+            <!-- Contenido -->
+            <div class="flex-1 space-y-3">
+              <div class="h-6 w-3/4 rounded-lg bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700"></div>
+              <div class="flex items-center gap-3">
+                <div class="h-8 w-20 rounded-full bg-gray-100 dark:bg-gray-700/80"></div>
+                <div class="h-4 w-12 rounded-lg bg-gray-100 dark:bg-gray-700/80"></div>
               </div>
             </div>
-            
-            <!-- Skeleton de acciones -->
-            <div class="flex justify-end">
-              <div class="h-10 w-10 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
-            </div>
+          </div>
+
+          <!-- Separador -->
+          <div class="h-px bg-gray-100/80 dark:bg-gray-700 mb-4"></div>
+
+          <!-- Acciones -->
+          <div class="flex justify-end gap-2">
+            <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700/80"></div>
+            <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700/80"></div>
           </div>
         </div>
-      }
+      </div>
+    }
+
+    <!-- Skeleton del botón añadir -->
+    <div class="h-full min-h-[180px] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700/80 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl">
+      <div class="flex flex-col items-center justify-center h-full p-6">
+        <div class="h-14 w-14 rounded-xl bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-700 dark:to-gray-600 mb-3"></div>
+        <div class="h-5 w-32 rounded-lg bg-gray-100 dark:bg-gray-700/80 mb-2"></div>
+        <div class="h-3 w-40 rounded-lg bg-gray-100 dark:bg-gray-700/80"></div>
+      </div>
     </div>
   </div>
+</div>
