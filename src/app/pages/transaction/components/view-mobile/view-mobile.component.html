@@ -1,74 +1,86 @@
-<div class="space-y-4">
+<div class="space-y-4 pb-16">
   @for (transaccion of filteredTransactions(); track transaccion.id) {
-  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-    <div class="p-4">
-      <!-- Header con Tipo y Fecha -->
-      <div class="flex justify-between items-center mb-3">
+  <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200/80 dark:border-gray-700">
+    <div class="p-5">
+      <!-- Header superior -->
+      <div class="flex justify-between items-start mb-4">
+        <!-- Badge con icono -->
         <span [class]="
               transaccion.category?.type === 'Ingreso'
-                ? 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300'
-                : 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300'
-            ">
+                ? 'bg-gradient-to-br from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/30 text-green-700 dark:text-green-300'
+                : 'bg-gradient-to-br from-red-100 to-red-50 dark:from-red-900/30 dark:to-red-800/30 text-red-700 dark:text-red-300'
+            " class="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-medium">
+          <span class="pi" 
+                [class.pi-arrow-up]="transaccion.category?.type === 'Ingreso'"
+                [class.pi-arrow-down]="transaccion.category?.type === 'Gasto'"></span>
           {{ transaccion.category?.type }}
         </span>
-        <span class="text-sm text-gray-500 dark:text-gray-400">
-          {{ transaccion.date | date : "shortDate" }}
-        </span>
+        
+        <!-- Fecha e ID -->
+        <div class="text-right">
+          <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <span class="pi pi-calendar mr-1"></span>
+            {{ transaccion.date | date : "shortDate" }}
+          </div>
+          <div class="text-xs text-gray-400 dark:text-gray-500 font-mono">
+            #{{ transaccion.id }}
+          </div>
+        </div>
       </div>
 
-      <!-- Nombre y Categoría -->
-      <div class="mb-3">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          {{ transaccion.name }}
-        </h3>
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-          {{ transaccion.category?.name }}
-        </p>
-      </div>
+      <!-- Contenido principal -->
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white/90 mb-1">
+            {{ transaccion.name }}
+          </h3>
+          <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+            <span class="pi pi-folder text-sm"></span>
+            <span class="text-sm">{{ transaccion.category?.name }}</span>
+          </div>
+        </div>
 
-      <!-- Monto -->
-      <div class="flex justify-end">
+        <!-- Monto con énfasis -->
         <span [class]="
               transaccion.category?.type === 'Ingreso'
-                ? 'text-xl font-bold text-green-600 dark:text-green-400'
-                : 'text-xl font-bold text-red-600 dark:text-red-400'
-            ">
+                ? 'text-green-600 dark:text-green-400'
+                : 'text-red-600 dark:text-red-400'
+            " class="text-xl font-bold whitespace-nowrap">
+          {{ transaccion.category?.type === 'Ingreso' ? '+' : '-' }}
           {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
         </span>
       </div>
-
-      <!-- ID en texto pequeño -->
-      <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-        ID: {{ transaccion.id }}
-      </div>
     </div>
   </div>
-
-  <!-- Total fijo en la parte inferior -->
-
   }
 
   @empty {
-  <div class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
-    <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-    <p class="text-gray-600 dark:text-gray-400">
-      No hay transacciones para mostrar
+  <!-- Estado vacío mejorado -->
+  <div class="flex flex-col items-center justify-center p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-dashed border-gray-200 dark:border-gray-700">
+    <div class="h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/20 mb-4">
+      <span class="pi pi-inbox text-3xl text-blue-600 dark:text-blue-400"></span>
+    </div>
+    <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-2">Sin transacciones</h4>
+    <p class="text-gray-500 dark:text-gray-400 text-center max-w-xs mx-auto">
+      No se encontraron movimientos en este período
     </p>
   </div>
   }
 
-  <!-- Total fijo en la parte inferior -->
-  <div class="sticky bottom-0 mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center">
-      <span class="text-lg font-semibold text-gray-900 dark:text-white">Total:</span>
+  <!-- Total flotante mejorado -->
+  <div class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200/50 dark:border-gray-700 backdrop-blur-sm">
+    <div class="p-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/20">
+          <span class="pi pi-wallet text-blue-600 dark:text-blue-400"></span>
+        </div>
+        <span class="font-semibold text-gray-900 dark:text-white/90">Total:</span>
+      </div>
       <span [class]="
-        totalType() === 'Ingreso'
-          ? 'text-xl font-bold text-green-600 dark:text-green-400'
-          : 'text-xl font-bold text-red-600 dark:text-red-400'
-      ">
+          totalType() === 'Ingreso'
+            ? 'text-green-600 dark:text-green-400'
+            : 'text-red-600 dark:text-red-400'
+        " class="text-xl font-bold">
         {{ total() | currency : "USD" : "symbol" : "1.2-2" }}
       </span>
     </div>

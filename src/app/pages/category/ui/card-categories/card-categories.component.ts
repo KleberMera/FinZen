@@ -13,7 +13,7 @@ import { NgClass, NgFor } from '@angular/common';
 export const Modals = [ModalCategoryComponent, ModalCategoryDeleteComponent];
 @Component({
   selector: 'flowbite-categories',
-  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent, HeaderCategoryComponent, NgFor, NgClass],
+  imports: [ReactiveFormsModule, Modals, CardSkeletonComponent, HeaderCategoryComponent],
   templateUrl: './card-categories.component.html',
   styleUrl: './card-categories.component.scss',
 })

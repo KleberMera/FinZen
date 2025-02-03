@@ -11,6 +11,21 @@ import { Transaction } from '@models/transaction';
 export class FiltersTransactionComponent {
   // Input signal para las transacciones
   readonly transactions = input.required<Transaction[]>();
+  nameDropdownOpen = signal(false);
+  categoryDropdownOpen = signal(false);
+  typeDropdownOpen = signal(false);
+
+  toggleDropdown(type: 'name' | 'category' | 'type'): void {
+    if (type === 'name') {
+      this.nameDropdownOpen.update(value => !value);
+    }
+    if (type === 'category') {
+      this.categoryDropdownOpen.update(value => !value);
+    }
+    if (type === 'type') {
+      this.typeDropdownOpen.update(value => !value);
+    }
+  }
 
   // Output event para los filtros
   readonly filterChange = output<{
@@ -45,27 +60,8 @@ export class FiltersTransactionComponent {
       });
     });
 
-    document.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (!target.closest('[id$="-dropdown"]')) {
-        document.querySelectorAll('[id$="-dropdown-menu"]').forEach(menu => {
-          menu.classList.add('hidden');
-        });
-      }
-    });
+
   }
 
-  toggleDropdown(dropdownId: 'name' | 'category' | 'type'): void {
-    const menu = document.getElementById(`${dropdownId}-dropdown-menu`);
-    const allMenus = document.querySelectorAll('[id$="-dropdown-menu"]');
-
-    allMenus.forEach(element => {
-      if (element.id !== `${dropdownId}-dropdown-menu`) {
-        element.classList.add('hidden');
-      }
-    });
-
-    menu?.classList.toggle('hidden');
-  }
-
+ 
 }
