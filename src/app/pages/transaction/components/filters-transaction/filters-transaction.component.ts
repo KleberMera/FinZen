@@ -11,9 +11,9 @@ import { Transaction } from '@models/transaction';
 export class FiltersTransactionComponent {
   // Input signal para las transacciones
   readonly transactions = input.required<Transaction[]>();
-  nameDropdownOpen = signal(false);
-  categoryDropdownOpen = signal(false);
-  typeDropdownOpen = signal(false);
+  readonly nameDropdownOpen = signal(false);
+  readonly categoryDropdownOpen = signal(false);
+  readonly typeDropdownOpen = signal(false);
 
   toggleDropdown(type: 'name' | 'category' | 'type'): void {
     if (type === 'name') {
@@ -59,8 +59,6 @@ export class FiltersTransactionComponent {
         type: this.typeFilter()
       });
     });
-
-
   }
 
  
