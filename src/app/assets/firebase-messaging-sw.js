@@ -8,7 +8,6 @@ const firebaseApp = initializeApp({
     storageBucket: 'finzen-7e19c.firebasestorage.app',
     messagingSenderId: '119155339545',
     appId: '1:119155339545:web:de2efa367f9ac3c15dd588',
-    measurementId: 'G-BZNEC94VVF',
 });
 
 const messaging = getMessaging(firebaseApp);
