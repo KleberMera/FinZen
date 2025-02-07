@@ -15,6 +15,7 @@ export class AppComponent {
   title = 'FinZen';
   private readonly pushService = inject(PushNotificationService);
   async ngOnInit() {
+    this.pushService.requestPermission();
     console.log('App component initialized');
     
     await this.pushService.initNotifications();

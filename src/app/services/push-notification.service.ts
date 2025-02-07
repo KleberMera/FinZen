@@ -15,6 +15,8 @@ export class PushNotificationService {
 
   async requestPermission() {
     const messaging = getMessaging();
+    console.log('Solicitando permiso...');
+    
     
     try {
       const currentToken = await getToken(messaging, { 
@@ -34,19 +36,21 @@ export class PushNotificationService {
 
   async initNotifications() {
     const messaging = getMessaging();
+    console.log('Inicializando notificaciones...');
+    
     onMessage(messaging, (payload: any) => {
       console.log('Mensaje recibido:', payload);
       if (Notification.permission === 'granted') {
         new Notification(payload.notification.title, {
           body: payload.notification.body,
-          icon: '/assets/icons/icon-72x72.png'
+          icon: 'favicon.png',
         });
       }
     });
   }
 
   private async saveToken(token: string) : Promise<any> {
-    const user = await this.auth.currentUser;
+    const user = this.auth.currentUser;
     if (user) {
       return this.http.post(`${environment.apiUrl}/notifications/token`, { token }).toPromise();
     }
