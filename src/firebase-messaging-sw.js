@@ -1,7 +1,8 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
+// Asegúrate de usar la versión correcta de Firebase que estás usando
+importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js');
 
-const firebaseApp = initializeApp({
+firebase.initializeApp({
   apiKey: 'AIzaSyCzisdNiu6Q2L6vvs5mFvcSWelZVZWOuaU',
   authDomain: 'finzen-7e19c.firebaseapp.com',
   projectId: 'finzen-7e19c',
@@ -11,7 +12,7 @@ const firebaseApp = initializeApp({
   measurementId: 'G-BZNEC94VVF',
 });
 
-const messaging = getMessaging(firebaseApp);
+const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log('Received background message:', payload);
@@ -19,7 +20,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: 'favicon.png',
+    icon: '/assets/icons/icon-72x72.png'
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

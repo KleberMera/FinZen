@@ -14,22 +14,33 @@ export class PushNotificationService {
   ) {}
 
   async requestPermission() {
-    const messaging = getMessaging();
-    console.log('Solicitando permiso...');
-    
-    
     try {
+      const messaging = getMessaging();
+      const envToken = environment.vapidKey;
+      console.log('Solicitando permiso para notificaciones...');
+      console.log('Vapid key:', envToken);
+      
+      
+      
+      // Primero verifica el permiso
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        throw new Error('Notification permission denied');
+      }
+  
+      // Luego intenta obtener el token
       const currentToken = await getToken(messaging, { 
-        vapidKey: environment.vapidKey 
+        vapidKey: envToken
       });
-
+  
       if (currentToken) {
         await this.saveToken(currentToken);
         return true;
       }
-      return false;
+      
+      throw new Error('No registration token available');
     } catch (err) {
-      console.log('Error al obtener token:', err);
+      console.error('Error al obtener token:', err);
       return false;
     }
   }
