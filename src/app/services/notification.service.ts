@@ -14,7 +14,7 @@ export class NotificationService {
   async requestPermission() {
     try {
       const token = await getToken(this.messaging, {
-       // vapidKey: environment.firebaseConfig.vapidKey
+       vapidKey: environment.firebaseConfig.vapidKey
       });
       if (token) {
         await this.http.post('/api/notifications/subscribe', { token }).toPromise();
