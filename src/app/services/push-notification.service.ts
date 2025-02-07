@@ -16,12 +16,7 @@ export class PushNotificationService {
   async requestPermission() {
     try {
       const messaging = getMessaging();
-      const envToken = environment.vapidKey;
-      console.log('Solicitando permiso para notificaciones...');
-      console.log('Vapid key:', envToken);
-      
-      
-      
+    //  const envToken = environment.vapidKey;
       // Primero verifica el permiso
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
@@ -30,7 +25,7 @@ export class PushNotificationService {
   
       // Luego intenta obtener el token
       const currentToken = await getToken(messaging, { 
-        vapidKey: envToken
+        vapidKey: 'BJX1_SSFAbJFKCE1jqE-BQdfy7pLNm0RPURsxoxtvUP5p88ORWbY7lgZSmL0JLcTR9AWWeDVNaqQXIdNBE-AfPA'
       });
   
       if (currentToken) {

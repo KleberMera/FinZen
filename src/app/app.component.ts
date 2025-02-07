@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { NgxSonnerToaster } from 'ngx-sonner';
 import { PushNotificationService } from '@services/push-notification.service';
+import { Messaging } from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { PushNotificationService } from '@services/push-notification.service';
 })
 export class AppComponent {
   title = 'FinZen';
+  private messaging = inject(Messaging);
   private readonly pushService = inject(PushNotificationService);
   async ngOnInit() {
     console.log('App component initialized');

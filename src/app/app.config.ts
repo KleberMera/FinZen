@@ -10,6 +10,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { handleErrorInterceptor } from './core/interceptors/handle-error.interceptor';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([handleErrorInterceptor])),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideMessaging(() => getMessaging()),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
