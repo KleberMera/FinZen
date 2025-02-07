@@ -11,20 +11,30 @@ export class NotificationService {
 
   constructor(private messaging: Messaging, private http: HttpClient) {}
 
-  async requestPermission() {
-    try {
-      const token = await getToken(this.messaging, {
-       vapidKey: environment.firebaseConfig.vapidKey
-      });
-      if (token) {
-        await this.http.post('/api/notifications/subscribe', { token }).toPromise();
-      }
-      return token;
-    } catch (error) {
-      console.error('Error getting notification token', error);
-      return null;
+  // notification.service.ts
+async requestPermission() {
+  try {
+    // Registrar el service worker primero
+    const registration = await navigator.serviceWorker.register(
+      '/firebase-messaging-sw.js', 
+      { scope: '/firebase-cloud-messaging-push-scope' }
+    );
+
+    // Obtener el token usando la instancia de registro
+    const token = await getToken(this.messaging, {
+      vapidKey: environment.firebaseConfig.vapidKey,
+      serviceWorkerRegistration: registration // Usar la instancia ya registrada
+    });
+
+    if (token) {
+      await this.http.post('/api/notifications/subscribe', { token }).toPromise();
     }
+    return token;
+  } catch (error) {
+    console.error('Error getting notification token', error);
+    return null;
   }
+}
 
   listenMessages() {
     return onMessage(this.messaging, (payload) => {
