@@ -1,13 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
-import { getToken, getMessaging, Messaging } from '@angular/fire/messaging';
-
 import { RouterOutlet } from '@angular/router';
-
 import { initFlowbite } from 'flowbite';
 import { NgxSonnerToaster } from 'ngx-sonner';
-import { environment } from '@environments/environment.development';
-
+import { PushNotificationService } from '@services/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +13,11 @@ import { environment } from '@environments/environment.development';
 })
 export class AppComponent {
   title = 'FinZen';
-  ngOnInit(): void {
+  private readonly pushService = inject(PushNotificationService);
+  async ngOnInit() {
+    console.log('App component initialized');
+    
+    await this.pushService.initNotifications();
     document.documentElement.classList.add('dark');
     initFlowbite();
   }

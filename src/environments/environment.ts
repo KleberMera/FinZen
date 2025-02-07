@@ -13,6 +13,6 @@ export const environment = {
   vapidKey:
     'BJX1_SSFAbJFKCE1jqE-BQdfy7pLNm0RPURsxoxtvUP5p88ORWbY7lgZSmL0JLcTR9AWWeDVNaqQXIdNBE-AfPA',
   production: false,
-  serviceWorker: true // Enable service worker in development
+
 };
 
