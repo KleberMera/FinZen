@@ -18,11 +18,14 @@ export class PushNotificationService {
     try {
       // Obtener usuario del localStorage
       const userStr = localStorage.getItem('user');
+      console.log(userStr);
+      
       if (!userStr) {
         throw new Error('Usuario no encontrado');
       }
       
       const user = JSON.parse(userStr);
+      
       
       // Solicitar suscripción
       const sub = await this.swPush.requestSubscription({
