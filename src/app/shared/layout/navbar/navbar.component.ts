@@ -21,14 +21,7 @@ export class NavbarComponent {
 
 
   async onNotificationClick() {
-    const success = await this.pushService.requestSubscription();
-    if (success) {
-      // Mostrar mensaje de éxito
-      console.log('Notificaciones activadas correctamente');
-    } else {
-      // Mostrar mensaje de error
-      console.error('No se pudieron activar las notificaciones');
-    }
+   
   }
   
 }
