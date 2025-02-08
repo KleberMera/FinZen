@@ -19,17 +19,13 @@ export class PushNotificationService {
       const sub = await this.swPush.requestSubscription({
         serverPublicKey: this.VAPID_PUBLIC_KEY
       });
+      console.log('Subscribed to notifications', sub);
       
       // Enviamos la suscripción al backend
-      this.http.post(
+      await this.http.post(
         `${environment.apiUrl}/notifications/subscribe`, 
         sub
-      ).subscribe(
-        {
-          next: () => console.log('Subscription sent to server', sub),
-          error: err => console.error('Could not send subscription to server', err)
-        }
-      );
+      ).toPromise();
       
       return true;
     } catch (err) {
