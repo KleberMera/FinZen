@@ -5,6 +5,7 @@ import { NotificationComponent } from "../../ui/notification/notification.compon
 import { UserMenuComponent } from "../../ui/user-menu/user-menu.component";
 import { BarsDrawComponent } from "../../icons/bars-draw/bars-draw.component";
 import { PushNotificationService } from '@services/push-notification.service';
+import { toast } from 'ngx-sonner';
 
 
 @Component({
@@ -23,12 +24,15 @@ export class NavbarComponent {
   async onNotificationClick() {
     const success = await this.pushService.requestSubscription();
     if (success) {
-      // Mostrar mensaje de éxito
+      console.log(success);
+      
       console.log('Notificaciones activadas correctamente');
+      toast.success('Notificaciones activadas correctamente');
     } else {
-      // Mostrar mensaje de error
       console.error('No se pudieron activar las notificaciones');
+      toast.error('No se pudieron activar las notificaciones');
     }
   }
   
+
 }

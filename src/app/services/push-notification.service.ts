@@ -16,15 +16,26 @@ export class PushNotificationService {
 
   async requestSubscription() {
     try {
+      // Obtener usuario del localStorage
+      const userStr = localStorage.getItem('user');
+      if (!userStr) {
+        throw new Error('Usuario no encontrado');
+      }
+      
+      const user = JSON.parse(userStr);
+      
+      // Solicitar suscripción
       const sub = await this.swPush.requestSubscription({
         serverPublicKey: this.VAPID_PUBLIC_KEY
       });
-      console.log('Subscribed to notifications', sub);
       
-      // Enviamos la suscripción al backend
+      // Enviamos la suscripción al backend junto con el userId
       await this.http.post(
         `${environment.apiUrl}/notifications/subscribe`, 
-        sub
+        {
+          userId: user.id,
+          subscription: sub
+        }
       ).toPromise();
       
       return true;
