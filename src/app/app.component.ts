@@ -14,12 +14,8 @@ import { Messaging } from '@angular/fire/messaging';
 })
 export class AppComponent {
   title = 'FinZen';
-  private messaging = inject(Messaging);
-  private readonly pushService = inject(PushNotificationService);
+
   async ngOnInit() {
-    console.log('App component initialized');
-    
-    await this.pushService.initNotifications();
     document.documentElement.classList.add('dark');
     initFlowbite();
   }

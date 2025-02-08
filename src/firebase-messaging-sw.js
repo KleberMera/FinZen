@@ -1,8 +1,8 @@
-// Asegúrate de usar la versión correcta de Firebase que estás usando
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js');
+import firebase from "firebase/compat/app";
+import "firebase/compat/messaging";
+import { AngularFireMessaging } from '@angular/fire/messaging';
 
-firebase.initializeApp({
+const firebaseConfig = {
   apiKey: 'AIzaSyCzisdNiu6Q2L6vvs5mFvcSWelZVZWOuaU',
   authDomain: 'finzen-7e19c.firebaseapp.com',
   projectId: 'finzen-7e19c',
@@ -10,8 +10,13 @@ firebase.initializeApp({
   messagingSenderId: '119155339545',
   appId: '1:119155339545:web:de2efa367f9ac3c15dd588',
   measurementId: 'G-BZNEC94VVF',
-});
+};
 
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+
+// Initialize Firebase Cloud Messaging and get a reference to the service
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
