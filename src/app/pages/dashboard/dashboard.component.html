@@ -1,99 +1,127 @@
-<div class="p-4 space-y-4">
-    <!-- Card Individual -->
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-      <!-- Encabezado con gradiente -->
-      <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-2">
-            <span class="text-white text-lg font-bold">Mes 1</span>
-            <span class="bg-blue-400/30 text-white text-xs px-2 py-1 rounded-full">
-              15/01/2024
-            </span>
-          </div>
-          <div class="flex items-center">
-            <span class="text-xs text-blue-100">Cuota mensual</span>
-            <span class="ml-2 text-white font-bold">$1,250.00</span>
-          </div>
-        </div>
+
+<app-dashboard-header></app-dashboard-header>
+
+<div class="p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
+  <!-- Bienvenida mejorada -->
+  <div class="relative mb-8 p-6 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 overflow-hidden">
+    <div class="absolute inset-0 backdrop-blur-sm bg-white/10"></div>
+    <div class="relative flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-white mb-1">¡Hola, {{ getRandomName() }}! 👋</h1>
+        <p class="text-blue-100/90">Resumen financiero del mes actual</p>
       </div>
-  
-      <!-- Contenido Principal -->
-      <div class="p-4">
-        <!-- Grid de Información -->
-        <div class="grid grid-cols-2 gap-4">
-          <!-- Interés -->
-          <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Interés</div>
-            <div class="text-gray-900 dark:text-white font-semibold mt-1">
-              $350.00
-            </div>
-          </div>
-  
-          <!-- Amortización -->
-          <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Amortización</div>
-            <div class="text-gray-900 dark:text-white font-semibold mt-1">
-              $900.00
-            </div>
-          </div>
-        </div>
-  
-        <!-- Saldo Pendiente -->
-        <div class="mt-4 border-t dark:border-gray-700 pt-4">
-          <div class="flex justify-between items-center">
-            <div>
-              <span class="text-sm text-gray-500 dark:text-gray-400">
-                Saldo Pendiente
-              </span>
-              <div class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
-                $48,750.00
-              </div>
-            </div>
-            <!-- Indicador de Progreso -->
-            <div class="w-20 h-20 relative">
-              <svg class="w-20 h-20 transform -rotate-90">
-                <circle
-                  class="text-gray-200 dark:text-gray-700"
-                  stroke-width="5"
-                  stroke="currentColor"
-                  fill="transparent"
-                  r="35"
-                  cx="40"
-                  cy="40"
-                />
-                <circle
-                  class="text-blue-500 dark:text-blue-400"
-                  stroke-width="5"
-                  stroke="currentColor"
-                  fill="transparent"
-                  r="35"
-                  cx="40"
-                  cy="40"
-                  stroke-dasharray="219.9"
-                  stroke-dashoffset="165"
-                />
-              </svg>
-              <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-gray-600 dark:text-gray-300">
-                25%
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="p-3 bg-white/10 rounded-xl backdrop-blur-lg border border-white/20">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
       </div>
     </div>
   </div>
 
-
-  <div class="bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-    <div>
-      <span class="inline-flex items-center justify-center p-2 bg-indigo-500 rounded-md shadow-lg">
-        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><!-- ... --></svg>
-      </span>
+  <!-- Tarjetas de resumen mejoradas -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+    <!-- Ingresos -->
+    <div class="group relative p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-100 dark:hover:border-blue-900/50">
+      <div class="absolute top-6 right-6 p-2.5 bg-blue-100/20 dark:bg-blue-900/20 rounded-lg">
+        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <div class="mb-4">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Ingresos totales</h3>
+        <p class="text-3xl font-bold text-gray-800 dark:text-white">${{ randomIncome | number:'1.0-0' }}</p>
+      </div>
+      <div class="flex items-center text-sm font-medium">
+        <span class="text-green-500 bg-green-100/30 dark:bg-green-900/20 px-2 py-1 rounded-full flex items-center">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"/>
+          </svg>
+          +{{ randomPercentage() }}%
+        </span>
+        <span class="text-gray-500 dark:text-gray-400 ml-2">vs mes anterior</span>
+      </div>
     </div>
-    <h3 class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight">Writes Upside-Down</h3>
-    <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">
-      The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
-    </p>
 
+    <!-- Gastos -->
+    <div class="group relative p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-red-100 dark:hover:border-red-900/50">
+      <div class="absolute top-6 right-6 p-2.5 bg-red-100/20 dark:bg-red-900/20 rounded-lg">
+        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"/>
+        </svg>
+      </div>
+      <div class="mb-4">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Gastos totales</h3>
+        <p class="text-3xl font-bold text-gray-800 dark:text-white">${{ randomExpenses | number:'1.0-0' }}</p>
+      </div>
+      <div class="flex items-center text-sm font-medium">
+        <span class="text-red-500 bg-red-100/30 dark:bg-red-900/20 px-2 py-1 rounded-full flex items-center">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v3.586l-4.293-4.293a1 1 0 00-1.414 0L8 12.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 11.414 14.586 15H12z" clip-rule="evenodd"/>
+          </svg>
+          +{{ randomPercentage() }}%
+        </span>
+        <span class="text-gray-500 dark:text-gray-400 ml-2">vs mes anterior</span>
+      </div>
+    </div>
 
+    <!-- Balance -->
+    <div class="group relative p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-green-100 dark:hover:border-green-900/50">
+      <div class="absolute top-6 right-6 p-2.5 bg-green-100/20 dark:bg-green-900/20 rounded-lg">
+        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m5 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h4l2-2h4l2 2zm-4 6v-1m-3 1v-3m-3 3v3"/>
+        </svg>
+      </div>
+      <div class="mb-4">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Balance actual</h3>
+        <p class="text-3xl font-bold" [ngClass]="{
+          'text-green-600 dark:text-green-400': netBalance > 0,
+          'text-red-600 dark:text-red-400': netBalance <= 0
+        }">${{ netBalance | number:'1.0-0' }}</p>
+      </div>
+      <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+        Actualizado hoy
+      </div>
+    </div>
   </div>
+
+  <!-- Gráfico mejorado -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Tendencia últimos 6 meses</h3>
+      <div class="flex items-center space-x-2">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Promedio:</span>
+        <span class="text-blue-600 dark:text-blue-400 font-medium">${{ getAverage() | number:'1.0-0' }}</span>
+      </div>
+    </div>
+    
+    <div class="w-full h-64 relative">
+      <svg class="w-full h-full" viewBox="0 0 600 240" preserveAspectRatio="xMidYMid meet">
+        <!-- Fondo degradado -->
+        <defs>
+          <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Área del gráfico -->
+        <path 
+          [attr.d]="'M ' + generateAreaPath() + ' L 550,220 L 50,220 Z'"
+          fill="url(#chartGradient)"
+        />
+
+        <!-- Línea del gráfico -->
+        <polyline 
+          [attr.points]="generateChartPoints()"
+          fill="none"
+          stroke="#3b82f6"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+
+        <!-- Ejes y puntos (mantener tu implementación existente) -->
+        ...
+      </svg>
+    </div>
+  </div>
+</div>

@@ -1,106 +1,109 @@
 @for (fila of datos(); track $index) {
-  <div class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-out hover:-translate-y-1.5 border border-gray-100 dark:border-gray-700/60 hover:border-blue-100 dark:hover:border-blue-900/50 mb-6">
-    <!-- Encabezado con efecto vidrio -->
-    <div class="relative px-5 py-4 bg-gradient-to-r from-blue-700 to-blue-600 overflow-hidden rounded-2xl">
-      <div class="absolute inset-0 backdrop-blur-sm bg-white/5"></div>
-      
-      <div class="relative flex flex-col space-y-2.5">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-3">
-            <span class="text-white font-bold text-xl/none drop-shadow-md">
-              #{{fila.number_months}}
-            </span>
-            <div class="h-4 w-px bg-blue-400/40"></div>
-            <span class="bg-white/10 backdrop-blur-lg text-white/90 text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
-              {{fila.date | date:'dd/MM/yyyy'}}
-            </span>
-          </div>
-          <span class="text-white/90 text-sm font-semibold">
-            {{(fila.number_months/totalMonths() * 100).toFixed(0)}}%
+<div
+  class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-out hover:-translate-y-1.5 border border-gray-100 dark:border-gray-700/60 hover:border-blue-100 dark:hover:border-blue-900/50 mb-6">
+  <!-- Encabezado con efecto vidrio -->
+  <div class="relative px-5 py-4 bg-gradient-to-r from-blue-700 to-blue-600 overflow-hidden rounded-2xl">
+    <div class="absolute inset-0 backdrop-blur-sm bg-white/5"></div>
+
+    <div class="relative flex flex-col space-y-2.5">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <span class="text-white font-bold text-xl/none drop-shadow-md">
+            #{{fila.number_months}}
+          </span>
+          <div class="h-4 w-px bg-blue-400/40"></div>
+          <span
+            class="bg-white/10 backdrop-blur-lg text-white/90 text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
+            {{fila.date | date:'dd/MM/yyyy'}}
           </span>
         </div>
-        
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-blue-100/90 font-medium">Cuota mensual</span>
-          <span class="text-xl text-white font-bold tracking-tight drop-shadow-sm">
-            {{fila.quota | currency : "USD" : "symbol" : "1.2-2"}}
-          </span>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Contenido Principal -->
-    <div class="p-5 space-y-5">
-      <!-- Grid de métricas -->
-      <div class="grid grid-cols-2 gap-4">
-        <!-- Interés -->
-        <div class="p-3.5 bg-gray-50/50 dark:bg-gray-700/30 rounded-xl backdrop-blur-sm border border-gray-100/70 dark:border-gray-600/30">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="p-1.5 bg-blue-100/20 dark:bg-blue-900/20 rounded-lg">
-              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Interés</span>
-          </div>
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">
-            {{fila.interest | currency : "USD" : "symbol" : "1.2-2"}}
-          </div>
-        </div>
-  
-        <!-- Amortización -->
-        <div class="p-3.5 bg-gray-50/50 dark:bg-gray-700/30 rounded-xl backdrop-blur-sm border border-gray-100/70 dark:border-gray-600/30">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="p-1.5 bg-blue-100/20 dark:bg-blue-900/20 rounded-lg">
-              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Amortización</span>
-          </div>
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">
-            {{fila.amortized | currency : "USD" : "symbol" : "1.2-2"}}
-          </div>
-        </div>
-      </div>
-  
-      <!-- Saldo y progreso -->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-gray-500 dark:text-gray-400">Saldo pendiente</span>
-          <span class="font-medium text-blue-600 dark:text-blue-400">
-            {{fila.outstanding | currency : "USD" : "symbol" : "1.2-2"}}
-          </span>
-        </div>
-        
-        <!-- Barra de progreso -->
-        <div class="relative pt-2">
-          <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div class="absolute inset-0 bg-blue-500/20 dark:bg-blue-900/20"></div>
-            <div 
-              class="h-full bg-blue-600 dark:bg-blue-500 rounded-full transition-all duration-500 ease-out" 
-              [style.width.%]="(fila.number_months/totalMonths() * 100)"
-            ></div>
-          </div>
-        </div>
-      </div>
-  
-      @if (filters()) {
-      <div class="pt-4 border-t dark:border-gray-700/50">
-        <span 
-          [class]="fila.status === 'Pagado' 
-            ? 'bg-green-500/10 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-500/20'
-            : 'bg-amber-500/10 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border-amber-500/20'"
-          class="inline-flex items-center px-3 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200 group-hover:scale-[0.98]">
-          <svg 
-            [class]="fila.status === 'Pagado' ? 'text-green-500' : 'text-amber-500'"
-            class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
-          </svg>
-          {{fila.status}}
+        <span class="text-white/90 text-sm font-semibold">
+          {{(fila.number_months/totalMonths() * 100).toFixed(0)}}%
         </span>
       </div>
-      }
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-blue-100/90 font-medium">Cuota mensual</span>
+        <span class="text-xl text-white font-bold tracking-tight drop-shadow-sm">
+          {{fila.quota | currency : "USD" : "symbol" : "1.2-2"}}
+        </span>
+      </div>
     </div>
   </div>
-  }
+
+  <!-- Contenido Principal -->
+  <div class="p-5 space-y-5">
+    <!-- Grid de métricas -->
+    <div class="grid grid-cols-2 gap-4">
+      <!-- Interés -->
+      <div
+        class="p-3.5 bg-gray-50/50 dark:bg-gray-700/30 rounded-xl backdrop-blur-sm border border-gray-100/70 dark:border-gray-600/30">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="p-1.5 bg-blue-100/20 dark:bg-blue-900/20 rounded-lg">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <span class="text-sm text-gray-500 dark:text-gray-400">Interés</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900 dark:text-white">
+          {{fila.interest | currency : "USD" : "symbol" : "1.2-2"}}
+        </div>
+      </div>
+
+      <!-- Amortización -->
+      <div
+        class="p-3.5 bg-gray-50/50 dark:bg-gray-700/30 rounded-xl backdrop-blur-sm border border-gray-100/70 dark:border-gray-600/30">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="p-1.5 bg-blue-100/20 dark:bg-blue-900/20 rounded-lg">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <span class="text-sm text-gray-500 dark:text-gray-400">Amortización</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900 dark:text-white">
+          {{fila.amortized | currency : "USD" : "symbol" : "1.2-2"}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Saldo y progreso -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-gray-500 dark:text-gray-400">Saldo pendiente</span>
+        <span class="font-medium text-blue-600 dark:text-blue-400">
+          {{fila.outstanding | currency : "USD" : "symbol" : "1.2-2"}}
+        </span>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="relative pt-2">
+        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div class="absolute inset-0 bg-blue-500/20 dark:bg-blue-900/20"></div>
+          <div class="h-full bg-blue-600 dark:bg-blue-500 rounded-full transition-all duration-500 ease-out"
+            [style.width.%]="(fila.number_months/totalMonths() * 100)"></div>
+        </div>
+      </div>
+    </div>
+
+    @if (filters()) {
+    <div class="pt-4 border-t dark:border-gray-700/50">
+      <span [class]="fila.status === 'Pagado' 
+            ? 'bg-green-500/10 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-500/20'
+            : 'bg-amber-500/10 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border-amber-500/20'"
+        class="inline-flex items-center px-3 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200 group-hover:scale-[0.98]">
+        <svg [class]="fila.status === 'Pagado' ? 'text-green-500' : 'text-amber-500'" class="w-4 h-4 mr-2"
+          fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+        </svg>
+        {{fila.status}}
+      </span>
+    </div>
+    }
+  </div>
+</div>
+}

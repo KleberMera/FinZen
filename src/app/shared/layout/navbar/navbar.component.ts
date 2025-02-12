@@ -1,12 +1,8 @@
-import { Component, inject, input, OnInit, output, Renderer2 } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from "../../icons/logo/logo.component";
-import { NotificationComponent } from "../../ui/notification/notification.component";
-import { UserMenuComponent } from "../../ui/user-menu/user-menu.component";
-import { BarsDrawComponent } from "../../icons/bars-draw/bars-draw.component";
 import { PushNotificationService } from '@services/push-notification.service';
 import { toast } from 'ngx-sonner';
-
 
 @Component({
   selector: 'app-navbar',
