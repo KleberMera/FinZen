@@ -1,16 +1,15 @@
 <div class="fixed inset-0 z-50">
-    <!-- Fondo oscuro con transición -->
+    <!-- Fondo oscuro -->
     <div 
       class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity"
       (click)="close()">
     </div>
   
     <!-- Contenido del sidebar -->
-    <div 
-      class="absolute right-0 top-0 h-full w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0">
+    <div class="absolute right-0 top-0 h-full w-full max-w-xs sm:max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0 overflow-y-auto">
       
       <!-- Header -->
-      <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+      <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-900 z-10">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Perfil de Usuario</h2>
         <button 
           (click)="close()"
@@ -23,31 +22,102 @@
   
       <!-- Contenido -->
       <div class="p-6">
-        <div class="flex flex-col items-center mb-6">
-          <img 
-            [src]="userData().avatar" 
-            alt="Avatar"
-            class="w-24 h-24 rounded-full mb-4 ring-4 ring-primary-500/20 dark:ring-primary-400/20">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ userData().name }}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{{ userData().email }}</p>
+        <!-- Avatar y nombre -->
+        <div class="flex flex-col items-center mb-8">
+          <div class="relative group">
+            <img 
+              [src]="userData().avatar" 
+              alt="Avatar"
+              class="w-24 h-24 rounded-full mb-4 ring-4 ring-primary-500/20 dark:ring-primary-400/20 hover:ring-primary-500/40 transition-all">
+            <button *ngIf="editMode" class="absolute bottom-2 right-2 p-1.5 bg-white dark:bg-gray-800 rounded-full shadow-sm">
+              <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+            </button>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-1">
+              <span *ngIf="!editMode">{{ userData().name }} {{ userData().last_name }}</span>
+              <input *ngIf="editMode" type="text" [formControl]="nameControl" 
+                     class="bg-gray-50 dark:bg-gray-800 text-center px-2 py-1 rounded">
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">{{ userData().role }}</p>
+          </div>
         </div>
   
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <span class="text-gray-600 dark:text-gray-400">Rol:</span>
-            <span class="font-medium text-gray-800 dark:text-gray-200">{{ userData().role }}</span>
+        <!-- Sección de información -->
+        <div class="space-y-5">
+          <!-- Información Personal -->
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+            <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Información Personal</h4>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400">Usuario:</span>
+                <span *ngIf="!editMode" class="font-medium text-gray-800 dark:text-gray-200">{{ userData().username }}</span>
+                <input *ngIf="editMode" type="text" [formControl]="usernameControl" 
+                       class="bg-white dark:bg-gray-700 px-2 py-1 rounded w-32 text-right">
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400">Email:</span>
+                <span *ngIf="!editMode" class="font-medium text-gray-800 dark:text-gray-200">{{ userData().email }}</span>
+                <input *ngIf="editMode" type="email" [formControl]="emailControl" 
+                       class="bg-white dark:bg-gray-700 px-2 py-1 rounded w-32 text-right">
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400">Teléfono:</span>
+                <span *ngIf="!editMode" class="font-medium text-gray-800 dark:text-gray-200">{{ userData().phone || 'N/A' }}</span>
+                <input *ngIf="editMode" type="tel" [formControl]="phoneControl" 
+                       class="bg-white dark:bg-gray-700 px-2 py-1 rounded w-32 text-right">
+              </div>
+            </div>
           </div>
+  
+          <!-- Configuración de Cuenta -->
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+            <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Configuración de Cuenta</h4>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400">Estado:</span>
+                <span class="font-medium text-gray-800 dark:text-gray-200">
+                  <span class="inline-block w-2 h-2 rounded-full" 
+                        [class.bg-green-500]="userData().status" 
+                        [class.bg-red-500]="!userData().status"></span>
+                  {{ userData().status ? 'Activo' : 'Inactivo' }}
+                </span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-400">Registro:</span>
+                <span class="font-medium text-gray-800 dark:text-gray-200">
+                  {{ userData().createdAt | date:'mediumDate' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Botones de acción -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <button *ngIf="!editMode" 
+                  (click)="enableEdit()"
+                  class="flex-1 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors">
+            Editar Perfil
+          </button>
           
-          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-            <span class="text-gray-600 dark:text-gray-400">Último acceso:</span>
-            <span class="font-medium text-gray-800 dark:text-gray-200">{{ userData().lastLogin }}</span>
+          <div *ngIf="editMode" class="flex-1 grid grid-cols-2 gap-3">
+            <button (click)="saveChanges()"
+                    class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
+              Guardar
+            </button>
+            <button (click)="cancelEdit()"
+                    class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">
+              Cancelar
+            </button>
           </div>
-        </div>
   
-        <button 
-          class="w-full mt-8 px-4 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors duration-200">
-          Cerrar Sesión
-        </button>
+          <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg transition-colors">
+            Cerrar Sesión
+          </button>
+        </div>
       </div>
     </div>
   </div>
