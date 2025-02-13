@@ -20,6 +20,7 @@ import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
 import { SpinnerComponent } from "../icons/spinner/spinner.component";
 import { SignComponent } from "../icons/sign/sign.component";
 import { LoadingGoogleComponent } from "../components/loading-google/loading-google.component";
+import { BreakpointService } from '@services/breakpoint.service';
 
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
@@ -35,6 +36,7 @@ export class LoginComponent {
   private readonly _firebaseService = inject(FirebaseService);
   private readonly _router = inject(Router);
   private readonly _validationService = inject(FormValidationService);
+  public readonly _BreakpointService = inject(BreakpointService);
   protected form = this._authService.formLogin();
   readonly isSubmitting = signal<boolean>(false);
   readonly showPassword = signal<boolean>(false);
