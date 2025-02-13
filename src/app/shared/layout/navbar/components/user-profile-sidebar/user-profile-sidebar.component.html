@@ -1,0 +1,53 @@
+<div class="fixed inset-0 z-50">
+    <!-- Fondo oscuro con transición -->
+    <div 
+      class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity"
+      (click)="close()">
+    </div>
+  
+    <!-- Contenido del sidebar -->
+    <div 
+      class="absolute right-0 top-0 h-full w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0">
+      
+      <!-- Header -->
+      <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Perfil de Usuario</h2>
+        <button 
+          (click)="close()"
+          class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+  
+      <!-- Contenido -->
+      <div class="p-6">
+        <div class="flex flex-col items-center mb-6">
+          <img 
+            [src]="userData().avatar" 
+            alt="Avatar"
+            class="w-24 h-24 rounded-full mb-4 ring-4 ring-primary-500/20 dark:ring-primary-400/20">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ userData().name }}</h3>
+          <p class="text-gray-600 dark:text-gray-400">{{ userData().email }}</p>
+        </div>
+  
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <span class="text-gray-600 dark:text-gray-400">Rol:</span>
+            <span class="font-medium text-gray-800 dark:text-gray-200">{{ userData().role }}</span>
+          </div>
+          
+          <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <span class="text-gray-600 dark:text-gray-400">Último acceso:</span>
+            <span class="font-medium text-gray-800 dark:text-gray-200">{{ userData().lastLogin }}</span>
+          </div>
+        </div>
+  
+        <button 
+          class="w-full mt-8 px-4 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors duration-200">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
