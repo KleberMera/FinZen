@@ -1,7 +1,51 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DashboardHeaderComponent } from "./components/dashboard-header/dashboard-header.component";
+interface CalendarDay {
+  date: number;
+  hasPayment: boolean;
+  isToday: boolean;
+  payments?: Payment[];
+}
 
+interface Payment {
+  id: number;
+  amount: number;
+  description: string;
+  dueDate: string;
+}
+
+interface DebtSummary {
+  totalDebt: number;
+  nextPaymentDate: string;
+  nextPaymentAmount: number;
+  totalPending: number;
+}
+
+interface CategoryDistribution {
+  name: string;
+  amount: number;
+  percentage: number;
+  color: string;
+}
+
+interface Transaction {
+  id: number;
+  name: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: 'ingreso' | 'gasto';
+}
+
+interface SavingGoal {
+  id: number;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  deadline: string;
+  progress: number;
+}
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, DashboardHeaderComponent],
@@ -10,61 +54,115 @@ import { DashboardHeaderComponent } from "./components/dashboard-header/dashboar
 })
 export class DashboardComponent {
   // Datos aleatorios
-lastSixMonths = this.getLastSixMonths();
-chartData = this.generateChartData();
-randomIncome = this.getRandomAmount(5000, 15000);
-randomExpenses = this.getRandomAmount(3000, 8000);
-netBalance = this.randomIncome - this.randomExpenses;
 
-getRandomName() {
-  const names = ['Juan Pérez', 'María García', 'Carlos López', 'Ana Martínez'];
-  return names[Math.floor(Math.random() * names.length)];
+// Estado para notificaciones
+pushEnabled: boolean = false;
+daysBeforeNotify: number = 2;
+
+// Datos del calendario
+calendarDays: CalendarDay[] = [];
+selectedPeriod: '30' | '60' | '90' = '30';
+
+// Datos financieros
+debtSummary?: DebtSummary;
+categoryDistribution: CategoryDistribution[] = [];
+recentTransactions: Transaction[] = [];
+savingGoals: SavingGoal[] = [];
+
+
+
+ngOnInit(): void {
+  this.initializeData();
+  this.generateCalendar();
+  this.loadNotificationPreferences();
 }
 
-randomPercentage() {
-  return Math.floor(Math.random() * 20) + 1;
+private initializeData(): void {
+  // Cargar resumen de deudas
+  this.loadDebtSummary();
+  // Cargar distribución de categorías
+  this.loadCategoryDistribution();
+  // Cargar transacciones recientes
+  this.loadRecentTransactions();
+  // Cargar metas de ahorro
+  this.loadSavingGoals();
 }
 
-getRandomAmount(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+private loadDebtSummary(): void {
+ 
 }
 
-generateChartPoints() {
-  const max = Math.max(...this.chartData.map(d => d.value));
-  return this.chartData.map((d, i) => 
-    `${50 + (i * 100)},${220 - (d.value / max * 200)}`
-  ).join(' ');
+private loadCategoryDistribution(): void {
+ 
 }
 
-getLastSixMonths() {
-  const months = [];
-  const date = new Date();
-  for (let i = 5; i >= 0; i--) {
-    const newDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
-    months.push(newDate.toLocaleString('default', { month: 'short' }));
-  }
-  return months;
+private loadRecentTransactions(): void {
+  
 }
 
-generateChartData() {
-  return this.lastSixMonths.map((month, index) => ({
-    month,
-    value: this.getRandomAmount(2000, 8000)
+private loadSavingGoals(): void {
+ 
+}
+
+private generateCalendar(): void {
+  const today = new Date();
+  const daysInMonth = new Date(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    0
+  ).getDate();
+
+  this.calendarDays = Array.from({ length: daysInMonth }, (_, i) => ({
+    date: i + 1,
+    hasPayment: false,
+    isToday: i + 1 === today.getDate(),
+    payments: []
   }));
+
+  // Cargar pagos del mes
+  this.loadMonthlyPayments();
 }
 
-get maxValue() {
-  return Math.max(...this.chartData.map(d => d.value));
+private loadMonthlyPayments(): void {
+ 
 }
 
-getAverage(): number {
-  return this.chartData.reduce((acc, val) => acc + val.value, 0) / this.chartData.length;
+private loadNotificationPreferences(): void {
+ 
 }
 
-generateAreaPath(): string {
-  const max = this.maxValue;
-  return this.chartData.map((d, i) => 
-    `${50 + (i * 100)},${220 - (d.value / max * 200)}`
-  ).join(' L ');
+// Métodos de utilidad para la UI
+getDayClass(day: CalendarDay): string {
+  return `
+    w-full h-full 
+    ${day.isToday ? 'bg-amber-100 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700/50'} 
+    ${day.hasPayment ? 'ring-2 ring-amber-500 dark:ring-amber-400' : ''} 
+    rounded-lg cursor-pointer hover:bg-amber-50 dark:hover:bg-amber-900/20
+    transition-all duration-200
+  `;
+}
+
+getTransactionClass(amount: number): string {
+  return amount > 0 
+    ? 'text-green-600 dark:text-green-400' 
+    : 'text-red-600 dark:text-red-400';
+}
+
+// Manejadores de eventos
+onPeriodChange(period: '30' | '60' | '90'): void {
+  this.selectedPeriod = period;
+  this.loadMonthlyPayments();
+}
+
+onTogglePushNotifications(enabled: boolean): void {
+  
+}
+
+onUpdateNotificationDays(days: number): void {
+ 
+}
+
+onAddSavingGoal(): void {
+  // Implementar lógica para agregar nueva meta
 }
 }

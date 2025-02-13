@@ -1,20 +1,20 @@
 <!-- Header con saludo -->
 <div class="mb-8">
-    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-      ¡Hola, <span class="text-blue-600 dark:text-blue-400">{{name()}}</span>! 👋
-    </h1>
+  <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+    ¡Hola, <span class="text-blue-600 dark:text-blue-400">{{name()}}</span>! 👋
+  </h1>
+</div>
 
-  </div>
-
-  <!-- Stats Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-    <!-- Balance Total -->
-    <div class="group relative">
-      <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-      <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+  <!-- Balance Total -->
+  <div class="group relative h-full">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm flex flex-col justify-between">
+      <div>
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center space-x-3">
-            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg shrink-0">
               <svg class="w-5 h-5 text-blue-600/90 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
@@ -25,28 +25,30 @@
             Mensual
           </span>
         </div>
-        <div class="mt-4">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$25,400.00</p>
-          <div class="flex items-center mt-2 space-x-2">
-            <span class="flex items-center text-green-500 text-sm font-medium">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-              </svg>
-              +15%
-            </span>
-            <span class="text-gray-500 dark:text-gray-400 text-sm">vs mes anterior</span>
-          </div>
+      </div>
+      <div class="mt-auto">
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$25,400.00</p>
+        <div class="flex items-center mt-2 space-x-2">
+          <span class="flex items-center text-green-500 text-sm font-medium">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+            +15%
+          </span>
+          <span class="text-gray-500 dark:text-gray-400 text-sm">vs mes anterior</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Ingresos Card -->
-    <div class="group relative">
-      <div class="absolute -inset-0.5 bg-gradient-to-r from-green-600/20 to-emerald-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-      <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+  <!-- Ingresos Card -->
+  <div class="group relative h-full">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-green-600/20 to-emerald-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm flex flex-col justify-between">
+      <div>
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center space-x-3">
-            <div class="p-2 bg-green-50 dark:bg-green-900/30 rounded-lg">
+            <div class="p-2 bg-green-50 dark:bg-green-900/30 rounded-lg shrink-0">
               <svg class="w-5 h-5 text-green-600/90 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
               </svg>
@@ -57,20 +59,21 @@
             +8.5%
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$4,200.00</p>
-          <!-- Mini Sparkline con puntos -->   
-        </div>
+      </div>
+      <div class="mt-auto">
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$4,200.00</p>
       </div>
     </div>
+  </div>
 
-    <!-- Gastos Card -->
-    <div class="group relative">
-      <div class="absolute -inset-0.5 bg-gradient-to-r from-red-600/20 to-pink-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-      <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+  <!-- Gastos Card -->
+  <div class="group relative h-full">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-red-600/20 to-pink-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm flex flex-col justify-between">
+      <div>
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center space-x-3">
-            <div class="p-2 bg-red-50 dark:bg-red-900/30 rounded-lg">
+            <div class="p-2 bg-red-50 dark:bg-red-900/30 rounded-lg shrink-0">
               <svg class="w-5 h-5 text-red-600/90 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
@@ -78,7 +81,6 @@
             <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Gastos</h3>
           </div>
           <div class="flex items-center">
-            <!-- Progress Ring Mejorado -->
             <svg class="w-14 h-14 transform rotate-[-90deg]" viewBox="0 0 36 36">
               <circle cx="18" cy="18" r="15" fill="none" 
                       class="stroke-current text-gray-200/50 dark:text-gray-700/50" 
@@ -95,12 +97,13 @@
             </svg>
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$2,800.00</p>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            de $4,000.00 presupuestados
-          </p>
-        </div>
+      </div>
+      <div class="mt-auto">
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$2,800.00</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          de $4,000.00 presupuestados
+        </p>
       </div>
     </div>
   </div>
+</div>

@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { StorageService } from '@services/storage.service';
 
 @Component({
   selector: 'app-dashboard-header',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './dashboard-header.component.html',
   styleUrl: './dashboard-header.component.scss'
 })
