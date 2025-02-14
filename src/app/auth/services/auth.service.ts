@@ -6,7 +6,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@models/user';
 import { apiResponse } from '@models/apiResponse';
 import { StorageService } from '@services/storage.service';
-import { environment } from '@environments/environment';
+import { environment } from '@environments/environment.development';
+
 
 @Injectable({
   providedIn: 'root',

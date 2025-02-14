@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { Category } from '@models/category';
 import { apiResponse } from '@models/apiResponse';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { environment } from '@environments/environment';
+
 import  iconsData  from '@public/icons.json';
+import { environment } from '@environments/environment.development';
 
 export interface primeIcons {
   icon: string;
