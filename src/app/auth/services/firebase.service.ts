@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
 import { StorageService } from '@services/storage.service';

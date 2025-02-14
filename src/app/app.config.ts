@@ -15,7 +15,7 @@ import { handleErrorInterceptor } from './core/interceptors/handle-error.interce
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [

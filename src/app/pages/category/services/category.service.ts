@@ -6,7 +6,7 @@ import { apiResponse } from '@models/apiResponse';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import  iconsData  from '@public/icons.json';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 
 export interface primeIcons {
   icon: string;
