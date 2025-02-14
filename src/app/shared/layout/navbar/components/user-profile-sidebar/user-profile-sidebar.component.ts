@@ -1,24 +1,18 @@
 import { CommonModule, NgIf } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from '@services/storage.service';
 import { UserProfileService } from '../../services/user-profile.service';
 import { AuthService } from '../../../../../auth/services/auth.service';
 import { tap } from 'rxjs';
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
+import { UserProfileSidebarSkeletonComponent } from "../user-profile-sidebar-skeleton/user-profile-sidebar-skeleton.component";
 
 @Component({
   selector: 'app-user-profile-sidebar',
-  imports: [CommonModule, ReactiveFormsModule, NgIf],
+  imports: [CommonModule, ReactiveFormsModule, UserProfileSidebarSkeletonComponent],
   templateUrl: './user-profile-sidebar.component.html',
   styleUrl: './user-profile-sidebar.component.scss',
 })
@@ -47,22 +41,24 @@ export class UserProfileSidebarComponent {
       ),
   });
 
-
-
-
-
-
   enableEdit() {
     this.editMode.set(true);
   }
 
   cancelEdit() {
     this.editMode.set(false);
+
     // Restablecer valores
-  
+    //this.nameControl.setValue(this.userData().name);
+  }
+
+  logout(){
+
   }
 
   saveChanges() {
+    this.editMode.set(false);
+    console.log(this.formUser().value);
     
   }
 
