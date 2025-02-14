@@ -66,6 +66,7 @@ export class AuthService {
           Validators.minLength(10),
           Validators.pattern('^[0-9]*$'),
         ]),
+        avatar: new FormControl(initialData.avatar || ''),
         status: new FormControl(initialData.status || true, [
           Validators.required,
         ]),

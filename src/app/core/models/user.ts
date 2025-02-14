@@ -7,8 +7,11 @@ export interface User {
   user: string;
   email: string;
   password: string;
+  firebaseUid:string
   confirm_password: string;
   phone: string;
+  avatar: string;
   status: boolean;
+  createdAt:string
 }
 
