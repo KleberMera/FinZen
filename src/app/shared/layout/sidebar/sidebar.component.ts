@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { SidebarItemsComponent } from '../sidebar-items/sidebar-items.component';
+import { SidebarConfComponent } from "../sidebar-conf/sidebar-conf.component";
 
 @Component({
   selector: 'app-sidebar',
