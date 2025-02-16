@@ -1,0 +1,27 @@
+<div class="group relative h-full">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600/20 to-blue-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-5 h-5 text-indigo-600/90 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Distribución por Categorías</h3>
+        </div>
+      </div>
+      <div class="flex items-center justify-center">
+        <svg class="w-64 h-64" viewBox="0 0 100 100">
+          <!-- Gráfico de dona para categorías -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+          <path d="M50 5 A45 45 0 0 1 95 50" stroke="#818cf8" stroke-width="10" fill="none"/>
+          <path d="M95 50 A45 45 0 0 1 50 95" stroke="#60a5fa" stroke-width="10" fill="none"/>
+          <path d="M50 95 A45 45 0 0 1 5 50" stroke="#34d399" stroke-width="10" fill="none"/>
+          <!-- Texto central -->
+          <text x="50" y="45" text-anchor="middle" class="text-sm font-medium fill-gray-700 dark:fill-gray-200">Total</text>
+          <text x="50" y="60" text-anchor="middle" class="text-lg font-bold fill-gray-800 dark:fill-gray-100">{{2}}</text>
+        </svg>
+      </div>
+    </div>
+  </div>

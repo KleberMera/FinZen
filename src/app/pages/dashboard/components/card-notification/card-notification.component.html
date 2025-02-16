@@ -1,0 +1,35 @@
+<div class="group relative">
+    <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-600/20 to-teal-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+    <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-cyan-50 dark:bg-cyan-900/30 rounded-lg">
+            <svg class="w-5 h-5 text-cyan-600/90 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+          </div>
+          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Preferencias de Notificación</h3>
+        </div>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+          <span class="text-sm text-gray-600 dark:text-gray-300">Notificaciones Push</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="sr-only peer" [checked]="pushEnabled">
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cyan-300 dark:peer-focus:ring-cyan-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan-600"></div>
+          </label>
+        </div>
+        
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+          <span class="text-sm text-gray-600 dark:text-gray-300">Días de anticipación</span>
+          <select class="text-sm bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg px-3 py-1">
+            <option>1 día</option>
+            <option>2 días</option>
+            <option>3 días</option>
+            <option>1 semana</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>

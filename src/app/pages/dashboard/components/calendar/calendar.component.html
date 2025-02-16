@@ -1,0 +1,35 @@
+<!-- Proyección de Pagos -->
+<div class="mb-8">
+    <div class="group relative">
+      <div class="absolute -inset-0.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
+      <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-3">
+            <div class="p-2 bg-amber-50 dark:bg-amber-900/30 rounded-lg">
+              <svg class="w-5 h-5 text-amber-600/90 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Calendario de Pagos</h3>
+          </div>
+          <div class="flex space-x-2">
+            <select class="text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1">
+              <option>Próximos 30 días</option>
+              <option>Próximos 60 días</option>
+              <option>Próximos 90 días</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Calendario Visual -->
+        <div class="grid grid-cols-7 gap-1 mb-4">
+          <div *ngFor="let day of calendarDays" class="aspect-square relative">
+            <div [class]="getDayClass(day)" class="w-full h-full flex flex-col items-center justify-center rounded-lg p-1">
+              <span class="text-xs">{{day.date}}</span>
+              <div *ngIf="day.hasPayment" class="w-2 h-2 bg-amber-500 rounded-full mt-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

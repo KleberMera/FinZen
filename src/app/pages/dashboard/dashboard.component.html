@@ -4,60 +4,10 @@
 <!-- Sección de Deudas y Amortizaciones -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
   <!-- Resumen de Deudas -->
-  <div class="group relative h-full">
-    <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
-            <svg class="w-5 h-5 text-purple-600/90 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Resumen de Deudas</h3>
-        </div>
-      </div>
-      <div class="space-y-4">
-        <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <span class="text-sm text-gray-600 dark:text-gray-300">Deudas Pendientes</span>
-          <span class="text-sm font-semibold text-gray-800 dark:text-gray-100">{{2222}}</span>
-        </div>
-        <div class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <span class="text-sm text-gray-600 dark:text-gray-300">Próximo Pago</span>
-          <span class="text-sm font-semibold text-orange-600 dark:text-orange-400">{{2}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-card-debt-summary></app-card-debt-summary>
 
   <!-- Distribución de Categorías -->
-  <div class="group relative h-full">
-    <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600/20 to-blue-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-    <div class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
-            <svg class="w-5 h-5 text-indigo-600/90 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Distribución por Categorías</h3>
-        </div>
-      </div>
-      <div class="flex items-center justify-center">
-        <svg class="w-64 h-64" viewBox="0 0 100 100">
-          <!-- Gráfico de dona para categorías -->
-          <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="10"/>
-          <path d="M50 5 A45 45 0 0 1 95 50" stroke="#818cf8" stroke-width="10" fill="none"/>
-          <path d="M95 50 A45 45 0 0 1 50 95" stroke="#60a5fa" stroke-width="10" fill="none"/>
-          <path d="M50 95 A45 45 0 0 1 5 50" stroke="#34d399" stroke-width="10" fill="none"/>
-          <!-- Texto central -->
-          <text x="50" y="45" text-anchor="middle" class="text-sm font-medium fill-gray-700 dark:fill-gray-200">Total</text>
-          <text x="50" y="60" text-anchor="middle" class="text-lg font-bold fill-gray-800 dark:fill-gray-100">{{2}}</text>
-        </svg>
-      </div>
-    </div>
-  </div>
+  <app-card-categories-distribution></app-card-categories-distribution>
 </div>
 
 <!-- Timeline de Transacciones -->
@@ -98,114 +48,13 @@
   </div>
 </div>
 
-<!-- Proyección de Pagos -->
-<div class="mb-8">
-  <div class="group relative">
-    <div class="absolute -inset-0.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-    <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-amber-50 dark:bg-amber-900/30 rounded-lg">
-            <svg class="w-5 h-5 text-amber-600/90 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Calendario de Pagos</h3>
-        </div>
-        <div class="flex space-x-2">
-          <select class="text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1">
-            <option>Próximos 30 días</option>
-            <option>Próximos 60 días</option>
-            <option>Próximos 90 días</option>
-          </select>
-        </div>
-      </div>
-      
-      <!-- Calendario Visual -->
-      <div class="grid grid-cols-7 gap-1 mb-4">
-        <div *ngFor="let day of calendarDays" class="aspect-square relative">
-          <div [class]="getDayClass(day)" class="w-full h-full flex flex-col items-center justify-center rounded-lg p-1">
-            <span class="text-xs">{{day.date}}</span>
-            <div *ngIf="day.hasPayment" class="w-2 h-2 bg-amber-500 rounded-full mt-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<app-calendar></app-calendar>
 
 <!-- Análisis de Preferencias -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
   <!-- Configuración de Notificaciones -->
-  <div class="group relative">
-    <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-600/20 to-teal-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-    <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-cyan-50 dark:bg-cyan-900/30 rounded-lg">
-            <svg class="w-5 h-5 text-cyan-600/90 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Preferencias de Notificación</h3>
-        </div>
-      </div>
-      
-      <div class="space-y-4">
-        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <span class="text-sm text-gray-600 dark:text-gray-300">Notificaciones Push</span>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" class="sr-only peer" [checked]="pushEnabled">
-            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cyan-300 dark:peer-focus:ring-cyan-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan-600"></div>
-          </label>
-        </div>
-        
-        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <span class="text-sm text-gray-600 dark:text-gray-300">Días de anticipación</span>
-          <select class="text-sm bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg px-3 py-1">
-            <option>1 día</option>
-            <option>2 días</option>
-            <option>3 días</option>
-            <option>1 semana</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  
+  <app-card-notification></app-card-notification>
   <!-- Metas Financieras -->
-  <div class="group relative">
-    <div class="absolute -inset-0.5 bg-gradient-to-r from-fuchsia-600/20 to-pink-600/20 rounded-2xl opacity-20 group-hover:opacity-30 transition duration-300 blur-sm"></div>
-    <div class="relative bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-sm">
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center space-x-3">
-          <div class="p-2 bg-fuchsia-50 dark:bg-fuchsia-900/30 rounded-lg">
-            <svg class="w-5 h-5 text-fuchsia-600/90 dark:text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Metas de Ahorro</h3>
-        </div>
-        <button class="text-sm text-fuchsia-600 hover:text-fuchsia-700 dark:text-fuchsia-400 dark:hover:text-fuchsia-300">
-          + Nueva Meta
-        </button>
-      </div>
-
-      <div class="space-y-4">
-        <div class="relative p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Fondo de Emergencia</span>
-            <span class="text-sm text-fuchsia-600 dark:text-fuchsia-400">75%</span>
-          </div>
-          <div class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
-            <div class="h-2 bg-fuchsia-500 rounded-full" style="width: 75%"></div>
-          </div>
-          <div class="flex justify-between mt-2">
-            <span class="text-xs text-gray-500 dark:text-gray-400">$7,500 / $10,000</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">2 meses restantes</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-card-goals></app-card-goals>
 </div>

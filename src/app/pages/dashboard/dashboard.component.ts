@@ -1,19 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DashboardHeaderComponent } from "./components/dashboard-header/dashboard-header.component";
-interface CalendarDay {
-  date: number;
-  hasPayment: boolean;
-  isToday: boolean;
-  payments?: Payment[];
-}
+import { CardNotificationComponent } from "./components/card-notification/card-notification.component";
+import { CardGoalsComponent } from "./components/card-goals/card-goals.component";
+import { CalendarComponent } from "./components/calendar/calendar.component";
+import { CardDebtSummaryComponent } from "./components/card-debt-summary/card-debt-summary.component";
+import { CardCategoriesDistributionComponent } from "./components/card-categories-distribution/card-categories-distribution.component";
 
-interface Payment {
-  id: number;
-  amount: number;
-  description: string;
-  dueDate: string;
-}
+
 
 interface DebtSummary {
   totalDebt: number;
@@ -48,7 +42,7 @@ interface SavingGoal {
 }
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, DashboardHeaderComponent],
+  imports: [CommonModule, DashboardHeaderComponent, CardNotificationComponent, CardGoalsComponent, CalendarComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -56,12 +50,12 @@ export class DashboardComponent {
   // Datos aleatorios
 
 // Estado para notificaciones
-pushEnabled: boolean = false;
+
 daysBeforeNotify: number = 2;
 
 // Datos del calendario
-calendarDays: CalendarDay[] = [];
-selectedPeriod: '30' | '60' | '90' = '30';
+
+
 
 // Datos financieros
 debtSummary?: DebtSummary;
@@ -73,7 +67,7 @@ savingGoals: SavingGoal[] = [];
 
 ngOnInit(): void {
   this.initializeData();
-  this.generateCalendar();
+ // this.generateCalendar();
   this.loadNotificationPreferences();
 }
 
@@ -104,43 +98,15 @@ private loadSavingGoals(): void {
  
 }
 
-private generateCalendar(): void {
-  const today = new Date();
-  const daysInMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    0
-  ).getDate();
 
-  this.calendarDays = Array.from({ length: daysInMonth }, (_, i) => ({
-    date: i + 1,
-    hasPayment: false,
-    isToday: i + 1 === today.getDate(),
-    payments: []
-  }));
 
-  // Cargar pagos del mes
-  this.loadMonthlyPayments();
-}
 
-private loadMonthlyPayments(): void {
- 
-}
 
 private loadNotificationPreferences(): void {
  
 }
 
-// Métodos de utilidad para la UI
-getDayClass(day: CalendarDay): string {
-  return `
-    w-full h-full 
-    ${day.isToday ? 'bg-amber-100 dark:bg-amber-900/30' : 'bg-gray-50 dark:bg-gray-700/50'} 
-    ${day.hasPayment ? 'ring-2 ring-amber-500 dark:ring-amber-400' : ''} 
-    rounded-lg cursor-pointer hover:bg-amber-50 dark:hover:bg-amber-900/20
-    transition-all duration-200
-  `;
-}
+
 
 getTransactionClass(amount: number): string {
   return amount > 0 
@@ -149,10 +115,6 @@ getTransactionClass(amount: number): string {
 }
 
 // Manejadores de eventos
-onPeriodChange(period: '30' | '60' | '90'): void {
-  this.selectedPeriod = period;
-  this.loadMonthlyPayments();
-}
 
 onTogglePushNotifications(enabled: boolean): void {
   
