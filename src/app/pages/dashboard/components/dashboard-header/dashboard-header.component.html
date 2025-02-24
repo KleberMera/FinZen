@@ -22,12 +22,12 @@
             <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Balance Total</h3>
           </div>
           <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-            Mensual
+            {{balance.value()?.data?.monthName | titlecase }}
           </span>
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$25,400.00</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.balance | currency }}</p>
         <div class="flex items-center mt-2 space-x-2">
           <span class="flex items-center text-green-500 text-sm font-medium">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$4,200.00</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.totalIncome | currency }}</p>
       </div>
     </div>
   </div>
@@ -99,7 +99,7 @@
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">$2,800.00</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.totalExpenses | currency }}</p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
           de $4,000.00 presupuestados
         </p>
