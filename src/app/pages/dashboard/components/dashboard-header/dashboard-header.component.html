@@ -1,7 +1,9 @@
 <!-- Header con saludo -->
+ @let data = balance.value()!.data;
+
 <div class="mb-8">
   <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-    ¡Hola, <span class="text-blue-600 dark:text-blue-400">{{name()}}</span>! 👋
+    ¡Hola, <span class="text-blue-600 dark:text-blue-400">{{ name() }}</span>! 👋
   </h1>
 </div>
 
@@ -21,22 +23,39 @@
             </div>
             <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Balance Total</h3>
           </div>
-          <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
-            {{balance.value()?.data?.monthName | titlecase }}
-          </span>
+          @if (data!.currentMonth.monthName) {
+            <span class="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
+              {{ data!.currentMonth.monthName | titlecase }}
+            </span>
+          }
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.balance | currency }}</p>
-        <div class="flex items-center mt-2 space-x-2">
-          <span class="flex items-center text-green-500 text-sm font-medium">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-            </svg>
-            +15%
-          </span>
-          <span class="text-gray-500 dark:text-gray-400 text-sm">vs mes anterior</span>
-        </div>
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          {{ data!.currentMonth.balance | currency}}
+        </p>
+        @if (data!.previousMonth) {
+          <div class="flex items-center mt-2 space-x-2">
+            @if (data!.currentMonth!.balance > data!.previousMonth!.balance) {
+              <span class="flex items-center text-green-500 text-sm font-medium">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+                +{{ (data!.currentMonth!.balance - data!.previousMonth!.balance) | currency }}
+              </span>
+            } @else {
+              <span class="flex items-center text-red-500 text-sm font-medium">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+                {{ (data!.currentMonth!.balance - data!.previousMonth!.balance) | currency }}
+              </span>
+            }
+            <span class="text-gray-500 dark:text-gray-400 text-sm">
+              vs {{ data!.previousMonth.monthName | titlecase }}
+            </span>
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -55,13 +74,19 @@
             </div>
             <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Ingresos</h3>
           </div>
-          <div class="text-xs px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 font-medium">
-            +8.5%
-          </div>
+          @if (data!.comparison) {
+            <div class="text-xs px-2 py-1 rounded-full font-medium"
+             >
+              {{ balance.value()!.data!.comparison!.incomePercentageChange >= 0 ? '+' : '' }}
+              {{ balance.value()!.data!.comparison!.incomePercentageChange | number:'1.1-1' }}%
+            </div>
+          }
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.totalIncome | currency }}</p>
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          {{ data!.currentMonth.totalIncome | currency:data!.currentMonth.currency }}
+        </p>
       </div>
     </div>
   </div>
@@ -80,29 +105,34 @@
             </div>
             <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Gastos</h3>
           </div>
-          <div class="flex items-center">
-            <svg class="w-14 h-14 transform rotate-[-90deg]" viewBox="0 0 36 36">
-              <circle cx="18" cy="18" r="15" fill="none" 
-                      class="stroke-current text-gray-200/50 dark:text-gray-700/50" 
-                      stroke-width="2.5"/>
-              <circle cx="18" cy="18" r="15" fill="none" 
-                      class="stroke-current text-red-500/90 dark:text-red-400" 
-                      stroke-width="2.5"
-                      stroke-dasharray="75"
-                      stroke-dashoffset="26"
-                      stroke-linecap="round"/>
-              <text x="18" y="18" text-anchor="middle" dy=".3em"
-                    class="fill-current text-xs font-medium text-gray-700 dark:text-gray-300"
-                    transform="rotate(90 18 18)">65%</text>
-            </svg>
-          </div>
+          @if (data!.comparison) {
+            <div class="text-xs px-2 py-1 rounded-full font-medium"
+            
+            [class.bg-green-50]="balance.value()!.data!.comparison!.expensesPercentageChange >= 0"
+            
+            [class.text-green-600]="balance.value()!.data!.comparison!.expensesPercentageChange >= 0"
+            [class.dark:text-green-400]="balance.value()!.data!.comparison!.expensesPercentageChange >= 0"
+            [class.bg-red-50]="balance.value()!.data!.comparison!.expensesPercentageChange < 0"
+           
+            [class.text-red-600]="balance.value()!.data!.comparison!.expensesPercentageChange < 0"
+            [class.dark:text-red-400]="balance.value()!.data!.comparison!.expensesPercentageChange < 0"
+            >
+            
+              {{ balance.value()!.data!.comparison!.expensesPercentageChange >= 0 ? '+' : '' }}
+              {{ balance.value()!.data!.comparison!.expensesPercentageChange | number:'1.1-1' }}%
+            </div>
+          }
         </div>
       </div>
       <div class="mt-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{balance.value()?.data?.totalExpenses | currency }}</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-          de $4,000.00 presupuestados
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+          {{ data!.currentMonth.totalExpenses | currency:data!.currentMonth.currency }}
         </p>
+        @if (data!.previousMonth) {
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            Mes anterior: {{ data!.previousMonth.totalExpenses | currency:data!.previousMonth.currency }}
+          </p>
+        }
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@ import { BalanceService } from '../../services/balance.service';
 
 @Component({
   selector: 'app-dashboard-header',
-  imports: [CurrencyPipe, TitleCasePipe],
+  imports: [CurrencyPipe, TitleCasePipe, CommonModule],
   templateUrl: './dashboard-header.component.html',
   styleUrl: './dashboard-header.component.scss',
 })
