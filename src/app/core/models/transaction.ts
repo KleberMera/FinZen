@@ -9,4 +9,5 @@ export interface Transaction {
   date: Date;
   type?: string;
   category?: Category;
+  time: string;
 }

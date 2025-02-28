@@ -16,11 +16,12 @@ export class TransactionService {
   formTransaction(data: Partial<Transaction> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
-        category_id: new FormControl(data.category_id, [Validators.required]),
-        name: new FormControl(data.name, [Validators.required]),
-        description: new FormControl(data.description || ''),
-        amount: new FormControl(data.amount, [Validators.required]),
-        date: new FormControl(data.date, [Validators.required]),
+      category_id: new FormControl(data.category_id, [Validators.required]),
+      name: new FormControl(data.name, [Validators.required]),
+      description: new FormControl(data.description || ''),
+      amount: new FormControl(data.amount, [Validators.required]),
+      date: new FormControl(data.date, [Validators.required]),
+      time: new FormControl(data.time || new Date().toLocaleTimeString('en-US', { hour12: false }), [Validators.required]),
       })
     );
     return form;
