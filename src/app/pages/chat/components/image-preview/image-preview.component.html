@@ -1,0 +1,18 @@
+<!-- src/app/chat/components/image-preview/image-preview.component.html -->
+@if (selectedImage()) {
+    <div class="bg-gray-50 dark:bg-gray-700 p-3 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <div class="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-600">
+            <img [src]="selectedImageUrl()" alt="Vista previa" class="object-cover w-full h-full" />
+          </div>
+          <span class="text-sm text-gray-600 dark:text-gray-300 truncate max-w-[150px]">{{selectedImage()?.name}}</span>
+        </div>
+        <button type="button" class="text-red-500 hover:text-red-700" (click)="removeSelectedImage()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  }
