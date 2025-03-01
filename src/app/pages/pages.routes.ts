@@ -11,6 +11,7 @@ import { ListDebtComponent } from './debt/ui/list-debt/list-debt.component';
 import { EditDebtComponent } from './debt/ui/edit-debt/edit-debt.component';
 import { LayoutComponent } from '../layout/layout.component';
 import { GoalsComponent } from './goals/goals.component';
+import { ChatComponent } from './chat/ui/chat/chat.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -57,6 +58,11 @@ export const pagesRoutes: Routes = [
         path: 'metas',
         component: GoalsComponent
       },
+      {
+        path: 'chat',
+        component: ChatComponent
+      },
+
       {
         path: '**',
         redirectTo: 'dashboard',

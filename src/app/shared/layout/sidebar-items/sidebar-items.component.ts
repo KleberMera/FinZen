@@ -7,6 +7,7 @@ import { CashRegisterIconComponent } from '@icons/cash-register-icon/cash-regist
 import { OverviewComponent } from '@icons/overview/overview.component';
 import { TagComponent } from '@icons/tag/tag.component';
 import { menuAnimations } from './menu-animatios';
+import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
 
 
 interface MenuItem {
@@ -98,6 +99,19 @@ export class SidebarItemsComponent {
         {
           label: 'Nueva Meta',
           route: 'metas',
+        },
+               
+      ],
+    },
+    {
+      type: 'dropdown',
+      label: 'Tickets',
+      icon: ChatIconComponent,
+      subItems: [
+        {
+          label: 'Chat',
+          route: 'chat',
+         // route: 'metas',
         },
                
       ],
