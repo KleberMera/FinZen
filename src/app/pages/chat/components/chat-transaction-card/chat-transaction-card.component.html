@@ -1,0 +1,9 @@
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ transaction.name }}</h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300">{{ transaction.description }}</p>
+    <div class="mt-2">
+      <p class="text-sm text-gray-700 dark:text-gray-200"><strong>Monto:</strong> ${{ transaction.amount }}</p>
+      <p class="text-sm text-gray-700 dark:text-gray-200"><strong>Fecha:</strong> {{ transaction.date }}</p>
+      <p class="text-sm text-gray-700 dark:text-gray-200"><strong>Categoría:</strong> {{ transaction.category.name }}</p>
+    </div>
+  </div>

@@ -1,7 +1,9 @@
-import { Component, EventEmitter, inject, output, Output } from '@angular/core';
+import { Component, EventEmitter, inject, output, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '@services/storage.service';
+import { ProcessService } from '../../services/process.service';
 
 @Component({
   selector: 'app-message-input',
@@ -11,10 +13,13 @@ import { ImageService } from '../../services/image.service';
 })
 export class MessageInputComponent {
   messageSent = output<void>();
+  protected readonly _storageService = inject(StorageService);
+  protected readonly seletedUser = signal<number>(this._storageService.getUserId());
   
   private fb = inject(FormBuilder);
   private chatService = inject(ChatService);
   private imageService = inject(ImageService);
+  private processService = inject(ProcessService);
   
   messageForm: FormGroup;
   
@@ -35,15 +40,41 @@ export class MessageInputComponent {
       if (this.selectedImage()) {
         // Manejar mensaje con imagen
         this.chatService.addUserMessage(
-          message?.trim() ? message : 'Recibo enviado', 
+          'Recibo enviado', 
           this.imageService.selectedImageUrl() ?? undefined
         );
         
-        // Simular análisis de imagen
-        await this.chatService.simulateImageAnalysis();
+       
         
-        // Agregar respuesta del bot
-        this.chatService.addBotMessage('He recibido tu recibo. ¿Deseas generar un ticket para este gasto?');
+        // Primer simulación de análisis - más corta
+        await this.chatService.simulateImageAnalysis(1000);
+        
+        // Segunda simulación de análisis
+        this.chatService.addBotMessage('Analizando imagen...');
+        
+        try {
+          // Crear una promesa para simular el tiempo que tarda el procesamiento
+          const animationPromise = this.chatService.simulateImageAnalysis(3000);
+          
+          // Procesar la imagen en paralelo
+          const responsePromise = this.processService.imageProcess(
+            this.selectedImage()!, 
+            this.seletedUser()
+          ).toPromise();
+          
+          // Esperar a que ambas promesas se completen
+          const [response] = await Promise.all([
+            responsePromise,
+            animationPromise
+          ]);
+          
+          // Mostrar la respuesta en una tarjeta
+          this.chatService.addBotCardMessage(response?.transaction);
+        } catch (error) {
+          // Detener la animación y mostrar error
+          this.chatService.analyzingImage.set(false);
+          this.chatService.addBotMessage('Hubo un error al procesar la imagen. Inténtalo de nuevo.');
+        }
         
         // Limpiar la imagen seleccionada
         this.imageService.removeSelectedImage();
@@ -52,9 +83,32 @@ export class MessageInputComponent {
         // Manejar mensaje de solo texto
         this.chatService.addUserMessage(message);
         
-        // Simular respuesta del bot
-        await this.chatService.simulateTyping();
-        this.chatService.addBotMessage('Entendido. ¿Necesitas ayuda con algo más?');
+        // Mostrar mensaje de carga
+        this.chatService.addLoadingMessage('Procesando texto...');
+        
+        try {
+          // Crear una promesa para simular el tiempo que tarda el procesamiento
+          const animationPromise = this.chatService.simulateTyping(2000);
+          
+          // Procesar el texto en paralelo
+          const responsePromise = this.processService.textProcess(
+            message, 
+            this.seletedUser()
+          ).toPromise();
+          
+          // Esperar a que ambas promesas se completen
+          const [response] = await Promise.all([
+            responsePromise,
+            animationPromise
+          ]);
+          
+          // Mostrar la respuesta en una tarjeta
+          this.chatService.addBotCardMessage(response?.transaction);
+        } catch (error) {
+          // Detener la animación y mostrar error
+          this.chatService.isTyping.set(false);
+          this.chatService.addBotMessage('Hubo un error al procesar el texto. Inténtalo de nuevo.');
+        }
       }
       
       // Limpiar formulario

@@ -9,6 +9,16 @@
         <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block">{{message().time}}</span>
       </div>
     </div>
+  } @else if (message().type === 'bot-card') {
+    <div class="flex items-start space-x-2 animate-fade-in">
+      <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-800 flex items-center justify-center flex-shrink-0">
+        <span class="text-blue-600 dark:text-blue-300">🤖</span>
+      </div>
+      <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-3 max-w-[85%] shadow-sm">
+        <app-chat-transaction-card [transaction]="message().transaction"></app-chat-transaction-card>
+        <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block">{{ message().time }}</span>
+      </div>
+    </div>
   } @else {
     <div class="flex items-start justify-end space-x-2 animate-fade-in">
       <div class="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-3 max-w-[85%] shadow-sm">
