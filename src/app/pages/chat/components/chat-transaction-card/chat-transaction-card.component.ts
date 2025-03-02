@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { Transaction } from '@models/transaction';
 
 @Component({
   selector: 'app-chat-transaction-card',
@@ -7,7 +8,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './chat-transaction-card.component.scss'
 })
 export class ChatTransactionCardComponent {
-  readonly transaction = input<any>();
+  readonly transaction = input.required<Transaction >();
   formatDateTime(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleString(undefined, {

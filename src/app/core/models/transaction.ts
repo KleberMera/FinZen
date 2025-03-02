@@ -10,4 +10,5 @@ export interface Transaction {
   type?: string;
   category?: Category;
   time: string;
+  createdAt?: string;
 }
