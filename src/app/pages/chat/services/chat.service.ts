@@ -7,7 +7,6 @@ import { Transaction } from '@models/transaction';
   providedIn: 'root'
 })
 export class ChatService {
-
   private botMessages = signal<Message[]>([{
     id: 1,
     text: '¡Hola! ¿En qué puedo ayudarte hoy?',
@@ -99,36 +98,40 @@ export class ChatService {
   }
 
   // Método mejorado para mostrar animación de typing
-  // Acepta un parámetro opcional para establecer una duración específica
-  // Si se pasa 0 o null, utiliza la duración por defecto
-  simulateTyping(duration: number = 1500): Promise<void> {
+  // Ahora devuelve una función para detener la animación cuando sea necesario
+  startTypingAnimation(): () => void {
     this.isTyping.set(true);
-    
-    // Si la duración es 0, usamos el valor por defecto
-    const animationDuration = duration || 1500;
-    
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.isTyping.set(false);
-        resolve();
-      }, animationDuration);
-    });
+    return () => this.isTyping.set(false);
   }
 
   // Método mejorado para mostrar animación de análisis de imagen
-  // Acepta un parámetro opcional para establecer una duración específica
-  // Si se pasa 0 o null, utiliza la duración por defecto
-  simulateImageAnalysis(duration: number = 2500): Promise<void> {
+  // Ahora devuelve una función para detener la animación cuando sea necesario
+  startImageAnalysisAnimation(): () => void {
     this.analyzingImage.set(true);
-    
-    // Si la duración es 0, usamos el valor por defecto
-    const animationDuration = duration || 2500;
+    return () => this.analyzingImage.set(false);
+  }
+
+  // Para compatibilidad con código existente, mantenemos estos métodos
+  // pero internamente usan los nuevos métodos
+  simulateTyping(duration: number = 1500): Promise<void> {
+    const stopAnimation = this.startTypingAnimation();
     
     return new Promise(resolve => {
       setTimeout(() => {
-        this.analyzingImage.set(false);
+        stopAnimation();
         resolve();
-      }, animationDuration);
+      }, duration);
+    });
+  }
+
+  simulateImageAnalysis(duration: number = 2500): Promise<void> {
+    const stopAnimation = this.startImageAnalysisAnimation();
+    
+    return new Promise(resolve => {
+      setTimeout(() => {
+        stopAnimation();
+        resolve();
+      }, duration);
     });
   }
 

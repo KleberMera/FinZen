@@ -15,7 +15,12 @@ export class MessageInputComponent {
   messageSent = output<void>();
   protected readonly _storageService = inject(StorageService);
   protected readonly seletedUser = signal<number>(this._storageService.getUserId());
-  
+  selectedImagePreview: string | null = null;
+
+removeSelectedImage() {
+  this.selectedImage.set(null);
+  this.selectedImagePreview = null;
+}
   private fb = inject(FormBuilder);
   private chatService = inject(ChatService);
   private imageService = inject(ImageService);
@@ -45,28 +50,21 @@ export class MessageInputComponent {
         );
         
        
-        
-        // Primer simulación de análisis - más corta
-        await this.chatService.simulateImageAnalysis(1000);
-        
-        // Segunda simulación de análisis
-        this.chatService.addBotMessage('Analizando imagen...');
+        // Segunda simulación de análisis con animación infinita
+        //this.chatService.addBotMessage('Analizando imagen...');
         
         try {
-          // Crear una promesa para simular el tiempo que tarda el procesamiento
-          const animationPromise = this.chatService.simulateImageAnalysis(3000);
+          // Iniciar la animación que continuará hasta que la detengamos
+          const stopAnimation = this.chatService.startImageAnalysisAnimation();
           
-          // Procesar la imagen en paralelo
-          const responsePromise = this.processService.imageProcess(
+          // Procesar la imagen
+          const response = await this.processService.imageProcess(
             this.selectedImage()!, 
             this.seletedUser()
           ).toPromise();
           
-          // Esperar a que ambas promesas se completen
-          const [response] = await Promise.all([
-            responsePromise,
-            animationPromise
-          ]);
+          // Detener la animación una vez que tengamos la respuesta
+          stopAnimation();
           
           // Mostrar la respuesta en una tarjeta
           this.chatService.addBotCardMessage(response?.transaction);
@@ -84,23 +82,20 @@ export class MessageInputComponent {
         this.chatService.addUserMessage(message);
         
         // Mostrar mensaje de carga
-        this.chatService.addLoadingMessage('Procesando texto...');
+        //this.chatService.addBotMessage('Procesando texto...');
         
         try {
-          // Crear una promesa para simular el tiempo que tarda el procesamiento
-          const animationPromise = this.chatService.simulateTyping(2000);
+          // Iniciar la animación que continuará hasta que la detengamos
+          const stopAnimation = this.chatService.startTypingAnimation();
           
-          // Procesar el texto en paralelo
-          const responsePromise = this.processService.textProcess(
+          // Procesar el texto
+          const response = await this.processService.textProcess(
             message, 
             this.seletedUser()
           ).toPromise();
           
-          // Esperar a que ambas promesas se completen
-          const [response] = await Promise.all([
-            responsePromise,
-            animationPromise
-          ]);
+          // Detener la animación una vez que tengamos la respuesta
+          stopAnimation();
           
           // Mostrar la respuesta en una tarjeta
           this.chatService.addBotCardMessage(response?.transaction);
