@@ -2,7 +2,7 @@
 <div class="flex flex-col bg-gray-50 dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
     <app-chat-header></app-chat-header>
     
-    <div class="flex-1 p-4 py-24 overflow-y-auto bg-white dark:bg-gray-800" #chatContainer> 
+    <div class="flex-1  overflow-y-auto bg-white dark:bg-gray-800" #chatContainer> 
       <app-chat-messages (scrollRequest)="scrollToBottom()"></app-chat-messages>
     </div>
     
