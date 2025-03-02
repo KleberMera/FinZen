@@ -3,7 +3,7 @@ import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-chat-transaction-card',
-  imports: [NgClass, NgIf],
+  imports: [],
   templateUrl: './chat-transaction-card.component.html',
   styleUrl: './chat-transaction-card.component.scss'
 })
