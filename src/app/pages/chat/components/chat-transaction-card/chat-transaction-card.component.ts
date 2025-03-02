@@ -1,4 +1,3 @@
-import { NgClass, NgIf } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 @Component({
