@@ -35,4 +35,10 @@ export class StorageService {
     // recorrer dataUser y retornar el  id
     return dataUser?.name as string;
   }
+
+  getAvatar() {
+    const dataUser: User | null = this.get(this._userId());
+    // recorrer dataUser y retornar el  id
+    return dataUser?.avatar as string;
+  }
 }
