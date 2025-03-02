@@ -21,4 +21,19 @@ export class ImagePreviewComponent {
   removeSelectedImage(): void {
     this.imageService.removeSelectedImage();
   }
+
+  formatFileSize(size: number | undefined): string {
+    if (!size) return '0 B';
+    
+    const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    let i = 0;
+    let fileSize = size;
+    
+    while (fileSize >= 1024 && i < units.length - 1) {
+      fileSize /= 1024;
+      i++;
+    }
+    
+    return `${fileSize.toFixed(1)} ${units[i]}`;
+  }
 }
