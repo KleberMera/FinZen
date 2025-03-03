@@ -138,4 +138,10 @@ export class ChatService {
   private getCurrentTime(): string {
     return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
+
+  removeMessage(id: number): void {
+    const idUser = id - 1;
+    this.botMessages.update(messages => messages.filter(m => m.id !== id));
+    this.userMessages.update(messages => messages.filter(m => m.id !== idUser));
+  }
 }

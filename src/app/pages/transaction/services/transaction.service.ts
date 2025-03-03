@@ -63,5 +63,11 @@ export class TransactionService {
     console.log(total);
     return total;
   }
+
+
+  deleteTransaction(id: number) {
+    const url = `${environment.apiUrl}/transaction/user/delete/${id}`;
+    return this._http.delete<apiResponse<Transaction>>(url);
+  }
     
 }
