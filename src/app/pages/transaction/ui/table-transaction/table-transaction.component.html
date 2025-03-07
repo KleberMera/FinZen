@@ -1,4 +1,4 @@
-<!-- Loading State -->
+<!-- 
 @if (transactions.isLoading()) {
 <skeleton-filters></skeleton-filters>
 <LoaderUi></LoaderUi>
@@ -12,12 +12,15 @@
 } @else {
 <ng-container [ngTemplateOutlet]="desktopView"></ng-container>
 } }
-<!-- Template para vista Desktop -->
+
 <ng-template #desktopView>
   <view-desktop [filteredTransactions]="filteredTransactions()"></view-desktop>
 </ng-template>
 
-<!-- Template para vista Mobile -->
+
 <ng-template #mobileView>
   <view-mobile [filteredTransactions]="filteredTransactions()"></view-mobile>
-</ng-template>
+</ng-template> -->
+
+
+<app-search-filter-transaction></app-search-filter-transaction>

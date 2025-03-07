@@ -12,3 +12,9 @@ export interface Transaction {
   time: string;
   createdAt?: string;
 }
+
+
+export interface TransactionName {
+  id: number;
+  name: string;
+}

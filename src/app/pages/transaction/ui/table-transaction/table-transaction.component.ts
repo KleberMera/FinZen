@@ -11,6 +11,7 @@ import { ViewMobileComponent } from "../../components/view-mobile/view-mobile.co
 import { apiResponse } from '@models/apiResponse';
 import { Transaction } from '@models/transaction';
 import { FiltersTransactionComponent } from "../../components/filters-transaction/filters-transaction.component";
+import { SearchFilterTransactionComponent } from "../../components/search-filter-transaction/search-filter-transaction.component";
 export const AppComponent = [LoaderComponent, SkeletonFiltersComponent, ViewDesktopComponent, ViewMobileComponent, FiltersTransactionComponent];
 
 export interface Filters {
@@ -21,7 +22,7 @@ export interface Filters {
 
 @Component({
   selector: 'table-transaction',
-  imports: [NgTemplateOutlet, AppComponent],
+  imports: [NgTemplateOutlet, AppComponent, SearchFilterTransactionComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
