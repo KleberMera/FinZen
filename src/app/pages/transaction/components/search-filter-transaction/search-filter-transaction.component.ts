@@ -28,6 +28,7 @@ export class SearchFilterTransactionComponent {
   today = signal<boolean>(true);
   currentPage = signal<number>(1);
   itemsPerPage = signal<number>(10);
+  isFormVisible = signal<boolean>(true);
 
 
   clearFilters(): void {
@@ -39,7 +40,12 @@ export class SearchFilterTransactionComponent {
     this.endDate.set('');
     this.today.set(true);
     this.useDateRange.set(false);
-    
+
+  }
+
+
+  toggleFormVisibility(): void {
+    this.isFormVisible.set(!this.isFormVisible());
   }
 
   private readonly seletedUser = signal<number>(
