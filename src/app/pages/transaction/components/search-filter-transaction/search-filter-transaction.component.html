@@ -1,16 +1,17 @@
 <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
-  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
-    <span class="flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd"
-          d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-          clip-rule="evenodd" />
-      </svg>
-      Filtrar Transacciones
-    </span>
-  </h2>
+  
 
   @if (isFormVisible()) {
+    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
+      <span class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+            clip-rule="evenodd" />
+        </svg>
+        Filtrar Transacciones
+      </span>
+    </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <!-- Nombre de la Transacción -->
       <div class="mb-4">
@@ -88,13 +89,33 @@
       </div>
   
       <!-- Filtro por Hoy -->
-      <div class="mb-4 flex items-center">
+      <div class="mb-4 flex items-center gap-4">
+        <!-- Checkbox para "Solo transacciones de hoy" -->
         <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" [ngModel]="today()" (ngModelChange)="today.set($event)" class="sr-only peer" />
+          <input
+            type="checkbox"
+            [ngModel]="today()"
+            (ngModelChange)="today.set($event)"
+            class="sr-only peer"
+          />
           <div
-            class="relative w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500">
-          </div>
-          <span class="ms-3 text-sm font-medium text-gray-300">Solo transacciones de hoy</span>
+            class="relative w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"
+          ></div>
+          <span class="ms-3 text-sm font-medium text-gray-300">Hoy</span>
+        </label>
+      
+        <!-- Checkbox para "Todos" -->
+        <label class="inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            [ngModel]="all()"
+            (ngModelChange)="all.set($event)"
+            class="sr-only peer"
+          />
+          <div
+            class="relative w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"
+          ></div>
+          <span class="ms-3 text-sm font-medium text-gray-300">Todos</span>
         </label>
       </div>
     </div>
@@ -245,13 +266,15 @@
 } @else {
 
 @if (_screenService.isMobile()) {
-<view-mobile [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()"
-  [itemsPerPage]="itemsPerPage()" (pageChange)="goToPage($event)"
+<view-mobile [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()!"
+  [itemsPerPage]="itemsPerPage()!" (pageChange)="goToPage($event)"
   (itemsPerPageChange)="changeItemsPerPage($event)"></view-mobile>
 } @else {
-<view-desktop [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()"
-  [itemsPerPage]="itemsPerPage()" (pageChange)="goToPage($event)"
+<view-desktop [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()!"
+  [itemsPerPage]="itemsPerPage()!" (pageChange)="goToPage($event)"
   (itemsPerPageChange)="changeItemsPerPage($event)"></view-desktop>
+
+ 
 }
 
 }

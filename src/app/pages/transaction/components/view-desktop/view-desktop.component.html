@@ -25,6 +25,7 @@
       <tbody class="divide-y divide-gray-200/50 dark:divide-gray-700/30">
         @for (transaccion of filteredTransactions().data; track transaccion.id) {
         <tr
+        (click)="onTransactionClick(transaccion)"
           class="bg-white dark:bg-gray-800 hover:bg-blue-50/30 dark:hover:bg-gray-700/50 transition-colors duration-150">
           <td class="px-5 py-4 hidden sm:table-cell font-medium text-gray-500 dark:text-gray-400">{{ transaccion.id }}
           </td>
@@ -180,3 +181,11 @@
     </div>
   </div>
 </div>
+
+
+@if (isSidebarOpen()) {
+  <app-detail-transaction
+    [transaction]="selectedTransaction()!"
+    (closeUserSidebar)="closeUserSidebar()"
+  ></app-detail-transaction>
+}

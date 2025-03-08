@@ -26,8 +26,8 @@ export class SearchFilterTransactionComponent {
   all = signal<boolean>(false);
   useDateRange = signal<boolean>(false);
   today = signal<boolean>(true);
-  currentPage = signal<number>(1);
-  itemsPerPage = signal<number>(10);
+  currentPage = signal<number|null>(null);
+  itemsPerPage = signal<number|null>(null);
   isFormVisible = signal<boolean>(true);
 
 
@@ -40,7 +40,9 @@ export class SearchFilterTransactionComponent {
     this.endDate.set('');
     this.today.set(true);
     this.useDateRange.set(false);
-
+    this.all.set(false);
+    this.currentPage.set(null);
+    this.itemsPerPage.set(null);
   }
 
 
@@ -71,10 +73,15 @@ export class SearchFilterTransactionComponent {
   });
 
   filterValue = computed(() => {
-    const filters: any = {
-      page: this.currentPage(), // Página actual
-      limit: this.itemsPerPage(), // Límite de elementos por página
-    };
+    const filters: any = {};
+
+    if(this.currentPage()){
+      filters.page = this.currentPage();
+    }
+
+    if (this.itemsPerPage()) {
+      filters.limit = this.itemsPerPage();
+    }
   
 
     // Solo agregar 'today' si es true
@@ -85,6 +92,7 @@ export class SearchFilterTransactionComponent {
     // Solo agregar 'all' si es true
     if (this.all()) {
       filters.all = true;
+      //filters.limit = this.itemsPerPage();
     }
 
     // Solo agregar 'transactionName' si tiene un valor
@@ -122,12 +130,12 @@ export class SearchFilterTransactionComponent {
 
   constructor() {
     // Reaccionar a cambios en filterValue
-    effect(() => {
-      const filters = this.filterValue();
-      console.log('Filtros actualizados:', filters);
-      // Aquí puedes forzar una nueva solicitud si es necesario
-      //this.filteredTransactions.reload();
-    });
+    // effect(() => {
+    //   const filters = this.filterValue();
+    //   console.log('Filtros actualizados:', filters);
+    //   // Aquí puedes forzar una nueva solicitud si es necesario
+    //   //this.filteredTransactions.reload();
+    // });
   }
   setUseDateRange(value: boolean): void {
     this.useDateRange.set(value);

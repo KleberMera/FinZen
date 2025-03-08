@@ -7,15 +7,17 @@ import {
   input,
   output,
   Output,
+  signal,
 } from '@angular/core';
 import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { apiResponse } from '@models/apiResponse';
 import { FormsModule, NgModel } from '@angular/forms';
+import { DetailTransactionComponent } from "../detail-transaction/detail-transaction.component";
 
 @Component({
   selector: 'view-desktop',
-  imports: [CurrencyPipe, DatePipe, FormsModule],
+  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent],
   templateUrl: './view-desktop.component.html',
   styleUrl: './view-desktop.component.scss',
 })
@@ -24,7 +26,22 @@ export class ViewDesktopComponent {
   readonly filteredTransactions = input.required<apiResponse<Transaction[]>>();
   readonly currentPage = input.required<number>();
   readonly itemsPerPage = input.required<number>();
+  selectedTransaction = signal<Transaction | null>(null);
+  isSidebarOpen = signal(false);
 
+  // Método para manejar el clic en una transacción
+  onTransactionClick(transaction: Transaction): void {
+    console.log('Recibido', transaction);
+    this.selectedTransaction.set(transaction);
+    this.isSidebarOpen.set(true); // Abre el sidebar
+  }
+
+  // Método para cerrar el sidebar
+  closeUserSidebar(): void {
+    console.log('Cerrando sidebar...');
+    this.isSidebarOpen.set(false); // Cierra el sidebar
+    this.selectedTransaction.set(null); // Limpia la transacción seleccionada
+  }
   // Outputs
   readonly pageChange = output<number>();
   readonly itemsPerPageChange = output<number>();

@@ -1,0 +1,103 @@
+<div class="fixed inset-0 z-50 overflow-hidden">
+  <!-- Fondo oscuro con blur -->
+  <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity" (click)="close()">
+  </div>
+  
+  <!-- Sidebar -->
+  <div class="absolute right-0 top-0 h-full w-full max-w-xs sm:max-w-md md:max-w-lg bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0 overflow-hidden flex flex-col">
+    <!-- Encabezado del sidebar -->
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 z-10">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Detalles de la Transacción</h2>
+        <button (click)="close()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Cerrar">
+          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Cuerpo del sidebar con scroll -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="p-4 space-y-6">
+        <!-- Resumen principal -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+          <!-- Nombre de la transacción -->
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ transaction().name }}</h3>
+          
+          <!-- Monto y tipo de transacción destacado -->
+          <div class="mt-2 flex items-center">
+            <span [class]="transaction().category?.type === 'Ingreso' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'" 
+                  class="text-xl font-bold px-3 py-1 rounded-md">
+              {{ transaction().category?.type === 'Ingreso' ? '+' : '-' }}
+              {{ transaction().amount | currency : "USD" : "symbol" : "1.2-2" }}
+            </span>
+            <span class="ml-2 px-2 py-1 text-xs rounded-full" 
+                  [class]="transaction().category?.type === 'Ingreso' ? 'bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-300'">
+              {{ transaction().category?.type }}
+            </span>
+          </div>
+        </div>
+        
+        <!-- Información de la transacción -->
+        <div class="space-y-4">
+          <!-- Fecha y hora -->
+          <div class="flex items-center">
+            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Fecha y hora</p>
+              <p class="text-gray-700 dark:text-gray-300">{{ transaction().date | date : "EEEE, dd 'de' MMMM, yyyy" }}</p>
+              <p class="text-gray-700 dark:text-gray-300">{{ transaction().time }}</p>
+            </div>
+          </div>
+          
+          <!-- Categoría -->
+          <div class="flex items-center">
+            <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center mr-3">
+              <i [class]="transaction().category?.icon" class="text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Categoría</p>
+              <p class="text-gray-700 dark:text-gray-300">{{ transaction().category?.name }}</p>
+            </div>
+          </div>
+          
+          <!-- Descripción -->
+          <div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Descripción</p>
+            @if (hasItemsList(transaction().description)) {
+              <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 mt-1">
+                <p class="text-gray-700 dark:text-gray-300 mb-2">{{ getDescriptionHeader(transaction().description) }}</p>
+                <ul class="space-y-1 max-h-60 overflow-y-auto pr-1 list-disc pl-5 text-gray-700 dark:text-gray-300">
+                  @for (item of getItemsList(transaction().description); track $index) {
+                    <li class="text-sm">{{ item }}</li>
+                  }
+                </ul>
+                @if (getItemsList(transaction().description).length > 5) {
+                  <p class="text-xs text-right mt-2 text-gray-500 dark:text-gray-400">
+                    Total: {{ getItemsList(transaction().description).length }} artículos
+                  </p>
+                }
+              </div>
+            } @else {
+              <p class="text-gray-700 dark:text-gray-300 whitespace-pre-line">{{ transaction().description }}</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <!-- Reemplaza la sección del footer con esto -->
+<div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+  <div class="flex justify-end">
+    <button (click)="delete()" class="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg transition-colors">
+      Eliminar
+    </button>
+  </div>
+</div>
+  </div>
+</div>

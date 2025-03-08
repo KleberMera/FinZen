@@ -1,13 +1,14 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { apiResponse } from '@models/apiResponse';
 import { FormsModule, NgModel } from '@angular/forms';
+import { DetailTransactionComponent } from "../detail-transaction/detail-transaction.component";
 
 @Component({
   selector: 'view-mobile',
-  imports: [CurrencyPipe, DatePipe, FormsModule],
+  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent],
   templateUrl: './view-mobile.component.html',
   
   styleUrl: './view-mobile.component.scss',
@@ -39,4 +40,21 @@ export class ViewMobileComponent {
   changeItemsPerPage(limit: number): void {
     this.itemsPerPageChange.emit(limit);
   }
+
+  selectedTransaction = signal<Transaction | null>(null);
+    isSidebarOpen = signal(false);
+  
+    // Método para manejar el clic en una transacción
+    onTransactionClick(transaction: Transaction): void {
+      console.log('Recibido', transaction);
+      this.selectedTransaction.set(transaction);
+      this.isSidebarOpen.set(true); // Abre el sidebar
+    }
+  
+    // Método para cerrar el sidebar
+    closeUserSidebar(): void {
+      console.log('Cerrando sidebar...');
+      this.isSidebarOpen.set(false); // Cierra el sidebar
+      this.selectedTransaction.set(null); // Limpia la transacción seleccionada
+    }
 }
