@@ -1,56 +1,70 @@
-<div class="space-y-4 pb-16">
+<div class="space-y-4 pb-20">
   @for (transaccion of filteredTransactions().data; track transaccion.id) {
   <div
-  (click)="onTransactionClick(transaccion)"
-  class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200/80 dark:border-gray-700">
-    <div class="p-5">
-      <!-- Header superior -->
-      <div class="flex justify-between items-start mb-4">
-        <!-- Badge con icono -->
-        <span [class]="
+    (click)="onTransactionClick(transaccion)"
+    class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transform hover:-translate-y-1 transition-all duration-200 border border-gray-200/80 dark:border-gray-700 overflow-hidden"
+  >
+    <div class="p-4 sm:p-5">
+      <!-- Barra lateral de color según tipo -->
+      <div class="flex items-stretch">
+        <div [class]="
               transaccion.category?.type === 'Ingreso'
-                ? 'bg-gradient-to-br from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/30 text-green-700 dark:text-green-300'
-                : 'bg-gradient-to-br from-red-100 to-red-50 dark:from-red-900/30 dark:to-red-800/30 text-red-700 dark:text-red-300'
-            " class="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-medium">
-          <span class="pi" 
-                [class.pi-arrow-up]="transaccion.category?.type === 'Ingreso'"
-                [class.pi-arrow-down]="transaccion.category?.type === 'Gasto'"></span>
-          {{ transaccion.category?.type }}
-        </span>
-        
-        <!-- Fecha e ID -->
-        <div class="text-right">
-          <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">
-            <span class="pi pi-calendar mr-1"></span>
-            {{ transaccion.date | date : "shortDate" }}
+                ? 'bg-green-500 dark:bg-green-600'
+                : 'bg-red-500 dark:bg-red-600'
+            " class="w-1 rounded-full mr-3 my-1"></div>
+            
+        <div class="flex-1">
+          <!-- Header superior -->
+          <div class="flex justify-between items-start mb-3">
+            <!-- Badge con icono mejorado -->
+            <span [class]="
+                  transaccion.category?.type === 'Ingreso'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ring-1 ring-green-200 dark:ring-green-800/50'
+                    : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 ring-1 ring-red-200 dark:ring-red-800/50'
+                " class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium">
+              <span class="pi text-xs" 
+                    [class.pi-arrow-up]="transaccion.category?.type === 'Ingreso'"
+                    [class.pi-arrow-down]="transaccion.category?.type === 'Gasto'"></span>
+              {{ transaccion.category?.type }}
+            </span>
+            
+            <!-- Fecha e ID -->
+            <div class="text-right">
+              <div class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                <span class="pi pi-calendar mr-1 text-xs"></span>
+                {{ transaccion.date | date : "EEE, dd MMM" }}
+              </div>
+              <div class="text-xs text-gray-400 dark:text-gray-500 font-mono mt-0.5">
+                #{{ transaccion.id }}
+              </div>
+            </div>
           </div>
-          <div class="text-xs text-gray-400 dark:text-gray-500 font-mono">
-            #{{ transaccion.id }}
+
+          <!-- Contenido principal -->
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white/90 mb-1 line-clamp-1">
+                {{ transaccion.name }}
+              </h3>
+              <div class="flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
+                <div class="flex items-center justify-center h-6 w-6 rounded-full bg-gray-100 dark:bg-gray-700">
+                  <span [class]="transaccion.category?.icon || 'pi pi-folder'" class="text-xs"></span>
+                </div>
+                <span class="text-sm">{{ transaccion.category?.name }}</span>
+              </div>
+            </div>
+
+            <!-- Monto con énfasis -->
+            <span [class]="
+                  transaccion.category?.type === 'Ingreso'
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-red-600 dark:text-red-400'
+                " class="text-lg sm:text-xl font-bold whitespace-nowrap">
+              {{ transaccion.category?.type === 'Ingreso' ? '+' : '-' }}
+              {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
+            </span>
           </div>
         </div>
-      </div>
-
-      <!-- Contenido principal -->
-      <div class="flex items-center justify-between gap-4">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white/90 mb-1">
-            {{ transaccion.name }}
-          </h3>
-          <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <span class="pi pi-folder text-sm"></span>
-            <span class="text-sm">{{ transaccion.category?.name }}</span>
-          </div>
-        </div>
-
-        <!-- Monto con énfasis -->
-        <span [class]="
-              transaccion.category?.type === 'Ingreso'
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-red-600 dark:text-red-400'
-            " class="text-xl font-bold whitespace-nowrap">
-          {{ transaccion.category?.type === 'Ingreso' ? '+' : '-' }}
-          {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
-        </span>
       </div>
     </div>
   </div>
@@ -58,72 +72,102 @@
 
   @empty {
   <!-- Estado vacío mejorado -->
-  <div class="flex flex-col items-center justify-center p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-dashed border-gray-200 dark:border-gray-700">
-    <div class="h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/20 mb-4">
-      <span class="pi pi-inbox text-3xl text-blue-600 dark:text-blue-400"></span>
+  <div class="flex flex-col items-center justify-center py-16 px-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-dashed border-gray-200 dark:border-gray-700">
+    <div class="h-20 w-20 flex items-center justify-center rounded-full bg-gray-50 dark:bg-gray-700/50 mb-4">
+      <span class="pi pi-inbox text-4xl text-gray-400 dark:text-gray-500"></span>
     </div>
-    <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-2">Sin transacciones</h4>
-    <p class="text-gray-500 dark:text-gray-400 text-center max-w-xs mx-auto">
-      No se encontraron movimientos en este período
+    <h4 class="text-xl font-semibold text-gray-800 dark:text-white/90 mb-2">No hay transacciones</h4>
+    <p class="text-gray-500 dark:text-gray-400 text-center max-w-sm mx-auto">
+      No se encontraron movimientos con los filtros seleccionados
     </p>
+   
   </div>
   }
 
-  <div class="flex justify-between items-center mt-6">
-    <!-- Botón página anterior -->
-    <button
-      [disabled]="filteredTransactions().pagination?.page! <= 1"
-      (click)="goToPage(filteredTransactions().pagination?.page! - 1)"
-      class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
-    >
-      <span class="pi pi-chevron-left"></span>
-    </button>
+  <!-- Paginación mejorada -->
+  @if (filteredTransactions().data!.length > 0) {
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 p-3 mt-6">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+      <!-- Controles de paginación -->
+      <div class="flex items-center gap-2">
+        <button
+          [disabled]="filteredTransactions().pagination?.page! <= 1"
+          (click)="goToPage(1)"
+          [class.opacity-50]="filteredTransactions().pagination?.page! <= 1"
+          class="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <span class="pi pi-angle-double-left text-xs"></span>
+        </button>
+        <button
+          [disabled]="filteredTransactions().pagination?.page! <= 1"
+          (click)="goToPage(filteredTransactions().pagination?.page! - 1)"
+          [class.opacity-50]="filteredTransactions().pagination?.page! <= 1"
+          class="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <span class="pi pi-angle-left text-xs"></span>
+        </button>
+        
+        <!-- Información de paginación -->
+        <div class="px-4 py-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            {{ filteredTransactions().pagination?.page }} / {{ filteredTransactions().pagination?.totalPages }}
+          </span>
+        </div>
+        
+        <button
+          [disabled]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
+          (click)="goToPage(filteredTransactions().pagination?.page! + 1)"
+          [class.opacity-50]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
+          class="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <span class="pi pi-angle-right text-xs"></span>
+        </button>
+        <button
+          [disabled]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
+          (click)="goToPage(filteredTransactions().pagination?.totalPages!)"
+          [class.opacity-50]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
+          class="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <span class="pi pi-angle-double-right text-xs"></span>
+        </button>
+      </div>
 
-    <!-- Información de paginación -->
-    <div class="text-sm text-gray-500 dark:text-gray-400">
-      Página {{ filteredTransactions().pagination?.page }} de {{ filteredTransactions().pagination?.totalPages }}
+      <!-- Selector de límite por página -->
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Mostrar:</span>
+        <select
+          [ngModel]="itemsPerPage()"
+          (ngModelChange)="changeItemsPerPage($event)"
+          class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm py-1.5 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span class="text-sm text-gray-500 dark:text-gray-400">por página</span>
+      </div>
     </div>
-
-    <!-- Botón página siguiente -->
-    <button
-      [disabled]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
-      (click)="goToPage(filteredTransactions().pagination?.page! + 1)"
-      class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200"
-    >
-      <span class="pi pi-chevron-right"></span>
-    </button>
   </div>
-
-  <!-- Selector de límite por página -->
-  <div class="mt-4 flex justify-end">
-    <select
-      [ngModel]="itemsPerPage()"
-      (ngModelChange)="changeItemsPerPage($event)"
-      class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="25">25</option>
-      <option value="50">50</option>
-      <option value="100">100</option>
-    </select>
-  </div>
-
+  }
 
   <!-- Total flotante mejorado -->
-  <div class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200/50 dark:border-gray-700 backdrop-blur-sm">
-    <div class="p-4 flex justify-between items-center">
+  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200/50 dark:border-gray-700 backdrop-blur-sm z-10 max-w-xs w-full">
+    <div class="py-3 px-6 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="h-10 w-10 flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/20 dark:to-blue-800/20">
-          <span class="pi pi-wallet text-blue-600 dark:text-blue-400"></span>
+        <div class="h-8 w-8 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
+          <span class="pi pi-wallet text-sm text-blue-600 dark:text-blue-400"></span>
         </div>
-        <span class="font-semibold text-gray-900 dark:text-white/90">Total:</span>
+        <span class="font-medium text-gray-900 dark:text-white/90">Total:</span>
       </div>
       <span [class]="
           totalType() === 'Ingreso'
             ? 'text-green-600 dark:text-green-400'
-            : 'text-red-600 dark:text-red-400'
-        " class="text-xl font-bold">
+            : totalType() === 'Gasto'
+              ? 'text-red-600 dark:text-red-400'
+              : 'text-gray-800 dark:text-gray-200'
+        " class="text-lg font-bold">
         {{ total() | currency : "USD" : "symbol" : "1.2-2" }}
       </span>
     </div>
