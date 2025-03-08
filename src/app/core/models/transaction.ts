@@ -11,6 +11,7 @@ export interface Transaction {
   category?: Category;
   time: string;
   createdAt?: string;
+  
 }
 
 
@@ -18,3 +19,5 @@ export interface TransactionName {
   id: number;
   name: string;
 }
+
+

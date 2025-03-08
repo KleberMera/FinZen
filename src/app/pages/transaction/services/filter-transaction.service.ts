@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { CategoryName } from '@models/category';
-import { TransactionName } from '@models/transaction';
+import { Transaction, TransactionName } from '@models/transaction';
 import { map, Observable } from 'rxjs';
 
 
@@ -21,5 +21,10 @@ export class FilterTransactionService {
   getCategoryNamesByUserId(userId: number): Observable<apiResponse<CategoryName>> {
     const url = `${environment.apiUrl}/category/user/name/${userId}`;
     return this._http.get<apiResponse<CategoryName>>(url)
+  }
+
+  getFilteredTransactions(userId: number, filters: any): Observable<apiResponse<Transaction[]>> {
+    const url = `${environment.apiUrl}/transaction/user/${userId}/filtered`;
+    return this._http.get<apiResponse<Transaction[]>>(url, { params: filters });
   }
 }

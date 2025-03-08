@@ -1,5 +1,5 @@
 <div class="space-y-4 pb-16">
-  @for (transaccion of filteredTransactions(); track transaccion.id) {
+  @for (transaccion of filteredTransactions().data; track transaccion.id) {
   <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200/80 dark:border-gray-700">
     <div class="p-5">
       <!-- Header superior -->

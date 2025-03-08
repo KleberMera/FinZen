@@ -22,38 +22,11 @@ export interface Filters {
 
 @Component({
   selector: 'table-transaction',
-  imports: [NgTemplateOutlet, AppComponent, SearchFilterTransactionComponent],
+  imports: [ AppComponent, SearchFilterTransactionComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
 export class TableTransactionComponent {
 
-  private readonly _transactionService = inject(TransactionService);
-  private readonly seletedUser = signal<number>(inject(StorageService).getUserId());
-  public readonly _screenService = inject(BreakpointService);
-  protected readonly filters = signal<Filters>({ category: '', name: '', type: '' });
-
-  transactions = rxResource<apiResponse<Transaction[]>, { userId: number }>({
-    request: () => ({ userId: this.seletedUser() }),
-    loader: ({ request }) =>
-      this._transactionService.getTransactionByUserId(request.userId),
-  });
-
-  protected readonly filteredTransactions = computed(() => {
-    const transactions = this.transactions.value()?.data ?? [];
-    return transactions.filter(trans => {
-      const matchCategory = this.filters().category === '' ||
-        trans.category?.name.toLowerCase().includes(this.filters().category.toLowerCase());
-      const matchName = this.filters().name === '' ||
-        trans.name.toLowerCase().includes(this.filters().name.toLowerCase());
-      const matchType = this.filters().type === '' ||
-        trans.category?.type === this.filters().type;
-
-      return matchCategory && matchName && matchType;
-    });
-  });
-
-  onFilterChange(newFilters: { category: string; name: string; type: string }) {
-    this.filters.set(newFilters);
-  }
+  
 }

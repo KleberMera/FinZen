@@ -4,15 +4,17 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { StorageService } from '@services/storage.service';
 import { FilterTransactionService } from '../../services/filter-transaction.service';
 import { apiResponse } from '@models/apiResponse';
-import { TransactionName } from '@models/transaction';
+import { Transaction, TransactionName } from '@models/transaction';
 import { CategoryName } from '@models/category';
-import { NgClass } from '@angular/common';
+import { ViewDesktopComponent } from '../view-desktop/view-desktop.component';
+import { BreakpointService } from '@services/breakpoint.service';
+import { ViewMobileComponent } from '../view-mobile/view-mobile.component';
 
 @Component({
   selector: 'app-search-filter-transaction',
-  imports: [FormsModule],
+  imports: [FormsModule, ViewDesktopComponent, ViewMobileComponent],
   templateUrl: './search-filter-transaction.component.html',
-  styleUrl: './search-filter-transaction.component.scss'
+  styleUrl: './search-filter-transaction.component.scss',
 })
 export class SearchFilterTransactionComponent {
   transactionName = signal<string>('');
@@ -21,60 +23,106 @@ export class SearchFilterTransactionComponent {
   date = signal<string>('');
   startDate = signal<string>('');
   endDate = signal<string>('');
+  all = signal<boolean>(false);
   useDateRange = signal<boolean>(false);
-  
   today = signal<boolean>(true);
-  private readonly seletedUser = signal<number>(inject(StorageService).getUserId());
+  currentPage = signal<number>(1);
+  itemsPerPage = signal<number>(10);
+
+
+  clearFilters(): void {
+    this.transactionName.set('');
+    this.categoryName.set('');
+    this.type.set('');
+    this.date.set('');
+    this.startDate.set('');
+    this.endDate.set('');
+    this.today.set(true);
+    this.useDateRange.set(false);
+    
+  }
+
+  private readonly seletedUser = signal<number>(
+    inject(StorageService).getUserId()
+  );
   private readonly _FilterTransactionService = inject(FilterTransactionService);
+  public readonly _screenService = inject(BreakpointService);
 
-
-
-  transactionNames = rxResource<apiResponse<TransactionName>, { userId: number }>({
-      request: () => ({ userId: this.seletedUser() }),
-      loader: ({ request }) =>
-        this._FilterTransactionService.getTransactionNamesByUserId(request.userId),
-    });
-
-  categoryNames =  rxResource<apiResponse<CategoryName>, { userId: number }>({
-      request: () => ({ userId: this.seletedUser() }),
-      loader: ({ request }) =>
-        this._FilterTransactionService.getCategoryNamesByUserId(request.userId),
-    });
-
-  // Señal computada que determina la descripción del filtro activo
-  activeFilterDescription = computed(() => {
-    if (this.useDateRange()) {
-      return `Rango de fechas: ${this.startDate()} al ${this.endDate()}`;
-    } else {
-      return `Fecha única: ${this.date()}`;
-    }
+  transactionNames = rxResource<apiResponse<TransactionName>,{ userId: number }>({
+    request: () => ({ userId: this.seletedUser() }),
+    loader: ({ request }) => this._FilterTransactionService.getTransactionNamesByUserId( request.userId),
   });
 
-  // Señal computada para el objeto de filtro completo
+  categoryNames = rxResource<apiResponse<CategoryName>, { userId: number }>({
+    request: () => ({ userId: this.seletedUser() }),
+    loader: ({ request }) => this._FilterTransactionService.getCategoryNamesByUserId(request.userId),
+  });
+
+
+  filteredTransactions = rxResource<apiResponse<Transaction[]>, { userId: number; filters: any }>({
+    request: () => ({ userId: this.seletedUser(), filters: this.filterValue() }),
+    loader: ({ request }) => this._FilterTransactionService.getFilteredTransactions( request.userId, request.filters),
+  });
+
   filterValue = computed(() => {
-    if (this.useDateRange()) {
-      return {
-        type: 'range',
-        startDate: this.startDate(),
-        endDate: this.endDate()
-      };
-    } else {
-      return {
-        type: 'single',
-        date: this.date()
-      };
+    const filters: any = {
+      page: this.currentPage(), // Página actual
+      limit: this.itemsPerPage(), // Límite de elementos por página
+    };
+  
+
+    // Solo agregar 'today' si es true
+    if (this.today()) {
+      filters.today = true;
     }
+
+    // Solo agregar 'all' si es true
+    if (this.all()) {
+      filters.all = true;
+    }
+
+    // Solo agregar 'transactionName' si tiene un valor
+    if (this.transactionName()) {
+      filters.transactionName = this.transactionName();
+    }
+
+    // Solo agregar 'categoryName' si tiene un valor
+    if (this.categoryName()) {
+      filters.categoryName = this.categoryName();
+    }
+
+    // Solo agregar 'type' si tiene un valor
+    if (this.type()) {
+      filters.type = this.type();
+    }
+
+    // Solo agregar 'startDate' y 'endDate' si useDateRange es true y tienen valores
+    if (this.useDateRange()) {
+      if (this.startDate()) {
+        filters.startDate = this.startDate();
+      }
+      if (this.endDate()) {
+        filters.endDate = this.endDate();
+      }
+    } else {
+      // Solo agregar 'date' si tiene un valor
+      if (this.date()) {
+        filters.date = this.date();
+      }
+    }
+
+    return filters;
   });
 
   constructor() {
-    // Efecto que se ejecuta cada vez que cambia el filtro (solo para demostración)
+    // Reaccionar a cambios en filterValue
     effect(() => {
-      const filter = this.filterValue();
-      console.log('Filtro actualizado:', filter);
-      // Aquí podrías realizar acciones adicionales cuando cambie el filtro
+      const filters = this.filterValue();
+      console.log('Filtros actualizados:', filters);
+      // Aquí puedes forzar una nueva solicitud si es necesario
+      //this.filteredTransactions.reload();
     });
   }
-
   setUseDateRange(value: boolean): void {
     this.useDateRange.set(value);
   }
@@ -92,5 +140,17 @@ export class SearchFilterTransactionComponent {
   setEndDate(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.endDate.set(target.value);
+  }
+
+
+  goToPage(page: number): void {
+    this.currentPage.set(page); // Actualiza la página actual
+    //this.filteredTransactions.reload(); // Vuelve a cargar los datos
+  }
+  
+  changeItemsPerPage(limit: number): void {
+    this.itemsPerPage.set(limit); // Actualiza el límite de elementos por página
+    this.currentPage.set(1); // Reinicia la página a la primera
+   // this.filteredTransactions.refresh(); // Vuelve a cargar los datos
   }
 }
