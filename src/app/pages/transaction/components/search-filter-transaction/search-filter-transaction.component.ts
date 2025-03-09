@@ -9,10 +9,12 @@ import { CategoryName } from '@models/category';
 import { ViewDesktopComponent } from '../view-desktop/view-desktop.component';
 import { BreakpointService } from '@services/breakpoint.service';
 import { ViewMobileComponent } from '../view-mobile/view-mobile.component';
+import { SkeletonFiltersComponent } from "../skeleton-filters/skeleton-filters.component";
+import { SkeletonTableTransactionComponent } from "../skeleton-table-transaction/skeleton-table-transaction.component";
 
 @Component({
   selector: 'app-search-filter-transaction',
-  imports: [FormsModule, ViewDesktopComponent, ViewMobileComponent],
+  imports: [FormsModule, ViewDesktopComponent, ViewMobileComponent, SkeletonFiltersComponent, SkeletonTableTransactionComponent],
   templateUrl: './search-filter-transaction.component.html',
   styleUrl: './search-filter-transaction.component.scss',
 })

@@ -1,0 +1,77 @@
+<div class="space-y-4 pb-20">
+    <!-- Skeleton de transacciones repetidas -->
+    @for (item of [1,2,3,4,5]; track item) {
+    <div
+      class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 overflow-hidden"
+    >
+      <div class="p-4 sm:p-5">
+        <div class="flex items-stretch">
+          <!-- Barra lateral de color -->
+          <div class="w-1 rounded-full mr-3 my-1 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+              
+          <div class="flex-1">
+            <!-- Header superior -->
+            <div class="flex justify-between items-start mb-3">
+              <!-- Badge esqueleto -->
+              <div class="bg-gray-200 dark:bg-gray-700 h-6 w-20 rounded-full animate-pulse"></div>
+              
+              <!-- Fecha esqueleto -->
+              <div class="text-right">
+                <div class="bg-gray-200 dark:bg-gray-700 h-5 w-24 rounded animate-pulse mb-1"></div>
+                <div class="bg-gray-200 dark:bg-gray-700 h-4 w-16 rounded animate-pulse"></div>
+              </div>
+            </div>
+  
+            <!-- Contenido principal -->
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <!-- Título -->
+                <div class="bg-gray-200 dark:bg-gray-700 h-6 w-36 sm:w-48 rounded animate-pulse mb-2"></div>
+                <!-- Categoría -->
+                <div class="flex items-center gap-1.5">
+                  <div class="h-6 w-6 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+                  <div class="bg-gray-200 dark:bg-gray-700 h-5 w-20 rounded animate-pulse"></div>
+                </div>
+              </div>
+  
+              <!-- Monto esqueleto -->
+              <div class="bg-gray-200 dark:bg-gray-700 h-7 w-24 rounded animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  
+    <!-- Skeleton de paginación -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/80 dark:border-gray-700 p-3 mt-6">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <!-- Controles de paginación -->
+        <div class="flex items-center gap-2">
+          <div class="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg w-8 h-8 animate-pulse"></div>
+          <div class="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg w-8 h-8 animate-pulse"></div>
+          <div class="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg w-16 h-8 animate-pulse"></div>
+          <div class="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg w-8 h-8 animate-pulse"></div>
+          <div class="p-2 bg-gray-200 dark:bg-gray-700 rounded-lg w-8 h-8 animate-pulse"></div>
+        </div>
+  
+        <!-- Selector de límite por página -->
+        <div class="flex items-center gap-2">
+          <div class="bg-gray-200 dark:bg-gray-700 rounded w-12 h-5 animate-pulse"></div>
+          <div class="bg-gray-200 dark:bg-gray-700 rounded-lg w-16 h-8 animate-pulse"></div>
+          <div class="bg-gray-200 dark:bg-gray-700 rounded w-20 h-5 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Total flotante esqueleto -->
+    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200/50 dark:border-gray-700 backdrop-blur-sm z-10 max-w-xs w-full">
+      <div class="py-3 px-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+          <div class="bg-gray-200 dark:bg-gray-700 h-5 w-16 rounded animate-pulse"></div>
+        </div>
+        <div class="bg-gray-200 dark:bg-gray-700 h-7 w-20 rounded animate-pulse"></div>
+      </div>
+    </div>
+  </div>
