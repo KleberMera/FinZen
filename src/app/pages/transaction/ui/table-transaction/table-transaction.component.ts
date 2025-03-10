@@ -77,61 +77,19 @@ export class TableTransactionComponent {
     loader: ({ request }) => this._FilterTransactionService.getFilteredTransactions( request.userId, request.filters),
   });
 
-  filterValue = computed(() => {
-    const filters: any = {};
-
-    if(this.currentPage()){
-      filters.page = this.currentPage();
-    }
-
-    if (this.itemsPerPage()) {
-      filters.limit = this.itemsPerPage();
-    }
-  
-
-    // Solo agregar 'today' si es true
-    if (this.today()) {
-      filters.today = true;
-    }
-
-    // Solo agregar 'all' si es true
-    if (this.all()) {
-      filters.all = true;
-      //filters.limit = this.itemsPerPage();
-    }
-
-    // Solo agregar 'transactionName' si tiene un valor
-    if (this.transactionName()) {
-      filters.transactionName = this.transactionName();
-    }
-
-    // Solo agregar 'categoryName' si tiene un valor
-    if (this.categoryName()) {
-      filters.categoryName = this.categoryName();
-    }
-
-    // Solo agregar 'type' si tiene un valor
-    if (this.type()) {
-      filters.type = this.type();
-    }
-
-    // Solo agregar 'startDate' y 'endDate' si useDateRange es true y tienen valores
-    if (this.useDateRange()) {
-      if (this.startDate()) {
-        filters.startDate = this.startDate();
-      }
-      if (this.endDate()) {
-        filters.endDate = this.endDate();
-      }
-    } else {
-      // Solo agregar 'date' si tiene un valor
-      if (this.date()) {
-        filters.date = this.date();
-      }
-    }
-
-    return filters;
-  });
+  filterValue = computed(() => ({
+    ...(this.currentPage() && { page: this.currentPage() }),
+    ...(this.itemsPerPage() && { limit: this.itemsPerPage() }),
+    ...(this.today() && { today: true }),
+    ...(this.all() && { all: true }),
+    ...(this.transactionName() && { transactionName: this.transactionName() }),
+    ...(this.categoryName() && { categoryName: this.categoryName() }),
+    ...(this.type() && { type: this.type() }),
+    ...(this.useDateRange() ? {
+      ...(this.startDate() && { startDate: this.startDate() }),
+      ...(this.endDate() && { endDate: this.endDate() })
+    } : (this.date() && { date: this.date() }))
+  }));
 
   constructor() {
     // Reaccionar a cambios en filterValue
