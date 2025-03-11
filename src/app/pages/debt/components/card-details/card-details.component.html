@@ -1,129 +1,222 @@
 @for (item of debts(); track $index) {
-  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-6 hover:shadow-xl transition-all duration-300">
-    <!-- Header con badge de estado y monto -->
-    <div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
-      <div class="flex-1">
-        <div class="flex items-center gap-3">
-          <h4 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 dark:border-gray-800 transition-all duration-300 overflow-hidden mb-6">
+  <!-- Cabecera con diseño moderno y gradiente -->
+  <div class="relative p-6  overflow-hidden">
+    <!-- Elementos decorativos de fondo -->
+ 
+    <div class="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-3 flex-wrap">
+          <h4 class="text-xl sm:text-2xl font-bold text-white">
             {{ item.name }}
           </h4>
-          <span class="px-3 py-1 rounded-full text-xs sm:text-sm font-medium" 
+          <span class="px-3 py-1 rounded-full text-xs font-medium border backdrop-blur-sm" 
                 [class]="item.status === 'Pendiente' ? 
-                  'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300' : 
-                  'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'">
+                  'bg-amber-500/10 text-amber-50 border-amber-400/20' : 
+                  'bg-emerald-500/10 text-emerald-50 border-emerald-400/20'">
             {{ item.status }}
           </span>
         </div>
+        
         @if (item.description) {
-        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">
+        <p class="text-sm text-blue-100/90 line-clamp-2">
           {{ item.description }}
         </p>
         }
       </div>
-      <div class="w-full sm:w-auto bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-        <p class="text-xs text-gray-500 dark:text-gray-400">Monto Total del Préstamo</p>
-        <p class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+      
+      <div class="px-4 py-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-center min-w-36">
+        <p class="text-xs text-blue-100/80 mb-1">Monto Total</p>
+        <p class="text-xl font-bold text-white">
           {{ item.amount | currency : "USD" : "symbol" : "1.2-2" }}
         </p>
       </div>
     </div>
-  
-    <!-- Información principal en grid responsivo -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
-        <p class="text-xs text-gray-500 dark:text-gray-400">Tasa de Interés</p>
-        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+  </div>
+
+  <div class="p-5">
+    <!-- Información principal en cards modernas -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+      <div class="bg-gray-50 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-100 dark:border-gray-700/30 transition-all hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Tasa de Interés</p>
+        </div>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ item.interest_rate }}%
         </p>
       </div>
-      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
-        <p class="text-xs text-gray-500 dark:text-gray-400">Duración</p>
-        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+      
+      <div class="bg-gray-50 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-100 dark:border-gray-700/30 transition-all hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Duración</p>
+        </div>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ item.duration_months }} meses
         </p>
       </div>
-      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
-        <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Inicio</p>
-        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+      
+      <div class="bg-gray-50 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-100 dark:border-gray-700/30 transition-all hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Inicio</p>
+        </div>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ item.start_date | date : "dd/MM/yyyy" }}
         </p>
       </div>
-      <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700">
-        <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Fin</p>
-        <p class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+      
+      <div class="bg-gray-50 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-100 dark:border-gray-700/30 transition-all hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div class="flex items-center gap-2 mb-1">
+          <div class="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Fecha Fin</p>
+        </div>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white">
           {{ item.end_date | date : "dd/MM/yyyy" }}
         </p>
       </div>
     </div>
-  
-    <!-- Estado de pagos con indicadores visuales -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-      <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-100 dark:border-green-900/30">
-        <div class="flex items-center gap-2">
-          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-green-500"></span>
-          <p class="text-xs text-green-600 dark:text-green-400">Total Pagado</p>
+    
+    <!-- Estado de pagos con cards mejoradas -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="group relative bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/10 dark:to-green-900/10 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800/20 hover:shadow-sm transition-all">
+        <div class="absolute inset-0 bg-emerald-500/5 dark:bg-emerald-300/5 rounded-xl"></div>
+        <div class="relative flex flex-col">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="p-1 rounded-full bg-emerald-100 dark:bg-emerald-800/50">
+              <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+            </div>
+            <p class="text-xs font-medium text-emerald-700 dark:text-emerald-400">Total Pagado</p>
+          </div>
+          <p class="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+            {{ getTotalPagado(item) | currency : "USD" : "symbol" : "1.2-2" }}
+          </p>
         </div>
-        <p class="text-lg font-bold text-green-700 dark:text-green-300 mt-1">
-          {{ getTotalPagado(item) | currency : "USD" : "symbol" : "1.2-2" }}
-        </p>
       </div>
-      <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-900/30">
-        <div class="flex items-center gap-2">
-          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-yellow-500"></span>
-          <p class="text-xs text-yellow-600 dark:text-yellow-400">Por Pagar</p>
+      
+      <div class="group relative bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/10 dark:to-yellow-900/10 p-4 rounded-xl border border-amber-100 dark:border-amber-800/20 hover:shadow-sm transition-all">
+        <div class="absolute inset-0 bg-amber-500/5 dark:bg-amber-300/5 rounded-xl"></div>
+        <div class="relative flex flex-col">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="p-1 rounded-full bg-amber-100 dark:bg-amber-800/50">
+              <div class="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></div>
+            </div>
+            <p class="text-xs font-medium text-amber-700 dark:text-amber-400">Por Pagar</p>
+          </div>
+          <p class="text-lg font-bold text-amber-700 dark:text-amber-300">
+            {{ getTotalPorPagar(item) | currency : "USD" : "symbol" : "1.2-2" }}
+          </p>
         </div>
-        <p class="text-lg font-bold text-yellow-700 dark:text-yellow-300 mt-1">
-          {{ getTotalPorPagar(item) | currency : "USD" : "symbol" : "1.2-2" }}
-        </p>
       </div>
-      <div class="relative bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-100 dark:border-red-900/30">
-        <div class="flex items-center gap-2">
-          <span class="flex-shrink-0 w-2 h-2 rounded-full bg-red-500"></span>
-          <p class="text-xs text-red-600 dark:text-red-400">Cuotas Atrasadas</p>
+      
+      
+
+      @if (getCuotasAtrasadas(item) === 0) {
+        <div class="group relative bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/10 dark:to-green-900/10 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800/20 hover:shadow-sm transition-all">
+          <div class="absolute inset-0 bg-emerald-500/5 dark:bg-emerald-300/5 rounded-xl"></div>
+          <div class="relative flex flex-col">
+            <div class="flex items-center gap-2 mb-2">
+          <div class="p-1 rounded-full bg-emerald-100 dark:bg-emerald-800/50">
+            <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></div>
+          </div>
+          <p class="text-xs font-medium text-emerald-700 dark:text-emerald-400">Cuotas Atrasadas</p>
+            </div>
+            <p class="text-lg font-bold text-emerald-700 dark:text-emerald-300">
+          Al día
+          <span class="text-sm font-normal">✓</span>
+            </p>
+          </div>
         </div>
-        <p class="text-lg font-bold text-red-700 dark:text-red-300 mt-1">
-          {{ getCuotasAtrasadas(item) }}
-          <span class="text-sm font-normal">cuota(s)</span>
-        </p>
-        @if (getCuotasAtrasadas(item) > 0) {
-        <span class="absolute top-2 right-2 flex h-3 w-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-        </span>
-        }
+ 
+     } @else {
+      <div class="group relative bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/10 dark:to-rose-900/10 p-4 rounded-xl border border-red-100 dark:border-red-800/20 hover:shadow-sm transition-all">
+        <div class="absolute inset-0 bg-red-500/5 dark:bg-red-300/5 rounded-xl"></div>
+        <div class="relative flex flex-col">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="p-1 rounded-full bg-red-100 dark:bg-red-800/50">
+              <div class="w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400"></div>
+            </div>
+            <p class="text-xs font-medium text-red-700 dark:text-red-400">Cuotas Atrasadas</p>
+          </div>
+          <p class="text-lg font-bold text-red-700 dark:text-red-300">
+            {{ getCuotasAtrasadas(item) }}
+            <span class="text-sm font-normal">cuota(s)</span>
+          </p>
+          @if (getCuotasAtrasadas(item) > 0) {
+          <span class="absolute top-3 right-3 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
+          }
+        </div>
       </div>
+     }
     </div>
-  
-    <!-- Barra de progreso mejorada -->
-    <div class="mb-4">
-      <div class="flex justify-between items-center mb-2">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Progreso de pagos</span>
+    
+    <!-- Barra de progreso rediseñada -->
+    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700/30">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3">
         <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1">
-            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div class="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+            <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Progreso de pagos</p>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <div class="px-2.5 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center gap-1.5">
+            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+            <span class="text-xs font-medium text-indigo-700 dark:text-indigo-300">
               {{ getPagadas(item) }}/{{ item.duration_months }}
             </span>
           </div>
-          <span class="text-sm text-gray-500">
-            ({{ (getPagadas(item) / item.duration_months * 100).toFixed(1) }}%)
+          
+          <span class="text-xs font-medium px-2.5 py-1 bg-gray-100 dark:bg-gray-700/70 rounded-lg text-gray-600 dark:text-gray-400">
+            {{ (getPagadas(item) / item.duration_months * 100).toFixed(1) }}%
           </span>
         </div>
       </div>
-      <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-        <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" 
-             [style.width]="(getPagadas(item) / item.duration_months * 100) + '%'">
+      
+      <div class="relative h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div class="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-300/10"></div>
+        <div class="absolute inset-0 overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-500 dark:to-blue-400 transition-all duration-500 rounded-full" 
+              [style.width]="(getPagadas(item) / item.duration_months * 100) + '%'">
+          </div>
         </div>
       </div>
     </div>
-  
-    <!-- Método de pago -->
-    <div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
-      <span>Método de pago: <span class="font-medium">{{ item.method | titlecase }}</span></span>
+    
+    <!-- Método de pago rediseñado -->
+    <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 px-2 py-1.5 bg-gray-50 dark:bg-gray-800/30 rounded-lg border border-gray-100 dark:border-gray-700/20 w-fit">
+      <div class="p-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-md">
+        <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+      </div>
+      <span>Método: <span class="font-medium text-gray-800 dark:text-gray-300">{{ item.method | titlecase }}</span></span>
     </div>
   </div>
-  }
+</div>
+}

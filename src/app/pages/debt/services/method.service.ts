@@ -74,6 +74,8 @@ export class MethodService {
     }
   }
 
+ 
+
    totalMonths(data: FormGroup) {
      const amortizations = data.get('amortizations') as FormArray;
      return amortizations.length;

@@ -66,8 +66,8 @@ export class SidebarItemsComponent {
           route: 'transacciones',
         },
         {
-          label: 'Listado',
-          route: 'transacciones-listado',
+          label: 'Movimientos',
+          route: 'movimientos',
         },
 
       ],
@@ -78,7 +78,7 @@ export class SidebarItemsComponent {
       icon: CashIconComponent,
       subItems: [
         {
-          label: 'Nueva Deuda',
+          label: 'Registro',
           route: 'deudas',
         },
         {

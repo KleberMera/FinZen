@@ -35,7 +35,7 @@ export const pagesRoutes: Routes = [
         component: FormTransactionsComponent,
       },
       {
-        path: 'transacciones-listado',
+        path: 'movimientos',
         component: TableTransactionComponent,
       },
       {

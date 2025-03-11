@@ -46,9 +46,14 @@ export class TableAmortizationComponent {
   constructor() {
     effect(() => {
       if (this.formData()) {
+        console.log(this.formData()?.value);
+        
         const method = this.formData()!.get('method')?.value;
         if (method === 'frances') {
           this._methodService.calculateFrenchAmortization(this.formData()!);
+          this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
+        } if(method === 'ninguno'){
+        //  this._methodService.calculateWithoutAmortization(this.formData()!);
           this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
         } else {
           this._methodService.calculateGermanAmortization(this.formData()!);
