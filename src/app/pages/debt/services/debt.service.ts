@@ -35,7 +35,10 @@ export class DebtService {
               interest: new FormControl(amortizations.interest, [Validators.required]),
               amortized: new FormControl(amortizations.amortized, [Validators.required]),
               outstanding: new FormControl(amortizations.outstanding, [Validators.required]),
+            //  method: new FormControl(data.method),
+              duration_type: new FormControl('months'), // Add this new control
               status: new FormControl(amortizations.status),
+
             })
         ) || []
 
