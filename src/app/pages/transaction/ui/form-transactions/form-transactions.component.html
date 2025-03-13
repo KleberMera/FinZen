@@ -12,6 +12,17 @@
     <!-- Tipo de Transacción (Toggle) -->
    
 
+   @if (categories.isLoading()) {
+    <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
+        <div class="flex">
+          <div class="h-10 w-28 bg-gray-600 rounded-s-lg"></div>
+          <div class="h-10 flex-grow bg-gray-600 rounded-e-lg"></div>
+        </div>
+      </div>
+    </div>
+   } @else {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Selector de Tipo y Categoría -->
       <div>
@@ -105,6 +116,7 @@
         }
       </div>
     </div>
+   }
     <!-- Grid medio -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Monto -->

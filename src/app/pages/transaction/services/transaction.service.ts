@@ -16,26 +16,20 @@ export class TransactionService {
   formTransaction(data: Partial<Transaction> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
-      category_id: new FormControl(data.category_id, [Validators.required]),
-      name: new FormControl(data.name, [Validators.required]),
-      description: new FormControl(data.description || ''),
-      amount: new FormControl(data.amount, [Validators.required]),
-      date: new FormControl(data.date, [Validators.required]),
-    //  payment_method: new FormControl('efectivo', [Validators.required]),
-      time: new FormControl(data.time || new Date().toLocaleTimeString('en-US', { hour12: false }), [Validators.required]),
+        category_id: new FormControl(data.category_id, [Validators.required]),
+        name: new FormControl(data.name, [Validators.required]),
+        description: new FormControl(data.description || ''),
+        amount: new FormControl(data.amount, [Validators.required]),
+        date: new FormControl(data.date, [Validators.required]),
+        //  payment_method: new FormControl('efectivo', [Validators.required]),
+        time: new FormControl(
+          data.time ||
+            new Date().toLocaleTimeString('en-US', { hour12: false }),
+          [Validators.required]
+        ),
       })
     );
     return form;
-  }
-
-  payment(){
-   return (
-      [
-         { value: 'efectivo', label: 'Efectivo' },
-         { value: 'tarjeta', label: 'Tarjeta' },
-         { value: 'transferencia', label: 'Transferencia' },
-         { value: 'otro', label: 'Otro' }
-       ])
   }
 
   getCategoriesByUserId(userId: number): Observable<apiResponse<Category[]>> {
@@ -43,10 +37,20 @@ export class TransactionService {
     return this._http.get<apiResponse<Category[]>>(url);
   }
 
-    getCategoryNamesByUserId(userId: number): Observable<apiResponse<CategoryName[]>> {
-      const url = `${environment.apiUrl}/category/user/name/${userId}`;
-      return this._http.get<apiResponse<CategoryName[]>>(url)
-    }
+  getCategoryNamesByUserId(
+    userId: number
+  ): Observable<apiResponse<CategoryName[]>> {
+    const url = `${environment.apiUrl}/category/user/name/${userId}`;
+    return this._http.get<apiResponse<CategoryName[]>>(url);
+  }
+
+  getCategoryTypeByUserId(
+    userId: number,
+    type: string
+  ): Observable<apiResponse<CategoryName[]>> {
+    const url = `${environment.apiUrl}/category/user/type/${userId}/${type}`;
+    return this._http.get<apiResponse<CategoryName[]>>(url);
+  }
 
   createTransaction(data: Transaction): Observable<apiResponse<Transaction>> {
     const url = `${environment.apiUrl}/transaction`;
@@ -67,23 +71,20 @@ export class TransactionService {
       .filter((t) => t.category?.type !== 'Ingreso')
       .reduce((sum, t) => sum + Number(t.amount) || 0, 0);
 
-
     return ingresos >= gastos ? 'Ingreso' : 'Gasto';
   }
 
-
   getTotal(transactions: Transaction[]) {
-
-    const total = transactions
-      .reduce((sum, t) => sum + Number(t.amount) || 0, 0);
-    console.log(total);
+    const total = transactions.reduce(
+      (sum, t) => sum + Number(t.amount) || 0,
+      0
+    );
+    //console.log(total);
     return total;
   }
-
 
   deleteTransaction(id: number) {
     const url = `${environment.apiUrl}/transaction/user/delete/${id}`;
     return this._http.delete<apiResponse<Transaction>>(url);
   }
-    
 }

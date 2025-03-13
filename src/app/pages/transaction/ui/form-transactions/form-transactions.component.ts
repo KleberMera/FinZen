@@ -23,8 +23,8 @@ export class FormTransactionsComponent {
     this._storageService.getUserId()
   );
 
-  type = signal<string[]>(['Ingreso', 'Gasto', 'Todos']);
-  selectedType = signal<string>('Todos');
+  type = signal<string[]>(['Ingreso', 'Gasto']);
+  selectedType = signal<string>('Ingreso');
   // Agrega esta señal para controlar el dropdown
   isTypeDropdownOpen = signal(false);
 
@@ -35,20 +35,13 @@ export class FormTransactionsComponent {
 
   // Modificar la señal computada
   filteredCategories = computed(() => {
-    const allCategories =
-      (this.categories.value()?.data as CategoryName[]) || [];
-
-    return this.selectedType() === 'Todos'
-      ? allCategories
-      : allCategories.filter(
-          (cat: CategoryName) => cat.type === this.selectedType()
-        );
+    return (this.categories.value()?.data as CategoryName[]) || [];
   });
 
   categories = rxResource({
-    request: () => ({ userId: this.seletedUser() }),
+    request: () => ({ userId: this.seletedUser(), type: this.selectedType() }),
     loader: ({ request }) =>
-      this._transactionService.getCategoryNamesByUserId(request.userId),
+      this._transactionService.getCategoryTypeByUserId(request.userId, request.type),
   });
 
   public readonly form = this._transactionService.formTransaction();
