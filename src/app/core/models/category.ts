@@ -10,4 +10,6 @@ export interface Category {
 export interface CategoryName{
   id: number;
   name: string;
+  type: string
+  icon: string
 }

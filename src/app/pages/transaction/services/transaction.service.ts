@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
-import { Category } from '@models/category';
+import { Category, CategoryName } from '@models/category';
 import { Transaction } from '@models/transaction';
 import { Observable, tap } from 'rxjs';
 
@@ -21,16 +21,32 @@ export class TransactionService {
       description: new FormControl(data.description || ''),
       amount: new FormControl(data.amount, [Validators.required]),
       date: new FormControl(data.date, [Validators.required]),
+    //  payment_method: new FormControl('efectivo', [Validators.required]),
       time: new FormControl(data.time || new Date().toLocaleTimeString('en-US', { hour12: false }), [Validators.required]),
       })
     );
     return form;
   }
 
+  payment(){
+   return (
+      [
+         { value: 'efectivo', label: 'Efectivo' },
+         { value: 'tarjeta', label: 'Tarjeta' },
+         { value: 'transferencia', label: 'Transferencia' },
+         { value: 'otro', label: 'Otro' }
+       ])
+  }
+
   getCategoriesByUserId(userId: number): Observable<apiResponse<Category[]>> {
     const url = `${environment.apiUrl}/category/user/${userId}`;
     return this._http.get<apiResponse<Category[]>>(url);
   }
+
+    getCategoryNamesByUserId(userId: number): Observable<apiResponse<CategoryName[]>> {
+      const url = `${environment.apiUrl}/category/user/name/${userId}`;
+      return this._http.get<apiResponse<CategoryName[]>>(url)
+    }
 
   createTransaction(data: Transaction): Observable<apiResponse<Transaction>> {
     const url = `${environment.apiUrl}/transaction`;

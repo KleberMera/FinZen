@@ -8,6 +8,7 @@ export interface Transaction {
   amount: number;
   date: Date;
   type?: string;
+  payment_method?: string
   category?: Category;
   time: string;
   createdAt?: string;
