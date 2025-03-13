@@ -6,11 +6,10 @@ import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
 import { CategoryName } from '@models/category';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'form-transactions',
-  imports: [ReactiveFormsModule, FormsModule, NgClass],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })
