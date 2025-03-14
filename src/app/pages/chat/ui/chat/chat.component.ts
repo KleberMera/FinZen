@@ -26,16 +26,37 @@ export class ChatComponent {
   
   constructor(protected chatService: ChatService) {}
 
+  // scrollToBottom(): void {
+  //   setTimeout(() => {
+  //     try {
+  //       const element = this.chatContainer.nativeElement;
+  //       // Verifica si el usuario está cerca del final (tolerancia de 50px)
+  //       const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
+  //       if (atBottom) {
+  //         element.scrollTo({
+  //           top: element.scrollHeight,
+  //           behavior: 'smooth' // Desplazamiento suave
+  //         });
+  //       }
+  //     } catch (err) {
+  //       console.error('Error al hacer scroll:', err);
+  //     }
+
+  //   }, 100);
+  // }
+
+
   scrollToBottom(): void {
-    setTimeout(() => {
-      try {
-        const container = this.chatContainer();
-        if (container?.nativeElement) {
-          container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
-        }
-      } catch (err) {
-        console.error('Error al hacer scroll:', err);
+    try {
+      const container = this.chatContainer();
+      if (container?.nativeElement) {
+        container.nativeElement.scrollTo({
+          top: container.nativeElement.scrollHeight,
+          behavior: 'smooth'
+        });
       }
-    }, 100);
+    } catch (err) {
+      console.error('Error al hacer scroll:', err);
+    }
   }
 }

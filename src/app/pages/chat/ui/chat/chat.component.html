@@ -1,12 +1,11 @@
-<!-- src/app/pages/chat/ui/chat/chat.component.html -->
-<div class="flex flex-col bg-gray-50 dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
-    <app-chat-header></app-chat-header>
-    
-    <div class="flex-1  overflow-y-auto bg-white dark:bg-gray-800" #chatContainer> 
-      <app-chat-messages (scrollRequest)="scrollToBottom()"></app-chat-messages>
-    </div>
-    
-    <app-image-preview></app-image-preview>
-    
-    <app-message-input (messageSent)="scrollToBottom()"></app-message-input>
+<div class="flex flex-col h-[85vh] bg-gray-50 dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
+  <app-chat-header></app-chat-header>
+  <!-- h-[calc(100vh-120px)] -->
+  <div class="flex-1 overflow-y-auto bg-white dark:bg-gray-800 custom-scrollbar"  #chatContainer>
+    <app-chat-messages (scrollRequest)="scrollToBottom()"></app-chat-messages>
   </div>
+  
+  <app-image-preview></app-image-preview>
+  
+  <app-message-input (messageSent)="scrollToBottom()"></app-message-input>
+</div>
