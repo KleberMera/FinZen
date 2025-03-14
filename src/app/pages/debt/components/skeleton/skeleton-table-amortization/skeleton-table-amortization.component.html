@@ -1,0 +1,81 @@
+<!-- Encabezado Skeleton -->
+<div class="flex flex-col md:flex-row justify-between items-center mb-6 p-2 animate-pulse">
+    <div class="flex items-center space-x-3">
+      <div class="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+      <div class="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+    </div>
+  </div>
+  
+  <!-- Table Section Skeleton -->
+  <div class="relative overflow-hidden bg-white dark:bg-gray-800 shadow-lg rounded-xl animate-pulse">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <!-- Table Header Skeleton -->
+        <thead class="text-xs uppercase bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
+          <tr>
+            <th scope="col" class="px-6 py-4">
+              <div class="flex items-center space-x-2">
+                <div class="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+                <div class="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+              </div>
+            </th>
+            <th scope="col" class="px-6 py-4">
+              <div class="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+            </th>
+            <th scope="col" class="px-6 py-4 text-right">
+              <div class="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </th>
+            <th scope="col" class="px-6 py-4 text-right">
+              <div class="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </th>
+            <th scope="col" class="px-6 py-4 text-right">
+              <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </th>
+            <th scope="col" class="px-6 py-4 text-right">
+              <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </th>
+            <th scope="col" class="px-6 py-4 text-right">
+              <div class="flex items-center justify-end space-x-2">
+                <div class="h-4 w-16 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+                <div class="flex flex-col space-y-1">
+                  <div class="w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+                  <div class="w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+  
+        <!-- Table Body Skeleton -->
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+          @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
+          <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <td class="px-6 py-4">
+              <div class="flex items-center space-x-2">
+                <div class="bg-gray-200 dark:bg-gray-700 w-8 h-8 rounded-full"></div>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded-md ml-auto"></div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <div class="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-200 dark:bg-gray-700 w-20 h-6 ml-auto"></div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>

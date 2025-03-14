@@ -8,7 +8,7 @@ import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DebtSearchComponent } from '../../components/debt-search/debt-search.component';
 import { DebtCardComponent } from '../../components/debt-card/debt-card.component';
-import { SkeletonDebtsComponent } from '../../components/skeleton-debts/skeleton-debts.component';
+import { SkeletonDebtsComponent } from '../../components/skeleton/skeleton-debts/skeleton-debts.component';
 import { Amortization, UpdateStatusDto } from '@models/amortization';
 import { AmortizationViewComponent } from "../../components/amortization-view/amortization-view.component";
 import { firstValueFrom } from 'rxjs';

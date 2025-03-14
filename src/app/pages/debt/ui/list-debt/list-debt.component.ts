@@ -1,12 +1,13 @@
-import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { Component, computed, inject, viewChild } from '@angular/core';
 import { BreakpointService } from '@services/breakpoint.service';
-import { CardAmortizationComponent, CardDetailsComponent, SearchFilterDebtComponent, TableAmortizationComponent} from '../../components';
+import { CardAmortizationComponent, CardDetailsComponent, SearchFilterDebtComponent, SkeletonCardDetailTransactionComponent, SkeletonTableAmortizationComponent, TableAmortizationComponent} from '../../components';
+import { SkeletonCardAmortizationComponent } from "../../components/skeleton/skeleton-card-amortization/skeleton-card-amortization.component";
 
 const AppComponenteImports = [ SearchFilterDebtComponent, CardAmortizationComponent, CardDetailsComponent, TableAmortizationComponent ];
 
 @Component({
   selector: 'app-list-debt',
-  imports: [AppComponenteImports],
+  imports: [AppComponenteImports, SkeletonCardDetailTransactionComponent, SkeletonTableAmortizationComponent, SkeletonCardAmortizationComponent],
   templateUrl: './list-debt.component.html',
   styleUrl: './list-debt.component.scss',
 })

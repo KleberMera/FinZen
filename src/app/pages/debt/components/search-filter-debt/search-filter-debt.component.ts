@@ -3,7 +3,7 @@ import { FilterDebtService } from '../../services/filter-debt.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { FormsModule } from '@angular/forms';
-import { SkeletonDebtsComponent } from "../skeleton-debts/skeleton-debts.component";
+import { SkeletonDebtsComponent } from '../skeleton/skeleton-debts/skeleton-debts.component';
 
 @Component({
   selector: 'app-search-filter-debt',
