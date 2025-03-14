@@ -1,7 +1,6 @@
-<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden w-full relative">
+<div class="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden w-full relative">
   <!-- Botones de acción en esquina superior derecha -->
   <div class="absolute top-2 right-2 flex space-x-1">
-    
     <button type="button" class="p-1.5 rounded-full text-gray-400 hover:text-red-500 hover:bg-gray-100 dark:hover:text-red-400 dark:hover:bg-gray-700 transition-colors"
             (click)="onDelete()">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -11,15 +10,16 @@
   </div>
 
   <!-- Encabezado con icono y categoría -->
-  <div class="flex flex-col sm:flex-row items-start justify-between gap-3 mb-3 pr-16"> <!-- Añadido pr-16 para evitar superposición con los botones -->
-    <div class="flex items-center w-full sm:w-auto">
-      <div class="w-10 h-10 rounded-full flex items-center justify-center text-white mr-3" 
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3 pr-10 sm:pr-16">
+    <!-- Parte izquierda: icono y nombre -->
+    <div class="flex items-center w-full">
+      <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white mr-3" 
            [class]="transaction().category?.type === 'Gasto' ? 'bg-red-500 dark:bg-red-600' : 'bg-green-500 dark:bg-green-600'">
-        <i [class]="transaction().category?.icon" style="font-size: 1.2rem;"></i>
+        <i [class]="transaction().category?.icon" class="text-sm sm:text-base"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-white truncate">{{ transaction().name }}</h3>
-        <div class="flex flex-wrap items-center gap-2">
+        <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white truncate">{{ transaction().name }}</h3>
+        <div class="flex flex-wrap items-center gap-1 sm:gap-2">
           <span class="text-xs px-2 py-0.5 rounded-full" 
                 [class]="transaction().category?.type === 'Gasto' ? 
                          'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' : 
@@ -30,12 +30,14 @@
         </div>
       </div>
     </div>
-    <div class="text-right w-full sm:w-auto">
-      <p class="text-lg font-bold" 
+    
+    <!-- Parte derecha: monto y fecha -->
+    <div class="text-right mt-2 sm:mt-0 w-full sm:w-auto flex-shrink-0">
+      <p class="text-base sm:text-lg font-bold" 
          [class]="transaction().category?.type === 'Gasto' ? 
                  'text-red-600 dark:text-red-400' : 
                  'text-green-600 dark:text-green-400'">
-        ${{ transaction().amount }}
+        ${{ transaction().amount | number:'1.2-2' }}
       </p>
       <p class="text-xs text-gray-500 dark:text-gray-400">{{ transaction().date }} • {{ transaction().time }}</p>
     </div>
@@ -43,16 +45,58 @@
   
   <!-- Descripción con formato para lista -->
   @if (transaction().description) {
-    <div class="mt-3 bg-gray-50 dark:bg-gray-700/50 p-3 rounded-md">
-      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Detalles:</h4>
-      <div class="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-line">
-        {{ transaction().description }}
+    <div class="mt-2 sm:mt-3 bg-gray-50 dark:bg-gray-700/50 p-2 sm:p-3 rounded-md">
+      <div class="flex items-center justify-between mb-1 sm:mb-2">
+        <h4 class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Detalles:</h4>
+        
+        <!-- Botón para expandir/colapsar -->
+        @if (hasItemsList(transaction().description) && getItemsList(transaction().description).length > 3) {
+          <button (click)="toggleExpandedDescription()" 
+                  class="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+            {{ isDescriptionExpanded ? 'Colapsar' : 'Expandir' }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" 
+                 [class]="isDescriptionExpanded ? 'transform rotate-180' : ''" 
+                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        }
       </div>
+      
+      <!-- Descripción formateada -->
+      @if (hasItemsList(transaction().description)) {
+        <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+          <!-- Encabezado de la descripción -->
+          <p class="mb-2">{{ getDescriptionHeader(transaction().description) }}</p>
+          
+          <!-- Lista de elementos con scroll si es necesario -->
+          <div [class]="(!isDescriptionExpanded && getItemsList(transaction().description).length > 3) ? 
+                      'max-h-32 overflow-y-auto pr-1 custom-scrollbar' : ''">
+            <ul class="list-disc pl-4 space-y-1">
+              @for (item of getItemsList(transaction().description); track $index) {
+              <li class="ml-1">{{ item }}</li>
+              }
+            </ul>
+          </div>
+          
+          <!-- Indicador de más contenido -->
+          @if (!isDescriptionExpanded && getItemsList(transaction().description).length > 3) {
+            <div class="mt-1 text-xs text-right text-gray-500 dark:text-gray-400">
+              {{ getItemsList(transaction().description).length }} elementos en total
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Descripción simple -->
+        <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 whitespace-pre-line">
+          {{ transaction().description }}
+        </div>
+      }
     </div>
   }
   
   <!-- Información adicional -->
-  <div class="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400">
+  <div class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400">
     ID: {{ transaction().id }} • Creado: {{ formatDateTime(transaction().createdAt ?? '') }}
   </div>
 </div>

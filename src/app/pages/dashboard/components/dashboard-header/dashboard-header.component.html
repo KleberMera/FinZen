@@ -180,12 +180,12 @@
               </div>
               <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Ingresos</h3>
             </div>
-            @if (data!.comparison) {
+            <!-- @if (data!.comparison) {
             <div [ngClass]="data!.comparison!.incomePercentageChange >= 0 ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'" 
                  class="text-xs px-2.5 py-1.5 rounded-full font-medium">
               {{ data!.comparison!.incomePercentageChange| number:'1.1-1'}}%
             </div>
-            }
+            } -->
           </div>
         </div>
         <div class="mt-auto">
@@ -221,12 +221,12 @@
               </div>
               <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Gastos</h3>
             </div>
-            @if (data!.comparison) {
+            <!-- @if (data!.comparison) {
             <div [ngClass]="data!.comparison!.expensesPercentageChange <= 0 ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'"
                  class="text-xs px-2.5 py-1.5 rounded-full font-medium">
               {{ data!.comparison!.expensesPercentageChange | number:'1.1-1'}}%
             </div>
-            }
+            } -->
           </div>
         </div>
         <div class="mt-auto">
