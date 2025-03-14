@@ -126,6 +126,10 @@ export class RegisterDebtComponent {
   }
 
   async saveDebt() {
+    //Que duration_type sea eliminado
+    this.form().removeControl('duration_type');
+    console.log(this.form().value);
+    
     if (this.form().invalid || this.isSubmitting()) return;
     toast.info('Registrando, esto puede tardar un rato...');
     this.isSubmitting.set(true);

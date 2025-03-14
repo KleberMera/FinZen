@@ -1,58 +1,33 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { DebtService } from '../../services/debt.service';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
-import { FiltersDebtComponent } from '../../components/filters-debt/filters-debt.component';
-import { TableAmortizationComponent } from "../../components/table-amortization/table-amortization.component";
-import { apiResponse } from '@models/apiResponse';
-import { Debt } from '@models/debt';
-import { SkeletonDebtsComponent } from "../../components/skeleton-debts/skeleton-debts.component";
-import { CardDetailsComponent } from "../../components/card-details/card-details.component";
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
 import { BreakpointService } from '@services/breakpoint.service';
-import { CardAmortizationComponent } from "../../components/card-amortization/card-amortization.component";
+import { CardAmortizationComponent, CardDetailsComponent, SearchFilterDebtComponent, TableAmortizationComponent} from '../../components';
 
-export interface Filter {
-  name: string;
-}
+const AppComponenteImports = [ SearchFilterDebtComponent, CardAmortizationComponent, CardDetailsComponent, TableAmortizationComponent ];
 
 @Component({
   selector: 'app-list-debt',
-  imports: [FiltersDebtComponent, TableAmortizationComponent, SkeletonDebtsComponent, CardDetailsComponent, CardAmortizationComponent],
+  imports: [AppComponenteImports],
   templateUrl: './list-debt.component.html',
   styleUrl: './list-debt.component.scss',
 })
+
 export class ListDebtComponent {
-  private readonly _debtService = inject(DebtService);
-  protected readonly filters = signal<Filter>({ name: '' });
-  protected readonly selectedDebt = signal<boolean>(false);
-  private readonly seletedUser = signal<number>(inject(StorageService).getUserId());
-   public readonly _screenService = inject(BreakpointService);
-  readonly debts = rxResource<apiResponse<Debt[]>, { userId: number }>({
-    request: () => ({ userId: this.seletedUser() }),
-    loader: ({ request }) => this._debtService.getDebtsByUserId(request.userId),
+  readonly SearchFilterDebtComponent = viewChild(SearchFilterDebtComponent);
+  public readonly _screenService = inject(BreakpointService);
+
+  filteredDebts = computed(() => {
+    const debts =
+      this.SearchFilterDebtComponent()?.filteredDebts.value()?.data!;
+    return debts;
   });
 
-  onFilterChange(newFilters: { name: string }) {
-    this.filters.set(newFilters);
-    this.selectedDebt.set(true);
+  loading() {
+    return this.SearchFilterDebtComponent()?.filteredDebts.isLoading();
   }
 
-  protected readonly filteredDebts = computed(() => {
-    const debts = this.debts.value()?.data ?? [];
-   
-    return debts.filter((trans) => {
-      const matchName =
-        this.filters().name === '' ||
-        trans.name.toLowerCase().includes(this.filters().name.toLowerCase());
-      return matchName;
-    });
-    
+  seletedDebt() {
+    return this.SearchFilterDebtComponent()?.selectedDebt();
+  }
 
-  });
 
-  protected readonly filteredAmortizations = computed(() => {
-    const debts = this.debts.value()?.data ?? [];
-    const selectedDebt = debts.find((d) => d.name === this.filters().name);
-    return selectedDebt?.amortizations || [];
-  });
 }

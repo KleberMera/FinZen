@@ -1,23 +1,9 @@
-<!-- Loading State -->
-@if (debts.isLoading()) {
-<app-skeleton-debts></app-skeleton-debts>
+<app-search-filter-debt #searchFilterDebt></app-search-filter-debt>
+@if (seletedDebt()) {
+<app-card-details [debts]="filteredDebts()"></app-card-details>
+@if (_screenService.isMobile()) { @if (loading()) { } @else {
 
-} @else {
-<filters-debt
-  [debts]="debts.value()?.data ?? []"
-  (filterChange)="onFilterChange($event)"
-></filters-debt>
-
-@if (selectedDebt()) {
-  <app-card-details [debts]="filteredDebts()"></app-card-details>
-<div class="">
-  
-  @if (_screenService.isMobile()) {
-    <app-card-amortization
-      [filters]="filteredDebts()"
-    ></app-card-amortization>
-  } @else {
-    <app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
-  }
-</div>
-} }
+<app-card-amortization [filters]="filteredDebts()"></app-card-amortization>
+} } @else { @if (loading()) {} @else {
+<app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
+} } }
