@@ -79,6 +79,7 @@ export class ChatTransactionCardComponent{
     // Elimina el primer elemento (encabezado) y procesa los demás
     return items.slice(1).map(item => item.trim());
   }
+  
   // Función para extraer los items de la lista
   getDescriptionItems(description: string): string[] {
     if (!description) return [];

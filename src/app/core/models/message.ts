@@ -1,3 +1,5 @@
+import { Transaction } from "./transaction";
+
 export interface Message {
     id: number;
     text: string;
@@ -5,5 +7,5 @@ export interface Message {
     type: 'user' | 'bot' | 'loading' | 'bot-card';
     timestamp: number;
     imageUrl?: string;
-    transaction?: any;
+    transaction?: Transaction;
   }
