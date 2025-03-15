@@ -4,6 +4,7 @@ import { Debt } from '@models/debt';
 import { MethodService } from '../../services/method.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-details.component";
+import { Amortization } from '@models/amortization';
 
 @Component({
   selector: 'app-card-amortization',
@@ -15,8 +16,23 @@ export class CardAmortizationComponent {
   readonly totalMonths = signal<number>(0);
   readonly formData = input<FormGroup>();
   readonly filters = input<Debt[]>();
-
+  selectedAmortization = signal<Amortization | null>(null);
+  debtId = signal<number>(0);
+  
   private readonly _methodService = inject(MethodService);
+  isSidebarOpen = signal(false);
+
+  ondebtClick(amortization: Amortization): void {
+    console.log('Recibido', amortization);
+    const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
+    this.debtId.set(debtId);
+    this.selectedAmortization.set(amortization);
+    this.isSidebarOpen.set(true); // Abre el sidebar
+  }
+
+
+
+
 
   protected readonly datos = computed(() => {
     const rawData = this.filters()
@@ -59,19 +75,13 @@ export class CardAmortizationComponent {
   }
 
 
-  selectedDebt = signal<Debt | null>(null);
-  isSidebarOpen = signal(false);
 
-  ondebtClick(debt: Debt): void {
-    console.log('Recibido', debt);
-    this.selectedDebt.set(debt);
-    this.isSidebarOpen.set(true); // Abre el sidebar
-  }
 
   // Método para cerrar el sidebar
   closeUserSidebar(): void {
     console.log('Cerrando sidebar...');
     this.isSidebarOpen.set(false); // Cierra el sidebar
-    this.selectedDebt.set(null); // Limpia la transacción seleccionada
+    this.selectedAmortization.set(null); // Limpia la transacción seleccionada
+    this.debtId.set(0);
   }
 }

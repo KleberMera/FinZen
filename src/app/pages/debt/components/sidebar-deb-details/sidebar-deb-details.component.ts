@@ -1,17 +1,43 @@
-import { Component, input, output } from '@angular/core';
-import { Debt } from '@models/debt';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, inject, input, output } from '@angular/core';
+import { Amortization, UpdateStatusDto } from '@models/amortization';
+import { DebtService } from '../../services/debt.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-sidebar-deb-details',
-  imports: [],
+  imports: [DatePipe, CurrencyPipe],
   templateUrl: './sidebar-deb-details.component.html',
-  styleUrl: './sidebar-deb-details.component.scss'
+  styleUrl: './sidebar-deb-details.component.scss',
 })
 export class SidebarDebDetailsComponent {
   closeUserSidebar = output<void>();
-    readonly debt = input.required<Debt>(); // Recibe la transacción seleccionada
+  readonly amortization = input.required<Amortization>(); // Recibe la transacción seleccionada
+  readonly debtId = input.required<number>();
+  private readonly _debtService = inject(DebtService);
 
   close() {
     this.closeUserSidebar.emit();
+  }
+
+  async onUpdateAmortizations() {
+    const updateDto: UpdateStatusDto = {
+      ids: [this.amortization().id!], // Conversión segura
+      status: 'Pagado',
+    };
+
+    console.log('updateDto', updateDto, this.debtId());
+
+    this._debtService.updateDebtStatus(this.debtId(), updateDto).subscribe({
+      next: (response) => {
+        console.log('Amortizaciones actualizadas:', response);
+        //this.onBack();
+        //this.debts.reload();
+        toast.success('Pagos actualizados correctamente');
+
+        this.close();
+        //this.onDebtSelect(this.selectedDebt());
+      },
+    });
   }
 }

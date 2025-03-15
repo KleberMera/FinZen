@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Debt } from '@models/debt';
 import { SidebarDebDetailsComponent } from '../sidebar-deb-details/sidebar-deb-details.component';
+import { Amortization } from '@models/amortization';
 
 @Component({
   selector: 'app-table-amortization',
@@ -47,19 +48,24 @@ export class TableAmortizationComponent {
     );
   }
 
-  selectedDebt = signal<Debt | null>(null);
+  selectedAmortization = signal<Amortization | null>(null);
+  debtId = signal<number>(0);
   isSidebarOpen = signal(false);
 
-  ondebtClick(debt: Debt): void {
-    console.log('Recibido', debt);
-    this.selectedDebt.set(debt);
+  ondebtClick(amortization: Amortization): void {
+    console.log('Recibido', amortization);
+    const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
+    this.debtId.set(debtId);
+    this.selectedAmortization.set(amortization);
     this.isSidebarOpen.set(true); // Abre el sidebar
   }
+
 
   // Método para cerrar el sidebar
   closeUserSidebar(): void {
     console.log('Cerrando sidebar...');
     this.isSidebarOpen.set(false); // Cierra el sidebar
-    this.selectedDebt.set(null); // Limpia la transacción seleccionada
+    this.selectedAmortization.set(null); // Limpia la transacción seleccionada
+    this.debtId.set(0);
   }
 }

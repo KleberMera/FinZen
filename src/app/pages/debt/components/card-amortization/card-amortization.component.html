@@ -122,10 +122,13 @@
   }
 
 
+  @if (filters()) {
+    @if (isSidebarOpen()) {
+      <app-sidebar-deb-details
+        [debtId]="debtId()"
+        [amortization]="selectedAmortization()!"
+        (closeUserSidebar)="closeUserSidebar()"
+      ></app-sidebar-deb-details>
+    }
+  }
   
-@if (isSidebarOpen()) {
-  <app-sidebar-deb-details
-    [debt]="selectedDebt()!"
-    (closeUserSidebar)="closeUserSidebar()"
-  ></app-sidebar-deb-details>
-}
