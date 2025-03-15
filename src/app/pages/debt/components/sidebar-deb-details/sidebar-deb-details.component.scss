@@ -1,12 +1,12 @@
 @keyframes slideUp {
-    from {
-      transform: translate(-50%, 100%);
-    }
-    to {
-      transform: translate(-50%, 0);
-    }
+  from {
+    transform: translate(-50%, 100%);
   }
-  
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out forwards;
+  to {
+    transform: translate(-50%, 0);
   }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out forwards;
+}
