@@ -3,10 +3,11 @@ import { FormGroup } from '@angular/forms';
 import { Debt } from '@models/debt';
 import { MethodService } from '../../services/method.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-details.component";
 
 @Component({
   selector: 'app-card-amortization',
-  imports: [CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, SidebarDebDetailsComponent],
   templateUrl: './card-amortization.component.html',
   styleUrl: './card-amortization.component.scss',
 })
@@ -55,5 +56,22 @@ export class CardAmortizationComponent {
 
   protected calculateTotal(field: 'quota' | 'interest' | 'amortized'): number {
     return this.datos().reduce((sum: any, item: any) => sum + item[field], 0);
+  }
+
+
+  selectedDebt = signal<Debt | null>(null);
+  isSidebarOpen = signal(false);
+
+  ondebtClick(debt: Debt): void {
+    console.log('Recibido', debt);
+    this.selectedDebt.set(debt);
+    this.isSidebarOpen.set(true); // Abre el sidebar
+  }
+
+  // Método para cerrar el sidebar
+  closeUserSidebar(): void {
+    console.log('Cerrando sidebar...');
+    this.isSidebarOpen.set(false); // Cierra el sidebar
+    this.selectedDebt.set(null); // Limpia la transacción seleccionada
   }
 }

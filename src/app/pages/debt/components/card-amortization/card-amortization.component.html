@@ -1,6 +1,8 @@
 
 @for (fila of datos(); track $index) {
-  <div class="group bg-white dark:bg-gray-900 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-800 mb-5">
+  <div 
+  (click)="ondebtClick(fila)"
+  class="group bg-white dark:bg-gray-900 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-800 mb-5">
     <!-- Cabecera con diseño moderno -->
     <div class="relative px-6 py-5 overflow-hidden rounded-t-xl bg-gradient-to-br from-indigo-950 to-blue-900">
       <!-- Elementos decorativos de fondo -->
@@ -118,3 +120,12 @@
     </div>
   </div>
   }
+
+
+  
+@if (isSidebarOpen()) {
+  <app-sidebar-deb-details
+    [debt]="selectedDebt()!"
+    (closeUserSidebar)="closeUserSidebar()"
+  ></app-sidebar-deb-details>
+}

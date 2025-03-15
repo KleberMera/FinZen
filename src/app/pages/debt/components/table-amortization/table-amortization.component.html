@@ -57,7 +57,9 @@
       <!-- Table Body -->
       <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
         @for (fila of datos(); track fila.number_months) {
-        <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50">
+        <tr 
+        (click)="ondebtClick(fila)"
+        class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50">
           <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
             <div class="flex items-center space-x-2">
               <span class="bg-gray-100 dark:bg-gray-700 w-8 h-8 rounded-full flex items-center justify-center font-semibold">
@@ -105,3 +107,9 @@
 
 
 
+@if (isSidebarOpen()) {
+  <app-sidebar-deb-details
+    [debt]="selectedDebt()!"
+    (closeUserSidebar)="closeUserSidebar()"
+  ></app-sidebar-deb-details>
+}
