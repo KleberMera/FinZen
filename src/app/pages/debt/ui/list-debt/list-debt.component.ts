@@ -16,11 +16,9 @@ export class ListDebtComponent {
   readonly SearchFilterDebtComponent = viewChild(SearchFilterDebtComponent);
   public readonly _screenService = inject(BreakpointService);
 
-  filteredDebts = computed(() => {
-    const debts =
-      this.SearchFilterDebtComponent()?.filteredDebts.value()?.data!;
-    return debts;
-  });
+  filteredDebts(){
+    return this.SearchFilterDebtComponent()?.filteredDebts.value()?.data!;
+  }
 
   loading() {
     return this.SearchFilterDebtComponent()?.filteredDebts.isLoading();
