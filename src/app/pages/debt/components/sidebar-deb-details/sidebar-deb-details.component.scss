@@ -1,16 +1,16 @@
-@keyframes slideUp {
-  from {
-    transform: translate3d(-50%, 100%, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
+// @keyframes slideUp {
+//   from {
+//     transform: translate3d(-50%, 100%, 0);
+//   }
+//   to {
+//     transform: translate3d(-50%, 0, 0);
+//   }
+// }
 
-.animate-slide-up {
-  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform;
-  backface-visibility: hidden;
-  perspective: 1000;
+// .animate-slide-up {
+//   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+//   will-change: transform;
+//   backface-visibility: hidden;
+//   perspective: 1000;
 
-}
+// }
