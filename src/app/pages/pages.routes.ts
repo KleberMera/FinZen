@@ -8,7 +8,7 @@ import { TableTransactionComponent } from './transaction/ui/table-transaction/ta
 import { FormTransactionsComponent } from './transaction/ui/form-transactions/form-transactions.component';
 import { RegisterDebtComponent } from './debt/ui/register-debt/register-debt.component';
 import { ListDebtComponent } from './debt/ui/list-debt/list-debt.component';
-import { EditDebtComponent } from './debt/ui/edit-debt/edit-debt.component';
+
 import { LayoutComponent } from '../layout/layout.component';
 import { GoalsComponent } from './goals/goals.component';
 import { ChatComponent } from './chat/ui/chat/chat.component';
@@ -47,12 +47,8 @@ export const pagesRoutes: Routes = [
         component: RegisterDebtComponent,
       },
       {
-        path: 'deudas-listado',
+        path: 'deudas-seguimiento',
         component: ListDebtComponent,
-      },
-      {
-        path: 'deudas-pagar',
-        component: EditDebtComponent,
       },
       {
         path: 'metas',

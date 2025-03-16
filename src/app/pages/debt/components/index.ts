@@ -7,6 +7,6 @@ export * from './skeleton/skeleton-card-detail-transaction/skeleton-card-detail-
 export * from './skeleton/skeleton-debts/skeleton-debts.component';
 export * from './debt-search/debt-search.component';
 export * from './debt-card/debt-card.component';
-export * from './amortization-view/amortization-view.component';
+
 export * from './skeleton/skeleton-table-amortization/skeleton-table-amortization.component';
 export * from './skeleton/skeleton-card-amortization/skeleton-card-amortization.component';

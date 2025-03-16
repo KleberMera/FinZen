@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, output, input, LOCALE_ID, inject } from '@angular/core';
+import { Component, output, input, inject } from '@angular/core';
 import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { toast } from 'ngx-sonner';
@@ -60,8 +60,6 @@ export class DetailTransactionComponent {
             next: (res) => {
               console.log('transaction deleted');
               toast.success(res.message);
-              //Eliminar card 
-              //this._chatService.removeMessage(this.idMessage());
               this.close();
               this.deleteSuccess.emit();
               

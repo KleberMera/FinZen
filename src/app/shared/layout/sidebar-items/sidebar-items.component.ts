@@ -82,12 +82,8 @@ export class SidebarItemsComponent {
           route: 'deudas',
         },
         {
-          label: 'Listado',
-          route: 'deudas-listado',
-        },
-        {
-          label: 'Pagar',
-          route: 'deudas-pagar',
+          label: 'Seguimiento',
+          route: 'deudas-seguimiento',
         },
       ],
     },
