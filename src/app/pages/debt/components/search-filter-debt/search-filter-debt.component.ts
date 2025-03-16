@@ -35,4 +35,11 @@ export class SearchFilterDebtComponent {
     loader: ({ request }) => this._filter.getDebtByIdData(request.id!),
   });
 
+  // Método para refrescar los datos
+  refreshDebtData(): void {
+    console.log('Refrescando datos...');
+    
+    this.filteredDebts.reload(); // Vuelve a cargar los datos con la última selección
+  }
+
 }

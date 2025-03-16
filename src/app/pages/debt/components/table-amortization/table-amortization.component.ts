@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Debt } from '@models/debt';
@@ -16,6 +16,7 @@ export class TableAmortizationComponent {
   readonly sortOrderStatus = signal<'asc' | 'desc' | null>(null);
   readonly formData = input<FormGroup>();
   readonly filters = input<Debt[]>();
+  updateSuccess = output<void>();
 
   protected readonly datos = computed(() => {
     const rawData = this.filters()
@@ -67,5 +68,10 @@ export class TableAmortizationComponent {
     this.isSidebarOpen.set(false); // Cierra el sidebar
     this.selectedAmortization.set(null); // Limpia la transacción seleccionada
     this.debtId.set(0);
+  }
+
+   // Método para manejar el evento de actualización del sidebar
+   onSidebarUpdateSuccess(): void {
+    this.updateSuccess.emit(); // Propaga el evento hacia ListDebtComponent
   }
 }

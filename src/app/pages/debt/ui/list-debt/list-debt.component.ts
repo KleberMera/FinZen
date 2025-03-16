@@ -28,5 +28,9 @@ export class ListDebtComponent {
     return this.SearchFilterDebtComponent()?.selectedDebt();
   }
 
+  // Método para manejar la actualización exitosa
+  onUpdateSuccess(): void {
+    this.SearchFilterDebtComponent()?.refreshDebtData(); // Refresca los datos
+  }
 
 }

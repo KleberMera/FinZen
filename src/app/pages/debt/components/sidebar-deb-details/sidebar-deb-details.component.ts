@@ -15,6 +15,7 @@ export class SidebarDebDetailsComponent {
   readonly amortization = input.required<Amortization>(); // Recibe la transacción seleccionada
   readonly debtId = input.required<number>();
   private readonly _debtService = inject(DebtService);
+  updateSuccess = output<void>();
 
   close() {
     this.closeUserSidebar.emit();
@@ -31,12 +32,9 @@ export class SidebarDebDetailsComponent {
     this._debtService.updateDebtStatus(this.debtId(), updateDto).subscribe({
       next: (response) => {
         console.log('Amortizaciones actualizadas:', response);
-        //this.onBack();
-        //this.debts.reload();
         toast.success('Pagos actualizados correctamente');
-
+        this.updateSuccess.emit(); // Emitir el evento de éxito
         this.close();
-        //this.onDebtSelect(this.selectedDebt());
       },
     });
   }

@@ -1,4 +1,4 @@
-<app-search-filter-debt #searchFilterDebt></app-search-filter-debt>
+<app-search-filter-debt ></app-search-filter-debt>
 
 
 @if (seletedDebt()) {
@@ -14,9 +14,9 @@
 }@else {
 <app-card-details [debts]="filteredDebts()"></app-card-details>
 @if (_screenService.isMobile()) {
-<app-card-amortization [filters]="filteredDebts()"></app-card-amortization>
+<app-card-amortization (updateSuccess)="onUpdateSuccess()" [filters]="filteredDebts()"></app-card-amortization>
 } @else {
-<app-table-amortization [filters]="filteredDebts()"></app-table-amortization>
+<app-table-amortization [filters]="filteredDebts()" (updateSuccess)="onUpdateSuccess()"></app-table-amortization>
 }
 }
 

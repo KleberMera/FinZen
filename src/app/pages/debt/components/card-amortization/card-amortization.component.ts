@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Debt } from '@models/debt';
 import { MethodService } from '../../services/method.service';
@@ -18,7 +18,7 @@ export class CardAmortizationComponent {
   readonly filters = input<Debt[]>();
   selectedAmortization = signal<Amortization | null>(null);
   debtId = signal<number>(0);
-  
+  updateSuccess = output<void>();
   private readonly _methodService = inject(MethodService);
   isSidebarOpen = signal(false);
 
@@ -30,15 +30,16 @@ export class CardAmortizationComponent {
     this.isSidebarOpen.set(true); // Abre el sidebar
   }
 
-
-
+  // Método para manejar el evento de actualización del sidebar
+  onSidebarUpdateSuccess(): void {
+    this.updateSuccess.emit(); // Propaga el evento hacia ListDebtComponent
+  }
 
 
   protected readonly datos = computed(() => {
     const rawData = this.filters()
       ? this.filters()![0].amortizations
       : this.formData()?.get('amortizations')?.value || [];
-
     // Ordenar por número de mes
     return [...rawData].sort((a, b) => a.number_months - b.number_months);
   });
@@ -46,12 +47,8 @@ export class CardAmortizationComponent {
   constructor() {
     effect(() => {
       if (this.formData()) {
-        console.log('data');
-
         this.totalMonths.set(this._methodService.totalMonths(this.formData()!));
       } else {
-        console.log('data2');
-
         const data = this.filters()![0].amortizations;
         this.totalMonths.set(data.length);
       }
@@ -62,8 +59,6 @@ export class CardAmortizationComponent {
     currentMonth: number,
     totalMonths: number
   ): string {
-    console.log(this.datos().length);
-
     const circumference = 2 * Math.PI * 35; // radio = 35
     const percent = currentMonth / totalMonths;
     const offset = circumference * (1 - percent);
@@ -75,11 +70,8 @@ export class CardAmortizationComponent {
   }
 
 
-
-
   // Método para cerrar el sidebar
   closeUserSidebar(): void {
-    console.log('Cerrando sidebar...');
     this.isSidebarOpen.set(false); // Cierra el sidebar
     this.selectedAmortization.set(null); // Limpia la transacción seleccionada
     this.debtId.set(0);
