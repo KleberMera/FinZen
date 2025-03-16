@@ -182,5 +182,6 @@
   <app-detail-transaction
     [transaction]="selectedTransaction()!"
     (closeUserSidebar)="closeUserSidebar()"
+    (deleteSuccess)="onDetailDeleteSuccess()"
   ></app-detail-transaction>
 }

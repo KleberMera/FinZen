@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { SearchFilterTransactionComponent } from "../../components/search-filter-transaction/search-filter-transaction.component";
 import { FormsModule } from '@angular/forms';
 import { ViewDesktopComponent } from '../../components/view-desktop/view-desktop.component';
 import { ViewMobileComponent } from '../../components/view-mobile/view-mobile.component';
@@ -131,4 +130,8 @@ export class TableTransactionComponent {
    // this.filteredTransactions.refresh(); // Vuelve a cargar los datos
   }
   
+  // Nuevo método para manejar la eliminación exitosa
+  onDeleteSuccess(): void {
+    this.filteredTransactions.reload(); // Refresca los datos
+  }
 }

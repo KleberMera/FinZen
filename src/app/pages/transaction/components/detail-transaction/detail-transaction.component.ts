@@ -13,6 +13,7 @@ import { toast } from 'ngx-sonner';
 })
 export class DetailTransactionComponent {
   closeUserSidebar = output<void>(); // Evento para cerrar el sidebar
+  deleteSuccess = output<void>();    // Nuevo evento para notificar eliminación exitosa
   readonly transaction = input.required<Transaction>(); // Recibe la transacción seleccionada
   private readonly _transactionService = inject(TransactionService)
 
@@ -62,6 +63,7 @@ export class DetailTransactionComponent {
               //Eliminar card 
               //this._chatService.removeMessage(this.idMessage());
               this.close();
+              this.deleteSuccess.emit();
               
             },
             error: (error) => {

@@ -18,6 +18,8 @@ export class ViewMobileComponent {
   readonly filteredTransactions = input.required<apiResponse<Transaction[]>>();
   readonly currentPage = input.required<number>();
   readonly itemsPerPage = input.required<number>();
+  // Nuevo Output para propagar la eliminación
+  readonly deleteSuccess = output<void>();
 
   // Outputs
   readonly pageChange = output<number>();
@@ -32,6 +34,10 @@ export class ViewMobileComponent {
     this._transactionService.getTotal(this.filteredTransactions().data!)
   );
 
+  // Nuevo método para manejar el evento de eliminación
+  onDetailDeleteSuccess(): void {
+    this.deleteSuccess.emit(); // Propaga el evento hacia TableTransactionComponent
+  }
   // Métodos para manejar cambios en la paginación
   goToPage(page: number): void {
     this.pageChange.emit(page);

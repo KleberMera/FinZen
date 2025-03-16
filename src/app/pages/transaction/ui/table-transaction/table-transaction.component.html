@@ -1,10 +1,3 @@
-
-
-
-
-
-
- 
 @if (categoryNames.isLoading() && transactionNames.isLoading() ) {
   <skeleton-filters></skeleton-filters>
 } @else {
@@ -265,16 +258,24 @@
   <app-skeleton-table-transaction></app-skeleton-table-transaction>
 } @else {
 
-@if (_screenService.isMobile()) {
-<view-mobile [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()!"
-  [itemsPerPage]="itemsPerPage()!" (pageChange)="goToPage($event)"
-  (itemsPerPageChange)="changeItemsPerPage($event)"></view-mobile>
-} @else {
-<view-desktop [filteredTransactions]="filteredTransactions.value()!" [currentPage]="currentPage()!"
-  [itemsPerPage]="itemsPerPage()!" (pageChange)="goToPage($event)"
-  (itemsPerPageChange)="changeItemsPerPage($event)"></view-desktop>
-
- 
-}
+  @if (_screenService.isMobile()) {
+    <view-mobile
+      [filteredTransactions]="filteredTransactions.value()!"
+      [currentPage]="currentPage()!"
+      [itemsPerPage]="itemsPerPage()!"
+      (pageChange)="goToPage($event)"
+      (itemsPerPageChange)="changeItemsPerPage($event)"
+      (deleteSuccess)="onDeleteSuccess()" 
+    ></view-mobile>
+  } @else {
+    <view-desktop
+      [filteredTransactions]="filteredTransactions.value()!"
+      [currentPage]="currentPage()!"
+      [itemsPerPage]="itemsPerPage()!"
+      (pageChange)="goToPage($event)"
+      (itemsPerPageChange)="changeItemsPerPage($event)"
+      (deleteSuccess)="onDeleteSuccess()" 
+    ></view-desktop>
+  }
 
 }

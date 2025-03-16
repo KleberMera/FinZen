@@ -28,7 +28,8 @@ export class ViewDesktopComponent {
   readonly itemsPerPage = input.required<number>();
   selectedTransaction = signal<Transaction | null>(null);
   isSidebarOpen = signal(false);
-
+  // Nuevo Output para propagar la eliminación
+  readonly deleteSuccess = output<void>();
   // Método para manejar el clic en una transacción
   onTransactionClick(transaction: Transaction): void {
     console.log('Recibido', transaction);
@@ -100,4 +101,10 @@ export class ViewDesktopComponent {
   changeItemsPerPage(limit: number): void {
     this.itemsPerPageChange.emit(limit);
   }
+
+    // Nuevo método para manejar el evento de eliminación
+    onDetailDeleteSuccess(): void {
+      this.deleteSuccess.emit(); // Propaga el evento hacia TableTransactionComponent
+    }
+  
 }
