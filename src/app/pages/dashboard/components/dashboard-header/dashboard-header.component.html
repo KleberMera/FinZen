@@ -121,42 +121,24 @@
               </div>
               <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Balance Total</h3>
             </div>
-            @if (data!.currentMonth.monthName) {
+          
             <span
               class="text-xs font-medium px-2.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-              {{ data!.currentMonth.monthName | titlecase }}
+              {{ currenMonthName() | titlecase}}
             </span>
-            }
+        
           </div>
         </div>
         <div class="mt-auto">
           <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonth.balance | currency}}
+            {{ data!.currentMonthData.balance | currency}}
           </p>
-          @if (data!.previousMonth) {
-          <div class="flex items-center mt-2 space-x-2">
-            @if (data!.currentMonth!.balance > data!.previousMonth!.balance) {
-            <span class="flex items-center text-green-500 text-sm font-medium">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6">
-                </path>
-              </svg>
-              +{{ (data!.currentMonth!.balance - data!.previousMonth!.balance) | currency }}
-            </span>
-            } @else {
-            <span class="flex items-center text-red-500 text-sm font-medium">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
-                </path>
-              </svg>
-              {{ (data!.currentMonth!.balance - data!.previousMonth!.balance) | currency }}
-            </span>
+            @if (data!.previousMonthData) {
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
+            <span class="mr-1">Mes anterior:</span>
+            <span class="font-medium">{{ data!.previousMonthData.balance  }}</span>
+            </p>
             }
-            <span class="text-gray-500 dark:text-gray-400 text-sm">
-              vs {{ data!.previousMonth.monthName | titlecase }}
-            </span>
-          </div>
-          }
         </div>
       </div>
     </div>
@@ -190,12 +172,12 @@
         </div>
         <div class="mt-auto">
           <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonth.totalIncome| currency:data!.currentMonth.currency }}
+            {{ data!.currentMonthData.totalIncome| currency:data!.currentMonthData.currency }}
           </p>
-          @if (data!.previousMonth) {
+          @if (data!.previousMonthData) {
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
             <span class="mr-1">Mes anterior:</span> 
-            <span class="font-medium">{{ data!.previousMonth.totalIncome | currency:data!.previousMonth.currency }}</span>
+            <span class="font-medium">{{ data!.previousMonthData.totalIncome | currency:data!.previousMonthData.currency }}</span>
           </p>
           }
         </div>
@@ -231,12 +213,12 @@
         </div>
         <div class="mt-auto">
           <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonth.totalExpenses | currency:data!.currentMonth.currency }}
+            {{ data!.currentMonthData.totalExpenses | currency:data!.currentMonthData.currency }}
           </p>
-          @if (data!.previousMonth) {
+          @if (data!.previousMonthData) {
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
             <span class="mr-1">Mes anterior:</span>
-            <span class="font-medium">{{ data!.previousMonth.totalExpenses | currency:data!.previousMonth.currency }}</span>
+            <span class="font-medium">{{ data!.previousMonthData.totalExpenses | currency:data!.previousMonthData.currency }}</span>
           </p>
           }
         </div>

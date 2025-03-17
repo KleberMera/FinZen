@@ -37,9 +37,9 @@ interface comparison {
 }
 
 export interface Balance {
-    currentMonth: currentMonth;
-    previousMonth: previousMonth;
-    comparison: comparison;
+    currentMonthData: currentMonth;
+    previousMonthData: previousMonth;
+
 }
 
 
