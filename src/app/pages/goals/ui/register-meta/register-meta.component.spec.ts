@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoalsComponent } from './goals.component';
+import { RegisterMetaComponent } from './register-meta.component';
 
-describe('GoalsComponent', () => {
-  let component: GoalsComponent;
-  let fixture: ComponentFixture<GoalsComponent>;
+describe('RegisterMetaComponent', () => {
+  let component: RegisterMetaComponent;
+  let fixture: ComponentFixture<RegisterMetaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoalsComponent]
+      imports: [RegisterMetaComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GoalsComponent);
+    fixture = TestBed.createComponent(RegisterMetaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

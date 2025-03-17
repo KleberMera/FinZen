@@ -10,8 +10,9 @@ import { RegisterDebtComponent } from './debt/ui/register-debt/register-debt.com
 import { ListDebtComponent } from './debt/ui/list-debt/list-debt.component';
 
 import { LayoutComponent } from '../layout/layout.component';
-import { GoalsComponent } from './goals/goals.component';
+
 import { ChatComponent } from './chat/ui/chat/chat.component';
+import { RegisterMetaComponent } from './goals/ui/register-meta/register-meta.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -52,7 +53,7 @@ export const pagesRoutes: Routes = [
       },
       {
         path: 'metas',
-        component: GoalsComponent
+        component: RegisterMetaComponent
       },
       {
         path: 'chat',
