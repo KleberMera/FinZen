@@ -42,6 +42,8 @@ export class UserProfileSidebarComponent {
 
   logout() {
     this._router.navigate(['auth']);
+    //borrar todo de local storage
+    this._storageService.clear();
     toast.success('Sesión cerrada');
   }
 

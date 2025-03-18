@@ -41,4 +41,9 @@ export class StorageService {
     // recorrer dataUser y retornar el  id
     return dataUser?.avatar as string;
   }
+
+  // Método para borrar todos los datos de la sesión
+  clear() {
+    this._storage.clear();
+  }
 }

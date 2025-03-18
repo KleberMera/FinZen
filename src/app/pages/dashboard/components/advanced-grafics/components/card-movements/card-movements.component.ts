@@ -144,7 +144,7 @@ protected readonly _graficsService = inject(GraficsService);
         }
       },
       stroke: {
-        show: true,
+        show: false,
         width: 2,
         colors: ['transparent']
       },
