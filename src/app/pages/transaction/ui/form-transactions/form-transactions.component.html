@@ -1,258 +1,264 @@
-<div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
-  <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
-    <span class="flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-      </svg>
-      Nueva Transacción
-    </span>
-  </h2>
 
-  <form [formGroup]="form()" (submit)="saveTransaccion($event)" class="space-y-6">
-    <!-- Tipo de Transacción (Toggle) -->
-   
-
-   @if (categories.isLoading()) {
-    <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
-        <div class="flex">
-          <div class="h-10 w-28 bg-gray-600 rounded-s-lg"></div>
-          <div class="h-10 flex-grow bg-gray-600 rounded-e-lg"></div>
+@defer (on viewport) {
+  <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
+      <span class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+        </svg>
+        Nueva Transacción
+      </span>
+    </h2>
+  
+    <form [formGroup]="form()" (submit)="saveTransaccion($event)" class="space-y-6">
+      <!-- Tipo de Transacción (Toggle) -->
+     
+  
+     @if (categories.isLoading()) {
+      <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
+          <div class="flex">
+            <div class="h-10 w-28 bg-gray-600 rounded-s-lg"></div>
+            <div class="h-10 flex-grow bg-gray-600 rounded-e-lg"></div>
+          </div>
         </div>
       </div>
-    </div>
-   } @else {
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Selector de Tipo y Categoría -->
-      <div>
-        <label class="block mb-2 text-sm font-medium text-gray-300">
-          Categoría
-        </label>
-        <div class="flex">
-          <!-- Botón para seleccionar tipo con cambio de color -->
-          <button 
-            id="type-button"
-            type="button"
-            [class]="selectedType() === 'Ingreso' ? 'bg-green-900/20 text-green-400' : selectedType() === 'Todos' ? 'bg-blue-900/20 text-blue-400' : 'bg-red-900/20 text-red-400'"
-            class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm  text-center  border border-gray-600 font-semibold float-right rounded-s-lg focus:ring-2 focus:outline-none focus:ring-gray-500"
-            (click)="toggleTypeDropdown()"
-          >
-            <!-- Icono dinámico basado en el tipo -->
-            <i [class]="selectedType() === 'Ingreso' ? 'pi pi-arrow-up mr-2' : selectedType()=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
-            {{ selectedType() }}
-        
-          </button>
-        
-          <!-- Selector de categorías con iconos -->
-          <select 
-            id="category_id" 
-            formControlName="category_id"
-            class="bg-gray-700 border border-gray-600 text-gray-300 rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10 outline-none"
-          >
-            <option value="" disabled>Selecciona una categoría</option>
-            @for (categoria of filteredCategories(); track categoria.id) {
+     } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Selector de Tipo y Categoría -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-300">
+            Categoría
+          </label>
+          <div class="flex">
+            <!-- Botón para seleccionar tipo con cambio de color -->
+            <button 
+              id="type-button"
+              type="button"
+              [class]="selectedType() === 'Ingreso' ? 'bg-green-900/20 text-green-400' : selectedType() === 'Todos' ? 'bg-blue-900/20 text-blue-400' : 'bg-red-900/20 text-red-400'"
+              class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm  text-center  border border-gray-600 font-semibold float-right rounded-s-lg focus:ring-2 focus:outline-none focus:ring-gray-500"
+              (click)="toggleTypeDropdown()"
+            >
+              <!-- Icono dinámico basado en el tipo -->
+              <i [class]="selectedType() === 'Ingreso' ? 'pi pi-arrow-up mr-2' : selectedType()=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
+              {{ selectedType() }}
           
-              <option [value]="categoria.id">
-                <span [class]="categoria.icon" ></span> {{ categoria.name }}
-              </option>
-            }
-          </select>
-        </div>
-        
-        <!-- Dropdown de tipos con iconos -->
-        <div 
-          id="type-dropdown" 
-          class="z-10 absolute bg-gray-700 divide-y divide-gray-600 rounded-lg shadow-lg w-44 mt-1" 
-          [class.hidden]="!isTypeDropdownOpen()"
-        >
-          <ul class="py-2 text-sm text-gray-200">
-            @for (tipo of type(); track $index) {
-              <li>
-                <button 
-                  type="button" 
-                  class="inline-flex w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
-                  (click)="selectedType.set(tipo); isTypeDropdownOpen.set(false)"
-                >
-                <i [class]="tipo === 'Ingreso' ? 'pi pi-arrow-up mr-2' : tipo=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
-                  {{ tipo }}
-                </button>
-              </li>
-            }
-          </ul>
-        </div>
-        
-        <!-- Mensaje de error categoría -->
-        @if (isFieldInvalid('category_id')) {
-          <p class="mt-1 text-sm text-red-500">
-            {{ getErrorMessage('category_id') }}
-          </p>
-        }
-      </div>
-    
-      <!-- Nombre -->
-      <div>
-        <label for="name" class="block mb-2 text-sm font-medium text-gray-300">
-          Nombre
-        </label>
-        <div class="relative">
-          <input 
-            type="text" 
-            id="name" 
-            formControlName="name"
-            class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
-            placeholder="Ej: Compra supermercado" 
-          />
-          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
-            </svg>
-          </span>
-        </div>
-        @if (isFieldInvalid('name')) {
-          <p class="mt-1 text-sm text-red-500">
-            {{ getErrorMessage('name') }}
-          </p>
-        }
-      </div>
-    </div>
-   }
-    <!-- Grid medio -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Monto -->
-      <div class="relative">
-        <label for="amount" class="block mb-2 text-sm font-medium text-gray-300">
-          Monto
-        </label>
-        <div class="relative">
-          <input type="number" id="amount" formControlName="amount"
-            class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
-            placeholder="0.00" step="0.01" min="0" />
-          <span class="absolute left-3 top-3.5 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
-            </svg>
-          </span>
-        </div>
-        @if (isFieldInvalid('amount')) {
-        <p class="mt-1 text-sm text-red-500">
-          {{ getErrorMessage('amount') }}
-        </p>
-        }
-      </div>
-
-      <!-- Fecha -->
-      <div class="relative">
-        <label for="date" class="block mb-2 text-sm font-medium text-gray-300">
-          Fecha
-        </label>
-        <div class="relative">
-          <input type="date" id="date" formControlName="date"
-            class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200" />
-          <span class="absolute left-3 top-3.5 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-            </svg>
-          </span>
-        </div>
-        @if (isFieldInvalid('date')) {
-        <p class="mt-1 text-sm text-red-500">
-          {{ getErrorMessage('date') }}
-        </p>
-        }
-      </div>
-    </div>
-
-    <!-- Método de pago -->
-    <!-- <div class="relative">
-      <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-300">
-        Método de Pago
-      </label>
-      <div class="flex flex-wrap gap-3">
-        @for (method of paymentMethods(); track method.value) {
-        <label class="flex items-center p-3 bg-gray-700 border border-gray-600 rounded-lg cursor-pointer hover:bg-gray-650 transition-colors">
-          <input type="radio" formControlName="payment_method" [value]="method.value" class="sr-only peer" />
-          <div class="w-4 h-4 mr-3 rounded-full border border-gray-400 flex items-center justify-center peer-checked:border-blue-400 peer-checked:bg-blue-400">
-            <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+            </button>
+          
+            <!-- Selector de categorías con iconos -->
+            <select 
+              id="category_id" 
+              formControlName="category_id"
+              class="bg-gray-700 border border-gray-600 text-gray-300 rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10 outline-none"
+            >
+              <option value="" disabled>Selecciona una categoría</option>
+              @for (categoria of filteredCategories(); track categoria.id) {
+            
+                <option [value]="categoria.id">
+                  <span [class]="categoria.icon" ></span> {{ categoria.name }}
+                </option>
+              }
+            </select>
           </div>
-          <span class="text-gray-300 peer-checked:text-white">{{ method.label }}</span>
-        </label>
-        }
-      </div>
-      @if (isFieldInvalid('payment_method')) {
-      <p class="mt-1 text-sm text-red-500">
-        {{ getErrorMessage('payment_method') }}
-      </p>
-      }
-    </div> -->
-
-    <!-- Descripción -->
-    <div class="relative">
-      <label for="description" class="mb-2 text-sm font-medium text-gray-300 flex items-center gap-2">
-        Descripción
-        <span class="text-xs text-gray-500">(Opcional)</span>
-      </label>
-      <div class="relative">
-        <textarea id="description" formControlName="description" rows="3"
-          class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
-          placeholder="Añade detalles adicionales de la transacción..."></textarea>
-        <span class="absolute left-3 top-3.5 text-gray-400">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-          </svg>
-        </span>
-      </div>
-    </div>
-
-    <!-- Añadir imagen/recibo (nuevo campo) -->
-    <!-- <div class="relative">
-      <label class="block mb-2 text-sm font-medium text-gray-300  items-center gap-2">
-        Adjuntar Recibo
-        <span class="text-xs text-gray-500">(Opcional)</span>
-      </label>
-      <div class="flex items-center justify-center w-full">
-        <label for="receipt-upload"
-          class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-gray-600 hover:border-blue-400 bg-gray-700 hover:bg-gray-650 transition-all">
-          <div class="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-            </svg>
-            <p class="mb-2 text-sm text-gray-400">
-              <span class="font-semibold">Haz clic para subir</span> o arrastra y suelta
+          
+          <!-- Dropdown de tipos con iconos -->
+          <div 
+            id="type-dropdown" 
+            class="z-10 absolute bg-gray-700 divide-y divide-gray-600 rounded-lg shadow-lg w-44 mt-1" 
+            [class.hidden]="!isTypeDropdownOpen()"
+          >
+            <ul class="py-2 text-sm text-gray-200">
+              @for (tipo of type(); track $index) {
+                <li>
+                  <button 
+                    type="button" 
+                    class="inline-flex w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                    (click)="selectedType.set(tipo); isTypeDropdownOpen.set(false)"
+                  >
+                  <i [class]="tipo === 'Ingreso' ? 'pi pi-arrow-up mr-2' : tipo=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
+                    {{ tipo }}
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
+          
+          <!-- Mensaje de error categoría -->
+          @if (isFieldInvalid('category_id')) {
+            <p class="mt-1 text-sm text-red-500">
+              {{ getErrorMessage('category_id') }}
             </p>
-            <p class="text-xs text-gray-500">PNG, JPG o PDF (Máx. 10MB)</p>
+          }
+        </div>
+      
+        <!-- Nombre -->
+        <div>
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-300">
+            Nombre
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="name" 
+              formControlName="name"
+              class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+              placeholder="Ej: Compra supermercado" 
+            />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
+              </svg>
+            </span>
           </div>
-          <input id="receipt-upload" formControlName="receipt" type="file" class="hidden" />
-        </label>
+          @if (isFieldInvalid('name')) {
+            <p class="mt-1 text-sm text-red-500">
+              {{ getErrorMessage('name') }}
+            </p>
+          }
+        </div>
       </div>
-    </div> -->
-
-    <!-- Botones -->
-    <div class="flex items-center justify-end gap-4">
-      <button type="button" (click)="form().reset()"
-        class="px-4 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-650 focus:ring-4 focus:ring-gray-600 transition-all duration-200 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-        Limpiar
-      </button>
-
-      <button type="submit" [disabled]="form().invalid || isSubmitting()"
-        class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2">
-        @if (isSubmitting()) {
-        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        Guardando...
-        } @else {
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-        </svg>
-        Guardar Transacción
+     }
+      <!-- Grid medio -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Monto -->
+        <div class="relative">
+          <label for="amount" class="block mb-2 text-sm font-medium text-gray-300">
+            Monto
+          </label>
+          <div class="relative">
+            <input type="number" id="amount" formControlName="amount"
+              class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+              placeholder="0.00" step="0.01" min="0" />
+            <span class="absolute left-3 top-3.5 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+              </svg>
+            </span>
+          </div>
+          @if (isFieldInvalid('amount')) {
+          <p class="mt-1 text-sm text-red-500">
+            {{ getErrorMessage('amount') }}
+          </p>
+          }
+        </div>
+  
+        <!-- Fecha -->
+        <div class="relative">
+          <label for="date" class="block mb-2 text-sm font-medium text-gray-300">
+            Fecha
+          </label>
+          <div class="relative">
+            <input type="date" id="date" formControlName="date"
+              class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200" />
+            <span class="absolute left-3 top-3.5 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+              </svg>
+            </span>
+          </div>
+          @if (isFieldInvalid('date')) {
+          <p class="mt-1 text-sm text-red-500">
+            {{ getErrorMessage('date') }}
+          </p>
+          }
+        </div>
+      </div>
+  
+      <!-- Método de pago -->
+      <!-- <div class="relative">
+        <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-300">
+          Método de Pago
+        </label>
+        <div class="flex flex-wrap gap-3">
+          @for (method of paymentMethods(); track method.value) {
+          <label class="flex items-center p-3 bg-gray-700 border border-gray-600 rounded-lg cursor-pointer hover:bg-gray-650 transition-colors">
+            <input type="radio" formControlName="payment_method" [value]="method.value" class="sr-only peer" />
+            <div class="w-4 h-4 mr-3 rounded-full border border-gray-400 flex items-center justify-center peer-checked:border-blue-400 peer-checked:bg-blue-400">
+              <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
+            </div>
+            <span class="text-gray-300 peer-checked:text-white">{{ method.label }}</span>
+          </label>
+          }
+        </div>
+        @if (isFieldInvalid('payment_method')) {
+        <p class="mt-1 text-sm text-red-500">
+          {{ getErrorMessage('payment_method') }}
+        </p>
         }
-      </button>
-    </div>
-  </form>
-</div>
+      </div> -->
+  
+      <!-- Descripción -->
+      <div class="relative">
+        <label for="description" class="mb-2 text-sm font-medium text-gray-300 flex items-center gap-2">
+          Descripción
+          <span class="text-xs text-gray-500">(Opcional)</span>
+        </label>
+        <div class="relative">
+          <textarea id="description" formControlName="description" rows="3"
+            class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+            placeholder="Añade detalles adicionales de la transacción..."></textarea>
+          <span class="absolute left-3 top-3.5 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </div>
+      </div>
+  
+      <!-- Añadir imagen/recibo (nuevo campo) -->
+      <!-- <div class="relative">
+        <label class="block mb-2 text-sm font-medium text-gray-300  items-center gap-2">
+          Adjuntar Recibo
+          <span class="text-xs text-gray-500">(Opcional)</span>
+        </label>
+        <div class="flex items-center justify-center w-full">
+          <label for="receipt-upload"
+            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-gray-600 hover:border-blue-400 bg-gray-700 hover:bg-gray-650 transition-all">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-400">
+                <span class="font-semibold">Haz clic para subir</span> o arrastra y suelta
+              </p>
+              <p class="text-xs text-gray-500">PNG, JPG o PDF (Máx. 10MB)</p>
+            </div>
+            <input id="receipt-upload" formControlName="receipt" type="file" class="hidden" />
+          </label>
+        </div>
+      </div> -->
+  
+      <!-- Botones -->
+      <div class="flex items-center justify-end gap-4">
+        <button type="button" (click)="form().reset()"
+          class="px-4 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-650 focus:ring-4 focus:ring-gray-600 transition-all duration-200 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+          Limpiar
+        </button>
+  
+        <button type="submit" [disabled]="form().invalid || isSubmitting()"
+          class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2">
+          @if (isSubmitting()) {
+          <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Guardando...
+          } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          Guardar Transacción
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+  
+} @placeholder {
+  <div></div>
+}

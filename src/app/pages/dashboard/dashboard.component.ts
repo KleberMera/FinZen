@@ -7,6 +7,7 @@ import { CalendarComponent } from "./components/calendar/calendar.component";
 import { CardDebtSummaryComponent } from "./components/card-debt-summary/card-debt-summary.component";
 import { CardCategoriesDistributionComponent } from "./components/card-categories-distribution/card-categories-distribution.component";
 import { TimelineTransactionComponent } from "./components/timeline-transaction/timeline-transaction.component";
+import { AdvancedGraficsComponent } from "./components/advanced-grafics/advanced-grafics.component";
 
 
 
@@ -43,7 +44,7 @@ interface SavingGoal {
 }
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, DashboardHeaderComponent, CardNotificationComponent, CardGoalsComponent, CalendarComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent, TimelineTransactionComponent],
+  imports: [CommonModule, DashboardHeaderComponent, CardNotificationComponent, CardGoalsComponent, CalendarComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent, TimelineTransactionComponent, AdvancedGraficsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

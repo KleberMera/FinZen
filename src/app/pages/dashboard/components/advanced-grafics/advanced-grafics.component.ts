@@ -40,7 +40,7 @@ export type ChartOptions = {
   templateUrl: './advanced-grafics.component.html',
   styleUrl: './advanced-grafics.component.scss',
 })
-export class AdvancedGraficsComponent implements OnInit {
+export class AdvancedGraficsComponent {
   protected readonly _graficsService = inject(GraficsService);
   protected readonly _storage = inject(StorageService);
 
@@ -56,14 +56,7 @@ export class AdvancedGraficsComponent implements OnInit {
   totalIngresos = signal<number>(0);
   totalGastos = signal<number>(0);
   
-  ngOnInit() {
-    // this.grafics.result$.subscribe(result => {
-    //   if (result.status === 'success') {
-    //     this.initializeChart(result.data.data);
-    //     this.calcularTotales(result.data.data);
-    //   }
-    // });
-  }
+
 
   constructor(){
     effect(() => {

@@ -9,7 +9,7 @@ import { format } from '@formkit/tempo';
 
 @Component({
   selector: 'app-dashboard-header',
-  imports: [CurrencyPipe, TitleCasePipe, CommonModule, CardDebtCategoryComponent, AdvancedGraficsComponent],
+  imports: [CurrencyPipe, TitleCasePipe, CommonModule],
   templateUrl: './dashboard-header.component.html',
   styleUrl: './dashboard-header.component.scss',
 })
