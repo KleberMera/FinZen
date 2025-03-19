@@ -1,4 +1,6 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
+import { PushNotificationService } from '@services/push-notification.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-notification-sidebar',
@@ -12,4 +14,20 @@ export class UserNotificationSidebarComponent {
   close() {
     this.closeUserSidebar.emit();
   }
+
+    private readonly pushService = inject(PushNotificationService);
+  
+  
+    async onNotificationClick() {
+      const success = await this.pushService.requestSubscription();
+      if (success) {
+        console.log(success);
+        
+        console.log('Notificaciones activadas correctamente');
+        toast.success('Notificaciones activadas correctamente');
+      } else {
+        console.error('No se pudieron activar las notificaciones');
+        toast.error('No se pudieron activar las notificaciones');
+      }
+    }
 }
