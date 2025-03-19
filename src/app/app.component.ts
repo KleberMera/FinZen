@@ -14,7 +14,13 @@ export class AppComponent {
   title = 'FinZen';
 
   async ngOnInit() {
-    document.documentElement.classList.add('dark');
+    const theme = localStorage.getItem('theme') || 'dark';
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
     initFlowbite();
   }
 }

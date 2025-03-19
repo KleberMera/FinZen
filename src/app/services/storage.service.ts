@@ -46,4 +46,13 @@ export class StorageService {
   clear() {
     this._storage.clear();
   }
+
+  setTheme(theme: string) {
+    this._storage.setItem('theme', theme);
+  }
+
+  getTheme() {
+    return this._storage.getItem('theme');
+  }
 }
+

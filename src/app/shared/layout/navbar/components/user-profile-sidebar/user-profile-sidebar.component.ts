@@ -43,7 +43,10 @@ export class UserProfileSidebarComponent {
   logout() {
     this._router.navigate(['auth']);
     //borrar todo de local storage
+    const theme = this._storageService.getTheme();
     this._storageService.clear();
+    this._storageService.setTheme(theme!);
+
     toast.success('Sesión cerrada');
   }
 
