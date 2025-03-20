@@ -20,8 +20,7 @@ export class UserNotificationSidebarComponent {
   protected readonly _storage = inject(StorageService);
   
   closeUserSidebar = output<void>();
-  notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked'>('loading');
-  
+  notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked' | 'granted-no-subscription'>('loading');
   userId = signal<number>(this._storage.getUserId());
   
   ngOnInit() {
@@ -33,28 +32,31 @@ export class UserNotificationSidebarComponent {
   }
   
   checkNotificationStatus() {
+    console.log('checkNotificationStatus');
     this.notificationStatus.set('loading');
     
-    // Verificar si el navegador soporta notificaciones
     if (!('Notification' in window)) {
+      console.log('Navegador no soporta notificaciones');
       this.notificationStatus.set('disabled');
       return;
     }
     
-    // Verificar si las notificaciones están bloqueadas
+    console.log('Estado de permisos:', Notification.permission);
     if (Notification.permission === 'denied') {
       this.notificationStatus.set('blocked');
       return;
     }
     
-    // Verificar si el usuario ya tiene una suscripción
     const userId = this.userId();
     this._notifications.hasSubscription(userId).subscribe({
       next: (response) => {
-        if (response.hasSubscription) {
+        console.log('Respuesta de hasSubscription:', response);
+        if (response.hasSubscription === true) {
           this.notificationStatus.set('enabled');
+        } else if (Notification.permission === 'granted') {
+          this.notificationStatus.set('granted-no-subscription'); // Permisos concedidos, pero sin suscripción
         } else {
-          this.notificationStatus.set('disabled');
+          this.notificationStatus.set('disabled'); // Sin permisos y sin suscripción
         }
       },
       error: (error) => {
