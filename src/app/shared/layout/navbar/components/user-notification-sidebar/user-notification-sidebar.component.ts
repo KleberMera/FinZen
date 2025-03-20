@@ -18,88 +18,80 @@ export class UserNotificationSidebarComponent {
   protected readonly _swPush = inject(SwPush);
   protected readonly _notifications = inject(NotificationService);
   protected readonly _storage = inject(StorageService);
-  
+
   closeUserSidebar = output<void>();
   notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked' | 'granted-no-subscription'>('loading');
   userId = signal<number>(this._storage.getUserId());
-  subscriptionCount = signal<number>(0); // Nuevo signal para el conteo de suscripciones
-  
+  subscriptionCount = signal<number>(0);
+
   ngOnInit() {
     this.checkNotificationStatus();
-    this.loadSubscriptionCount(); // Cargar el conteo al iniciar
+    this.loadSubscriptionCount();
   }
-  
+
   close() {
     this.closeUserSidebar.emit();
   }
 
-  // Método para cargar el número de suscripciones
   private loadSubscriptionCount() {
     const userId = this.userId();
     this._notifications.countSubscriptions(userId).subscribe({
       next: (response) => {
-        this.subscriptionCount.set(response.subscriptions); // Actualizar el conteo
+        this.subscriptionCount.set(response.subscriptions);
       },
       error: (error) => {
         console.error('Error al contar suscripciones:', error);
-        this.subscriptionCount.set(0); // En caso de error, asumimos 0
+        this.subscriptionCount.set(0);
       },
     });
   }
-  
+
   checkNotificationStatus() {
-    console.log('checkNotificationStatus');
     this.notificationStatus.set('loading');
-    
+
     if (!('Notification' in window)) {
-      console.log('Navegador no soporta notificaciones');
       this.notificationStatus.set('disabled');
       return;
     }
-    
-    console.log('Estado de permisos:', Notification.permission);
+
     if (Notification.permission === 'denied') {
       this.notificationStatus.set('blocked');
       return;
     }
-    
+
     const userId = this.userId();
     this._notifications.hasSubscription(userId).subscribe({
       next: (response) => {
-        console.log('Respuesta de hasSubscription:', response);
         if (response.hasSubscription === true) {
           this.notificationStatus.set('enabled');
         } else if (Notification.permission === 'granted') {
-          this.notificationStatus.set('granted-no-subscription'); // Permisos concedidos, pero sin suscripción
+          this.notificationStatus.set('granted-no-subscription');
         } else {
-          this.notificationStatus.set('disabled'); // Sin permisos y sin suscripción
+          this.notificationStatus.set('disabled');
         }
       },
       error: (error) => {
         console.error('Error al verificar la suscripción:', error);
         this.notificationStatus.set('disabled');
-      }
+      },
     });
   }
-  
+
   async onNotificationClick() {
     const userId = this.userId();
-    
-    // Si ya están habilitadas, preguntar si desea desactivarlas
+
     if (this.notificationStatus() === 'enabled') {
       if (confirm('¿Deseas desactivar las notificaciones?')) {
         this.unsubscribe(userId);
       }
       return;
     }
-    
-    // Si están bloqueadas, mostrar instrucciones
+
     if (this.notificationStatus() === 'blocked') {
-      alert('Las notificaciones están bloqueadas en tu navegador. Por favor, cambia la configuración de permisos para este sitio en tu navegador.');
+      alert('Las notificaciones están bloqueadas en tu navegador. Por favor, cambia la configuración de permisos.');
       return;
     }
-    
-    // Solicitar permisos si no están concedidos
+
     if (Notification.permission === 'default') {
       const permission = await Notification.requestPermission();
       if (permission === 'denied') {
@@ -108,22 +100,22 @@ export class UserNotificationSidebarComponent {
         return;
       }
     }
-    
-    // Suscribir al usuario
+
     this.requestSubscription(userId);
   }
-  
+
   private async requestSubscription(userId: number) {
     try {
       const sub = await this._swPush.requestSubscription({
         serverPublicKey: environment.VAPID_PUBLIC_KEY,
       });
-      
+
       this._notifications.notificationSuscribe(userId, sub).subscribe({
         next: (response) => {
           console.log('Suscripción enviada con éxito:', response);
           toast.success('Notificaciones activadas correctamente');
           this.notificationStatus.set('enabled');
+          this.loadSubscriptionCount(); // Actualizar el conteo
         },
         error: (error) => {
           console.error('Error al enviar la suscripción:', error);
@@ -137,27 +129,26 @@ export class UserNotificationSidebarComponent {
       this.notificationStatus.set('disabled');
     }
   }
-  
+
   private unsubscribe(userId: number) {
-    // Primero desuscribir del Service Worker
     this._swPush.unsubscribe().then(() => {
-      // Luego desuscribir del backend
       this._notifications.unsubscribe(userId).subscribe({
         next: () => {
           toast.success('Notificaciones desactivadas correctamente');
           this.notificationStatus.set('disabled');
+          this.loadSubscriptionCount(); // Actualizar el conteo
         },
         error: (error) => {
           console.error('Error al desactivar las notificaciones:', error);
           toast.error('Error al desactivar las notificaciones');
-        }
+        },
       });
     }).catch(error => {
       console.error('Error al desuscribir del Service Worker:', error);
       toast.error('Error al desactivar las notificaciones');
     });
   }
-  
+
   notificationsResource = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) => this._notifications.getNotificationsByUserId(request.userId),
