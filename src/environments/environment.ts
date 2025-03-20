@@ -10,8 +10,9 @@ export const environment = {
     appId: '1:119155339545:web:de2efa367f9ac3c15dd588',
     measurementId: 'G-BZNEC94VVF',
   },
-  vapidKey:
-    'BJX1_SSFAbJFKCE1jqE-BQdfy7pLNm0RPURsxoxtvUP5p88ORWbY7lgZSmL0JLcTR9AWWeDVNaqQXIdNBE-AfPA',
+  VAPID_PUBLIC_KEY:
+    'BB9RG9no5eZuqpw0mqNNTRdo1gzSQJAhVKsI2X8SDuUHnHAKcO8co6UWPkZwykP7OINeSSV3IiN_hjVj_kwhaLM',
   production: true
+  //VAPID_PUBLIC_KEY
 };
 
