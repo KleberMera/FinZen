@@ -104,7 +104,7 @@ export class UserNotificationSidebarComponent {
     this.requestSubscription(userId);
   }
 
-  private async requestSubscription(userId: number) {
+   async requestSubscription(userId: number) {
     try {
       const sub = await this._swPush.requestSubscription({
         serverPublicKey: environment.VAPID_PUBLIC_KEY,
