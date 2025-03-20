@@ -4,13 +4,19 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
-import { GoogleComponent } from "../icons/google/google.component";
+import { GoogleComponent } from '../icons/google/google.component';
 import { FirebaseService } from '../services/firebase.service';
-import { LoadingGoogleComponent } from "../components/loading-google/loading-google.component";
+import { LoadingGoogleComponent } from '../components/loading-google/loading-google.component';
+import { StorageService } from '@services/storage.service';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [RouterLink, ReactiveFormsModule, GoogleComponent, LoadingGoogleComponent],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    GoogleComponent,
+    LoadingGoogleComponent,
+  ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
@@ -18,8 +24,10 @@ export class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
   private readonly _firebaseService = inject(FirebaseService);
-  private readonly _router = inject(Router);  
+  private readonly _storage = inject(StorageService);
+  private readonly _router = inject(Router);
   protected form = this._authService.formUser();
+  private keyGoogleToken = signal<string>('googletoken');
   readonly isGoogleLoading = signal(false);
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
@@ -71,14 +79,27 @@ export class SignUpComponent {
     return username;
   }
 
-
   async signUpWithGoogle() {
     this.isGoogleLoading.set(true);
     (await this._firebaseService.signUpWithGoogle()).subscribe({
       next: (res) => {
-        toast.success(res.message);
-        this._router.navigate(['auth']);
-       
+        // toast.success(res.message);
+        toast.loading('Iniciando sesión...');
+
+        const google = this._storage.get(this.keyGoogleToken());
+        // console.log(google);
+        const login = this._firebaseService.loginPostCreate(google as string);
+        login.subscribe({
+          next: (res) => {
+            // toast.success(res.message);
+            this._router.navigate(['home']);
+            this._storage.remove(this.keyGoogleToken());
+            this.isGoogleLoading.set(false);
+          },
+          error: (error) => {
+            this.isGoogleLoading.set(false);
+          },
+        });
       },
       error: (error) => {
         this.isGoogleLoading.set(false);

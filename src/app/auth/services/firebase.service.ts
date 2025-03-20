@@ -17,6 +17,7 @@ export class FirebaseService {
   private readonly _storage = inject(StorageService);
   private keyUser = signal<string>('user');
   private keyAccessToken = signal<string>('access_token');
+  private keyGoogleToken = signal<string>('googletoken');
 
   // Nuevo método para login con Google
   async loginWithGoogle() {
@@ -38,6 +39,16 @@ export class FirebaseService {
     }
   }
 
+  loginPostCreate( idToken: string) {
+    const url = `${environment.apiUrl}/firebase/google/login`;
+      return this._http.post<apiResponse<User>>(url, { idToken }).pipe(
+        tap((res) => {
+          console.log(res);
+          this._storage.set(this.keyUser(), res.data);
+          this._storage.set(this.keyAccessToken(), res.access_token);
+        })
+      );
+  }
 
 
   // Método para registro con Google
@@ -47,11 +58,13 @@ async signUpWithGoogle() {
     const result = await signInWithPopup(this._auth, provider);
     const idToken = await result.user.getIdToken();
     const url = `${environment.apiUrl}/firebase/signup`;
-    
+
     return this._http.post<apiResponse<User>>(url, { idToken }).pipe(
       tap((res) => {
-        this._storage.set(this.keyUser(), res.data);
-        this._storage.set(this.keyAccessToken(), res.access_token);
+       // this._storage.set(this.keyUser(), res.data);
+        //this._storage.set(this.keyAccessToken(), res.access_token);
+        //localStorage.setItem('googletoken', idToken);
+        this._storage.set(this.keyGoogleToken(), idToken);
       })
     );
   } catch (error) {
