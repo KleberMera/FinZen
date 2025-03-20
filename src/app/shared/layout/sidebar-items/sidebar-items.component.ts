@@ -8,6 +8,7 @@ import { OverviewComponent } from '@icons/overview/overview.component';
 import { TagComponent } from '@icons/tag/tag.component';
 import { menuAnimations } from './menu-animatios';
 import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
+import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-settings.component';
 
 
 interface MenuItem {
@@ -111,6 +112,13 @@ export class SidebarItemsComponent {
         },
                
       ],
+    },
+    {
+      type: 'link',
+      label: 'Configuración',
+      icon: UserIconSettingsComponent,
+      route: 'configuracion',
+      activeClass: 'bg-gray-100 dark:bg-gray-700',
     },
   ]);
 

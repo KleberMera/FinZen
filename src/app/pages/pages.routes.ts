@@ -13,6 +13,7 @@ import { LayoutComponent } from '../layout/layout.component';
 
 import { ChatComponent } from './chat/ui/chat/chat.component';
 import { RegisterMetaComponent } from './goals/ui/register-meta/register-meta.component';
+import { ConfigComponent } from './config/ui/config/config.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -58,6 +59,10 @@ export const pagesRoutes: Routes = [
       {
         path: 'chat',
         component: ChatComponent
+      },
+      {
+        path: 'configuracion',
+        component: ConfigComponent,
       },
 
       {
