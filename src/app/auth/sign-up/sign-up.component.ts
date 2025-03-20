@@ -8,6 +8,15 @@ import { GoogleComponent } from '../icons/google/google.component';
 import { FirebaseService } from '../services/firebase.service';
 import { LoadingGoogleComponent } from '../components/loading-google/loading-google.component';
 import { StorageService } from '@services/storage.service';
+import { User } from '@models/user';
+import { LockComponent } from "../../shared/icons/lock/lock.component";
+import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
+import { EyeComponent } from "../icons/eye/eye.component";
+import { BreakpointService } from '@services/breakpoint.service';
+import { LogoComponent } from "../../shared/icons/logo/logo.component";
+import { UserCicleIconComponent } from "../icons/user-cicle-icon/user-cicle-icon.component";
+import { SpinnerComponent } from "../icons/spinner/spinner.component";
+import { SignComponent } from "../icons/sign/sign.component";
 
 @Component({
   selector: 'app-sign-up',
@@ -16,7 +25,14 @@ import { StorageService } from '@services/storage.service';
     ReactiveFormsModule,
     GoogleComponent,
     LoadingGoogleComponent,
-  ],
+    LockComponent,
+    EyeSlashComponent,
+    EyeComponent,
+    LogoComponent,
+    UserCicleIconComponent,
+    SpinnerComponent,
+    SignComponent
+],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
@@ -26,9 +42,12 @@ export class SignUpComponent {
   private readonly _firebaseService = inject(FirebaseService);
   private readonly _storage = inject(StorageService);
   private readonly _router = inject(Router);
-  protected form = this._authService.formUser();
+  protected form = this._authService.formUserSignUp();
   private keyGoogleToken = signal<string>('googletoken');
+  protected readonly _BreakpointService = inject(BreakpointService);
+  readonly isSubmitting = signal<boolean>(false);
   readonly isGoogleLoading = signal(false);
+  showPassword = signal<boolean>(false);
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
     return this._validationService.getErrorMessage(
@@ -41,6 +60,8 @@ export class SignUpComponent {
   }
 
   saveUser() {
+    console.log(this.form().value);
+
     if (this.form().invalid) {
       toast.info('Por favor, rellene todos los campos requeridos');
       return;
@@ -54,14 +75,26 @@ export class SignUpComponent {
     this.form().value.username = this.randomUsername();
     //Borrar el id del formulario
     delete this.form().value.id;
-    delete this.form().value.confirm_password;
     const user = this.form().value;
     console.log(user);
 
     this._authService.signUp(user).subscribe({
       next: (res) => {
-        toast.success(res.message);
-        this.form().reset();
+        toast.loading('Iniciando sesión...');
+        const userandpass = {
+          user: user.user,
+          password: user.password,
+        };
+
+        this._authService.login(userandpass as User).subscribe({
+          next: (res) => {
+            //toast.success(res.message);
+            this._router.navigate(['home']);
+          },
+          error: (error) => {
+            toast.error(error.error.message);
+          },
+        });
       },
       error: (err) => {
         console.log(err);

@@ -77,6 +77,30 @@ export class AuthService {
     return form;
   }
 
+  formUserSignUp(initialData: Partial<User> = {}) {
+    const form = signal<FormGroup>(
+      new FormGroup({
+        rol_id: new FormControl(initialData.rol_id || 2, [Validators.required]),
+        name: new FormControl(initialData.name || '', [Validators.required]),
+        last_name: new FormControl(initialData.last_name || '', [
+          Validators.required,
+        ]),
+        username: new FormControl(initialData.username || ''),
+        user: new FormControl(initialData.user || '', [Validators.required]),
+        password: new FormControl(initialData.password || '', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+
+        status: new FormControl(initialData.status || true, [
+          Validators.required,
+        ]),
+      })
+    );
+
+    return form;
+  }
+
   signUp(user: User): Observable<apiResponse<User>> {
     const url = `${environment.apiUrl}/auth/sign-up`;
     return this._http.post<apiResponse<User>>(url, user);

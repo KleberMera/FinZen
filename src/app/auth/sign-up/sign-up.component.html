@@ -1,166 +1,175 @@
-<section
-  class="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center p-4">
-  <div class="w-full max-w-5xl mx-auto">
-    <div
-      class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl dark:bg-gray-800/90 flex flex-col md:flex-row overflow-hidden">
-      <!-- Columna del logotipo - Mejorada para tablets y desktop -->
-      <div
-        class="hidden md:flex md:w-5/12 lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 items-center justify-center p-8 relative">
-        <!-- Efecto de fondo con degradado -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-950/20 to-blue-400/20"></div>
+<section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center p-4">
+  <div class="flex w-full max-w-7xl mx-auto">
+    <!-- Panel izquierdo - Ilustración (similar al login) -->
+    <div class="hidden lg:flex lg:w-1/2 flex-col items-center justify-center p-12 relative">
+      <img src="logo_signup.svg" alt="logo" class="max-w-full h-auto animate-float" />
+    </div>
 
-        <div class="relative text-center text-white space-y-6">
-          <img src="logo_signup.svg" alt="logo_signup"
-            class="mx-auto w-72 h-72 lg:w-80 lg:h-80 animate-float" />
-          <div class="space-y-3">
-            <h2 class="text-3xl lg:text-4xl font-bold">Bienvenido a FinZenApp</h2>
-            <p class="text-lg text-gray-300 max-w-md mx-auto">
-              Administra tus finanzas con tranquilidad y toma el control de tu futuro financiero
-            </p>
+    <!-- Panel derecho - Formulario -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+      <div class="w-full max-w-lg">
+        <!-- Logo y título en mobile -->
+        @if (_BreakpointService.isMobile()) {
+          <div class="flex flex-col items-center mb-8">
+            <div class="w-16 h-16 md:w-20 md:h-20 mb-4 transform hover:scale-105 transition-transform duration-300 text-primary-600">
+              <logo-app></logo-app>
+            </div>
+            <span class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+              FinZenApp
+            </span>
           </div>
-        </div>
-      </div>
+        } @else {
+          <div class="flex flex-col items-center mb-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 md:w-14 md:h-14">
+                <logo-app class="text-gray-800 dark:text-gray-200"></logo-app>
+              </div>
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+                FinZenApp
+              </h1>
+            </div>
+          </div>
+        }
 
-      <!-- Formulario - Mejorado para todos los dispositivos -->
-      <div class="w-full md:w-7/12 lg:w-1/2 p-6 md:p-8 lg:p-12 space-y-6">
-        <!-- Logo para móvil - Mejorado -->
-        <div class="flex items-center justify-center mb-8 md:mb-6">
-          <img class="w-12 h-12 mr-3" src="logo.svg" alt="logo" />
-          <span
-            class="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-            FinZenApp
-          </span>
-        </div>
+        <!-- Card principal -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 space-y-6">
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-900 dark:text-white">
+            Crear una cuenta
+          </h1>
 
-        <h1
-          class="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-8">
-          Crear una cuenta
-        </h1>
-
-        <!-- Botón de Google - Mejorado -->
-        <div class="space-y-6">
-          <button type="button"
-            (click)="signUpWithGoogle()"
-            class="group w-full flex items-center justify-center gap-3 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-700 dark:text-white font-semibold py-3.5 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+          <!-- Botón de Google -->
+          <button (click)="signUpWithGoogle()" type="button" [disabled]="isGoogleLoading()"
+            class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-600 hover:text-white text-gray-700 font-semibold py-3 px-4 lg:py-4 lg:px-6 border border-gray-300 rounded-xl shadow-sm transition-all duration-300 hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed">
             <app-google></app-google>
-            <span class="text-base">Continuar con Google</span>
+            <span>Continuar con Google</span>
           </button>
 
           @if (isGoogleLoading()) {
             <app-loading-google />
-            }
+          }
 
-          <div class="flex items-center gap-4">
-            <hr class="flex-grow border-gray-200 dark:border-gray-700" />
-            <span class="text-sm text-gray-500 dark:text-gray-400 font-medium">o regístrate con</span>
-            <hr class="flex-grow border-gray-200 dark:border-gray-700" />
+          <div class="relative flex items-center justify-center">
+            <div class="absolute w-full border-t border-gray-300 dark:border-gray-600"></div>
+            <span class="relative px-4 bg-white dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400">O regístrate con</span>
           </div>
+
+          <!-- Formulario -->
+          <form class="grid grid-cols-1 md:grid-cols-2 gap-5" [formGroup]="form()" (ngSubmit)="saveUser()">
+            <!-- Campo Nombres -->
+            <div>
+              <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Nombres
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <app-user-cicle-icon></app-user-cicle-icon>
+                </span>
+                <input type="text" name="name" id="name" formControlName="name"
+                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  [class.border-red-500]="isFieldInvalid('name')" placeholder="Ingresa tus nombres" />
+                @if (isFieldInvalid('name')) {
+                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("name") }}</p>
+                }
+              </div>
+            </div>
+
+            <!-- Campo Apellidos -->
+            <div>
+              <label for="last_name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Apellidos
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <app-user-cicle-icon></app-user-cicle-icon>
+                </span>
+                <input type="text" name="last_name" id="last_name" formControlName="last_name"
+                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  [class.border-red-500]="isFieldInvalid('last_name')" placeholder="Ingresa tus apellidos" />
+                @if (isFieldInvalid('last_name')) {
+                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("last_name") }}</p>
+                }
+              </div>
+            </div>
+
+            <!-- Campo Usuario -->
+            <div>
+              <label for="user" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Nombre de Usuario
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <app-user-cicle-icon></app-user-cicle-icon>
+                </span>
+                <input type="text" name="user" id="user" formControlName="user"
+                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  [class.border-red-500]="isFieldInvalid('user')" placeholder="Ingresa tu usuario" />
+                @if (isFieldInvalid('user')) {
+                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
+                }
+              </div>
+            </div>
+
+            <!-- Campo Contraseña -->
+            <div>
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Contraseña
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <lock-icon></lock-icon>
+                </span>
+                <input [type]="showPassword() ? 'text' : 'password'" name="password" id="password" formControlName="password"
+                  class="w-full pl-10 pr-12 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  [class.border-red-500]="isFieldInvalid('password')" placeholder="••••••••" />
+                <button type="button" (click)="showPassword.set(!showPassword())"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                  @if (showPassword()) {
+                    <app-eye-slash />
+                  } @else {
+                    <app-eye />
+                  }
+                </button>
+              </div>
+              @if (isFieldInvalid('password')) {
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("password") }}</p>
+              }
+            </div>
+
+         
+
+            <!-- Botón submit -->
+            <div class="md:col-span-2">
+              <button type="submit" [disabled]="form().invalid || isSubmitting()"
+                class="w-full py-3 px-4 lg:py-4 lg:px-6 rounded-xl font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
+                @if (isSubmitting()) {
+                  <app-spinner></app-spinner>
+                  Creando cuenta...
+                } @else {
+                  <app-sign></app-sign>
+                  Crear cuenta
+                }
+              </button>
+            </div>
+
+            <!-- Link de inicio de sesión -->
+            <div class="md:col-span-2 text-center">
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                ¿Ya tienes una cuenta?
+                <a routerLink="login"
+                  class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1">
+                  Inicia sesión aquí
+                </a>
+              </p>
+            </div>
+          </form>
         </div>
 
-        <!-- Formulario - Campos mejorados -->
-        <form class="grid grid-cols-1 md:grid-cols-2 gap-5" [formGroup]="form()" (ngSubmit)="saveUser()">
-          <!-- Input compartido para todos los campos -->
-          <div class="space-y-1.5">
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Nombres
-            </label>
-            <input type="text" formControlName="name" id="name" placeholder="Tus nombre"
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('name')) {
-            <p class="text-xs text-red-500 mt-1">{{ getErrorMessage('name') }}</p>
-            }
-          </div>
-          <div class="space-y-1.5">
-            <label for="last_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Apellidos
-            </label>
-            <input type="text" formControlName="last_name" id="last_name" placeholder="Tus apellido"
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('last_name')) {
-            <p class="text-xs text-red-500 mt-1">{{ getErrorMessage('name') }}</p>
-            }
-          </div>
-
-
-
-          <!-- Nombre de Usuario -->
-          <div class="space-y-1.5">
-            <label for="user" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Usuario
-            </label>
-            <input type="text" formControlName="user" id="user" placeholder="Identificador único"
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('user')) {
-            <p class="text-xs text-red-500 mt-1">
-              {{ getErrorMessage('user') }}
-            </p>
-            }
-          </div>
-
-          <!-- Usuario -->
-          <div class="space-y-1.5">
-            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Teléfono
-            </label>
-            <input type="text" formControlName="phone" id="phone" placeholder="Tu número de teléfono "
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('phone')) {
-            <p class="text-xs text-red-500 mt-1">
-              {{ getErrorMessage('phone') }}
-            </p>
-            }
-          </div>
-
-          <!-- Contraseña -->
-          <div class="space-y-1.5">
-            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Contraseña
-            </label>
-            <input type="password" formControlName="password" id="password" placeholder="••••••••"
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('password')) {
-            <p class="text-xs text-red-500 mt-1">
-              {{ getErrorMessage('password') }}
-            </p>
-            }
-          </div>
-
-          <!-- Confirmar Contraseña -->
-          <div class="space-y-1.5">
-            <label for="confirm-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Confirmar contraseña
-            </label>
-            <input type="password" id="confirm_password" formControlName="confirm_password" placeholder="••••••••"
-              class="w-full p-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm dark:text-white transition-all duration-200" />
-            @if (isFieldInvalid('confirm_password')) {
-            <p class="text-xs text-red-500 mt-1">
-              {{ getErrorMessage('confirm_password') }}
-            </p>
-            }
-          </div>
-
-
-          <!-- Aplicar el mismo patrón de estilo a los demás inputs -->
-
-          <!-- Botón de registro - Mejorado -->
-          <div class="md:col-span-2 mt-4">
-            <button type="submit"
-              class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 focus:ring-4 focus:ring-blue-500/50">
-              Crear cuenta
-            </button>
-          </div>
-
-          <!-- Enlace de inicio de sesión - Mejorado -->
-          <div class="md:col-span-2 text-center mt-6">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-              ¿Ya tienes una cuenta?
-              <a routerLink=""
-                class="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline transition-colors duration-200">
-                Iniciar sesión aquí
-              </a>
-            </p>
-          </div>
-        </form>
+        <!-- Footer -->
+        <div class="text-center mt-6">
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            © 2024 FinZenApp. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
     </div>
   </div>
