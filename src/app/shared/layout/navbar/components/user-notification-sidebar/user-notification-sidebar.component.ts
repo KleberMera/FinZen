@@ -22,13 +22,29 @@ export class UserNotificationSidebarComponent {
   closeUserSidebar = output<void>();
   notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked' | 'granted-no-subscription'>('loading');
   userId = signal<number>(this._storage.getUserId());
+  subscriptionCount = signal<number>(0); // Nuevo signal para el conteo de suscripciones
   
   ngOnInit() {
     this.checkNotificationStatus();
+    this.loadSubscriptionCount(); // Cargar el conteo al iniciar
   }
   
   close() {
     this.closeUserSidebar.emit();
+  }
+
+  // Método para cargar el número de suscripciones
+  private loadSubscriptionCount() {
+    const userId = this.userId();
+    this._notifications.countSubscriptions(userId).subscribe({
+      next: (response) => {
+        this.subscriptionCount.set(response.subscriptions); // Actualizar el conteo
+      },
+      error: (error) => {
+        console.error('Error al contar suscripciones:', error);
+        this.subscriptionCount.set(0); // En caso de error, asumimos 0
+      },
+    });
   }
   
   checkNotificationStatus() {

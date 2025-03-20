@@ -30,5 +30,10 @@ export class NotificationService {
     return this._http.delete(url);
   }
 
+  countSubscriptions(userId: number): Observable<any> {
+    const url = `${environment.apiUrl}/notifications/count-subscriptions/${userId}`;
+    return this._http.get<any>(url);
+  }
+
 
 }
