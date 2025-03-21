@@ -1,148 +1,90 @@
 <div class="fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity"
-        (click)="close()">
-    </div>
+    <!-- Fondo oscuro con blur -->
+    <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity" (click)="close()"></div>
+
+    <!-- Drawer -->
     <div class="absolute right-0 top-0 h-full w-full max-w-xs sm:max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0 overflow-y-auto">
         <!-- Header -->
         <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10">
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Notificaciones</h2>
                 <div class="flex items-center gap-2">
+                    <!-- Ícono de notificaciones -->
+                    <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Notificaciones</h2>
+                    <!-- Contador de notificaciones no leídas -->
+                    <!-- @if (unreadCount > 0) {
+                        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            {{ unreadCount }} nuevas
+                        </span>
+                    } -->
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Botón para marcar todas como leídas -->
+                    <!-- <button (click)="markAllAsRead()" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                        Marcar todas como leídas
+                    </button> -->
                     <div class="w-px h-6 bg-gray-200 dark:bg-gray-700"></div>
-                    <button (click)="close()"
-                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                        title="Cerrar">
-                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
+                    <!-- Botón de cerrar -->
+                    <button (click)="close()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="Cerrar">
+                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Content -->
-        <div class="p-6">
-            <!-- Estado de notificaciones -->
-            <!-- Dentro del div de estado de notificaciones -->
-<div class="mb-6 flex flex-col items-center justify-center gap-3">
-    @if (notificationStatus() === 'loading') {
-      <div class="flex items-center justify-center py-4">
-        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600 dark:border-gray-400"></div>
-        <span class="ml-2 text-gray-600 dark:text-gray-400">Comprobando estado...</span>
-      </div>
-    } @else if (notificationStatus() === 'enabled') {
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-green-100 dark:bg-green-900/40">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </div>
-        <h3 class="font-medium text-gray-800 dark:text-gray-200">Notificaciones activadas</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
-        @if (this.subscriptionCount()== 2) {
-            <button (click)="onNotificationClick()" 
-                class="mt-3 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">
-          Desactivar
-        </button>
-        } @else {
-            <button (click)="requestSubscription(this.userId())" 
-            [disabled]="subscriptionCount() >= 2"
-            class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
-            [class.opacity-50]="subscriptionCount() >= 2"
-            [class.cursor-not-allowed]="subscriptionCount() >= 2">
-          Activar suscripción
-        </button>
-        }
-      </div>
-    } @else if (notificationStatus() === 'blocked') {
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-red-100 dark:bg-red-900/40">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <h3 class="font-medium text-gray-800 dark:text-gray-200">Notificaciones bloqueadas</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Has bloqueado las notificaciones en tu navegador</p>
-        <button (click)="onNotificationClick()" 
-                class="mt-3 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">
-          Instrucciones
-        </button>
-      </div>
-    } @else if (notificationStatus() === 'granted-no-subscription') {
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-yellow-100 dark:bg-yellow-900/40">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600 dark:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </div>
-        <h3 class="font-medium text-gray-800 dark:text-gray-200">Permisos concedidos, pero sin suscripción</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
-        <button (click)="onNotificationClick()" 
-                [disabled]="subscriptionCount() >= 2"
-                class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
-                [class.opacity-50]="subscriptionCount() >= 2"
-                [class.cursor-not-allowed]="subscriptionCount() >= 2">
-          Activar suscripción
-        </button>
-      </div>
-    } @else {
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-gray-100 dark:bg-gray-800">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-        </div>
-        <h3 class="font-medium text-gray-800 dark:text-gray-200">Notificaciones desactivadas</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
-        <button (click)="onNotificationClick()" 
-                [disabled]="subscriptionCount() >= 2"
-                class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
-                [class.opacity-50]="subscriptionCount() >= 2"
-                [class.cursor-not-allowed]="subscriptionCount() >= 2">
-          Activar notificaciones
-        </button>
-      </div>
-    }
-  </div>
-
-            <!-- Lista de notificaciones -->
-            <div class="mt-6">
-                <h3 class="text-base font-medium text-gray-800 dark:text-gray-200 mb-3">Historial de notificaciones</h3>
-                
-                @if (notificationsResource.isLoading()) {
-                    <div class="flex items-center justify-center py-6">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600 dark:border-gray-400"></div>
-                        <span class="ml-2 text-gray-600 dark:text-gray-400">Cargando notificaciones...</span>
-                    </div>
-                } @else if (notificationsResource.value()!.data.length === 0) {
-                    <div class="text-center py-8">
-                        <p class="text-gray-500 dark:text-gray-400">No tienes notificaciones recientes</p>
-                    </div>
-                } @else {
-                    <div class="space-y-4">
-                        @for (notification of notificationsResource.value()!.data; track notification.id) {
-                            <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
+        <!-- Contenido -->
+        <div class="p-4">
+            @if (notificationsResource.isLoading()) {
+                <!-- Skeleton loader -->
+                <div class="space-y-4">
+                    @for (item of [1, 2, 3]; track item) {
+                        <div class="animate-pulse flex space-x-4">
+                            <div class="rounded-full bg-gray-200 dark:bg-gray-700 h-10 w-10"></div>
+                            <div class="flex-1 space-y-2 py-1">
+                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            } @else if (notificationsResource.value()!.data.length === 0) {
+                <div class="text-center py-8">
+                    <p class="text-gray-500 dark:text-gray-400">No tienes notificaciones recientes</p>
+                </div>
+            } @else {
+                <!-- Lista de notificaciones -->
+                <div class="space-y-4">
+                    @for (notification of notificationsResource.value()!.data; track notification.id) {
+                        <div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <!-- Ícono personalizado -->
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                                        <svg class="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
                                     </div>
-                                    <div class="ml-3 flex-1">
-                                        <p class="text-sm font-medium text-gray-800 dark:text-gray-200">{{notification.title}}</p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{notification.message}}</p>
-                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">{{notification.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <p class="text-sm font-medium text-gray-800 dark:text-gray-200">{{notification.title}}</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{notification.message}}</p>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <p class="text-xs text-gray-400 dark:text-gray-500">{{notification.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
+                                        <!-- Indicador de notificación no leída -->
+                                        @if (!notification.read) {
+                                            <span class="text-xs text-blue-600 dark:text-blue-400">Nueva</span>
+                                        }
                                     </div>
                                 </div>
                             </div>
-                        }
-                    </div>
-                }
-            </div>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

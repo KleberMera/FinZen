@@ -1,61 +1,93 @@
-<div class="p-6 bg-gray-800 rounded-lg shadow-lg">
-    <div class="flex items-center justify-between mb-6">
-      <h3 class="text-xl font-semibold text-white flex items-center gap-2">
-        <i class="pi pi-wifi text-blue-400"></i>
-        Dispositivos Conectados
-      </h3>
-      @if (!isCurrentDeviceRegistered()) {
-        <button (click)="synchronizeDevice()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center gap-2 transition-colors duration-200">
-          <i class="pi pi-sync"></i>
-          Sincronizar
-        </button>
-      }
-    </div>
-  
-    <div class="space-y-4">
-      @for (device of devicesResource.value()?.data; track device.id) {
-        <div 
-          class="flex items-center justify-between p-4 rounded-lg transition-all duration-200"
-          [class]="isCurrentDevice(device) ? 'bg-green-800 border-l-4 border-green-500' : 'bg-gray-700 hover:bg-gray-600'"
-        >
-          <div class="flex items-center gap-4">
-            <div class="text-2xl" [class]="isCurrentDevice(device) ? 'text-green-400' : 'text-gray-300'">
-              <i [class]="device.isMobile ? 'pi pi-mobile' : 'pi pi-desktop'"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 class="font-medium text-white">{{ device.brand }} {{ device.isMobile ? 'Smartphone' : 'PC' }}</h4>
-                @if (isCurrentDevice(device)) {
-                  <span class="px-2 py-1 bg-green-600 text-xs text-white rounded-full">Actual</span>
-                }
-              </div>
-              <div class="flex items-center gap-3 mt-1">
-                <p class="text-sm text-gray-300">{{ device.os }}</p>
-                <span class="h-1 w-1 bg-gray-500 rounded-full"></span>
-                <p class="text-sm text-gray-300">{{ device.browser }}</p>
-              </div>
-            </div>
+<div class="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg -">
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+      <i class="pi pi-clone text-blue-400"></i>
+      Dispositivos Conectados
+    </h3>
+    @if (!isCurrentDeviceRegistered()) {
+      <button 
+        (click)="synchronizeDevice()" 
+        class="relative px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-blue-900/20 overflow-hidden group"
+      >
+        <i class="pi pi-sync group-active:animate-spin transition-transform duration-500"></i>
+        <span class="absolute inset-0 bg-blue-500 transform scale-x-0 group-active:scale-x-100 origin-left transition-transform duration-700 opacity-30"></span>
+      </button>
+    }
+  </div>
+
+  <div class="space-y-4">
+    @for (device of devicesResource.value()?.data; track device.id) {
+      <div 
+        class="flex items-center justify-between p-4 rounded-lg transition-all duration-300"
+        [class]="isCurrentDevice(device) 
+          ? 'bg-gradient-to-r from-green-900/70 to-green-800/50 border-l-4 border-green-500 shadow-md shadow-green-900/10' 
+          : 'bg-gray-700/70 hover:bg-gray-600 border-l-4 border-transparent hover:border-blue-500/50'"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 flex items-center justify-center rounded-lg" 
+               [class]="isCurrentDevice(device) ? 'bg-green-800 text-green-400' : 'bg-gray-600 text-gray-300'">
+            <i [class]="device.isMobile ? 'pi pi-mobile text-2xl' : 'pi pi-desktop text-2xl'"></i>
           </div>
           <div>
-            <button class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-600 transition-colors">
-              <i class="pi pi-ellipsis-v"></i>
-            </button>
+            <div class="flex items-center gap-2 mb-1">
+              <h4 class="font-medium text-white">{{ device.brand }} {{ device.isMobile ? 'Smartphone' : 'PC' }}</h4>
+              @if (isCurrentDevice(device)) {
+                <span class="px-2 py-0.5 bg-green-600 text-xs text-white rounded-full flex items-center gap-1">
+                  <span class="h-1.5 w-1.5 bg-green-200 rounded-full animate-pulse"></span>
+                  Actual
+                </span>
+              }
+            </div>
+            <div class="flex items-center gap-3">
+              <p class="text-sm text-gray-300 flex items-center gap-1">
+                <i class="pi pi-desktop text-xs text-gray-400"></i>
+                {{ device.os }}
+              </p>
+              <span class="h-1 w-1 bg-gray-500 rounded-full"></span>
+              <p class="text-sm text-gray-300 flex items-center gap-1">
+                <i class="pi pi-globe text-xs text-gray-400"></i>
+                {{ device.browser }}
+              </p>
+            </div>
           </div>
         </div>
-      }
-    </div>
-  
-    @if (devicesResource.value()?.data!.length === 0) {
-      <div class="py-12 text-center text-gray-400 bg-gray-700 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-4 opacity-50" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-        </svg>
-        <p class="text-lg font-medium">No hay dispositivos conectados actualmente</p>
-        <p class="mt-2 text-sm">Para recibir notificaciones debes sincronizar al menos un dispositivo</p>
-        <button (click)="synchronizeDevice()" class="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center gap-2 mx-auto transition-colors duration-200">
-          <i class="pi pi-mobile"></i>
-          Sincronizar este dispositivo
-        </button>
+        <div class="flex items-center gap-2">
+          <!-- <span class="text-xs text-gray-400">
+            {{ device || 'Hace 10 minutos' }}
+          </span> -->
+          <div class="relative">
+            <!-- <button class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+              <i class="pi pi-ellipsis-v"></i>
+            </button> -->
+            <!-- Menú desplegable podría ir aquí -->
+          </div>
+        </div>
       </div>
     }
   </div>
+
+  @if (devicesResource.value()?.data!.length === 0) {
+    <div class="py-12 text-center bg-gradient-to-b from-gray-700 to-gray-800 rounded-xl border border-gray-700">
+      <div class="mb-6 flex justify-center">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto opacity-40 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+      </div>
+      <h4 class="text-xl font-medium text-white">No hay dispositivos conectados</h4>
+      <p class="mt-2 text-gray-300 max-w-md mx-auto">Para recibir notificaciones debes sincronizar al menos un dispositivo con tu cuenta</p>
+      <button 
+        (click)="synchronizeDevice()" 
+        class="relative mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 mx-auto transition-all duration-300 shadow-lg hover:shadow-blue-900/30 group"
+      >
+        <i class="pi pi-mobile group-active:animate-bounce"></i>
+        <span>Sincronizar este dispositivo</span>
+        <span class="absolute inset-0 bg-blue-500 transform scale-x-0 group-active:scale-x-100 origin-left transition-transform duration-1000 opacity-30"></span>
+      </button>
+    </div>
+  }
+</div>

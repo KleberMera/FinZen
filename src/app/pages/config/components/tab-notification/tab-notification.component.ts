@@ -39,17 +39,8 @@ export class TabNotificationComponent {
    loader: ({ request }) => this._deviceService.getDevicesByUserId(request.userId),
  });
 
- // Resource para obtener notificaciones
- notificationsResource = rxResource({
-   request: () => ({ userId: this.userId() }),
-   loader: ({ request }) => this._notifications.getNotificationsByUserId(request.userId),
- });
-
  constructor() {
    effect(() => {
-     // Carga inicial de dispositivos
-     //this.devicesResource.reload();
-     
      // Cuando los dispositivos están cargados, buscar el dispositivo actual
      const devices = this.devicesResource.value()?.data;
      if (devices) {
@@ -57,7 +48,6 @@ export class TabNotificationComponent {
        if (currentDevice && currentDevice.id) {
          console.log('Dispositivo actual encontrado:', currentDevice);
          this.currentDeviceId.set(currentDevice.id);
-         
          // Verificar estado de notificaciones
          this.checkNotificationStatus();
          this.loadSubscriptionCount();
@@ -71,7 +61,7 @@ export class TabNotificationComponent {
 
  // Método para encontrar el dispositivo actual entre la lista de dispositivos
  private findCurrentDevice(devices: Device[]): Device | undefined {
-   return devices.find(device => 
+  const data =  devices.find(device => 
      device.userAgent === this.currentUserAgent &&
      device.os === (navigator.platform || 'Unknown') &&
      device.browser === this.getBrowserInfo() &&
@@ -79,6 +69,8 @@ export class TabNotificationComponent {
      device.brand === (navigator.vendor || 'Unknown') &&
      device.model === (navigator.platform || 'Unknown')
    );
+   console.log('Dispositivo encontrado:', data);
+   return data;
  }
 
  private loadSubscriptionCount() {
@@ -138,7 +130,7 @@ export class TabNotificationComponent {
 
    if (this.notificationStatus() === 'enabled') {
      if (confirm('¿Deseas desactivar las notificaciones?')) {
-       this.unsubscribe(userId, deviceId);
+       //this.unsubscribe(userId, deviceId);
      }
      return;
    }
@@ -193,7 +185,7 @@ export class TabNotificationComponent {
  }
 
  private unsubscribe(userId: number, deviceId: number) {
-   this._swPush.unsubscribe().then(() => {
+
      // Incluir el deviceId en la desuscripción
      this._notifications.unsubscribeWithDevice(userId, deviceId).subscribe({
        next: () => {
@@ -206,17 +198,9 @@ export class TabNotificationComponent {
          toast.error('Error al desactivar las notificaciones');
        },
      });
-   }).catch(error => {
-     console.error('Error al desuscribir del Service Worker:', error);
-     toast.error('Error al desactivar las notificaciones');
-   });
+  
  }
 
- // Verificar si hay notificaciones activas para el dispositivo
- hasNotifications(userId: number, deviceId: number) {
-   const url = `${environment.apiUrl}/device/has-notifications/${deviceId}/${userId}`;
-   return this._http.get<apiResponse<boolean>>(url);
- }
 
  // Método auxiliar para detectar el navegador
  private getBrowserInfo(): string {
