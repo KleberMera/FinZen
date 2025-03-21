@@ -37,7 +37,7 @@ export class NotificationService {
 
 
   notificationSubscribeWithDevice(userId: number, deviceId: number, subscription: PushSubscription) {
-    const url = `${environment.apiUrl}/notification/subscribe`;
+    const url = `${environment.apiUrl}/notifications/subscribe`;
     const payload = {
       userId,
       deviceId,
@@ -48,7 +48,7 @@ export class NotificationService {
   
   // Método para desuscribir con deviceId
   unsubscribeWithDevice(userId: number, deviceId: number) {
-    const url = `${environment.apiUrl}/notification/unsubscribe`;
+    const url = `${environment.apiUrl}/notifications/unsubscribe`;
     const payload = { userId, deviceId };
     return this._http.post<apiResponse<any>>(url, payload);
   }
