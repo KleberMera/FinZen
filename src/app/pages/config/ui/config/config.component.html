@@ -160,6 +160,10 @@
             </div>
           </div>
         }
+
+        @if (activeTab() === 'notificaciones') {
+            <app-tab-notification></app-tab-notification>
+        }
       </div>
     </div>
   } @placeholder {

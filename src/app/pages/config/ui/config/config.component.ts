@@ -2,10 +2,11 @@ import { NgClass, NgIf } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { TabProfileComponent } from "../../components/tab-profile/tab-profile.component";
 import { TabDeviceComponent } from "../../components/tab-device/tab-device.component";
+import { TabNotificationComponent } from "../../components/tab-notification/tab-notification.component";
 
 @Component({
   selector: 'app-config',
-  imports: [NgIf, TabProfileComponent, TabDeviceComponent],
+  imports: [NgIf, TabProfileComponent, TabDeviceComponent, TabNotificationComponent],
   templateUrl: './config.component.html',
   styleUrl: './config.component.scss'
 })

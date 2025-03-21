@@ -65,15 +65,6 @@ export class TabDeviceComponent {
     // this.devicesResource.reload(); // Refrescar la lista de dispositivos
   }
 
-  constructor(){
-    effect(() => {
-      //this.currentUserAgent = navigator.userAgent;
-      console.log(this.currentUserAgent);
-      console.log(this.getBrowserInfo());
-      
-      
-    });
-  }
 
   private getBrowserInfo(): string {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -85,5 +76,16 @@ export class TabDeviceComponent {
         else if (/safari/.test(userAgent)) browser = 'Safari';
         else if (/opera/.test(userAgent)) browser = 'Opera';
     return browser;
+  }
+
+  isCurrentDevice(device: any): boolean {
+    return (
+      device.userAgent === this.currentUserAgent &&
+      device.os === (navigator.platform || 'Unknown') &&
+      device.browser === this.getBrowserInfo() &&
+      device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+      device.brand === (navigator.vendor || 'Unknown') &&
+      device.model === (navigator.platform || 'Unknown')
+    );
   }
 }

@@ -1,5 +1,5 @@
 export interface Device {
-  id?: string;
+  id?: number;
   userId?: string;
   os: string;
   browser: string;

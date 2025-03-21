@@ -1,0 +1,141 @@
+<div class="p-6 bg-gray-800 rounded-lg shadow-lg">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-semibold text-white flex items-center gap-2">
+        <i class="pi pi-bell text-blue-400"></i>
+        Notificaciones
+      </h3>
+    </div>
+  
+    <!-- Estado del dispositivo -->
+    @if (currentDeviceId() === null) {
+      <div class="py-12 text-center text-gray-400 bg-gray-700 rounded-lg">
+        <i class="pi pi-exclamation-circle text-5xl mb-4 text-yellow-500"></i>
+        <p class="text-lg font-medium">Dispositivo no sincronizado</p>
+        <p class="mt-2 text-sm">Debes sincronizar este dispositivo para recibir notificaciones</p>
+        <button routerLink="/devices" class="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center gap-2 mx-auto transition-colors duration-200">
+          <i class="pi pi-mobile"></i>
+          Ir a Dispositivos
+        </button>
+      </div>
+    } @else {
+      <!-- Estado de notificaciones -->
+      <div class="mb-6 flex flex-col items-center justify-center gap-3">
+        @if (notificationStatus() === 'loading') {
+          <div class="flex items-center justify-center py-4">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600"></div>
+            <span class="ml-2 text-gray-400">Comprobando estado...</span>
+          </div>
+        } @else if (notificationStatus() === 'enabled') {
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-green-900/40">
+              <i class="pi pi-bell text-3xl text-green-400"></i>
+            </div>
+            <h3 class="font-medium text-white">Notificaciones activadas</h3>
+            <p class="text-sm text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
+            @if (subscriptionCount() > 0) {
+              <button (click)="onNotificationClick()" 
+                  class="mt-3 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700">
+                Desactivar
+              </button>
+            } @else {
+              <button (click)="requestSubscription(userId(), currentDeviceId()!)" 
+                [disabled]="subscriptionCount() >= 2"
+                class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                [class.opacity-50]="subscriptionCount() >= 2"
+                [class.cursor-not-allowed]="subscriptionCount() >= 2">
+                Activar suscripción
+              </button>
+            }
+          </div>
+        } @else if (notificationStatus() === 'blocked') {
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-red-900/40">
+              <i class="pi pi-ban text-3xl text-red-400"></i>
+            </div>
+            <h3 class="font-medium text-white">Notificaciones bloqueadas</h3>
+            <p class="text-sm text-gray-400 mt-1">Has bloqueado las notificaciones en tu navegador</p>
+            <button (click)="onNotificationClick()" 
+                    class="mt-3 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700">
+              Instrucciones
+            </button>
+          </div>
+        } @else if (notificationStatus() === 'granted-no-subscription') {
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-yellow-900/40">
+              <i class="pi pi-bell-slash text-3xl text-yellow-400"></i>
+            </div>
+            <h3 class="font-medium text-white">Permisos concedidos</h3>
+            <p class="text-sm text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
+            <button (click)="onNotificationClick()" 
+                    [disabled]="subscriptionCount() >= 2"
+                    class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                    [class.opacity-50]="subscriptionCount() >= 2"
+                    [class.cursor-not-allowed]="subscriptionCount() >= 2">
+              Activar suscripción
+            </button>
+          </div>
+        } @else {
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center p-3 mb-2 rounded-full bg-gray-800">
+              <i class="pi pi-bell-slash text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="font-medium text-white">Notificaciones desactivadas</h3>
+            <p class="text-sm text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
+            <button (click)="onNotificationClick()" 
+                    [disabled]="subscriptionCount() >= 2"
+                    class="mt-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                    [class.opacity-50]="subscriptionCount() >= 2"
+                    [class.cursor-not-allowed]="subscriptionCount() >= 2">
+              Activar notificaciones
+            </button>
+          </div>
+        }
+      </div>
+  
+      <!-- Ajustes de notificación -->
+      @if (notificationStatus() === 'enabled' && subscriptionCount() > 0) {
+        <div class="mt-8 border-t border-gray-700 pt-6">
+          <h4 class="text-lg font-medium text-white mb-4">Ajustes de notificación</h4>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+              <div>
+                <h5 class="text-white font-medium">Notificaciones push</h5>
+                <p class="text-sm text-gray-400">Recibe notificaciones en este dispositivo</p>
+              </div>
+              <div class="relative">
+                <button class="w-12 h-6 bg-green-600 rounded-full p-1 transition-colors duration-200">
+                  <div class="bg-white rounded-full h-4 w-4 transform translate-x-6"></div>
+                </button>
+              </div>
+            </div>
+  
+       
+          </div>
+          
+          <div class="mt-6">
+            <h4 class="text-lg font-medium text-white mb-4">Dispositivos suscritos</h4>
+            <div class="space-y-3">
+              @for (device of devicesResource.value()?.data; track device.id) {
+                <div class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                  <div class="flex items-center gap-3">
+                    <div class="text-lg text-gray-400">
+                      <i [class]="device.isMobile ? 'pi pi-mobile' : 'pi pi-desktop'"></i>
+                    </div>
+                    <div>
+                      <h5 class="text-white">{{ device.brand }} {{ device.model }}</h5>
+                      <p class="text-xs text-gray-400">{{ device.browser }} - {{ device.os }}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="h-3 w-3 rounded-full" 
+                         [class]="isCurrentDevice(device) ? 'bg-green-500' : 'bg-gray-500'"></div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>

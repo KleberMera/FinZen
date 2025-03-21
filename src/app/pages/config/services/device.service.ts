@@ -19,4 +19,9 @@ export class DeviceService {
     const url = `${environment.apiUrl}/device/create/${userId}`;
     return this._http.post<apiResponse<Device>>(url, device)
   }
+
+  hasNotifications(userId: number, deviceId: number) {
+    const url = `${environment.apiUrl}/device/has-notifications/${deviceId}/${userId}`;
+    return this._http.get<apiResponse<boolean>>(url);
+  }
 }
