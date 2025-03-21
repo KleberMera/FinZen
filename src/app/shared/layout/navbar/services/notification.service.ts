@@ -20,6 +20,12 @@ export class NotificationService {
     return this._http.post<any>(url, { userId, subscription });
   }
 
+  notificationSubscribeWithDevice(userId: number, deviceId: number, subscription: any) {
+    const url = `${environment.apiUrl}/notifications/subscribe/${userId}/${deviceId}`;
+  
+    return this._http.post<apiResponse<any>>(url ,{subscription});
+  }
+
   hasSubscription(userId: number,): Observable<{ hasSubscription: boolean }> {
     const url = `${environment.apiUrl}/notifications/has-subscription/${userId}`;
     return this._http.get<{ hasSubscription: boolean }>(url);
@@ -36,15 +42,7 @@ export class NotificationService {
   }
 
 
-  notificationSubscribeWithDevice(userId: number, deviceId: number, subscription: PushSubscription) {
-    const url = `${environment.apiUrl}/notifications/subscribe`;
-    const payload = {
-      userId,
-      deviceId,
-      subscription: JSON.stringify(subscription)
-    };
-    return this._http.post<apiResponse<any>>(url, payload);
-  }
+
   
   // Método para desuscribir con deviceId
   unsubscribeWithDevice(userId: number, deviceId: number) {
