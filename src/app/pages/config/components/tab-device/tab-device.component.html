@@ -1,0 +1,36 @@
+<div class="">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-white">Dispositivos Conectados</h3>
+        @if (!isCurrentDeviceRegistered()) {
+          <button (click)="synchronizeDevice()" class="px-4 py-2 bg-blue-500 text-white rounded">
+            Sincronizar
+          </button>
+        }
+      </div>
+  
+    <div class="space-y-4">
+      @for (device of devicesResource.value()?.data; track device.id) {
+        <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+          <div class="flex items-center gap-3">
+            <div class="text-xl text-gray-300">
+              <i [class]="device.isMobile ? 'pi pi-mobile' : 'pi pi-desktop'"></i>
+            </div>
+            <div>
+              <h4 class="font-medium text-white">{{ device.brand }} {{ device.model }}</h4>
+              <p class="text-sm text-gray-400">{{ device.os }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  
+    @if (devicesResource.value()?.data!.length === 0) {
+      <div class="py-8 text-center text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 opacity-50" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+        </svg>
+        <p>No hay dispositivos conectados actualmente</p>
+        <p class="mt-2 text-sm">Para recibir notificaciones debes sincronizar al menos un dispositivo</p>
+      </div>
+    }
+  </div>

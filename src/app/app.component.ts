@@ -13,46 +13,56 @@ import { NgxSonnerToaster } from 'ngx-sonner';
 export class AppComponent {
   title = 'FinZen';
 
-  detectDevice(): { os: string; browser: string; isMobile: boolean; userAgent: string } {
+  detectDevice() {
     const userAgent = navigator.userAgent.toLowerCase();
     const platform = navigator.platform;
-
-    // Operating System detection
+  
+    // Detección del sistema operativo
     let os = 'Unknown';
-    if (userAgent.match(/android/i)) {
-      os = 'Android';
-    } else if (userAgent.match(/iphone|ipad|ipod/i)) {
-      os = 'iOS';
-    } else if (userAgent.match(/windows/i)) {
-      os = 'Windows';
-    } else if (userAgent.match(/macintosh|mac os x/i)) {
-      os = 'MacOS';
-    } else if (userAgent.match(/linux/i)) {
-      os = 'Linux';
-    }
-
-    // Browser detection
+    if (/android/.test(userAgent)) os = 'Android';
+    else if (/iphone|ipad|ipod/.test(userAgent)) os = 'iOS';
+    else if (/windows/.test(userAgent)) os = 'Windows';
+    else if (/macintosh|mac os x/.test(userAgent)) os = 'MacOS';
+    else if (/linux/.test(userAgent)) os = 'Linux';
+  
+    // Detección del navegador
     let browser = 'Unknown';
-    if (userAgent.includes('firefox')) {
-      browser = 'Firefox';
-    } else if (userAgent.includes('edg')) {
-      browser = 'Edge';
-    } else if (userAgent.includes('chrome')) {
-      browser = 'Chrome';
-    } else if (userAgent.includes('safari')) {
-      browser = 'Safari';
-    } else if (userAgent.includes('opera')) {
-      browser = 'Opera';
+    if (/firefox/.test(userAgent)) browser = 'Firefox';
+    else if (/edg/.test(userAgent)) browser = 'Edge';
+    else if (/chrome/.test(userAgent)) browser = 'Chrome';
+    else if (/safari/.test(userAgent)) browser = 'Safari';
+    else if (/opera/.test(userAgent)) browser = 'Opera';
+  
+    // Detección de dispositivo móvil
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/.test(userAgent);
+  
+    // Detección de marca y modelo
+    let brand = 'Unknown';
+    let model = 'Unknown';
+  
+    if (os === 'Android') {
+      const androidMatch = userAgent.match(/android.*;\s*([a-z0-9]+)\s*build/i);
+      if (androidMatch) {
+        brand = androidMatch[1]; // Ejemplo: "samsung"
+        model = androidMatch[1]; // Puede ser más específico según el userAgent
+      }
+    } else if (os === 'iOS') {
+      brand = 'Apple';
+      if (/iphone/.test(userAgent)) model = 'iPhone';
+      else if (/ipad/.test(userAgent)) model = 'iPad';
+      else if (/ipod/.test(userAgent)) model = 'iPod';
+    } else if (os === 'Windows' || os === 'MacOS' || os === 'Linux') {
+      brand = 'PC'; // Para computadoras, el userAgent no suele dar marca específica
+      model = 'Unknown';
     }
-
-    // Mobile detection
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-
+  
     return {
       os,
       browser,
       isMobile,
-      userAgent
+      userAgent,
+      brand,
+      model
     };
   }
 
@@ -66,7 +76,9 @@ export class AppComponent {
     localStorage.setItem('theme', theme);
     initFlowbite();
 
-    const device = this.detectDevice();
-    console.log('Device detected:', device);
+    const data = this.detectDevice();
+    console.log(data);
+    
+
   }
 }

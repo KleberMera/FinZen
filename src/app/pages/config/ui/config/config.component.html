@@ -1,1 +1,181 @@
-<p>config works!</p>
+@defer (on viewport) {
+    <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+      <!-- Cabecera de Tabs -->
+      <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
+        <span class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Configuración
+        </span>
+      </h2>
+
+   <!-- Menú de Tabs -->
+<div class="mb-6">
+    <div class="flex overflow-x-auto border-b border-gray-700">
+      <ul class="flex flex-nowrap text-sm font-medium text-center">
+        @for (tab of tabs(); track tab.id) {
+          <li class="mr-2 whitespace-nowrap">
+            <button 
+              (click)="setActiveTab(tab.id)"
+              class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg gap-2"
+              [class]="activeTab() === tab.id ? 
+                'text-blue-500 border-blue-500 active' : 
+                'border-transparent hover:text-gray-300 hover:border-gray-300'"
+            >
+              <i [class]="tab.icon"></i>
+              {{ tab.label }}
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+
+      <!-- Contenido de los Tabs -->
+      <div class="tab-content">
+        <!-- Tab Perfil -->
+        @if (activeTab() === 'perfil') {
+            <app-tab-profile class="animate-fadeIn"></app-tab-profile>
+        }
+
+        <!-- Tab Sincronizar -->
+        @if (activeTab() === 'sincronizar') {
+          <div class="p-4 rounded-lg bg-gray-900 animate-fadeIn">
+            <h3 class="text-lg font-semibold text-white mb-4">Opciones de Sincronización</h3>
+            
+            <div class="space-y-4">
+              @for (option of syncOptions(); track option.id) {
+                <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                  <div>
+                    <h4 class="font-medium text-white">{{ option.label }}</h4>
+                    <p class="text-sm text-gray-400">{{ option.description }}</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" [checked]="option.enabled">
+                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  </label>
+                </div>
+              }
+            </div>
+            
+            <div class="mt-6">
+              <button type="button"
+                class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                </svg>
+                Sincronizar Ahora
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Tab Dispositivos -->
+        @if (activeTab() === 'dispositivos') {
+            <app-tab-device class="animate-fadeIn"></app-tab-device>
+        
+        }
+
+        <!-- Tab Contraseña -->
+        @if (activeTab() === 'contrasena') {
+          <div class="p-4 rounded-lg bg-gray-900 animate-fadeIn">
+            <h3 class="text-lg font-semibold text-white mb-4">Cambiar Contraseña</h3>
+            
+            <div class="space-y-4">
+              <!-- Contraseña actual -->
+              <div class="relative">
+                <label for="currentPassword" class="block mb-2 text-sm font-medium text-gray-300">
+                  Contraseña Actual
+                </label>
+                <div class="relative">
+                  <input 
+                    [type]="showPassword() ? 'text' : 'password'" 
+                    id="currentPassword" 
+                    class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+                  />
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path *ngIf="showPassword()" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path *ngIf="showPassword()" fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                      <path *ngIf="!showPassword()" fill-rule="evenodd" d="M3.28 2.22a.75.75 0 00-1.06 1.06l14.5 14.5a.75.75 0 101.06-1.06l-1.745-1.745a10.029 10.029 0 003.3-4.38 1.651 1.651 0 000-1.185A10.004 10.004 0 009.999 3a9.956 9.956 0 00-4.744 1.194L3.28 2.22zM7.752 6.69l1.092 1.092a2.5 2.5 0 013.374 3.373l1.091 1.092a4 4 0 00-5.557-5.557z" clip-rule="evenodd" />
+                      <path *ngIf="!showPassword()" d="M10.748 13.93l2.523 2.523a9.987 9.987 0 01-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 010-1.186A10.007 10.007 0 012.839 6.02L6.07 9.252a4 4 0 004.678 4.678z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Nueva contraseña -->
+              <div class="relative">
+                <label for="newPassword" class="block mb-2 text-sm font-medium text-gray-300">
+                  Nueva Contraseña
+                </label>
+                <div class="relative">
+                  <input 
+                    [type]="showPassword() ? 'text' : 'password'" 
+                    id="newPassword" 
+                    class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+                  />
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Confirmar nueva contraseña -->
+              <div class="relative">
+                <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-300">
+                  Confirmar Nueva Contraseña
+                </label>
+                <div class="relative">
+                  <input 
+                    [type]="showPassword() ? 'text' : 'password'" 
+                    id="confirmPassword" 
+                    class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+                  />
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <button type="button"
+                class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                Actualizar Contraseña
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  } @placeholder {
+    <div class="animate-pulse mb-8 mx-auto p-4 sm:p-6 bg-gray-800 rounded-lg shadow-lg">
+      <!-- Cabecera skeleton -->
+      <div class="h-8 bg-gray-700 rounded-md w-1/3 mb-6"></div>
+      
+      <!-- Tabs skeleton -->
+      <div class="flex space-x-4 mb-6">
+        <div class="h-10 bg-gray-700 rounded-md w-24"></div>
+        <div class="h-10 bg-gray-700 rounded-md w-24"></div>
+        <div class="h-10 bg-gray-700 rounded-md w-24"></div>
+        <div class="h-10 bg-gray-700 rounded-md w-24"></div>
+      </div>
+      
+      <!-- Contenido skeleton -->
+      <div class="h-64 bg-gray-700 rounded-md w-full"></div>
+    </div>
+  }
