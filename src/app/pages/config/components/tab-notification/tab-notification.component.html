@@ -32,7 +32,7 @@
             </div>
             <h3 class="font-medium text-white">Notificaciones activadas</h3>
             <p class="text-sm text-gray-400 mt-1">Tienes {{ subscriptionCount() }} de 2 suscripciones activas.</p>
-            @if (subscriptionCount() > 0) {
+            @if (subscriptionCount() > 3) {
               <button (click)="onNotificationClick()" 
                   class="mt-3 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700">
                 Desactivar
