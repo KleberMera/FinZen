@@ -17,7 +17,7 @@ export class TabDeviceComponent {
   protected readonly _storage = inject(StorageService);
   userId = signal<number>(this._storage.getUserId());
   currentUserAgent: string = navigator.userAgent;
-  parser = new UAParser(this.currentUserAgent);
+  parser = new UAParser();
   devicesResource = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) =>
@@ -41,6 +41,8 @@ export class TabDeviceComponent {
 
   async synchronizeDevice() {
    toast.loading('Sincronizando dispositivo...');
+   console.log(this.parser.getResult());
+   
 
     const deviceData: Device = {
       userAgent: this.parser.getUA(),
