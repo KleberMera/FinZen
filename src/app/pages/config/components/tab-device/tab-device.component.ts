@@ -50,7 +50,7 @@ export class TabDeviceComponent {
       model: navigator.platform || 'Unknown',
       status: 'Active',
     };
-
+        
     this._deviceService.createDevice(this.userId(), deviceData).subscribe({
       next: (res) => {
         console.log('Dispositivo sincronizado correctamente');
@@ -62,7 +62,7 @@ export class TabDeviceComponent {
     });
 
     // await this._deviceService.createDevice(this.userId(), deviceData);
-    // this.devicesResource.reload(); // Refrescar la lista de dispositivos
+    this.devicesResource.reload(); // Refrescar la lista de dispositivos
   }
 
 
