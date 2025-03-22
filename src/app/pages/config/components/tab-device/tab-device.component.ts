@@ -47,8 +47,8 @@ export class TabDeviceComponent {
       os: this.parser.getOS().name || 'Unknown',
       browser: this.parser.getBrowser().name || 'Unknown',
       isMobile: this.parser.getDevice().type === 'mobile',
-      brand: this.parser.getDevice().vendor ? this.parser.getDevice().vendor! : navigator.vendor || 'Unknown',
-      model: this.parser.getDevice().model ? this.parser.getDevice().model! : navigator.platform || 'Unknown',
+      brand: this.parser.getDevice().vendor || 'Unknown',
+      model: this.parser.getDevice().model || 'Unknown',
       status: 'Active',
     };
 
