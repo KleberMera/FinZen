@@ -136,7 +136,7 @@
             @if (data!.previousMonthData) {
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
             <span class="mr-1">Mes anterior:</span>
-            <span class="font-medium">{{ data!.previousMonthData.balance  }}</span>
+            <span class="font-medium">{{ data!.previousMonthData.balance  | currency }}</span>
             </p>
             }
         </div>

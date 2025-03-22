@@ -4,6 +4,8 @@ import { DeviceService } from '../../services/device.service';
 import { StorageService } from '@services/storage.service';
 import { Device } from '@models/device';
 
+import { UAParser } from 'ua-parser-js';
+import { toast } from 'ngx-sonner';
 @Component({
   selector: 'app-tab-device',
   imports: [],
@@ -14,6 +16,8 @@ export class TabDeviceComponent {
   protected readonly _deviceService = inject(DeviceService);
   protected readonly _storage = inject(StorageService);
   userId = signal<number>(this._storage.getUserId());
+  currentUserAgent: string = navigator.userAgent;
+  parser = new UAParser(this.currentUserAgent);
   devicesResource = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) =>
@@ -22,38 +26,39 @@ export class TabDeviceComponent {
 
   isCurrentDeviceRegistered(): boolean {
     const devices = this.devicesResource.value()?.data || [];
-    return devices.some((device) => 
-      device.userAgent === this.currentUserAgent &&
-      device.os === (navigator.platform || 'Unknown') &&
-      device.browser === this.getBrowserInfo() &&
-      device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-      device.brand === (navigator.vendor || 'Unknown') &&
-      device.model === (navigator.platform || 'Unknown')
+    return devices.some(
+      (device) =>
+        device.userAgent === this.parser.getUA() &&
+        device.os === (this.parser.getOS().name || 'Unknown') &&
+        device.browser === (this.parser.getBrowser().name || 'Unknown') &&
+          device.isMobile === (this.parser.getDevice().type === 'mobile') &&
+          device.brand === (this.parser.getDevice().vendor || navigator.vendor || 'Unknown') &&
+          device.model === (this.parser.getDevice().model || navigator.platform || 'Unknown')
     );
   }
 
-  currentUserAgent: string = navigator.userAgent;
+
 
   async synchronizeDevice() {
-    console.log('Sincronizando dispositivo...');
-    console.log(this.currentUserAgent);
+   toast.loading('Sincronizando dispositivo...');
 
     const deviceData: Device = {
-      userAgent: this.currentUserAgent,
-      os: navigator.platform || 'Unknown',
-      browser: this.getBrowserInfo(),
-      isMobile:
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        ),
-      brand: navigator.vendor || 'Unknown',
-      model: navigator.platform || 'Unknown',
+      userAgent: this.parser.getUA(),
+      os: this.parser.getOS().name || 'Unknown',
+      browser: this.parser.getBrowser().name || 'Unknown',
+      isMobile: this.parser.getDevice().type === 'mobile',
+      brand: this.parser.getDevice().vendor || navigator.vendor || 'Unknown',
+      model: this.parser.getDevice().model || navigator.platform || 'Unknown',
       status: 'Active',
     };
+
+    console.log(deviceData);
+    
 
     this._deviceService.createDevice(this.userId(), deviceData).subscribe({
       next: (res) => {
         console.log('Dispositivo sincronizado correctamente');
+        toast.success(`Dispositivo ${deviceData.brand} sincronizado correctamente`);
         this.devicesResource.reload(); // Refrescar la lista de dispositivos
       },
       error: (error) => {
@@ -61,31 +66,21 @@ export class TabDeviceComponent {
       },
     });
 
-    // await this._deviceService.createDevice(this.userId(), deviceData);
-    // this.devicesResource.reload(); // Refrescar la lista de dispositivos
+   
+    this.devicesResource.reload(); // Refrescar la lista de dispositivos
   }
 
 
-  private getBrowserInfo(): string {
-    const userAgent = navigator.userAgent.toLowerCase();
-        // Detección del navegador
-        let browser = 'Unknown';
-        if (/firefox/.test(userAgent)) browser = 'Firefox';
-        else if (/edg/.test(userAgent)) browser = 'Edge';
-        else if (/chrome/.test(userAgent)) browser = 'Chrome';
-        else if (/safari/.test(userAgent)) browser = 'Safari';
-        else if (/opera/.test(userAgent)) browser = 'Opera';
-    return browser;
-  }
 
   isCurrentDevice(device: any): boolean {
     return (
-      device.userAgent === this.currentUserAgent &&
-      device.os === (navigator.platform || 'Unknown') &&
-      device.browser === this.getBrowserInfo() &&
-      device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-      device.brand === (navigator.vendor || 'Unknown') &&
-      device.model === (navigator.platform || 'Unknown')
+      device.userAgent === this.parser.getUA() &&
+      device.os === (this.parser.getOS().name || 'Unknown') &&
+      device.browser === (this.parser.getBrowser().name || 'Unknown') &&
+      device.isMobile === (this.parser.getDevice().type === 'mobile') &&
+      device.brand === (this.parser.getDevice().vendor || navigator.vendor || 'Unknown') &&
+      device.model === (this.parser.getDevice().model || navigator.platform || 'Unknown')
     );
   }
+
 }

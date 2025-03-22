@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../../../shared/layout/navbar/services/notification.service';
 import { SwPush } from '@angular/service-worker';
 import { toast } from 'ngx-sonner';
+import { UAParser } from 'ua-parser-js';
 
 @Component({
   selector: 'app-tab-notification',
@@ -23,10 +24,12 @@ export class TabNotificationComponent {
  private readonly _storage = inject(StorageService);
  private readonly _notifications = inject(NotificationService);
  private readonly _swPush = inject(SwPush);
+   currentUserAgent: string = navigator.userAgent;
+   parser = new UAParser(this.currentUserAgent);
  
  // Datos del usuario y dispositivo
  userId = signal<number>(this._storage.getUserId());
- currentUserAgent = navigator.userAgent;
+// currentUserAgent = navigator.userAgent;
  currentDeviceId = signal<number | null>(null);
  
  // Estados de notificación
@@ -62,12 +65,12 @@ export class TabNotificationComponent {
  // Método para encontrar el dispositivo actual entre la lista de dispositivos
  private findCurrentDevice(devices: Device[]): Device | undefined {
   const data =  devices.find(device => 
-     device.userAgent === this.currentUserAgent &&
-     device.os === (navigator.platform || 'Unknown') &&
-     device.browser === this.getBrowserInfo() &&
-     device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-     device.brand === (navigator.vendor || 'Unknown') &&
-     device.model === (navigator.platform || 'Unknown')
+    device.userAgent === this.parser.getUA() &&
+    device.os === (this.parser.getOS().name || 'Unknown') &&
+    device.browser === (this.parser.getBrowser().name || 'Unknown') &&
+    device.isMobile === (this.parser.getDevice().type === 'mobile') &&
+    device.brand === (this.parser.getDevice().vendor || navigator.vendor || 'Unknown') &&
+    device.model === (this.parser.getDevice().model || navigator.platform || 'Unknown')
    );
    console.log('Dispositivo encontrado:', data);
    return data;
@@ -216,12 +219,12 @@ export class TabNotificationComponent {
 
  isCurrentDevice(device: any): boolean {
   return (
-    device.userAgent === this.currentUserAgent &&
-    device.os === (navigator.platform || 'Unknown') &&
-    device.browser === this.getBrowserInfo() &&
-    device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-    device.brand === (navigator.vendor || 'Unknown') &&
-    device.model === (navigator.platform || 'Unknown')
+    device.userAgent === this.parser.getUA() &&
+    device.os === (this.parser.getOS().name || 'Unknown') &&
+    device.browser === (this.parser.getBrowser().name || 'Unknown') &&
+    device.isMobile === (this.parser.getDevice().type === 'mobile') &&
+    device.brand === (this.parser.getDevice().vendor || 'Unknown') &&
+    device.model === (this.parser.getDevice().model || 'Unknown')
   );
 }
 }
