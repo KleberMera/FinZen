@@ -32,8 +32,8 @@ export class TabDeviceComponent {
         device.os === (this.parser.getOS().name || 'Unknown') &&
         device.browser === (this.parser.getBrowser().name || 'Unknown') &&
           device.isMobile === (this.parser.getDevice().type === 'mobile') &&
-          device.brand === (this.parser.getDevice().vendor || navigator.vendor || 'Unknown') &&
-          device.model === (this.parser.getDevice().model || navigator.platform || 'Unknown')
+          device.brand === (this.parser.getDevice().vendor ? this.parser.getDevice().vendor! : navigator.vendor || 'Unknown') &&
+          device.model === (this.parser.getDevice().model ? this.parser.getDevice().model! : navigator.platform || 'Unknown')
     );
   }
 
@@ -47,8 +47,8 @@ export class TabDeviceComponent {
       os: this.parser.getOS().name || 'Unknown',
       browser: this.parser.getBrowser().name || 'Unknown',
       isMobile: this.parser.getDevice().type === 'mobile',
-      brand: this.parser.getDevice().vendor || navigator.vendor || 'Unknown',
-      model: this.parser.getDevice().model || navigator.platform || 'Unknown',
+      brand: this.parser.getDevice().vendor ? this.parser.getDevice().vendor! : navigator.vendor || 'Unknown',
+      model: this.parser.getDevice().model ? this.parser.getDevice().model! : navigator.platform || 'Unknown',
       status: 'Active',
     };
 
@@ -78,8 +78,8 @@ export class TabDeviceComponent {
       device.os === (this.parser.getOS().name || 'Unknown') &&
       device.browser === (this.parser.getBrowser().name || 'Unknown') &&
       device.isMobile === (this.parser.getDevice().type === 'mobile') &&
-      device.brand === (this.parser.getDevice().vendor || navigator.vendor || 'Unknown') &&
-      device.model === (this.parser.getDevice().model || navigator.platform || 'Unknown')
+      device.brand === (this.parser.getDevice().vendor ? this.parser.getDevice().vendor! : navigator.vendor || 'Unknown') &&
+      device.model === (this.parser.getDevice().model ? this.parser.getDevice().model! : navigator.platform || 'Unknown')
     );
   }
 
