@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Device } from '@models/device';
 import { DeviceService } from '../../services/device.service';
@@ -18,69 +18,65 @@ import { toast } from 'ngx-sonner';
 })
 export class TabNotificationComponent {
  // Servicios inyectados
- private readonly _http = inject(HttpClient);
  private readonly _deviceService = inject(DeviceService);
  private readonly _storage = inject(StorageService);
  private readonly _notifications = inject(NotificationService);
  private readonly _swPush = inject(SwPush);
- 
- // Datos del usuario y dispositivo
+
+ // Signals para el estado reactivo
  userId = signal<number>(this._storage.getUserId());
- currentUserAgent = navigator.userAgent;
- currentDeviceId = signal<number | null>(null);
- 
- // Estados de notificación
+ currentDevice = signal<Device | null>(null);
  notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked' | 'granted-no-subscription'>('loading');
  subscriptionCount = signal<number>(0);
- 
- // Resource para obtener los dispositivos
+
+ // Computed signals para valores derivados
+ currentDeviceId = computed(() => this.currentDevice()?.id ?? null);
+ devices = computed(() => this.devicesResource.value()?.data ?? []);
+ isDeviceSynced = computed(() => this.currentDeviceId() !== null);
+
+ // Resource para cargar dispositivos de forma reactiva
  devicesResource = rxResource({
    request: () => ({ userId: this.userId() }),
    loader: ({ request }) => this._deviceService.getDevicesByUserId(request.userId),
  });
 
  constructor() {
+   // Effect para actualizar el dispositivo actual y el estado de notificaciones
    effect(() => {
-     // Cuando los dispositivos están cargados, buscar el dispositivo actual
-     const devices = this.devicesResource.value()?.data;
-     if (devices) {
-       const currentDevice = this.findCurrentDevice(devices);
-       if (currentDevice && currentDevice.id) {
-         console.log('Dispositivo actual encontrado:', currentDevice);
-         this.currentDeviceId.set(currentDevice.id);
-         // Verificar estado de notificaciones
-         this.checkNotificationStatus();
-         this.loadSubscriptionCount();
-       } else {
-         console.log('Dispositivo actual no encontrado entre los registrados');
-         this.notificationStatus.set('disabled');
-       }
+     const devices = this.devices();
+     const currentDevice = this.findCurrentDevice(devices);
+     this.currentDevice.set(currentDevice!);
+
+     if (currentDevice) {
+       this.checkNotificationStatus();
+       this.loadSubscriptionCount();
+     } else {
+       this.notificationStatus.set('disabled');
      }
    });
  }
 
- // Método para encontrar el dispositivo actual entre la lista de dispositivos
+ // Método para identificar el dispositivo actual
  private findCurrentDevice(devices: Device[]): Device | undefined {
-  const data =  devices.find(device => 
-     device.userAgent === this.currentUserAgent &&
+   return devices.find(device => this.isCurrentDevice(device));
+ }
+
+ // Método para verificar si un dispositivo es el actual
+ isCurrentDevice(device: Device): boolean {
+   return (
+     device.userAgent === navigator.userAgent &&
      device.os === (navigator.platform || 'Unknown') &&
      device.browser === this.getBrowserInfo() &&
      device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
      device.brand === (navigator.vendor || 'Unknown') &&
      device.model === (navigator.platform || 'Unknown')
    );
-   console.log('Dispositivo encontrado:', data);
-   return data;
  }
 
+ // Cargar el conteo de suscripciones
  private loadSubscriptionCount() {
-   const userId = this.userId();
-   this._notifications.countSubscriptions(userId).subscribe({
-     next: (response) => {
-      console.log('Suscripciones actuales:', response.subscriptions);
-      
-       this.subscriptionCount.set(response.subscriptions);
-     },
+   this._notifications.countSubscriptions(this.userId()).subscribe({
+     next: (response) => this.subscriptionCount.set(response.subscriptions),
      error: (error) => {
        console.error('Error al contar suscripciones:', error);
        this.subscriptionCount.set(0);
@@ -88,7 +84,8 @@ export class TabNotificationComponent {
    });
  }
 
- checkNotificationStatus() {
+ // Verificar el estado de las notificaciones
+ private checkNotificationStatus() {
    this.notificationStatus.set('loading');
 
    if (!('Notification' in window)) {
@@ -101,10 +98,9 @@ export class TabNotificationComponent {
      return;
    }
 
-   const userId = this.userId();
-   this._notifications.hasSubscription(userId).subscribe({
+   this._notifications.hasSubscription(this.userId()).subscribe({
      next: (response) => {
-       if (response.hasSubscription === true) {
+       if (response.hasSubscription) {
          this.notificationStatus.set('enabled');
        } else if (Notification.permission === 'granted') {
          this.notificationStatus.set('granted-no-subscription');
@@ -119,6 +115,7 @@ export class TabNotificationComponent {
    });
  }
 
+ // Manejar el clic en el botón de notificaciones
  async onNotificationClick() {
    const userId = this.userId();
    const deviceId = this.currentDeviceId();
@@ -130,7 +127,7 @@ export class TabNotificationComponent {
 
    if (this.notificationStatus() === 'enabled') {
      if (confirm('¿Deseas desactivar las notificaciones?')) {
-       //this.unsubscribe(userId, deviceId);
+       this.unsubscribe(userId, deviceId);
      }
      return;
    }
@@ -152,7 +149,8 @@ export class TabNotificationComponent {
    this.requestSubscription(userId, deviceId);
  }
 
- async requestSubscription(userId: number, deviceId: number) {
+ // Solicitar suscripción a notificaciones
+ private async requestSubscription(userId: number, deviceId: number) {
    if (this.subscriptionCount() >= 2) {
      toast.error('Ya tienes el máximo de suscripciones permitidas (2)');
      return;
@@ -163,16 +161,14 @@ export class TabNotificationComponent {
        serverPublicKey: environment.VAPID_PUBLIC_KEY,
      });
 
-     // Ahora incluimos el deviceId en la suscripción
      this._notifications.notificationSubscribeWithDevice(userId, deviceId, sub).subscribe({
-       next: (response) => {
-         console.log('Suscripción enviada con éxito:', response);
+       next: () => {
          toast.success('Notificaciones activadas correctamente');
          this.notificationStatus.set('enabled');
-         this.loadSubscriptionCount(); // Actualizar el conteo
+         this.loadSubscriptionCount();
        },
        error: (error) => {
-         console.error('Error al enviar la suscripción:', error);
+         console.error('Error al activar las notificaciones:', error);
          toast.error('Error al activar las notificaciones');
          this.notificationStatus.set('disabled');
        },
@@ -184,44 +180,29 @@ export class TabNotificationComponent {
    }
  }
 
+ // Desuscribirse de las notificaciones
  private unsubscribe(userId: number, deviceId: number) {
-
-     // Incluir el deviceId en la desuscripción
-     this._notifications.unsubscribeWithDevice(userId, deviceId).subscribe({
-       next: () => {
-         toast.success('Notificaciones desactivadas correctamente');
-         this.notificationStatus.set('disabled');
-         this.loadSubscriptionCount(); // Actualizar el conteo
-       },
-       error: (error) => {
-         console.error('Error al desactivar las notificaciones:', error);
-         toast.error('Error al desactivar las notificaciones');
-       },
-     });
-  
+   this._notifications.unsubscribeWithDevice(userId, deviceId).subscribe({
+     next: () => {
+       toast.success('Notificaciones desactivadas correctamente');
+       this.notificationStatus.set('disabled');
+       this.loadSubscriptionCount();
+     },
+     error: (error) => {
+       console.error('Error al desactivar las notificaciones:', error);
+       toast.error('Error al desactivar las notificaciones');
+     },
+   });
  }
 
-
- // Método auxiliar para detectar el navegador
+ // Detectar el navegador actual
  private getBrowserInfo(): string {
    const userAgent = navigator.userAgent.toLowerCase();
-   let browser = 'Unknown';
-   if (/firefox/.test(userAgent)) browser = 'Firefox';
-   else if (/edg/.test(userAgent)) browser = 'Edge';
-   else if (/chrome/.test(userAgent)) browser = 'Chrome';
-   else if (/safari/.test(userAgent)) browser = 'Safari';
-   else if (/opera/.test(userAgent)) browser = 'Opera';
-   return browser;
+   if (/firefox/.test(userAgent)) return 'Firefox';
+   if (/edg/.test(userAgent)) return 'Edge';
+   if (/chrome/.test(userAgent)) return 'Chrome';
+   if (/safari/.test(userAgent)) return 'Safari';
+   if (/opera/.test(userAgent)) return 'Opera';
+   return 'Unknown';
  }
-
- isCurrentDevice(device: any): boolean {
-  return (
-    device.userAgent === this.currentUserAgent &&
-    device.os === (navigator.platform || 'Unknown') &&
-    device.browser === this.getBrowserInfo() &&
-    device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-    device.brand === (navigator.vendor || 'Unknown') &&
-    device.model === (navigator.platform || 'Unknown')
-  );
-}
 }

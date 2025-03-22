@@ -1,4 +1,4 @@
-<div class="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg -">
+<div class="p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg">
   <div class="flex items-center justify-between mb-6">
     <h3 class="text-xl font-semibold text-white flex items-center gap-2">
       <i class="pi pi-clone text-blue-400"></i>
@@ -19,19 +19,19 @@
     @for (device of devicesResource.value()?.data; track device.id) {
       <div 
         class="flex items-center justify-between p-4 rounded-lg transition-all duration-300"
-        [class]="isCurrentDevice(device) 
+        [class]="isCurrentDeviceFn(device) 
           ? 'bg-gradient-to-r from-green-900/70 to-green-800/50 border-l-4 border-green-500 shadow-md shadow-green-900/10' 
           : 'bg-gray-700/70 hover:bg-gray-600 border-l-4 border-transparent hover:border-blue-500/50'"
       >
         <div class="flex items-center gap-4">
           <div class="w-12 h-12 flex items-center justify-center rounded-lg" 
-               [class]="isCurrentDevice(device) ? 'bg-green-800 text-green-400' : 'bg-gray-600 text-gray-300'">
+               [class]="isCurrentDeviceFn(device) ? 'bg-green-800 text-green-400' : 'bg-gray-600 text-gray-300'">
             <i [class]="device.isMobile ? 'pi pi-mobile text-2xl' : 'pi pi-desktop text-2xl'"></i>
           </div>
           <div>
             <div class="flex items-center gap-2 mb-1">
               <h4 class="font-medium text-white">{{ device.brand }} {{ device.isMobile ? 'Smartphone' : 'PC' }}</h4>
-              @if (isCurrentDevice(device)) {
+              @if (isCurrentDeviceFn(device)) {
                 <span class="px-2 py-0.5 bg-green-600 text-xs text-white rounded-full flex items-center gap-1">
                   <span class="h-1.5 w-1.5 bg-green-200 rounded-full animate-pulse"></span>
                   Actual
@@ -49,17 +49,6 @@
                 {{ device.browser }}
               </p>
             </div>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <!-- <span class="text-xs text-gray-400">
-            {{ device || 'Hace 10 minutos' }}
-          </span> -->
-          <div class="relative">
-            <!-- <button class="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-              <i class="pi pi-ellipsis-v"></i>
-            </button> -->
-            <!-- Menú desplegable podría ir aquí -->
           </div>
         </div>
       </div>
