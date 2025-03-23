@@ -15,18 +15,22 @@ export class NotificationService {
     return this._http.get<apiResponse<any>>(url);
   }
 
-  notificationSuscribe(userId: number, subscription: any): Observable<any> {
-    const url = `${environment.apiUrl}/notifications/subscribe`;
-    return this._http.post<any>(url, { userId, subscription });
-  }
+  // notificationSuscribe(userId: number, subscription: any): Observable<any> {
+  //   const url = `${environment.apiUrl}/notifications/subscribe`;
+  //   return this._http.post<any>(url, { userId, subscription });
+  // }
 
-  notificationSubscribeWithDevice(userId: number, deviceId: number, subscription: any) {
+  notificationSubscribeWithDevice(
+    userId: number,
+    deviceId: number,
+    subscription: any
+  ) {
     const url = `${environment.apiUrl}/notifications/subscribe/${userId}/${deviceId}`;
-  
-    return this._http.post<apiResponse<any>>(url ,{subscription});
+
+    return this._http.post<apiResponse<any>>(url, { subscription });
   }
 
-  hasSubscription(userId: number,): Observable<{ hasSubscription: boolean }> {
+  hasSubscription(userId: number): Observable<{ hasSubscription: boolean }> {
     const url = `${environment.apiUrl}/notifications/has-subscription/${userId}`;
     return this._http.get<{ hasSubscription: boolean }>(url);
   }
@@ -41,15 +45,9 @@ export class NotificationService {
     return this._http.get<any>(url);
   }
 
-
-
-  
   // Método para desuscribir con deviceId
   unsubscribeWithDevice(userId: number, deviceId: number) {
-    const url = `${environment.apiUrl}/notifications/unsubscribe`;
-    const payload = { userId, deviceId };
-    return this._http.post<apiResponse<any>>(url, payload);
+    const url = `${environment.apiUrl}/notifications/unsubscribe/${userId}/${deviceId}`;
+    return this._http.delete(url);
   }
-
-
 }
