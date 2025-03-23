@@ -7,7 +7,9 @@
       </div>
       <h3 class="text-xl font-semibold text-white mb-1">Dispositivo no sincronizado</h3>
       <p class="text-gray-300 mb-6">Necesitas sincronizar este dispositivo para recibir notificaciones</p>
-      <button routerLink="/devices" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 mx-auto transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+      <button 
+       (click)="goToDevices()"
+       class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 mx-auto transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
         <i class="pi pi-mobile"></i>
         <span>Ir a Dispositivos</span>
       </button>
