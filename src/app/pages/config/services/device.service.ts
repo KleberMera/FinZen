@@ -4,6 +4,10 @@ import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Device } from '@models/device';
 
+interface hasNotificationsResponse {
+  hasNotifications: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -22,6 +26,6 @@ export class DeviceService {
 
   hasNotifications(userId: number, deviceId: number) {
     const url = `${environment.apiUrl}/device/has-notifications/${deviceId}/${userId}`;
-    return this._http.get<apiResponse<boolean>>(url);
+    return this._http.get<hasNotificationsResponse>(url);
   }
 }

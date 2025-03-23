@@ -98,21 +98,36 @@ export class TabNotificationComponent {
      return;
    }
 
-   this._notifications.hasSubscription(this.userId()).subscribe({
-     next: (response) => {
-       if (response.hasSubscription) {
-         this.notificationStatus.set('enabled');
-       } else if (Notification.permission === 'granted') {
-         this.notificationStatus.set('granted-no-subscription');
-       } else {
-         this.notificationStatus.set('disabled');
-       }
-     },
-     error: (error) => {
-       console.error('Error al verificar la suscripción:', error);
-       this.notificationStatus.set('disabled');
-     },
-   });
+   const userId = this.userId();
+  const deviceId = this.currentDeviceId();
+
+// Verificar si el dispositivo actual tiene notificaciones activadas
+this._deviceService.hasNotifications(userId, deviceId!).subscribe({
+  next: (response) => {
+    if (response.hasNotifications!) {
+      this.notificationStatus.set('enabled');
+    } else {
+      // Si no tiene notificaciones en este dispositivo, verificar suscripción general
+      this._notifications.hasSubscription(userId).subscribe({
+        next: (subResponse) => {
+          if (subResponse.hasSubscription) {
+            this.notificationStatus.set('granted-no-subscription');
+          } else {
+            this.notificationStatus.set('disabled'); // No tiene ni notificaciones ni suscripción, permite activar
+          }
+        },
+        error: (error) => {
+          console.error('Error al verificar la suscripción:', error);
+          this.notificationStatus.set('disabled');
+        },
+      });
+    }
+  },
+  error: (error) => {
+    console.error('Error al verificar notificaciones del dispositivo:', error);
+    this.notificationStatus.set('disabled');
+  },
+});
  }
 
  // Manejar el clic en el botón de notificaciones

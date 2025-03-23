@@ -97,12 +97,12 @@
               </div>
             </div>
             <button (click)="onNotificationClick()" 
-                    [disabled]="subscriptionCount() >= 2"
-                    class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-200 shadow-md"
-                    [class.opacity-50]="subscriptionCount() >= 2"
-                    [class.cursor-not-allowed]="subscriptionCount() >= 2">
-              <i class="pi pi-bell mr-2"></i> Activar notificaciones
-            </button>
+            [disabled]="subscriptionCount() >= 2"
+            class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-200 shadow-md"
+            [class.opacity-50]="subscriptionCount() >= 2"
+            [class.cursor-not-allowed]="subscriptionCount() >= 2">
+      <i class="pi pi-bell mr-2"></i> Activar notificaciones
+    </button>
           </div>
         }
       }
