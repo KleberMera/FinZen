@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -23,4 +23,27 @@ export class ForgotPassService {
     const url = `${environment.apiUrl}/firebase/reset-password`;
     return this._http.post<{ message: string }>(url, { code, newPassword });
   }
+
+  private stageSignal = signal<'user-validation' | 'code-verification' | 'password-reset' | 'success'>('user-validation');
+  private emailSignal = signal<string>('');
+  private codeSignal = signal<string>('');
+
+  // Señales de solo lectura para exponer los valores
+  stage = this.stageSignal.asReadonly();
+  email = this.emailSignal.asReadonly();
+  code = this.codeSignal.asReadonly();
+
+  // Métodos para actualizar los valores
+  setStage(newStage: 'user-validation' | 'code-verification' | 'password-reset' | 'success') {
+    this.stageSignal.set(newStage);
+  }
+
+  setEmail(email: string) {
+    this.emailSignal.set(email);
+  }
+
+  setCode(code: string) {
+    this.codeSignal.set(code);
+  }
+  
 }

@@ -1,0 +1,71 @@
+<div class="text-center mb-6">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mx-auto w-16 h-16 text-primary-500 mb-4">
+      <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+      Verificación de Código
+    </h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+      Se ha enviado un código de verificación a: 
+      <span class="font-semibold">{{ email()}}</span>
+    </p>
+  </div>
+  
+  <form [formGroup]="codeForm" (ngSubmit)="verifyCode()" class="space-y-6">
+    <div class="flex justify-center space-x-2">
+      @for (item of [0,1,2,3,4,5]; track $index) {
+        <input 
+          type="text" 
+          maxlength="1"
+          (input)="onInput($event, $index)"
+          (keydown)="onKeydown($event, $index)"
+          (paste)="onPaste($event, $index)"
+          class="w-12 h-12 text-center text-xl border-2 rounded-lg 
+            focus:border-primary-500 focus:outline-none 
+            dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          #codeInput
+        />
+      }
+    </div>
+  
+    @if (codeForm.get('code')?.invalid && codeForm.get('code')?.touched) {
+      <p class="text-center text-sm text-red-600 dark:text-red-500">
+        @if (codeForm.get('code')?.errors?.['required']) {
+          El código de verificación es obligatorio
+        } @else if (codeForm.get('code')?.errors?.['minlength'] || codeForm.get('code')?.errors?.['maxlength']) {
+          El código debe tener 6 dígitos
+        }
+      </p>
+    }
+  
+    <button
+      type="submit"
+      [disabled]="codeForm.invalid || isLoading"
+      class="w-full flex items-center justify-center text-white bg-primary-600 
+        hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 
+        font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+        transition-colors duration-300 ease-in-out
+        disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      @if (isLoading) {
+        <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      }
+      Verificar Código
+    </button>
+  
+    <div class="text-center mt-4">
+      <button 
+        type="button" 
+        (click)="resendCode()"
+        class="text-sm text-primary-600 hover:underline flex items-center justify-center mx-auto"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 mr-2">
+          <path fill="currentColor" d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/>
+        </svg>
+        Reenviar Código
+      </button>
+    </div>
+  </form>
