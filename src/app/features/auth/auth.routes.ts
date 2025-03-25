@@ -35,3 +35,6 @@ export const authRoutes: Routes = [
     redirectTo: AUTH_PAGES.LOGIN,
   },
 ];
+
+
+export default authRoutes;

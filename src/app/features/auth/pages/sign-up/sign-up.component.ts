@@ -23,6 +23,7 @@ import { SpinnerComponent } from '../../components/icons/spinner/spinner.compone
 import { UserCicleIconComponent } from '../../components/icons/user-cicle-icon/user-cicle-icon.component';
 import { AuthService } from '../../services/auth.service';
 import { FirebaseService } from '../../services/firebase.service';
+import { AUTH_PAGES } from '../../auth.routes';
 
 @Component({
   selector: 'app-sign-up',
@@ -53,6 +54,7 @@ export default class SignUpComponent {
   protected readonly _BreakpointService = inject(BreakpointService);
   readonly isSubmitting = signal<boolean>(false);
   readonly isGoogleLoading = signal(false);
+  readonly pages = signal(AUTH_PAGES.LOGIN);
   showPassword = signal<boolean>(false);
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {

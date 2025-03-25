@@ -69,3 +69,6 @@ export const pagesRoutes: Routes = [
     ],
   },
 ];
+
+
+export default pagesRoutes;

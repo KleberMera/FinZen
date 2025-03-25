@@ -5,6 +5,23 @@ export enum FEATURE_PAGES {
 }
 
 export const routes: Routes = [
+  // {
+  //   path: 'auth',
+  //   children: authRoutes,
+  // },
+  // {
+  //   path: 'home',
+  //   children: pagesRoutes,
+  // },
+  // {
+  //   path: '',
+  //   redirectTo: 'auth',
+  //   pathMatch: 'full',
+  // },
+  // {
+  //   path: '**',
+  //   redirectTo: 'auth',
+  // }
   {
     path: '',
     children: [
@@ -17,21 +34,20 @@ export const routes: Routes = [
       {
         path: FEATURE_PAGES.AUTH,
         loadChildren: () =>
-          import('./features/auth/auth.routes').then((m) => m.authRoutes),
+          import('./features/auth/auth.routes')
       },
       {
         path: FEATURE_PAGES.HOME,
         loadChildren: () =>
-          import('./pages/pages.routes').then((m) => m.pagesRoutes),
+          import('./pages/pages.routes')
       },
       {
         path: '**',
         redirectTo: FEATURE_PAGES.AUTH,
-      },
-      {
+      },{
         path: '**',
         redirectTo: FEATURE_PAGES.HOME,
-      },
+      }
     ],
   },
 ];

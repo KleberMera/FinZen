@@ -21,6 +21,7 @@ import {
   SignComponent,
   LoadingGoogleComponent,
 } from '../../components';
+import { AUTH_PAGES } from '../../auth.routes';
 
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
@@ -52,6 +53,7 @@ export default class LoginComponent {
   readonly isSubmitting = signal<boolean>(false);
   readonly showPassword = signal<boolean>(false);
   readonly isGoogleLoading = signal(false);
+  readonly pages = signal(AUTH_PAGES.FORGOTPASSWORD);
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
