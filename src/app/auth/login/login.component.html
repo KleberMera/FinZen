@@ -55,7 +55,8 @@
           <!-- Formulario -->
           <form class="space-y-5" [formGroup]="form()" (ngSubmit)="onSubmit()">
             <!-- Campo Usuario -->
-            <div>
+            
+            <div class="relative">
               <label for="user" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
                 Nombre de Usuario
               </label>
@@ -64,12 +65,13 @@
                   <app-user-cicle-icon></app-user-cicle-icon>
                 </span>
                 <input type="text" name="user" id="user" formControlName="user"
-                  class="w-full pl-10 px-4 py-3 lg:py-4 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full pl-10 px-4 py-3 lg:py-4  text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   [class.border-red-500]="isFieldInvalid('user')" placeholder="Ingresa tu usuario" />
-                @if (isFieldInvalid('user')) {
-                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
-                }
+                  
               </div>
+              @if (isFieldInvalid('user')) {
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
+              }
             </div>
 
             <!-- Campo Contraseña -->
@@ -82,7 +84,7 @@
                   <lock-icon></lock-icon>
                 </span>
                 <input [type]="showPassword() ? 'text' : 'password'" name="password" id="password" formControlName="password"
-                  class="w-full pl-10 pr-12 py-3 lg:py-4 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full pl-10 pr-12 py-3 lg:py-4 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   [class.border-red-500]="isFieldInvalid('password')" placeholder="••••••••" />
                 <button type="button" (click)="showPassword.set(!showPassword())"
                   class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
