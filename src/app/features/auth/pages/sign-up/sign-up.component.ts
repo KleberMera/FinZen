@@ -1,22 +1,28 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+
 import { FormValidationService } from '@services/form-validation.service';
 import { toast } from 'ngx-sonner';
-import { GoogleComponent } from '../icons/google/google.component';
-import { FirebaseService } from '../services/firebase.service';
-import { LoadingGoogleComponent } from '../components/loading-google/loading-google.component';
+
 import { StorageService } from '@services/storage.service';
 import { User } from '@models/user';
-import { LockComponent } from "../../shared/icons/lock/lock.component";
-import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
-import { EyeComponent } from "../icons/eye/eye.component";
+
+
 import { BreakpointService } from '@services/breakpoint.service';
-import { LogoComponent } from "../../shared/icons/logo/logo.component";
-import { UserCicleIconComponent } from "../icons/user-cicle-icon/user-cicle-icon.component";
-import { SpinnerComponent } from "../icons/spinner/spinner.component";
-import { SignComponent } from "../icons/sign/sign.component";
+
+
+import { LockComponent } from '@icons/lock/lock.component';
+import { LogoComponent } from '@icons/logo/logo.component';
+import { LoadingGoogleComponent } from '../../components/icons/loading-google/loading-google.component';
+import { EyeSlashComponent } from '../../components/icons/eye-slash/eye-slash.component';
+import { EyeComponent } from '../../components/icons/eye/eye.component';
+import { GoogleComponent } from '../../components/icons/google/google.component';
+import { SignComponent } from '../../components/icons/sign/sign.component';
+import { SpinnerComponent } from '../../components/icons/spinner/spinner.component';
+import { UserCicleIconComponent } from '../../components/icons/user-cicle-icon/user-cicle-icon.component';
+import { AuthService } from '../../services/auth.service';
+import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -36,7 +42,7 @@ import { SignComponent } from "../icons/sign/sign.component";
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
 })
-export class SignUpComponent {
+export default class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
   private readonly _firebaseService = inject(FirebaseService);

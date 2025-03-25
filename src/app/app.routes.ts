@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authRoutes } from './auth/auth.routes';
+import { authRoutes } from './features/auth/auth.routes';
 import { pagesRoutes } from './pages/pages.routes';
 
 export enum FEATURE_PAGES {
@@ -37,7 +37,7 @@ export const routes: Routes = [
       {
         path: FEATURE_PAGES.AUTH,
         loadChildren: () =>
-          import('./auth/auth.routes').then((m) => m.authRoutes),
+          import('./features/auth/auth.routes').then((m) => m.authRoutes),
       },
       {
         path: FEATURE_PAGES.HOME,

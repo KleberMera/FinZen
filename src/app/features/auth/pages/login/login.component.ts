@@ -1,37 +1,48 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
+
+import { BreakpointService } from '@services/breakpoint.service';
+
+import { AuthService } from '../../services/auth.service';
+import { FirebaseService } from '../../services/firebase.service';
+import { LockComponent } from '@icons/lock/lock.component';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
-import { LockComponent } from '@icons/lock/lock.component';
-import { FirebaseService } from '../services/firebase.service';
-import { UserCicleIconComponent } from "../icons/user-cicle-icon/user-cicle-icon.component";
-import { GoogleComponent } from "../icons/google/google.component";
-import { EyeComponent } from "../icons/eye/eye.component";
-import { EyeSlashComponent } from "../icons/eye-slash/eye-slash.component";
-import { SpinnerComponent } from "../icons/spinner/spinner.component";
-import { SignComponent } from "../icons/sign/sign.component";
-import { LoadingGoogleComponent } from "../components/loading-google/loading-google.component";
-import { BreakpointService } from '@services/breakpoint.service';
+import {
+  UserCicleIconComponent,
+  GoogleComponent,
+  EyeComponent,
+  EyeSlashComponent,
+  SpinnerComponent,
+  SignComponent,
+  LoadingGoogleComponent,
+} from '../../components';
 
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [IconsApp, RouterLink, ReactiveFormsModule, LockComponent, UserCicleIconComponent, GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent],
+  imports: [
+    IconsApp,
+    RouterLink,
+    ReactiveFormsModule,
+    LockComponent,
+    UserCicleIconComponent,
+    GoogleComponent,
+    EyeComponent,
+    EyeSlashComponent,
+    SpinnerComponent,
+    SignComponent,
+    LoadingGoogleComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export default class LoginComponent {
   private readonly _authService = inject(AuthService);
   private readonly _firebaseService = inject(FirebaseService);
   private readonly _router = inject(Router);
