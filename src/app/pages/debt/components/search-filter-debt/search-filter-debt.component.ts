@@ -5,6 +5,7 @@ import { StorageService } from '@services/storage.service';
 import { FormsModule } from '@angular/forms';
 import { SkeletonDebtsComponent } from '../skeleton/skeleton-debts/skeleton-debts.component';
 import { RouterLink } from '@angular/router';
+import { NEVER } from 'rxjs';
 
 @Component({
   selector: 'app-search-filter-debt',
@@ -31,8 +32,15 @@ export class SearchFilterDebtComponent {
 
   filteredDebts = rxResource({
     request: () => ({ id: this.selectedDebt() }),
-    loader: ({ request }) => this._filter.getDebtByIdData(request.id!),
+    loader: ({ request }) => this.isSelectedDebtEmpty(request.id)? NEVER : this._filter.getDebtByIdData(request.id),
   });
+
+  //retorna los datos de la deuda seleccionada
+  isSelectedDebtEmpty(id : number) {
+    console.log('id: ', id);
+    
+    return id === 0 || id === null;
+  }
 
   // Método para refrescar los datos
   refreshDebtData(): void {
