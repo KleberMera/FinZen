@@ -5,10 +5,10 @@ import { StorageService } from '@services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { ModalCategoryComponent } from '../modal-category/modal-category.component';
 import { ModalCategoryDeleteComponent } from '../modal-category-delete/modal-category-delete.component';
-import { LoaderComponent } from '@components/loader/loader.component';
+
 import { CardSkeletonComponent } from "../../components/card-skeleton/card-skeleton.component";
 import { HeaderCategoryComponent } from '../../components/header-category/header-category.component';
-import { NgClass, NgFor } from '@angular/common';
+
 
 export const Modals = [ModalCategoryComponent, ModalCategoryDeleteComponent];
 @Component({
