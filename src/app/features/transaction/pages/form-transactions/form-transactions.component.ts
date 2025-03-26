@@ -13,7 +13,7 @@ import { CategoryName } from '@models/category';
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })
-export class FormTransactionsComponent {
+export default class FormTransactionsComponent {
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
 

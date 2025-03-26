@@ -20,7 +20,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
-export class TableTransactionComponent {
+export default class TableTransactionComponent {
  transactionName = signal<string>('');
   categoryName = signal<string>('');
   type = signal<string>('');

@@ -22,12 +22,12 @@ import { VerifyCodeComponent } from '../../components/verify-code/verify-code.co
 })
 export default class ForgotPasswordComponent {
   private _forgotService = inject(ForgotPassService);
-  private readonly _router = inject(Router);
+ // private readonly _router = inject(Router);
   readonly pages = signal(AUTH_PAGES.LOGIN);
 
   stage = this._forgotService.stage;
-  
-  stageC = effect(() => {
+
+  state = effect(() => {
     if (this.pages() === AUTH_PAGES.LOGIN) {
       this._forgotService.setStage('user-validation');
     }

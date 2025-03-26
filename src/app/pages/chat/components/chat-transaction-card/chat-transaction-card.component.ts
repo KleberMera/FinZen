@@ -1,9 +1,10 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Transaction } from '@models/transaction';
-import { TransactionService } from '../../../transaction/services/transaction.service';
+
 import { toast } from 'ngx-sonner';
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
+import { TransactionService } from '../../../../features/transaction/services/transaction.service';
 
 
 @Component({

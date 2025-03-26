@@ -3,14 +3,15 @@ import { SalesComponent } from './sales/sales.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChartsFinanceComponent } from './charts-finance/charts-finance.component';
 import { CategoryComponent } from './category/category.component';
-import { TableTransactionComponent } from './transaction/ui/table-transaction/table-transaction.component';
-import { FormTransactionsComponent } from './transaction/ui/form-transactions/form-transactions.component';
+
 import { RegisterDebtComponent } from './debt/ui/register-debt/register-debt.component';
 import { ListDebtComponent } from './debt/ui/list-debt/list-debt.component';
 import { LayoutComponent } from '../layout/layout.component';
 import { ChatComponent } from './chat/ui/chat/chat.component';
 import { RegisterMetaComponent } from './goals/ui/register-meta/register-meta.component';
 import { ConfigComponent } from './config/ui/config/config.component';
+import FormTransactionsComponent from '../features/transaction/pages/form-transactions/form-transactions.component';
+import TableTransactionComponent from '../features/transaction/pages/table-transaction/table-transaction.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -19,47 +20,77 @@ export const pagesRoutes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        loadComponent: () =>
+          import('./dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
       },
+
       {
         path: 'categorias',
-        component: CategoryComponent,
+        loadComponent: () =>
+          import('./category/category.component').then(
+            (m) => m.CategoryComponent
+          ),
       },
       {
         path: 'sales',
-        component: SalesComponent,
+        loadComponent: () =>
+          import('./sales/sales.component').then((m) => m.SalesComponent),
       },
       {
         path: 'transacciones',
-        component: FormTransactionsComponent,
+        loadComponent: () =>
+          import(
+            '../features/transaction/pages/form-transactions/form-transactions.component'
+          ),
       },
       {
         path: 'movimientos',
-        component: TableTransactionComponent,
+        loadComponent: () =>
+          import(
+            '../features/transaction/pages/table-transaction/table-transaction.component'
+          ),
       },
       {
         path: 'graficas',
-        component: ChartsFinanceComponent,
+        loadComponent: () =>
+          import('./charts-finance/charts-finance.component').then(
+            (m) => m.ChartsFinanceComponent
+          ),
       },
       {
         path: 'deudas',
-        component: RegisterDebtComponent,
+        loadComponent: () =>
+          import('./debt/ui/register-debt/register-debt.component').then(
+            (m) => m.RegisterDebtComponent
+          ),
       },
       {
         path: 'deudas-seguimiento',
-        component: ListDebtComponent,
+        loadComponent: () =>
+          import('./debt/ui/list-debt/list-debt.component').then(
+            (m) => m.ListDebtComponent
+          ),
       },
       {
         path: 'metas',
-        component: RegisterMetaComponent
-      },
-      {
-        path: 'chat',
-        component: ChatComponent
+        loadComponent: () =>
+          import('./goals/ui/register-meta/register-meta.component').then(
+            (m) => m.RegisterMetaComponent
+          ),
       },
       {
         path: 'configuracion',
-        component: ConfigComponent,
+        loadComponent: () =>
+          import('./config/ui/config/config.component').then(
+            (m) => m.ConfigComponent
+          ),
+      },
+      {
+        path: 'chat',
+        loadComponent: () =>
+          import('./chat/ui/chat/chat.component').then((m) => m.ChatComponent),
       },
 
       {
@@ -69,6 +100,5 @@ export const pagesRoutes: Routes = [
     ],
   },
 ];
-
 
 export default pagesRoutes;
