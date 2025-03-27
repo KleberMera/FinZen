@@ -5,7 +5,7 @@ export enum CONFIG_PAGES {
   //MOVIMIENTOS = 'movimientos',
 }
 
-export const transactionRoutes: Routes = [
+export const configRoutes: Routes = [
   {
     path: '',
     children: [
@@ -19,4 +19,4 @@ export const transactionRoutes: Routes = [
     ],
   },
 ];
-export default transactionRoutes;
+export default configRoutes;

@@ -31,7 +31,7 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             loadComponent: () =>
-              import('./pages/dashboard/dashboard.component').then(
+              import('./features/dashboard/dashboard.component').then(
                 (m) => m.DashboardComponent
               ),
           },
@@ -46,14 +46,35 @@ export const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('./features/debt/debt.routes').then(
-                (m) => m.transactionRoutes
+                (m) => m.debtRoutes
               ),
           },
           {
             path: '',
             loadChildren: () =>
               import('./features/config/config.routes').then(
-                (m) => m.transactionRoutes
+                (m) => m.configRoutes
+              ),
+          },
+          {
+            path: '',
+            loadChildren: () =>
+              import('./features/goals/goal.routes').then(
+                (m) => m.goalRoutes
+              ),
+          },
+          {
+            path: '',
+            loadChildren: () =>
+              import('./features/chat/chat.routes').then(
+                (m) => m.chatRoutes
+              ),
+          },
+          {
+            path: '',
+            loadChildren: () =>
+              import('./features/category/category.routes').then(
+                (m) => m.categoryRoutes
               ),
           },
           {

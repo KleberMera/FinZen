@@ -5,7 +5,7 @@ export enum DEBT_PAGES {
   DEBT_SEGUIMIENTO = 'deudas-seguimiento',
 }
 
-export const transactionRoutes: Routes = [
+export const debtRoutes: Routes = [
   {
     path: '',
     children: [
@@ -26,4 +26,4 @@ export const transactionRoutes: Routes = [
     ],
   },
 ];
-export default transactionRoutes;
+export default debtRoutes;
