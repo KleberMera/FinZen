@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdvancedGraficsComponent } from './advanced-grafics.component';
+import { CardSalaryComponent } from './card-salary.component';
 
-describe('AdvancedGraficsComponent', () => {
-  let component: AdvancedGraficsComponent;
-  let fixture: ComponentFixture<AdvancedGraficsComponent>;
+describe('CardSalaryComponent', () => {
+  let component: CardSalaryComponent;
+  let fixture: ComponentFixture<CardSalaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdvancedGraficsComponent]
+      imports: [CardSalaryComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdvancedGraficsComponent);
+    fixture = TestBed.createComponent(CardSalaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

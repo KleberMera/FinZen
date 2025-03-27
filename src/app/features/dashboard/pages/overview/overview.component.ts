@@ -1,16 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { DashboardHeaderComponent } from "./components/dashboard-header/dashboard-header.component";
-import { CardNotificationComponent } from "./components/card-notification/card-notification.component";
-import { CardGoalsComponent } from "./components/card-goals/card-goals.component";
-import { CalendarComponent } from "./components/calendar/calendar.component";
-import { CardDebtSummaryComponent } from "./components/card-debt-summary/card-debt-summary.component";
-import { CardCategoriesDistributionComponent } from "./components/card-categories-distribution/card-categories-distribution.component";
-import { TimelineTransactionComponent } from "./components/timeline-transaction/timeline-transaction.component";
-import { AdvancedGraficsComponent } from "./components/advanced-grafics/advanced-grafics.component";
-
-
-
+import { DashboardHeaderComponent } from "../../components/dashboard-header/dashboard-header.component";
+import { CardSalaryComponent } from "../../components/card-salary/card-salary.component";
+import { CardMovementsComponent } from "../../components/card-movements/card-movements.component";
+import { CardDebtSummaryComponent } from "../../components/card-debt-summary/card-debt-summary.component";
+import { CardCategoriesDistributionComponent } from "../../components/card-categories-distribution/card-categories-distribution.component";
+import { TimelineTransactionComponent } from "../../components/timeline-transaction/timeline-transaction.component";
+import { CalendarComponent } from "../../components/calendar/calendar.component";
+import { CardNotificationComponent } from "../../components/card-notification/card-notification.component";
+import { CardGoalsComponent } from "../../components/card-goals/card-goals.component";
 interface DebtSummary {
   totalDebt: number;
   nextPaymentDate: string;
@@ -43,13 +40,13 @@ interface SavingGoal {
   progress: number;
 }
 @Component({
-  selector: 'app-dashboard',
-  imports: [CommonModule, DashboardHeaderComponent, CardNotificationComponent, CardGoalsComponent, CalendarComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent, TimelineTransactionComponent, AdvancedGraficsComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  selector: 'app-overview',
+  imports: [DashboardHeaderComponent, CardSalaryComponent, CardMovementsComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent, TimelineTransactionComponent, CalendarComponent, CardNotificationComponent, CardGoalsComponent],
+  templateUrl: './overview.component.html',
+  styleUrl: './overview.component.scss'
 })
-export default class DashboardComponent {
-  // Datos aleatorios
+export default class OverviewComponent {
+// Datos aleatorios
 
 // Estado para notificaciones
 

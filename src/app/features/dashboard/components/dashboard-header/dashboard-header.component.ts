@@ -3,8 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { BalanceService } from '../../services/balance.service';
-import { CardDebtCategoryComponent } from "../card-debt-category/card-debt-category.component";
-import { AdvancedGraficsComponent } from "../advanced-grafics/advanced-grafics.component";
+
 import { format } from '@formkit/tempo';
 
 @Component({
