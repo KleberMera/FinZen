@@ -70,13 +70,7 @@ export const pagesRoutes: Routes = [
             (m) => m.RegisterMetaComponent
           ),
       },
-      {
-        path: 'configuracion',
-        loadComponent: () =>
-          import('./config/ui/config/config.component').then(
-            (m) => m.ConfigComponent
-          ),
-      },
+     
       {
         path: 'chat',
         loadComponent: () =>

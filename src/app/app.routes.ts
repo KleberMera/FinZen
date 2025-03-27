@@ -50,6 +50,13 @@ export const routes: Routes = [
               ),
           },
           {
+            path: '',
+            loadChildren: () =>
+              import('./features/config/config.routes').then(
+                (m) => m.transactionRoutes
+              ),
+          },
+          {
             path: '**',
             redirectTo: 'dashboard',
           },
