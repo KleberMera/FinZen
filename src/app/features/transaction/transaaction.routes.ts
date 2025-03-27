@@ -1,16 +1,27 @@
 import { Routes } from '@angular/router';
 
 export enum TRANSACTION_PAGES {
-  TRANSACCIONES = 'transacciones',
+  ROOT = 'transacciones',
+  REGISTRO = 'registro',
   MOVIMIENTOS = 'movimientos',
 }
 
+export interface Root {
+  trasaccion: Trasaccion
+}
+
+export interface Trasaccion {
+  registro: string
+  movimientos: string
+}
+
+
 export const transactionRoutes: Routes = [
   {
-    path: '',
+    path:  TRANSACTION_PAGES.ROOT,
     children: [
       {
-        path: TRANSACTION_PAGES.TRANSACCIONES,
+        path: TRANSACTION_PAGES.REGISTRO,
         loadComponent: () =>
           import('./pages/form-transactions/form-transactions.component'),
       },

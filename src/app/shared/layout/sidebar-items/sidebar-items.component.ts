@@ -9,6 +9,7 @@ import { TagComponent } from '@icons/tag/tag.component';
 import { menuAnimations } from './menu-animatios';
 import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
 import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-settings.component';
+import { TRANSACTION_PAGES } from '../../../features/transaction/transaaction.routes';
 
 
 interface MenuItem {
@@ -64,11 +65,11 @@ export class SidebarItemsComponent {
       subItems: [
         {
           label: 'Registro',
-          route: 'transacciones',
+          route: `${TRANSACTION_PAGES.ROOT}/${TRANSACTION_PAGES.REGISTRO}`,
         },
         {
           label: 'Movimientos',
-          route: 'movimientos',
+          route: `${TRANSACTION_PAGES.ROOT}/${TRANSACTION_PAGES.MOVIMIENTOS}`,
         },
 
       ],

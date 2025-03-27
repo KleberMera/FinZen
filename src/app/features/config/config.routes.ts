@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 export enum CONFIG_PAGES {
   CONFIGURACION = 'configuracion',
-  //MOVIMIENTOS = 'movimientos',
 }
 
 export const configRoutes: Routes = [
