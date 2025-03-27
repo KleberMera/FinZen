@@ -31,51 +31,32 @@ export const routes: Routes = [
           {
             path: 'dashboard',
             loadComponent: () =>
-              import('./features/dashboard/dashboard.component').then(
-                (m) => m.DashboardComponent
-              ),
+              import('./features/dashboard/dashboard.component'),
           },
           {
             path: '',
             loadChildren: () =>
-              import('./features/transaction/transaaction.routes').then(
-                (m) => m.transactionRoutes
-              ),
+              import('./features/transaction/transaaction.routes'),
           },
           {
             path: '',
-            loadChildren: () =>
-              import('./features/debt/debt.routes').then(
-                (m) => m.debtRoutes
-              ),
+            loadChildren: () => import('./features/debt/debt.routes'),
           },
           {
             path: '',
-            loadChildren: () =>
-              import('./features/config/config.routes').then(
-                (m) => m.configRoutes
-              ),
+            loadChildren: () => import('./features/config/config.routes'),
           },
           {
             path: '',
-            loadChildren: () =>
-              import('./features/goals/goal.routes').then(
-                (m) => m.goalRoutes
-              ),
+            loadChildren: () => import('./features/goals/goal.routes'),
           },
           {
             path: '',
-            loadChildren: () =>
-              import('./features/chat/chat.routes').then(
-                (m) => m.chatRoutes
-              ),
+            loadChildren: () => import('./features/chat/chat.routes'),
           },
           {
             path: '',
-            loadChildren: () =>
-              import('./features/category/category.routes').then(
-                (m) => m.categoryRoutes
-              ),
+            loadChildren: () => import('./features/category/category.routes'),
           },
           {
             path: '**',

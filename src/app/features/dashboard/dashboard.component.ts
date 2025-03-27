@@ -48,7 +48,7 @@ interface SavingGoal {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
+export default class DashboardComponent {
   // Datos aleatorios
 
 // Estado para notificaciones
