@@ -8,37 +8,7 @@ import { TimelineTransactionComponent } from "../../components/timeline-transact
 import { CalendarComponent } from "../../components/calendar/calendar.component";
 import { CardNotificationComponent } from "../../components/card-notification/card-notification.component";
 import { CardGoalsComponent } from "../../components/card-goals/card-goals.component";
-interface DebtSummary {
-  totalDebt: number;
-  nextPaymentDate: string;
-  nextPaymentAmount: number;
-  totalPending: number;
-}
 
-interface CategoryDistribution {
-  name: string;
-  amount: number;
-  percentage: number;
-  color: string;
-}
-
-interface Transaction {
-  id: number;
-  name: string;
-  amount: number;
-  category: string;
-  date: string;
-  type: 'ingreso' | 'gasto';
-}
-
-interface SavingGoal {
-  id: number;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  deadline: string;
-  progress: number;
-}
 @Component({
   selector: 'app-overview',
   imports: [DashboardHeaderComponent, CardSalaryComponent, CardMovementsComponent, CardDebtSummaryComponent, CardCategoriesDistributionComponent, TimelineTransactionComponent, CalendarComponent, CardNotificationComponent, CardGoalsComponent],
@@ -46,84 +16,5 @@ interface SavingGoal {
   styleUrl: './overview.component.scss'
 })
 export default class OverviewComponent {
-// Datos aleatorios
 
-// Estado para notificaciones
-
-daysBeforeNotify: number = 2;
-
-// Datos del calendario
-
-
-
-// Datos financieros
-debtSummary?: DebtSummary;
-categoryDistribution: CategoryDistribution[] = [];
-recentTransactions: Transaction[] = [];
-savingGoals: SavingGoal[] = [];
-
-
-
-ngOnInit(): void {
-  this.initializeData();
- // this.generateCalendar();
-  this.loadNotificationPreferences();
-}
-
-private initializeData(): void {
-  // Cargar resumen de deudas
-  this.loadDebtSummary();
-  // Cargar distribución de categorías
-  this.loadCategoryDistribution();
-  // Cargar transacciones recientes
-  this.loadRecentTransactions();
-  // Cargar metas de ahorro
-  this.loadSavingGoals();
-}
-
-private loadDebtSummary(): void {
- 
-}
-
-private loadCategoryDistribution(): void {
- 
-}
-
-private loadRecentTransactions(): void {
-  
-}
-
-private loadSavingGoals(): void {
- 
-}
-
-
-
-
-
-private loadNotificationPreferences(): void {
- 
-}
-
-
-
-getTransactionClass(amount: number): string {
-  return amount > 0 
-    ? 'text-green-600 dark:text-green-400' 
-    : 'text-red-600 dark:text-red-400';
-}
-
-// Manejadores de eventos
-
-onTogglePushNotifications(enabled: boolean): void {
-  
-}
-
-onUpdateNotificationDays(days: number): void {
- 
-}
-
-onAddSavingGoal(): void {
-  // Implementar lógica para agregar nueva meta
-}
 }
