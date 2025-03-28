@@ -48,9 +48,13 @@ export class UserProfileSidebarComponent {
     this._storageService.setTheme(theme!);
 
     toast.success('Sesión cerrada');
+    
   }
-
+  isOpen = false;
   close() {
     this.closeSidebar.emit();
+    this.isOpen = false;
   }
+
+  
 }

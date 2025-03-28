@@ -3,8 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { WeeklyDataItem } from '@models/grafic';
-
-import { Observable, of, switchMap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
