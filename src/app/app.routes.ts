@@ -27,7 +27,6 @@ export const routes: Routes = [
             pathMatch: 'full',
             redirectTo: 'dashboard', // Redirige a "dashboard" cuando accedas a "HOME" sin ruta específica.
           },
-
           {
             path: 'dashboard',
             loadComponent: () =>
