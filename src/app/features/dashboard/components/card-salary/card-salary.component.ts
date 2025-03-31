@@ -10,6 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Salary } from '@models/salary';
 
 @Component({
   selector: 'app-card-salary',
@@ -23,9 +24,10 @@ export class CardSalaryComponent {
   seletdUserId = signal(this._storage.getUserId());
   lenguaje = signal<string>('es');
   timeNow = signal<any>(new Date());
-  private _fb = inject(FormBuilder);
   currentMonth = signal<any>(format(this.timeNow(), 'MMMM', this.lenguaje()));
-  currenDate = signal<any>(format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje()));
+  currenDate = signal<any>(
+    format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
+  );
 
   salary = rxResource({
     request: () => ({
@@ -38,13 +40,6 @@ export class CardSalaryComponent {
         request.currentMonth
       ),
   });
-  // Propiedades para el formulario
-  // salaryForm: FormGroup = this._fb.group({
-  //   salary_amount: [null, [Validators.required, Validators.min(0)]],
-  //   effective_date: [new Date(), Validators.required],
-  //   description: [''],
-  //   month_name: ['', Validators.required],
-  // });
 
   salaryForm = signal<FormGroup>(
     new FormGroup({
@@ -61,23 +56,22 @@ export class CardSalaryComponent {
   onSubmit() {
     if (this.salaryForm().valid) {
       const salaryData = {
-        userId: this.seletdUserId(),
-        effective_date: this.currenDate(),
+        user_id: this.seletdUserId(),
         ...this.salaryForm().value,
-      };
+      } as Salary;
 
       console.log('salaryData: ', salaryData);
       this.salary.reload();
 
-      // this._salaryService.createSalary(salaryData).subscribe({
-      //   next: (response) => {
-      //     // Recargar los datos del salario después de guardar
-      //     this.salary.reload();
-      //   },
-      //   error: (error) => {
-      //     console.error('Error al guardar salario', error);
-      //   },
-      // });
+      this._salaryService.createSalary(salaryData).subscribe({
+        next: (response) => {
+          // Recargar los datos del salario después de guardar
+          this.salary.reload();
+        },
+        error: (error) => {
+          console.error('Error al guardar salario', error);
+        },
+      });
     }
   }
 
@@ -85,11 +79,13 @@ export class CardSalaryComponent {
     effect(() => {
       this.salaryForm().patchValue({
         month_name: this.capitalizeFirstLetter(this.currentMonth()),
+        effective_date: this.currenDate(),
       });
       console.log(
         'currentMonthSelected: ',
         this.capitalizeFirstLetter(this.currentMonth())
       );
+      console.log('currentDateSelected: ', this.currenDate());
     });
   }
 
