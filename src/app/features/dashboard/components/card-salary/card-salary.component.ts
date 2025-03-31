@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { SalaryService } from '../../services/salary.service';
@@ -10,11 +10,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Salary } from '@models/salary';
+import { MonthlyExpenseRequest, Salary } from '@models/salary';
+import { CurrencyPipe, UpperCasePipe } from '@angular/common';
+import { apiResponse } from '@models/apiResponse';
 
 @Component({
   selector: 'app-card-salary',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CurrencyPipe],
   templateUrl: './card-salary.component.html',
   styleUrl: './card-salary.component.scss',
 })
@@ -24,12 +26,16 @@ export class CardSalaryComponent {
   seletdUserId = signal(this._storage.getUserId());
   lenguaje = signal<string>('es');
   timeNow = signal<any>(new Date());
-  currentMonth = signal<any>(format(this.timeNow(), 'MMMM', this.lenguaje()));
-  currenDate = signal<any>(
-    format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
-  );
 
-  salary = rxResource({
+  currentMonth = computed(() => format(this.timeNow(), 'MMMM', this.lenguaje()));
+  currentMonthNumber = computed(() => format(this.timeNow(), 'M', this.lenguaje()));
+  currenDate = computed(() => format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje()));
+  currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
+
+  salary = rxResource<
+    apiResponse<Salary[]>,
+    { userId: number; currentMonth: string }
+  >({
     request: () => ({
       userId: this.seletdUserId(),
       currentMonth: this.currentMonth(),
@@ -92,4 +98,36 @@ export class CardSalaryComponent {
   capitalizeFirstLetter(value: string): string {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
+
+  expenseByMonth = rxResource({
+    request: () => ({
+      userId: this.seletdUserId(),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getTotalExpenseByUserAndMonth(request),
+  });
+
+  percentage = computed(() => {
+    const salaryData = this.salary.value()?.data?.[0]?.salary_amount;
+    const expenseData = this.expenseByMonth.value()?.data?.total;
+    if (salaryData && expenseData !== undefined) {
+      const salaryAmount = parseFloat(String(salaryData));
+      const totalExpense = expenseData;
+      return Math.min(Math.round((totalExpense / salaryAmount) * 100), 100);
+    }
+    return 0;
+  });
+
+  remaining = computed(() => {
+    const salaryData = this.salary.value()?.data?.[0]?.salary_amount;
+    const expenseData = this.expenseByMonth.value()?.data?.total;
+    if (salaryData && expenseData !== undefined) {
+      const salaryAmount = parseFloat(String(salaryData));
+      const totalExpense = expenseData;
+      return Math.max(salaryAmount - totalExpense, 0);
+    }
+    return 0;
+  });
 }

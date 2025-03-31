@@ -6,3 +6,10 @@ export interface Salary {
     month_name: string;
     description?: string;
   }
+
+
+ export  interface MonthlyExpenseRequest {
+    userId: number;
+    month: number;
+    year: number;
+  }
