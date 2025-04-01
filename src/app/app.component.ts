@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { initFlowbite } from 'flowbite';
+//import { initFlowbite } from 'flowbite';
 import { NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
@@ -21,6 +21,6 @@ export class AppComponent {
       document.documentElement.classList.remove('dark');
     }
     localStorage.setItem('theme', theme);
-    initFlowbite();
+   // initFlowbite();
   }
 }
