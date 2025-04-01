@@ -20,9 +20,9 @@ export class SalaryService {
   getSalaryByMonth(
     userId: number,
     month: string
-  ): Observable<apiResponse<Salary[]>> {
-    const url = `${environment.apiUrl}/salary/user/${userId}?${month}`;
-    return this._http.get<apiResponse<Salary[]>>(url);
+  ): Observable<apiResponse<Salary>> {
+    const url = `${environment.apiUrl}/salary/user/${userId}/month?month=${month}`;
+    return this._http.get<apiResponse<Salary>>(url);
   }
 
   createSalary(salary: Salary): Observable<apiResponse<Salary>> {

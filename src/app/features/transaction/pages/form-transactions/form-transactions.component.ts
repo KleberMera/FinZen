@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -10,11 +10,11 @@ import { apiResponse } from '@models/apiResponse';
 import { Salary } from '@models/salary';
 import { SalaryService } from '../../../dashboard/services/salary.service';
 import { format } from '@formkit/tempo';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, JsonPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'form-transactions',
-  imports: [ReactiveFormsModule, FormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, FormsModule, CurrencyPipe, JsonPipe],
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })
@@ -54,7 +54,10 @@ export default class FormTransactionsComponent {
   categories = rxResource({
     request: () => ({ userId: this.seletedUser(), type: this.selectedType() }),
     loader: ({ request }) =>
-      this._transactionService.getCategoryTypeByUserId(request.userId, request.type),
+      this._transactionService.getCategoryTypeByUserId(
+        request.userId,
+        request.type
+      ),
   });
 
   public readonly form = this._transactionService.formTransaction();
@@ -90,8 +93,11 @@ export default class FormTransactionsComponent {
           toast.success(res.message);
           this.form().reset();
           this.isSubmitting.set(false);
-          this.salary.reload();
-          this.expenseByMonth.reload();
+          this.stateReset.set(true);
+          // this.dataReload();
+          this.form().patchValue({
+            time: new Date().toLocaleTimeString('en-US', { hour12: false }),
+          });
         });
     } catch (error) {
       console.log(error);
@@ -99,77 +105,95 @@ export default class FormTransactionsComponent {
     }
   }
 
-    salary = rxResource<
-      apiResponse<Salary[]>,
-      { userId: number; currentMonth: string }
-    >({
-      request: () => ({
-        userId: this.seletedUser(),
-        currentMonth: this.currentMonth(),
-      }),
-      loader: ({ request }) =>
-        this._salaryService.getSalaryByMonth(
-          request.userId,
-          request.currentMonth
-        ),
-    });
-    currentMonthNumber = computed(() =>
-      format(this.timeNow(), 'M', this.lenguaje())
-    );
-    currenDate = computed(() =>
-      format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
-    );
-    currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
-  
+  salary = rxResource<
+    apiResponse<Salary>,
+    { userId: number; currentMonth: string }
+  >({
+    request: () => ({
+      userId: this.seletedUser(),
+      currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getSalaryByMonth(
+        request.userId,
+        request.currentMonth
+      ),
+  });
 
-    expenseByMonth = rxResource({
-      request: () => ({
-        userId: this.seletedUser(),
-        month: parseInt(this.currentMonthNumber()),
-        year: parseInt(this.currenYear()),
-      }),
-      loader: ({ request }) =>
-        this._salaryService.getTotalExpenseByUserAndMonth(request),
-    });
+  capitalizeFirstLetter(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+  currentMonthNumber = computed(() =>
+    format(this.timeNow(), 'M', this.lenguaje())
+  );
+  currenDate = computed(() =>
+    format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
+  );
+  currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
 
-    incomeByMonth = rxResource({
-      request: () => ({
-        userId: this.seletedUser(),
-        month: parseInt(this.currentMonthNumber()),
-        year: parseInt(this.currenYear()),
-      }),
-      loader: ({ request }) =>
-        this._salaryService.getTotalIncomeByUserAndMonth(request),
+  expenseByMonth = rxResource({
+    request: () => ({
+      userId: this.seletedUser(),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getTotalExpenseByUserAndMonth(request),
+  });
+
+  stateReset = signal(false);
+
+  constructor() {
+    effect(() => {
+      if (this.stateReset() === true) {
+        this.salary.reload();
+        this.expenseByMonth.reload();
+        this.incomeByMonth.reload();
+        this.stateReset.set(false);
+        this.isSubmitting.set(false);
+      }
     });
-  
+  }
+
+  incomeByMonth = rxResource({
+    request: () => ({
+      userId: this.seletedUser(),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getTotalIncomeByUserAndMonth(request),
+  });
+
   // Método para calcular el porcentaje de gasto
   percentage = computed(() => {
-    const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+    const salaryData = this.salary.value()?.data?.salary_amount || 0;
     const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-    const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+    const totalIncome =
+      parseFloat(String(salaryData)) + parseFloat(String(incomeData));
     const expenseData = this.expenseByMonth.value()?.data?.total || 0;
     if (totalIncome > 0) {
       return Math.min(Math.round((expenseData / totalIncome) * 100), 100);
     }
     return 0;
   });
-  
+
   // Método para calcular el monto restante
   remaining = computed(() => {
-    const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+    const salaryData = this.salary.value()?.data?.salary_amount || 0;
     const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-    const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+    const totalIncome =
+      parseFloat(String(salaryData)) + parseFloat(String(incomeData));
     const expenseData = this.expenseByMonth.value()?.data?.total || 0;
     return Math.max(totalIncome - expenseData, 0);
   });
-  
+
   //SEñal computada del total mas ingresos
   totalIncome = computed(() => {
-    const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+    const salaryData = this.salary.value()?.data?.salary_amount || 0;
     const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-    const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+    const totalIncome =
+      parseFloat(String(salaryData)) + parseFloat(String(incomeData));
     return totalIncome;
   });
-
-
 }

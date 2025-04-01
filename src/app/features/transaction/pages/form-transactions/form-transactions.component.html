@@ -1,5 +1,7 @@
 
-@defer (on viewport) {
+@if (salary.isLoading() || incomeByMonth.isLoading() || expenseByMonth.isLoading()) {
+
+}@else {
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
     <div class="mb-6">
       <!-- Encabezado con ícono y título -->
@@ -15,7 +17,7 @@
           <h3 class="text-base font-medium text-white">Resumen Financiero</h3>
         </div>
         <span class="text-xs font-medium px-2.5 py-1.5 rounded-full bg-cyan-900/30 text-cyan-400">
-          {{ salary.value()?.data![0].month_name }}
+          {{ salary.value()?.data!.month_name }}
         </span>
       </div>
       
@@ -30,7 +32,7 @@
             </svg>
             <span class="text-sm text-gray-300">Salario</span>
           </div>
-          <span class="text-lg font-semibold text-white">{{ salary.value()?.data![0].salary_amount | currency }}</span>
+          <span class="text-lg font-semibold text-white">{{ salary.value()?.data!.salary_amount | currency }}</span>
         </div>
         
         <div class="bg-gray-700/50 p-3 rounded-lg">
@@ -151,6 +153,10 @@
       }
     </div>
   </div>
+}
+
+@defer (on viewport) {
+ 
 
 
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
@@ -382,6 +388,10 @@
           </label>
         </div>
       </div> -->
+
+      <div>
+        <span> {{form().value | json}}</span>
+      </div>
   
       <!-- Botones -->
       <div class="flex items-center justify-end gap-4">

@@ -64,12 +64,12 @@ export class CardSalaryComponent {
   }
 
   salary = rxResource<
-    apiResponse<Salary[]>,
+    apiResponse<Salary>,
     { userId: number; currentMonth: string }
   >({
     request: () => ({
       userId: this.seletdUserId(),
-      currentMonth: this.currentMonth(),
+      currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
     }),
     loader: ({ request }) =>
       this._salaryService.getSalaryByMonth(
@@ -128,7 +128,7 @@ export class CardSalaryComponent {
 
 // Método para calcular el porcentaje de gasto
 percentage = computed(() => {
-  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const salaryData = this.salary.value()?.data?.salary_amount || 0;
   const incomeData = this.incomeByMonth.value()?.data?.total || 0;
   const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
   const expenseData = this.expenseByMonth.value()?.data?.total || 0;
@@ -140,7 +140,7 @@ percentage = computed(() => {
 
 // Método para calcular el monto restante
 remaining = computed(() => {
-  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const salaryData = this.salary.value()?.data?.salary_amount || 0;
   const incomeData = this.incomeByMonth.value()?.data?.total || 0;
   const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
   const expenseData = this.expenseByMonth.value()?.data?.total || 0;
@@ -149,7 +149,7 @@ remaining = computed(() => {
 
 //SEñal computada del total mas ingresos
 totalIncome = computed(() => {
-  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const salaryData = this.salary.value()?.data?.salary_amount || 0;
   const incomeData = this.incomeByMonth.value()?.data?.total || 0;
   const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
   return totalIncome;

@@ -65,7 +65,7 @@
     </div>
     <div
       class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md hover:shadow-lg">
-      @if (salary.value()?.data?.length! > 0) {
+      @if (salary.value()?.data !== undefined) {
         <div class="">
           <!-- Encabezado con título y mes -->
           <div class="flex items-center justify-between mb-5">
@@ -80,7 +80,7 @@
               <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Seguimiento de Ingresos</h3>
             </div>
             <span class="text-xs font-medium px-3 py-1.5 rounded-full bg-cyan-100 dark:bg-cyan-900/50 text-cyan-700 dark:text-cyan-300">
-              {{ salary.value()?.data![0].month_name }}
+              {{ salary.value()?.data!.month_name }}
             </span>
           </div>
           
@@ -94,7 +94,7 @@
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Salario</span>
               </div>
               <p class="text-xl font-bold text-gray-800 dark:text-white">
-                {{ salary.value()?.data![0].salary_amount | currency }}
+                {{ salary.value()?.data!.salary_amount | currency }}
               </p>
             </div>
             
