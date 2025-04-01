@@ -14,7 +14,7 @@ import { CurrencyPipe, JsonPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'form-transactions',
-  imports: [ReactiveFormsModule, FormsModule, CurrencyPipe, JsonPipe],
+  imports: [ReactiveFormsModule, FormsModule, CurrencyPipe],
   templateUrl: './form-transactions.component.html',
   styleUrl: './form-transactions.component.scss',
 })

@@ -1,7 +1,40 @@
 
 @if (salary.isLoading() || incomeByMonth.isLoading() || expenseByMonth.isLoading()) {
+  <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+    <div class="mb-6">
+      <!-- Skeleton header -->
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center space-x-3">
+          <div class="h-9 w-9 bg-gray-600 rounded-lg animate-pulse"></div>
+          <div class="h-5 w-32 bg-gray-600 rounded animate-pulse"></div>
+        </div>
+        <div class="h-7 w-24 bg-gray-600 rounded-full animate-pulse"></div>
+      </div>
 
-}@else {
+      <!-- Skeleton income grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+        <div class="bg-gray-700/50 p-3 rounded-lg">
+          <div class="h-4 w-20 bg-gray-600 rounded mb-2 animate-pulse"></div>
+          <div class="h-6 w-28 bg-gray-600 rounded animate-pulse"></div>
+        </div>
+        <div class="bg-gray-700/50 p-3 rounded-lg">
+          <div class="h-4 w-24 bg-gray-600 rounded mb-2 animate-pulse"></div>
+          <div class="h-6 w-28 bg-gray-600 rounded animate-pulse"></div>
+        </div>
+        <div class="bg-gray-700/50 p-3 rounded-lg">
+          <div class="h-4 w-24 bg-gray-600 rounded mb-2 animate-pulse"></div>
+          <div class="h-6 w-28 bg-gray-600 rounded animate-pulse"></div>
+        </div>
+      </div>
+
+      <!-- Skeleton progress bar -->
+      <div class="relative">
+        <div class="h-2 bg-gray-600 rounded animate-pulse mb-4"></div>
+        <div class="h-10 w-full bg-gray-600 rounded animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+} @else {
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
     <div class="mb-6">
       <!-- Encabezado con ícono y título -->
@@ -389,9 +422,7 @@
         </div>
       </div> -->
 
-      <div>
-        <span> {{form().value | json}}</span>
-      </div>
+      
   
       <!-- Botones -->
       <div class="flex items-center justify-end gap-4">
