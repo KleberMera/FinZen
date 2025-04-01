@@ -78,15 +78,7 @@ export class CardSalaryComponent {
       ),
   });
 
-  expenseByMonth = rxResource({
-    request: () => ({
-      userId: this.seletdUserId(),
-      month: parseInt(this.currentMonthNumber()),
-      year: parseInt(this.currenYear()),
-    }),
-    loader: ({ request }) =>
-      this._salaryService.getTotalExpenseByUserAndMonth(request),
-  });
+
 
 
 
@@ -113,28 +105,53 @@ export class CardSalaryComponent {
     }
   }
 
-
-  // Método para calcular el porcentaje de salario
-  percentage = computed(() => {
-    const salaryData = this.salary.value()?.data?.[0]?.salary_amount;
-    const expenseData = this.expenseByMonth.value()?.data?.total;
-    if (salaryData && expenseData !== undefined) {
-      const salaryAmount = parseFloat(String(salaryData));
-      const totalExpense = expenseData;
-      return Math.min(Math.round((totalExpense / salaryAmount) * 100), 100);
-    }
-    return 0;
+  expenseByMonth = rxResource({
+    request: () => ({
+      userId: this.seletdUserId(),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getTotalExpenseByUserAndMonth(request),
   });
 
-  // Método para calcular el salario restante
-  remaining = computed(() => {
-    const salaryData = this.salary.value()?.data?.[0]?.salary_amount;
-    const expenseData = this.expenseByMonth.value()?.data?.total;
-    if (salaryData && expenseData !== undefined) {
-      const salaryAmount = parseFloat(String(salaryData));
-      const totalExpense = expenseData;
-      return Math.max(salaryAmount - totalExpense, 0);
-    }
-    return 0;
+
+  incomeByMonth = rxResource({
+    request: () => ({
+      userId: this.seletdUserId(),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getTotalIncomeByUserAndMonth(request),
   });
+
+// Método para calcular el porcentaje de gasto
+percentage = computed(() => {
+  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
+  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+  const expenseData = this.expenseByMonth.value()?.data?.total || 0;
+  if (totalIncome > 0) {
+    return Math.min(Math.round((expenseData / totalIncome) * 100), 100);
+  }
+  return 0;
+});
+
+// Método para calcular el monto restante
+remaining = computed(() => {
+  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
+  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+  const expenseData = this.expenseByMonth.value()?.data?.total || 0;
+  return Math.max(totalIncome - expenseData, 0);
+});
+
+//SEñal computada del total mas ingresos
+totalIncome = computed(() => {
+  const salaryData = this.salary.value()?.data?.[0]?.salary_amount || 0;
+  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
+  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
+  return totalIncome;
+});
 }

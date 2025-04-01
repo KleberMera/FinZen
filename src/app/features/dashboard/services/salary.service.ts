@@ -36,4 +36,12 @@ export class SalaryService {
     const url = `${environment.apiUrl}/transaction/user/total/month`;
     return this._http.post<apiResponse<{ total: number }>>(url, data);
   }
+
+
+  getTotalIncomeByUserAndMonth(
+    data: MonthlyExpenseRequest
+  ): Observable<apiResponse<{ total: number }>>{
+    const url = `${environment.apiUrl}/transaction/user/total/income/month`;
+    return this._http.post<apiResponse<{ total: number }>>(url, data);
+  }
 }
