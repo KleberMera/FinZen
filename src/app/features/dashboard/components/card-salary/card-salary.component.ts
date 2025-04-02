@@ -5,7 +5,7 @@ import { SalaryService } from '../../services/salary.service';
 import { format } from '@formkit/tempo';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Salary } from '@models/salary';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 import { apiResponse } from '@models/apiResponse';
 import { toast } from 'ngx-sonner';
 

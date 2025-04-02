@@ -65,7 +65,63 @@
     </div>
     <div
       class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md hover:shadow-lg">
-      @if (salary.value()?.data !== undefined) {
+      @if (salary.value()?.data === null) {
+        <div class="text-left text-gray-500 dark:text-gray-400 ">
+          <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+            <span class="flex items-center">
+              <i class="pi pi-wallet mr-2"></i>
+              Registrar Salario
+            </span>
+        </h2>
+          <form [formGroup]="salaryForm()" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <label for="salary_amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Sueldo</label>
+              <input 
+                placeholder="Ingresa tu salario"
+                type="number" 
+                id="salary_amount" 
+                formControlName="salary_amount"
+                class="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200">
+            </div>
+            <div class="mb-4">
+              <label for="month_name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Mes</label>
+              <select 
+                id="month_name" 
+                formControlName="month_name"
+                class="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200">
+                <option value="Enero">Enero</option>
+                <option value="Febrero">Febrero</option>
+                <option value="Marzo">Marzo</option>
+                <option value="Abril">Abril</option>
+                <option value="Mayo">Mayo</option>
+                <option value="Junio">Junio</option>
+                <option value="Julio">Julio</option>
+                <option value="Agosto">Agosto</option>
+                <option value="Septiembre">Septiembre</option>
+                <option value="Octubre">Octubre</option>
+                <option value="Noviembre">Noviembre</option>
+                <option value="Diciembre">Diciembre</option>
+              </select>
+            </div> 
+            <div class="mb-4">
+              <label for="description" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Descripción (Opcional)</label>
+              <textarea 
+                id="description" 
+                formControlName="description" 
+                rows="2"
+                class="w-full p-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+                placeholder="Añade una descripción"></textarea>
+                      </div>
+                      <button 
+                        type="submit"
+                        [class.opacity-50]="!salaryForm().valid"
+                        [disabled]="!salaryForm().valid"
+                        class=" px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:bg-cyan-500 dark:hover:bg-cyan-600 disabled:cursor-not-allowed disabled:hover:bg-cyan-600">
+                        Guardar Salario
+                      </button>
+                        </form>
+        </div>
+      } @else {
         <div class="">
           <!-- Encabezado con título y mes -->
           <div class="flex items-center justify-between mb-5">
@@ -155,45 +211,7 @@
       
           
         </div>
-      } @else {
-      <div class="text-left text-gray-500 dark:text-gray-400 mt-4">
-        <form [formGroup]="salaryForm()" (ngSubmit)="onSubmit()">
-          <div class="mb-4">
-            <label for="salary_amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Sueldo</label>
-            <input 
-            placeholder="Ingresa tu sueldo"
-            type="number" id="salary_amount" formControlName="salary_amount"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-          </div>
-          <div class="mb-4">
-            <label for="month_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mes</label>
-            <select id="month_name" formControlName="month_name"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <option value="Enero">Enero</option>
-              <option value="Febrero">Febrero</option>
-              <option value="Marzo">Marzo</option>
-              <option value="Abril">Abril</option>
-              <option value="Mayo">Mayo</option>
-              <option value="Junio">Junio</option>
-              <option value="Julio">Julio</option>
-              <option value="Agosto">Agosto</option>
-              <option value="Septiembre">Septiembre</option>
-              <option value="Octubre">Octubre</option>
-              <option value="Noviembre">Noviembre</option>
-              <option value="Diciembre">Diciembre</option>
-            </select>
-          </div> 
-          <div class="mb-4">
-            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción (Opcional)</label>
-            <textarea id="description" formControlName="description" rows="2"
-              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              placeholder="Añade una descripción"></textarea>
-          </div>
-          <button type="submit"
-            class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:bg-cyan-500 dark:hover:bg-cyan-600">Guardar
-            Salario</button>
-        </form>
-      </div>
+
       }
   
   
