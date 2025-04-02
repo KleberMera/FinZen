@@ -65,12 +65,13 @@
                   <app-user-cicle-icon></app-user-cicle-icon>
                 </span>
                 <input type="text" name="name" id="name" formControlName="name"
-                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
                   [class.border-red-500]="isFieldInvalid('name')" placeholder="Ingresa tus nombres" />
-                @if (isFieldInvalid('name')) {
-                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("name") }}</p>
-                }
+          
               </div>
+              @if (isFieldInvalid('name')) {
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("name") }}</p>
+              }
             </div>
 
             <!-- Campo Apellidos -->
@@ -83,13 +84,15 @@
                   <app-user-cicle-icon></app-user-cicle-icon>
                 </span>
                 <input type="text" name="last_name" id="last_name" formControlName="last_name"
-                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
                   [class.border-red-500]="isFieldInvalid('last_name')" placeholder="Ingresa tus apellidos" />
-                @if (isFieldInvalid('last_name')) {
-                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("last_name") }}</p>
-                }
+              
               </div>
+              @if (isFieldInvalid('last_name')) {
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("last_name") }}</p>
+              }
             </div>
+            
 
             <!-- Campo Usuario -->
             <div>
@@ -101,12 +104,13 @@
                   <app-user-cicle-icon></app-user-cicle-icon>
                 </span>
                 <input type="text" name="user" id="user" formControlName="user"
-                  class="w-full pl-10 px-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
                   [class.border-red-500]="isFieldInvalid('user')" placeholder="Ingresa tu usuario" />
-                @if (isFieldInvalid('user')) {
-                  <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
-                }
+         
               </div>
+              @if (isFieldInvalid('user')) {
+                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("user") }}</p>
+              }
             </div>
 
             <!-- Campo Contraseña -->
@@ -119,7 +123,7 @@
                   <lock-icon></lock-icon>
                 </span>
                 <input [type]="showPassword() ? 'text' : 'password'" name="password" id="password" formControlName="password"
-                  class="w-full pl-10 pr-12 py-3 rounded-xl border focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300"
+                  class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
                   [class.border-red-500]="isFieldInvalid('password')" placeholder="••••••••" />
                 <button type="button" (click)="showPassword.set(!showPassword())"
                   class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
