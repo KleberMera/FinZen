@@ -58,6 +58,10 @@ export const routes: Routes = [
             loadChildren: () => import('./features/category/category.routes'),
           },
           {
+            path:'',
+            loadChildren: () => import('./features/grafic/grafic.routes'),
+          },
+          {
             path: '**',
             redirectTo: 'dashboard',
           },

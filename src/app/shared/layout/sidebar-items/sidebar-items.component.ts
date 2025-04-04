@@ -10,6 +10,7 @@ import { menuAnimations } from './menu-animatios';
 import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
 import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-settings.component';
 import { TRANSACTION_PAGES } from '../../../features/transaction/transaaction.routes';
+import { ChartIconComponent } from '@icons/chart-icon/chart-icon.component';
 
 
 interface MenuItem {
@@ -109,6 +110,19 @@ export class SidebarItemsComponent {
         {
           label: 'Chat',
           route: 'chat',
+         // route: 'metas',
+        },
+               
+      ],
+    },
+    {
+      type: 'dropdown',
+      label: 'Charts',
+      icon: ChartIconComponent,
+      subItems: [
+        {
+          label: 'Estadisticas',
+          route: 'estadisticas',
          // route: 'metas',
         },
                
