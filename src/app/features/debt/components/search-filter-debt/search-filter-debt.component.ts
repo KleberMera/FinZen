@@ -37,8 +37,6 @@ export class SearchFilterDebtComponent {
 
   //retorna los datos de la deuda seleccionada
   isSelectedDebtEmpty(id : number) {
-    console.log('id: ', id);
-    
     return id === 0 || id === null;
   }
 
