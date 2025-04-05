@@ -14,7 +14,7 @@ import { NEVER } from 'rxjs';
   styleUrl: './search-filter-debt.component.scss',
 })
 export class SearchFilterDebtComponent {
-  protected readonly selectedDebtId = signal<number>(0);
+  protected readonly selectedDebtId = signal<any>('');
   protected readonly _filter = inject(FilterDebtService);
   protected readonly _storage = inject(StorageService);
 
@@ -36,8 +36,8 @@ export class SearchFilterDebtComponent {
   });
 
   //retorna los datos de la deuda seleccionada
-  isSelectedDebtEmpty(id : number) {
-    return id === 0 || id === null;
+  isSelectedDebtEmpty(id : number | string): boolean {
+    return id === 0 || id === null  || id === '' ;
   }
 
   // Método para refrescar los datos
