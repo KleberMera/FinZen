@@ -1,1 +1,16 @@
-<p>chart-month works!</p>
+<div class="chart-container p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+    <apx-chart
+      [series]="chartOptions().series"
+      [chart]="chartOptions().chart"
+      [xaxis]="chartOptions().xaxis"
+      [yaxis]="chartOptions().yaxis"
+      [stroke]="chartOptions().stroke"
+      [dataLabels]="chartOptions().dataLabels"
+      [legend]="chartOptions().legend"
+      [fill]="chartOptions().fill"
+      [plotOptions]="chartOptions().plotOptions"
+      [colors]="chartOptions().colors"
+      [grid]="chartOptions().grid"
+      [tooltip]="chartOptions().tooltip"
+    ></apx-chart>
+  </div>

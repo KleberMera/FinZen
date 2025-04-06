@@ -80,9 +80,14 @@
   </div>
 </div>
 
-
 @if (currentMonthData.isLoading()) {
-
-}@else {
-<app-chart-month [chartData]="currentMonthData.value()?.data!"></app-chart-month>
+  <div class="flex justify-center items-center p-4">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300"></div>
+  </div>
+} @else if (currentMonthData.error()) {
+  <div class="text-red-500 p-4">
+    Error al cargar los datos
+  </div>
+} @else {
+  <app-chart-month [chartData]="currentMonthData.value()?.data!"></app-chart-month>
 }
