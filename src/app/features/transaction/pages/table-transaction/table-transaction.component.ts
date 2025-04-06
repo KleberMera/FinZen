@@ -11,12 +11,13 @@ import { apiResponse } from '@models/apiResponse';
 import { Transaction, TransactionName } from '@models/transaction';
 import { CategoryName } from '@models/category';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { GeneratePdfTransactionComponent } from "../../components/generate-pdf-transaction/generate-pdf-transaction.component";
 
 
 
 @Component({
   selector: 'table-transaction',
-  imports: [FormsModule, ViewDesktopComponent, ViewMobileComponent, SkeletonFiltersComponent, SkeletonTableTransactionComponent],
+  imports: [FormsModule, ViewDesktopComponent, ViewMobileComponent, SkeletonFiltersComponent, SkeletonTableTransactionComponent, GeneratePdfTransactionComponent],
   templateUrl: './table-transaction.component.html',
   styleUrl: './table-transaction.component.scss',
 })
