@@ -4,10 +4,11 @@ import { format } from '@formkit/tempo';
 import { StorageService } from '@services/storage.service';
 import { GraficService } from '../../services/grafic.service';
 import { FormsModule } from '@angular/forms';
+import { ChartMonthComponent } from "../../components/chart-month/chart-month.component";
 
 @Component({
   selector: 'app-grafics',
-  imports: [FormsModule],
+  imports: [FormsModule, ChartMonthComponent],
   templateUrl: './grafics.component.html',
   styleUrl: './grafics.component.scss',
 })
@@ -20,7 +21,6 @@ export default class GraficsComponent {
   endYear = signal<any>('');
   userId = signal<number>(this._storage.getUserId());
   years: number[] = this.getYearList();
-
 
   filterValue = computed(() => ({
     ...(this.startMonth() && { startMonth: this.startMonth() }),
@@ -56,10 +56,10 @@ export default class GraficsComponent {
     this.endYear.update((x) => x);
   }
 
-
   clearFilters() {
     this.startMonth.set('');
     this.startYear.set('');
     this.endMonth.set('');
-    this.endYear.set('');}
+    this.endYear.set('');
+  }
 }
