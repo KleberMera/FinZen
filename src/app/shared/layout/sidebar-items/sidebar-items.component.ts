@@ -6,7 +6,6 @@ import { CashIconComponent } from '@icons/cash-icon/cash-icon.component';
 import { CashRegisterIconComponent } from '@icons/cash-register-icon/cash-register-icon.component';
 import { OverviewComponent } from '@icons/overview/overview.component';
 import { TagComponent } from '@icons/tag/tag.component';
-import { menuAnimations } from './menu-animatios';
 import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
 import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-settings.component';
 import { TRANSACTION_PAGES } from '../../../features/transaction/transaaction.routes';
@@ -34,12 +33,6 @@ interface SubMenuItem {
   templateUrl: './sidebar-items.component.html',
   styleUrl: './sidebar-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    menuAnimations.listAnimation,
-    menuAnimations.fadeInAnimation,
-    menuAnimations.dropdownAnimation,
-    menuAnimations.rotateAnimation
-  ]
 })
 export class SidebarItemsComponent {
   itemSelected = output<void>();
