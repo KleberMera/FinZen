@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { Transaction } from '@models/transaction';
+import generatePDF from './pdf';
 
 @Component({
   selector: 'app-generate-pdf-transaction',
@@ -10,8 +11,16 @@ import { Transaction } from '@models/transaction';
 export class GeneratePdfTransactionComponent {
   readonly data = input.required<Transaction[]>();
   generatePdf() {
-    console.log('PDF generated!');
-    console.log(this.data());
     
+
+    generatePDF(
+      this.data()
+        .filter((t) => t.category)
+        .map((t) => ({
+          ...t,
+          category: t.category!,
+        })),
+      '2023-10-03'
+    );
   }
 }

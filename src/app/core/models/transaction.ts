@@ -6,7 +6,7 @@ export interface Transaction {
   name: string;
   description: string;
   amount: number;
-  date: Date;
+  date: string;
   type?: string;
   payment_method?: string
   category?: Category;
