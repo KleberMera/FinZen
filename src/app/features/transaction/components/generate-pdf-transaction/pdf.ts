@@ -1,20 +1,11 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { variable64 } from './img'; // Asegúrate de que esta variable esté definida
+import { Transaction } from '@models/transaction';
 
 (pdfMake as any).vfs = pdfFonts.vfs;
 
 // Definimos el tipo de transacción
-type Transaction = {
-  name: string;
-  amount: string | number;
-  date: string;
-  time: string;
-  category: {
-    name: string;
-    type: string; // "Ingreso" o "Gasto"
-  };
-};
 
 const generatePDF = (transactions: Transaction[], reportDate: string) => {
   // Calcular totales
@@ -22,10 +13,10 @@ const generatePDF = (transactions: Transaction[], reportDate: string) => {
   let totalGastos = 0;
 
   transactions.forEach((transaction) => {
-    const amount = parseFloat(transaction.amount as string);
-    if (transaction.category.type === 'Ingreso') {
+    const amount = parseFloat(String(transaction.amount));
+    if (transaction.category!.type === 'Ingreso') {
       totalIngresos += amount;
-    } else if (transaction.category.type === 'Gasto') {
+    } else if (transaction.category!.type === 'Gasto') {
       totalGastos += amount;
     }
   });
@@ -43,11 +34,11 @@ const generatePDF = (transactions: Transaction[], reportDate: string) => {
     ],
     ...transactions.map((transaction) => [
       transaction.name,
-      transaction.category.name,
-      transaction.category.type,
+      transaction.category!.name,
+      transaction.category!.type,
       transaction.date,
       transaction.time,
-      `$ ${parseFloat(transaction.amount as string).toFixed(2)}`,
+      `$ ${parseFloat(String(transaction.amount)).toFixed(2)}`,
     ]),
   ];
 
@@ -181,9 +172,12 @@ const generatePDF = (transactions: Transaction[], reportDate: string) => {
     },
   };
 
-  // Generar y descargar el PDF
-  const today = new Date().toISOString().split('T')[0]; // Fecha actual para el nombre del archivo
-  pdfMake.createPdf(docDefinition).download(`reporte_transacciones_${today}.pdf`);
+  // // Generar y descargar el PDF
+  // const today = new Date().toISOString().split('T')[0]; // Fecha actual para el nombre del archivo
+  // pdfMake.createPdf(docDefinition).download(`reporte_transacciones_${today}.pdf`);
+
+  // Generar y abrir el PDF
+  pdfMake.createPdf(docDefinition).open();
 };
 
 export default generatePDF;

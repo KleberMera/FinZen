@@ -1,6 +1,7 @@
 import { Component, input } from '@angular/core';
 import { Transaction } from '@models/transaction';
 import generatePDF from './pdf';
+import { format } from '@formkit/tempo';
 
 @Component({
   selector: 'app-generate-pdf-transaction',
@@ -11,16 +12,6 @@ import generatePDF from './pdf';
 export class GeneratePdfTransactionComponent {
   readonly data = input.required<Transaction[]>();
   generatePdf() {
-    
-
-    generatePDF(
-      this.data()
-        .filter((t) => t.category)
-        .map((t) => ({
-          ...t,
-          category: t.category!,
-        })),
-      '2023-10-03'
-    );
+    generatePDF(this.data(), format( new Date(), 'YYYY-MM-DD', 'es'));
   }
 }
