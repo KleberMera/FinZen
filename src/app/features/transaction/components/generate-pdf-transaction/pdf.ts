@@ -172,12 +172,12 @@ const generatePDF = (transactions: Transaction[], reportDate: string) => {
     },
   };
 
-  // // Generar y descargar el PDF
-  // const today = new Date().toISOString().split('T')[0]; // Fecha actual para el nombre del archivo
-  // pdfMake.createPdf(docDefinition).download(`reporte_transacciones_${today}.pdf`);
+  // Generar y descargar el PDF
+  const today = new Date().toISOString().split('T')[0]; // Fecha actual para el nombre del archivo
+  pdfMake.createPdf(docDefinition).download(`reporte_transacciones_${reportDate}.pdf`);
 
   // Generar y abrir el PDF
-  pdfMake.createPdf(docDefinition).open();
+  //pdfMake.createPdf(docDefinition).open();
 };
 
 export default generatePDF;
