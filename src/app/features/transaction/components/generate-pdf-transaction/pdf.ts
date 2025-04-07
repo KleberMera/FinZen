@@ -73,7 +73,7 @@ const generatePDF = (transactions: Transaction[], reportDate: string) => {
   content.push({
     table: {
       headerRows: 1,
-      widths: ['*', '*', '*', '*', '*', '*'],
+      widths: ['*', '*', '*', '*', '*', 60],
       body: tableBody,
     },
     layout: {
