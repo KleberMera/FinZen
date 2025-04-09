@@ -12,6 +12,8 @@ import { format } from '@formkit/tempo';
 export class GeneratePdfTransactionComponent {
   readonly data = input.required<Transaction[]>();
   generatePdf() {
+    console.log(this.data());
+    
     generatePDF(this.data(), format( new Date(), 'YYYY-MM-DD', 'es'));
   }
 }

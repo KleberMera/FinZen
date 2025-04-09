@@ -32,7 +32,6 @@ export const IconsApp = [LogoComponent, UserComponent, LockComponent];
     RouterLink,
     ReactiveFormsModule,
     LockComponent,
-    UserCicleIconComponent,
     GoogleComponent,
     EyeComponent,
     EyeSlashComponent,

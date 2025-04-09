@@ -75,11 +75,7 @@ export default class SignUpComponent {
       return;
     }
 
-    if (this.form().value.password !== this.form().value.confirm_password) {
-      toast.info('Las contraseñas no coinciden');
-      return;
-    }
-
+    this.isSubmitting.set(true);
     this.form().value.username = this.randomUsername();
     //Borrar el id del formulario
     delete this.form().value.id;
@@ -90,7 +86,7 @@ export default class SignUpComponent {
       next: (res) => {
         toast.loading('Iniciando sesión...');
         const userandpass = {
-          user: user.user,
+          email: user.email,
           password: user.password,
         };
 
@@ -98,6 +94,7 @@ export default class SignUpComponent {
           next: (res) => {
             //toast.success(res.message);
             this._router.navigate(['home']);
+            this.isSubmitting.set(false);
           },
           error: (error) => {
             toast.error(error.error.message);
@@ -116,7 +113,7 @@ export default class SignUpComponent {
   randomUsername() {
     const name = this.form().value.name;
     const last_name = this.form().value.last_name;
-    const username = name.split(' ').join('') + last_name.split(' ').join('');
+    const username = `${name} ${last_name}`;
     return username;
   }
 

@@ -21,7 +21,7 @@ export class AuthService {
   formLogin(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
-        user: new FormControl(initialData.user || '', [Validators.required]),
+        email: new FormControl(initialData.email || '', [Validators.required, Validators.email]),
         password: new FormControl(initialData.password || '', [
           Validators.required,
           Validators.minLength(8),
@@ -86,7 +86,7 @@ export class AuthService {
           Validators.required,
         ]),
         username: new FormControl(initialData.username || ''),
-        user: new FormControl(initialData.user || '', [Validators.required]),
+        email : new FormControl(initialData.email || '', [Validators.email]),
         password: new FormControl(initialData.password || '', [
           Validators.required,
           Validators.minLength(8),
