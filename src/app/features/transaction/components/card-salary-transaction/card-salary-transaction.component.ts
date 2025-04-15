@@ -11,15 +11,16 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'app-card-salary-transaction',
   imports: [CurrencyPipe],
   templateUrl: './card-salary-transaction.component.html',
-  styleUrl: './card-salary-transaction.component.scss'
+  styleUrl: './card-salary-transaction.component.scss',
 })
 export class CardSalaryTransactionComponent {
   private readonly _storageService = inject(StorageService);
   private readonly _salaryService = inject(SalaryService);
-  protected readonly isSubmitting = signal(false);
+
   protected readonly seletedUser = signal<number>(
     this._storageService.getUserId()
   );
+  public readonly stateReset = signal(false);
 
   lenguaje = signal<string>('es');
   timeNow = signal<any>(new Date());
@@ -27,24 +28,7 @@ export class CardSalaryTransactionComponent {
   currentMonth = computed(() =>
     format(this.timeNow(), 'MMMM', this.lenguaje())
   );
-  salary = rxResource<
-    apiResponse<Salary>,
-    { userId: number; currentMonth: string }
-  >({
-    request: () => ({
-      userId: this.seletedUser(),
-      currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
-    }),
-    loader: ({ request }) =>
-      this._salaryService.getSalaryByMonth(
-        request.userId,
-        request.currentMonth
-      ),
-  });
 
-  capitalizeFirstLetter(value: string): string {
-    return value.charAt(0).toUpperCase() + value.slice(1);
-  }
   currentMonthNumber = computed(() =>
     format(this.timeNow(), 'M', this.lenguaje())
   );
@@ -52,6 +36,14 @@ export class CardSalaryTransactionComponent {
     format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
   );
   currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
+
+
+  salary = rxResource< apiResponse<Salary>, { userId: number; currentMonth: string } >({
+    request: () => ({ userId: this.seletedUser(), currentMonth: this.capitalizeFirstLetter(this.currentMonth()) }),
+    loader: ({ request }) => this._salaryService.getSalaryByMonth( request.userId, request.currentMonth),
+  });
+
+
 
   expenseByMonth = rxResource({
     request: () => ({
@@ -63,16 +55,23 @@ export class CardSalaryTransactionComponent {
       this._salaryService.getTotalExpenseByUserAndMonth(request),
   });
 
-  stateReset = signal(false);
-
   constructor() {
     effect(() => {
+      // console.log([
+      //   'salary',  this.salary.value()?.data,
+      //   'expenseByMonth',  this.expenseByMonth.value()?.data,
+      //   'incomeByMonth',  this.incomeByMonth.value()?.data,
+      //   'percentage',  this.percentage(),
+      //   'remaining',  this.remaining(),
+      //   'totalIncome',  this.totalIncome(),
+       
+      // ]);
+      
       if (this.stateReset() === true) {
         this.salary.reload();
         this.expenseByMonth.reload();
         this.incomeByMonth.reload();
         this.stateReset.set(false);
-        this.isSubmitting.set(false);
       }
     });
   }
@@ -118,4 +117,9 @@ export class CardSalaryTransactionComponent {
       parseFloat(String(salaryData)) + parseFloat(String(incomeData));
     return totalIncome;
   });
+
+  capitalizeFirstLetter(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
 }
