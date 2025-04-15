@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   signal,
   viewChild,
@@ -13,7 +12,6 @@ import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
 import { CategoryName } from '@models/category';
-import { SalaryService } from '../../../dashboard/services/salary.service';
 import { CardSalaryTransactionComponent } from '../../components/card-salary-transaction/card-salary-transaction.component';
 
 @Component({

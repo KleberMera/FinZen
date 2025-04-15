@@ -1,5 +1,5 @@
 <div class="space-y-4 pb-20">
-  @for (transaccion of filteredTransactions().data; track transaccion.id) {
+  @for (transaccion of sortBy(); track transaccion.id) {
   <div
     (click)="onTransactionClick(transaccion)"
     class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transform hover:-translate-y-1 transition-all duration-200 border border-gray-200/80 dark:border-gray-700 overflow-hidden"

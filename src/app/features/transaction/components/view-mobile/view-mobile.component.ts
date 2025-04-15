@@ -21,6 +21,18 @@ export class ViewMobileComponent {
   // Nuevo Output para propagar la eliminación
   readonly deleteSuccess = output<void>();
 
+
+     readonly sortBy = computed(() => {
+      return this.filteredTransactions().data!.sort((a, b) => {
+        if (a.category?.type === 'Ingreso') {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    });
+
+
   // Outputs
   readonly pageChange = output<number>();
   readonly itemsPerPageChange = output<number>();

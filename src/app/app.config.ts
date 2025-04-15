@@ -2,6 +2,7 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   isDevMode,
+  LOCALE_ID,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
@@ -17,8 +18,13 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '@environments/environment';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import es from '@angular/common/locales/es-EC';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(es);
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: LOCALE_ID, useValue: 'es-EC' },
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimationsAsync(),
     provideRouter(routes, withComponentInputBinding()),

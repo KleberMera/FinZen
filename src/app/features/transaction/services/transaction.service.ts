@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
+import { format } from '@formkit/tempo';
 import { apiResponse } from '@models/apiResponse';
 import { Category, CategoryName } from '@models/category';
 import { Transaction } from '@models/transaction';
@@ -22,11 +23,9 @@ export class TransactionService {
         amount: new FormControl(data.amount, [Validators.required]),
         date: new FormControl(data.date, [Validators.required]),
         //  payment_method: new FormControl('efectivo', [Validators.required]),
-        time: new FormControl(
-          data.time ||
-            new Date().toLocaleTimeString('en-US', { hour12: false }),
-          [Validators.required]
-        ),
+        time: new FormControl(data.time || format(new Date(), 'hh:mm:ss', 'es'), [
+          Validators.required,
+        ]),
       })
     );
     return form;

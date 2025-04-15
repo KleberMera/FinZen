@@ -48,6 +48,17 @@ export class ViewDesktopComponent {
   readonly itemsPerPageChange = output<number>();
   private readonly _transactionService = inject(TransactionService);
 
+    //señal computada para ordenar la lista de transacciones por Ingresos o Gastos
+    readonly sortBy = computed(() => {
+      return this.filteredTransactions().data!.sort((a, b) => {
+        if (a.category?.type === 'Ingreso') {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    });
+
   // Para uso en la plantilla
   readonly Math = Math;
 
