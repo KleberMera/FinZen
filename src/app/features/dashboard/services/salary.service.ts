@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
+import { FinanceSummary } from '@models/finance';
 import { MonthlyExpenseRequest, Salary } from '@models/salary';
 import { Observable } from 'rxjs';
 
@@ -32,16 +33,25 @@ export class SalaryService {
 
   getTotalExpenseByUserAndMonth(
     data: MonthlyExpenseRequest
-  ): Observable<apiResponse<{ total: number }>>{
+  ): Observable<apiResponse<{ total: number }>> {
     const url = `${environment.apiUrl}/transaction/user/total/month`;
     return this._http.post<apiResponse<{ total: number }>>(url, data);
   }
 
-
   getTotalIncomeByUserAndMonth(
     data: MonthlyExpenseRequest
-  ): Observable<apiResponse<{ total: number }>>{
+  ): Observable<apiResponse<{ total: number }>> {
     const url = `${environment.apiUrl}/transaction/user/total/income/month`;
     return this._http.post<apiResponse<{ total: number }>>(url, data);
+  }
+
+  getFinancialSummaryAI(
+    userId: number,
+    month: number,
+    year: number
+  ): Observable<apiResponse<FinanceSummary>> {
+    const url = `${environment.apiUrl}/finance/summary/ai/${userId}`;
+    const data = { month, year };
+    return this._http.post<apiResponse<FinanceSummary>>(url, data);
   }
 }

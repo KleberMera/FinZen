@@ -6,6 +6,7 @@ import { SalaryService } from '../../../dashboard/services/salary.service';
 import { apiResponse } from '@models/apiResponse';
 import { Salary } from '@models/salary';
 import { CurrencyPipe } from '@angular/common';
+import { FinanceSummary } from '@models/finance';
 
 @Component({
   selector: 'app-card-salary-transaction',
@@ -41,6 +42,16 @@ export class CardSalaryTransactionComponent {
   salary = rxResource< apiResponse<Salary>, { userId: number; currentMonth: string } >({
     request: () => ({ userId: this.seletedUser(), currentMonth: this.capitalizeFirstLetter(this.currentMonth()) }),
     loader: ({ request }) => this._salaryService.getSalaryByMonth( request.userId, request.currentMonth),
+  });
+
+
+  salaryAiData = rxResource< apiResponse<FinanceSummary>, { userId: number; currentMonth: number; year: number } >({
+    request: () => ({ 
+      userId: this.seletedUser(), 
+      currentMonth: parseInt(this.currentMonthNumber()), 
+      year: parseInt(this.currenYear()) 
+    }),
+    loader: ({ request }) => this._salaryService.getFinancialSummaryAI(request.userId, request.currentMonth, request.year),
   });
 
 
