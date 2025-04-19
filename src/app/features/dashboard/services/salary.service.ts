@@ -54,4 +54,16 @@ export class SalaryService {
     const data = { month, year };
     return this._http.post<apiResponse<FinanceSummary>>(url, data);
   }
+
+
+
+  getFinancialSummary(
+    userId: number,
+    month: number,
+    year: number
+  ): Observable<apiResponse<FinanceSummary>> {
+    const url = `${environment.apiUrl}/finance/summary/${userId}`;
+    const data = { month, year };
+    return this._http.post<apiResponse<FinanceSummary>>(url, data);
+  }
 }

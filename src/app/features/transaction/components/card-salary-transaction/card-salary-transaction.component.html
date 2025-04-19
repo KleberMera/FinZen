@@ -1,5 +1,5 @@
 
-@if (salary.isLoading() || incomeByMonth.isLoading() || expenseByMonth.isLoading()) {
+@if (salaryData.isLoading()) {
     <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
       <div class="mb-6">
         <!-- Skeleton header -->
@@ -47,7 +47,7 @@
           <h3 class="text-sm font-medium">Finanzas</h3>
         </div>
         <span class="text-xs font-medium px-2 py-1 rounded-full bg-cyan-900/30 text-cyan-400">
-          {{ salary.value()?.data!.month_name }}
+          {{ capitalizeFirstLetter(currentMonth()) }}
         </span>
       </div>
     
@@ -61,17 +61,17 @@
               </svg>
               <span class="text-xs text-gray-300">Ingresos</span>
             </div>
-            <span class="text-sm font-bold text-cyan-400">{{ totalIncome() | currency }}</span>
+            <span class="text-sm font-bold text-cyan-400">{{ salaryData.value()?.data!.totalIncome | currency }}</span>
           </div>
           
           <div class="space-y-1 text-xs">
             <div class="flex justify-between">
               <span class="text-gray-400">Salario</span>
-              <span>{{ salary.value()?.data!.salary_amount | currency }}</span>
+              <span>{{ salaryData.value()?.data!.salaryAmount | currency }}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-400">Extras</span>
-              <span>{{ incomeByMonth.value()?.data?.total | currency }}</span>
+              <span>{{ salaryData.value()?.data!.otherIncome | currency }}</span>
             </div>
           </div>
         </div>
@@ -84,19 +84,19 @@
               </svg>
               <span class="text-xs text-gray-300">Gastos</span>
             </div>
-            <span class="text-sm font-bold">{{ expenseByMonth.value()?.data!.total | currency }}</span>
+            <span class="text-sm font-bold">{{ salaryData.value()?.data!.totalExpenses | currency }}</span>
           </div>
           
           <div class="space-y-1 text-xs">
             <div class="flex justify-between">
               <span class="text-gray-400">Porcentaje</span>
               <span 
-                [class]="percentage() < 50 ? 'text-cyan-400' : percentage() < 80 ? 'text-yellow-400' : 'text-red-400'"
-              >{{ percentage() }}%</span>
+                [class]="salaryData.value()?.data!.expensePercentage < 50 ? 'text-cyan-400' : (salaryData.value()?.data!.expensePercentage) < 80 ? 'text-yellow-400' : 'text-red-400'"
+              >{{ salaryData.value()?.data!.expensePercentage }}%</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-400">Restante</span>
-              <span>{{ remaining() | currency }}</span>
+              <span>{{ salaryData.value()?.data!.netBalance | currency }}</span>
             </div>
           </div>
         </div>
@@ -105,38 +105,38 @@
       <!-- Barra de progreso simplificada -->
       <div class="mb-3">
         <div class="overflow-hidden h-1.5 rounded bg-gray-700">
-          @if (percentage() < 50) {
-            <div [style.width.%]="percentage()" class="h-full bg-cyan-500 transition-all duration-500"></div>
-          } @else if (percentage() < 80) {
-            <div [style.width.%]="percentage()" class="h-full bg-yellow-500 transition-all duration-500"></div>
+          @if ((salaryData.value()?.data!.expensePercentage) < 50) {
+            <div [style.width.%]="salaryData.value()?.data!.expensePercentage" class="h-full bg-cyan-500 transition-all duration-500"></div>
+          } @else if ((salaryData.value()?.data!.expensePercentage) < 80) {
+            <div [style.width.%]="salaryData.value()?.data!.expensePercentage" class="h-full bg-yellow-500 transition-all duration-500"></div>
           } @else {
-            <div [style.width.%]="percentage()" class="h-full bg-red-500 transition-all duration-500"></div>
+            <div [style.width.%]="salaryData.value()?.data!.expensePercentage" class="h-full bg-red-500 transition-all duration-500"></div>
           }
         </div>
       </div>
     
       <!-- Mensaje contextual más compacto -->
-      @if (percentage() < 50) {
-        <div class="text-xs text-cyan-400 bg-cyan-900/20 p-2 rounded flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>Excelente gestión de tu presupuesto este mes.</span>
-        </div>
-      } @else if (percentage() < 80) {
-        <div class="text-xs text-yellow-400 bg-yellow-900/20 p-2 rounded flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <span>Precaución: Has gastado más de la mitad de tus ingresos.</span>
-        </div>
-      } @else {
-        <div class="text-xs text-red-400 bg-red-900/20 p-2 rounded flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>Alerta: Tu gasto está cerca del límite de tus ingresos.</span>
-        </div>
-      }
+      <div 
+        [class]="
+          (salaryData.value()?.data!.expensePercentage) < 50 
+            ? 'text-xs text-cyan-400 bg-cyan-900/20 p-2 rounded flex items-center gap-1.5' 
+            : (salaryData.value()?.data!.expensePercentage) < 80 
+              ? 'text-xs text-yellow-400 bg-yellow-900/20 p-2 rounded flex items-center gap-1.5' 
+              : 'text-xs text-red-400 bg-red-900/20 p-2 rounded flex items-center gap-1.5'
+        "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            [attr.d]="
+              (salaryData.value()?.data!.expensePercentage) < 50 
+                ? 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' 
+                : (salaryData.value()?.data!.expensePercentage) < 80 
+                  ? 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' 
+                  : 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+            "
+          />
+        </svg>
+        <span>{{ salaryData.value()?.data!.recommendation }}</span>
+      </div>
     </div>
   }
