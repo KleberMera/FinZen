@@ -32,8 +32,7 @@ export class StorageService {
 
   getName() {
     const dataUser: User | null = this.get(this._userId());
-    // recorrer dataUser y retornar el  id
-    return dataUser?.username as string;
+    return dataUser ? `${dataUser.name} ${dataUser.last_name}` : '';
   }
 
   getAvatar() {
