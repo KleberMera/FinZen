@@ -35,221 +35,245 @@
       </div>
     </div>
   } @else {
-    <div class="w-full mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
-      <!-- Encabezado con título y mes -->
-      <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-3">
-          <div class="p-2 bg-cyan-900/30 rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-            </svg>
-          </div>
-          <h2 class="text-lg sm:text-xl font-semibold">Finanzas Personales</h2>
-        </div>
-        <span class="text-sm font-medium px-3 py-1.5 rounded-full bg-cyan-900/30 text-cyan-400">
-          {{ capitalizeFirstLetter(currentMonth()) }}
-        </span>
-      </div>
-      
-      <!-- Contenedor principal responsivo -->
-      <div class="flex flex-col lg:flex-row gap-6">
-        <!-- Columna izquierda - Gráfico radial -->
-        <div class="w-full lg:w-2/5 flex justify-center items-center">
-          <div class="relative">
-            <svg width="250" height="250" viewBox="0 0 100 100" class="max-w-full h-auto">
-              <!-- Fondo oscuro para el texto central -->
-              <circle cx="50" cy="50" r="22" fill="#1f2937"></circle>
-              
-              <!-- Círculos de fondo -->
-              <circle cx="50" cy="50" r="45" fill="transparent" stroke="#374151" stroke-width="8"></circle>
-              <circle cx="50" cy="50" r="35" fill="transparent" stroke="#374151" stroke-width="8"></circle>
-              <circle cx="50" cy="50" r="25" fill="transparent" stroke="#374151" stroke-width="8"></circle>
-              
-              <!-- Círculo para días del mes (exterior) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="45" 
-                fill="transparent" 
-                stroke="#0891b2" 
-                stroke-width="8" 
-                stroke-dasharray="282.6" 
-                [attr.stroke-dashoffset]="282.6 - (282.6 * salaryData.value()?.data!.daysPassedPercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('days')"
-              ></circle>
-              
-              <!-- Círculo para gastos esperados (medio) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="35" 
-                fill="transparent" 
-                stroke="#facc15" 
-                stroke-width="8" 
-                stroke-dasharray="219.8" 
-                [attr.stroke-dashoffset]="219.8 - (219.8 * salaryData.value()?.data!.timeAdjustedExpensePercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('expected')"
-              ></circle>
-              
-              <!-- Círculo para gastos actuales (interior) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="25" 
-                fill="transparent" 
-                [attr.stroke]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"
-                stroke-width="8" 
-                stroke-dasharray="157" 
-                [attr.stroke-dashoffset]="157 - (157 * salaryData.value()?.data!.expensePercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('actual')"
-              ></circle>
-              
-              <!-- Texto central -->
-              <text x="50" y="46" text-anchor="middle" class="text-base font-bold" fill="white">
-                {{ displayPercentage() }}%
-              </text>
-              <text x="50" y="56" text-anchor="middle" class="text-xs" fill="#94a3b8" textLength="36" lengthAdjust="spacingAndGlyphs">
-                {{ activeMetricLabel() }}
-              </text>
-            </svg>
-            
-            <!-- Leyenda de Gráficos -->
-            <div class="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div class="flex flex-col items-center" (mouseover)="setActiveMetric('days')">
-                <div class="w-3 h-3 rounded-full bg-cyan-400 mb-1"></div>
-                <span class="text-xs text-gray-300 truncate">Días</span>
+
+
+
+    @if (isFormVisible()) {
+      <div class="w-full mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+        <!-- Encabezado con título y mes -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-cyan-900/30 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
               </div>
-              <div class="flex flex-col items-center" (mouseover)="setActiveMetric('expected')">
-                <div class="w-3 h-3 rounded-full bg-yellow-400 mb-1"></div>
-                <span class="text-xs text-gray-300 truncate">Esperado</span>
-              </div>
-              <div class="flex flex-col items-center" (mouseover)="setActiveMetric('actual')">
-                <div class="w-3 h-3 rounded-full" 
-                  [style.background-color]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"></div>
-                <span class="text-xs text-gray-300 truncate">Gastado</span>
-              </div>
+              <h2 class="text-lg sm:text-xl font-semibold">Finanzas Personales</h2>
+              
+            </div>
+            <div class="flex items-center gap-3">
+              <button (click)="toggleFormVisibility()" type="button" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium px-3 py-1.5 rounded-full bg-cyan-900/30 ">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <span class="text-sm font-medium px-3 py-1.5 rounded-full bg-cyan-900/30 text-cyan-400">
+                {{ capitalizeFirstLetter(currentMonth()) }}
+              </span>
             </div>
           </div>
-        </div>
         
-        <!-- Columna derecha - Tarjetas de información -->
-        <div class="w-full lg:w-3/5 space-y-4">
-          <!-- Tarjetas de Ingresos y Gastos -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Tarjeta de Ingresos -->
-            <div class="bg-gray-700/50 p-4 rounded-xl h-full">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span class="text-sm font-medium">Ingresos</span>
-                </div>
-                <span class="text-base font-bold text-cyan-400">{{ salaryData.value()?.data!.totalIncome | currency }}</span>
-              </div>
+        <!-- Contenedor principal responsivo -->
+        <div class="flex flex-col lg:flex-row gap-6">
+          <!-- Columna izquierda - Gráfico radial -->
+          <div class="w-full lg:w-2/5 flex justify-center items-center">
+            <div class="relative">
+              <svg width="250" height="250" viewBox="0 0 100 100" class="max-w-full h-auto">
+                <!-- Fondo oscuro para el texto central -->
+                <circle cx="50" cy="50" r="22" fill="#1f2937"></circle>
+                
+                <!-- Círculos de fondo -->
+                <circle cx="50" cy="50" r="45" fill="transparent" stroke="#374151" stroke-width="8"></circle>
+                <circle cx="50" cy="50" r="35" fill="transparent" stroke="#374151" stroke-width="8"></circle>
+                <circle cx="50" cy="50" r="25" fill="transparent" stroke="#374151" stroke-width="8"></circle>
+                
+                <!-- Círculo para días del mes (exterior) -->
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="45" 
+                  fill="transparent" 
+                  stroke="#0891b2" 
+                  stroke-width="8" 
+                  stroke-dasharray="282.6" 
+                  [attr.stroke-dashoffset]="282.6 - (282.6 * salaryData.value()?.data!.daysPassedPercentage / 100)"
+                  stroke-linecap="round"
+                  transform="rotate(-90 50 50)"
+                  class="transition-all duration-500 ease-out cursor-pointer"
+                  (mouseover)="setActiveMetric('days')"
+                ></circle>
+                
+                <!-- Círculo para gastos esperados (medio) -->
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="35" 
+                  fill="transparent" 
+                  stroke="#facc15" 
+                  stroke-width="8" 
+                  stroke-dasharray="219.8" 
+                  [attr.stroke-dashoffset]="219.8 - (219.8 * salaryData.value()?.data!.timeAdjustedExpensePercentage / 100)"
+                  stroke-linecap="round"
+                  transform="rotate(-90 50 50)"
+                  class="transition-all duration-500 ease-out cursor-pointer"
+                  (mouseover)="setActiveMetric('expected')"
+                ></circle>
+                
+                <!-- Círculo para gastos actuales (interior) -->
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="25" 
+                  fill="transparent" 
+                  [attr.stroke]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"
+                  stroke-width="8" 
+                  stroke-dasharray="157" 
+                  [attr.stroke-dashoffset]="157 - (157 * salaryData.value()?.data!.expensePercentage / 100)"
+                  stroke-linecap="round"
+                  transform="rotate(-90 50 50)"
+                  class="transition-all duration-500 ease-out cursor-pointer"
+                  (mouseover)="setActiveMetric('actual')"
+                ></circle>
+                
+                <!-- Texto central -->
+                <text x="50" y="46" text-anchor="middle" class="text-base font-bold" fill="white">
+                  {{ displayPercentage() }}%
+                </text>
+                <text x="50" y="56" text-anchor="middle" class="text-xs" fill="#94a3b8" textLength="36" lengthAdjust="spacingAndGlyphs">
+                  {{ activeMetricLabel() }}
+                </text>
+              </svg>
               
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-400">Salario</span>
-                  <span>{{ salaryData.value()?.data!.salaryAmount | currency }}</span>
+              <!-- Leyenda de Gráficos -->
+              <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+                <div class="flex flex-col items-center" (mouseover)="setActiveMetric('days')">
+                  <div class="w-3 h-3 rounded-full bg-cyan-400 mb-1"></div>
+                  <span class="text-xs text-gray-300 truncate">Días</span>
                 </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-400">Extras</span>
-                  <span>{{ salaryData.value()?.data!.otherIncome | currency }}</span>
+                <div class="flex flex-col items-center" (mouseover)="setActiveMetric('expected')">
+                  <div class="w-3 h-3 rounded-full bg-yellow-400 mb-1"></div>
+                  <span class="text-xs text-gray-300 truncate">Esperado</span>
                 </div>
-              </div>
-            </div>
-            
-            <!-- Tarjeta de Gastos -->
-            <div class="bg-gray-700/50 p-4 rounded-xl h-full">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  <span class="text-sm font-medium">Gastos</span>
-                </div>
-                <span class="text-base font-bold">{{ salaryData.value()?.data!.totalExpenses | currency }}</span>
-              </div>
-              
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-400">Restante</span>
-                  <span class="font-medium">{{ salaryData.value()?.data!.netBalance | currency }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-gray-400">Esperado</span>
-                  <span class="text-yellow-400">{{ salaryData.value()?.data!.expectedExpensesByTime | currency }}</span>
+                <div class="flex flex-col items-center" (mouseover)="setActiveMetric('actual')">
+                  <div class="w-3 h-3 rounded-full" 
+                    [style.background-color]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"></div>
+                  <span class="text-xs text-gray-300 truncate">Gastado</span>
                 </div>
               </div>
             </div>
           </div>
           
-          <!-- Tarjeta de Resumen -->
-          <div class="bg-gray-700/50 p-4 rounded-xl">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-sm font-medium">Resumen Mensual</span>
-              <div class="flex items-center gap-2">
-                <span class="text-xs px-2 py-0.5 rounded bg-gray-600">
-                  Día {{ getCurrentDay() }}/{{ getDaysInMonth() }}
-                </span>
+          <!-- Columna derecha - Tarjetas de información -->
+          <div class="w-full lg:w-3/5 space-y-4">
+            <!-- Tarjetas de Ingresos y Gastos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Tarjeta de Ingresos -->
+              <div class="bg-gray-700/50 p-4 rounded-xl h-full">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="text-sm font-medium">Ingresos</span>
+                  </div>
+                  <span class="text-base font-bold text-cyan-400">{{ salaryData.value()?.data!.totalIncome | currency }}</span>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Salario</span>
+                    <span>{{ salaryData.value()?.data!.salaryAmount | currency }}</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Extras</span>
+                    <span>{{ salaryData.value()?.data!.otherIncome | currency }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Tarjeta de Gastos -->
+              <div class="bg-gray-700/50 p-4 rounded-xl h-full">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span class="text-sm font-medium">Gastos</span>
+                  </div>
+                  <span class="text-base font-bold">{{ salaryData.value()?.data!.totalExpenses | currency }}</span>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Restante</span>
+                    <span class="font-medium">{{ salaryData.value()?.data!.netBalance | currency }}</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Esperado</span>
+                    <span class="text-yellow-400">{{ salaryData.value()?.data!.expectedExpensesByTime | currency }}</span>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <!-- Barra de progreso del mes -->
-            <div class="w-full h-2 bg-gray-600 rounded-full mb-4 overflow-hidden">
-              <div 
-                class="h-full bg-cyan-400 rounded-full transition-all duration-500"
-                [style.width.%]="salaryData.value()?.data!.daysPassedPercentage"
-              ></div>
+            <!-- Tarjeta de Resumen -->
+            <div class="bg-gray-700/50 p-4 rounded-xl">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-medium">Resumen Mensual</span>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs px-2 py-0.5 rounded bg-gray-600">
+                    Día {{ getCurrentDay() }}/{{ getDaysInMonth() }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Barra de progreso del mes -->
+              <div class="w-full h-2 bg-gray-600 rounded-full mb-4 overflow-hidden">
+                <div 
+                  class="h-full bg-cyan-400 rounded-full transition-all duration-500"
+                  [style.width.%]="salaryData.value()?.data!.daysPassedPercentage"
+                ></div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div class="text-gray-400 mb-1">Gasto Actual</div>
+                  <div class="flex items-center gap-2">
+                    <div 
+                      class="w-2 h-2 rounded-full"
+                      [style.background-color]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"
+                    ></div>
+                    <span class="font-medium">{{ salaryData.value()?.data!.expensePercentage }}%</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-gray-400 mb-1">Gasto Esperado</div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+                    <span class="font-medium">{{ salaryData.value()?.data!.timeAdjustedExpensePercentage }}%</span>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <div class="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <div class="text-gray-400 mb-1">Gasto Actual</div>
-                <div class="flex items-center gap-2">
-                  <div 
-                    class="w-2 h-2 rounded-full"
-                    [style.background-color]="salaryData.value()?.data!.expensePercentage < 50 ? '#06b6d4' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"
-                  ></div>
-                  <span class="font-medium">{{ salaryData.value()?.data!.expensePercentage }}%</span>
-                </div>
-              </div>
-              <div>
-                <div class="text-gray-400 mb-1">Gasto Esperado</div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
-                  <span class="font-medium">{{ salaryData.value()?.data!.timeAdjustedExpensePercentage }}%</span>
-                </div>
-              </div>
+            <!-- Tarjeta de Recomendación -->
+            <div 
+              class="p-4 rounded-xl flex items-start gap-3"
+              [class]="getRecommendationClass()"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  [attr.d]="getRecommendationIcon()"
+                />
+              </svg>
+              <p class="text-sm">{{ salaryData.value()?.data!.recommendation }}</p>
             </div>
-          </div>
-          
-          <!-- Tarjeta de Recomendación -->
-          <div 
-            class="p-4 rounded-xl flex items-start gap-3"
-            [class]="getRecommendationClass()"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path 
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                [attr.d]="getRecommendationIcon()"
-              />
-            </svg>
-            <p class="text-sm">{{ salaryData.value()?.data!.recommendation }}</p>
           </div>
         </div>
       </div>
-    </div>
+
+    }@else {
+      <button (click)="toggleFormVisibility()" type="button"
+  class="flex items-center mb-5 gap-2  text-blue-400 hover:text-blue-300 transition-colors duration-200">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd"
+      d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+      clip-rule="evenodd" />
+  </svg>
+  Regresar
+</button>
+    }
   }

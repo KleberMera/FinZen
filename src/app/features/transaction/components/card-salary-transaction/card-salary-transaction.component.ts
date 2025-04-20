@@ -84,6 +84,12 @@ export class CardSalaryTransactionComponent {
   }
 
 
+  isFormVisible = signal<boolean>(true);
+  toggleFormVisibility(): void {
+    this.isFormVisible.set(!this.isFormVisible());
+  }
+
+
 
 
 
