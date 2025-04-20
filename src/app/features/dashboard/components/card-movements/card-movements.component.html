@@ -42,19 +42,19 @@
           <div class="text-center">
             <p class="text-xs text-gray-500 dark:text-gray-400">Total Ingresos</p>
             <p class="text-sm font-medium text-emerald-600 dark:text-emerald-400">
-              ${{ totalIngresos() }}
+              {{ totalIngresos()| currency }}
             </p>
           </div>
           <div class="text-center">
             <p class="text-xs text-gray-500 dark:text-gray-400">Total Gastos</p>
             <p class="text-sm font-medium text-rose-600 dark:text-rose-400">
-              ${{ totalGastos() }}
+              {{ totalGastos() | currency}}
             </p>
           </div>
           <div class="text-center">
             <p class="text-xs text-gray-500 dark:text-gray-400">Balance</p>
             <p class="text-sm font-medium" [ngClass]="{'text-emerald-600 dark:text-emerald-400': balance() >= 0, 'text-rose-600 dark:text-rose-400': balance() < 0}">
-              ${{ balance() }}
+              {{ balance() | currency}}
             </p>
           </div>
         </div>

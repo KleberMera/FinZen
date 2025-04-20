@@ -17,7 +17,7 @@ import {
   ApexGrid,
   NgApexchartsModule,
 } from 'ng-apexcharts';
-import { NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -36,7 +36,7 @@ export type ChartOptions = {
 
 @Component({
   selector: 'app-card-movements',
-  imports: [NgApexchartsModule, NgClass],
+  imports: [NgApexchartsModule, NgClass, CurrencyPipe],
   templateUrl: './card-movements.component.html',
   styleUrl: './card-movements.component.scss',
 })
