@@ -6,23 +6,7 @@ import { SalaryService } from '../../../dashboard/services/salary.service';
 import { apiResponse } from '@models/apiResponse';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { FinanceSummary } from '@models/finance';
-interface FinancialData {
-  totalIncome: string;
-  salaryAmount: string;
-  otherIncome: string;
-  totalExpenses: string;
-  netBalance: string;
-  expensePercentage: string;
-  daysPassedPercentage: string;
-  expectedExpensesByTime: string;
-  timeAdjustedExpensePercentage: string;
-  recommendation: string;
-}
 
-interface ApiResponse {
-  message: string;
-  data: FinancialData;
-}
 @Component({
   selector: 'app-card-salary-transaction',
   imports: [CurrencyPipe],
