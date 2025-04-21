@@ -86,7 +86,7 @@ export class AuthService {
           Validators.required,
         ]),
         username: new FormControl(initialData.username || ''),
-        email : new FormControl(initialData.email || '', [Validators.email]),
+        email : new FormControl(initialData.email || '', [Validators.email, Validators.required]),
         password: new FormControl(initialData.password || '', [
           Validators.required,
           Validators.minLength(8),
