@@ -1,3 +1,8 @@
+
+
+@if (devicesResource.isLoading()) {
+
+} @else {
 <!-- Estado del dispositivo -->
 @if (!isDeviceSynced()) {
   <div class="py-8 px-6 text-center ">
@@ -148,4 +153,6 @@
       </div>
     }
   </div>
+}
+
 }
