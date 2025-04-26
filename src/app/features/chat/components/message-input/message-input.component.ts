@@ -1,4 +1,4 @@
-import { Component, effect, HostListener, inject, output, signal } from '@angular/core';
+import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { ImageService } from '../../services/image.service';
@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 })
 
 export class MessageInputComponent {
-
   protected readonly _storageService = inject(StorageService);
   protected readonly chatService = inject(ChatService);
   protected readonly imageService = inject(ImageService);
@@ -22,7 +21,7 @@ export class MessageInputComponent {
   protected readonly seletedUser = signal<number>(this._storageService.getUserId());
 
   messageSent = output<void>();
-  selectedImagePreview = signal<string | null>(null);
+  showMediaOptions = signal<boolean>(false);
   
   messageForm = signal<FormGroup>(
     new FormGroup({
@@ -30,33 +29,53 @@ export class MessageInputComponent {
     })
   );
 
+  // Función para mostrar/ocultar opciones de media
+  toggleMediaOptions() {
+    this.showMediaOptions.set(!this.showMediaOptions());
+  }
+
+  // Función para cerrar las opciones de media
+  closeMediaOptions() {
+    this.showMediaOptions.set(false);
+  }
+
+  // Detectar clicks fuera del menú para cerrarlo
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Verifica si el clic fue fuera del menú y sus botones
+    if (this.showMediaOptions() && !(event.target as HTMLElement).closest('.media-options')) {
+      this.closeMediaOptions();
+    }
+  }
+
   removeSelectedImage() {
-    this.selectedImage.set(null);
-    this.selectedImagePreview.set(null);
+    this.imageService.removeSelectedImage();
   }
 
   get selectedImage() {
     return this.imageService.selectedImage;
   }
 
+  selectedImagePreview() {
+    return this.imageService.selectedImageUrl();
+  }
+
   async sendMessage() {
     const message = this.messageForm().get('message')?.value;
-    if (this.selectedImage()) {
+    
+    if (this.imageService.selectedImage()) {
       this.resImage();
     } else if (message && message.trim()) {
       this.resText(message);
     }
+    
     this.messageForm().reset();
     this.messageSent.emit();
   }
 
-
   onFileSelected(event: Event): void {
+    console.log('Archivo seleccionado:', event);
     this.imageService.handleFileSelection(event);
-    // Suscribirse a cambios en la URL de la imagen seleccionada
-    effect(() => {
-      this.selectedImagePreview.set(this.imageService.selectedImageUrl());
-    });
   }
 
   autoResize(event: Event): void {
@@ -67,6 +86,7 @@ export class MessageInputComponent {
   }
 
   resImage() {
+    console.log('Procesando imagen:', this.imageService.selectedImage());
     const stopAnimation = this.chatService.startImageAnalysisAnimation();
     this.chatService.addUserMessage(
       'Recibo enviado',
@@ -74,7 +94,7 @@ export class MessageInputComponent {
     );
 
     this.processService
-      .imageProcess(this.selectedImage()!, this.seletedUser())
+      .imageProcess(this.imageService.selectedImage()!, this.seletedUser())
       .subscribe({
         next: (res) => {
           stopAnimation();
@@ -106,23 +126,5 @@ export class MessageInputComponent {
         );
       },
     });
-  }
-  showMediaOptions = signal<boolean>(false);
-
-  // Función para mostrar/ocultar opciones de media
-  toggleMediaOptions() {
-    this.showMediaOptions.set(!this.showMediaOptions());
-  }
-
-  closeMediaOptions() {
-    this.showMediaOptions.set(false);
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    // Verifica si el clic fue fuera del menú y sus botones
-    if (this.showMediaOptions() && !(event.target as HTMLElement).closest('.media-options, button')) {
-      this.closeMediaOptions();
-    }
   }
 }
