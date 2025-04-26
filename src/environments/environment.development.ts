@@ -1,6 +1,7 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000/api',
- // apiUrl: 'https://zvxm9y08tb.execute-api.us-west-1.amazonaws.com/production/api',
+//  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://1e11p3tti0.execute-api.us-west-1.amazonaws.com/production/api',
+
   //apiUrl: 'https://finzenapirest.onrender.com/api',
   firebaseConfig: {
     apiKey: 'AIzaSyCzisdNiu6Q2L6vvs5mFvcSWelZVZWOuaU',

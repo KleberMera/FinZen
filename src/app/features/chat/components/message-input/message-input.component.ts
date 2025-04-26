@@ -1,18 +1,20 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, effect, HostListener, inject, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '@services/storage.service';
 import { ProcessService } from '../../services/process.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-message-input',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
 })
 
 export class MessageInputComponent {
+
   protected readonly _storageService = inject(StorageService);
   protected readonly chatService = inject(ChatService);
   protected readonly imageService = inject(ImageService);
@@ -41,15 +43,20 @@ export class MessageInputComponent {
     const message = this.messageForm().get('message')?.value;
     if (this.selectedImage()) {
       this.resImage();
-    } else {
+    } else if (message && message.trim()) {
       this.resText(message);
     }
     this.messageForm().reset();
     this.messageSent.emit();
   }
 
+
   onFileSelected(event: Event): void {
     this.imageService.handleFileSelection(event);
+    // Suscribirse a cambios en la URL de la imagen seleccionada
+    effect(() => {
+      this.selectedImagePreview.set(this.imageService.selectedImageUrl());
+    });
   }
 
   autoResize(event: Event): void {
@@ -99,5 +106,23 @@ export class MessageInputComponent {
         );
       },
     });
+  }
+  showMediaOptions = signal<boolean>(false);
+
+  // Función para mostrar/ocultar opciones de media
+  toggleMediaOptions() {
+    this.showMediaOptions.set(!this.showMediaOptions());
+  }
+
+  closeMediaOptions() {
+    this.showMediaOptions.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Verifica si el clic fue fuera del menú y sus botones
+    if (this.showMediaOptions() && !(event.target as HTMLElement).closest('.media-options, button')) {
+      this.closeMediaOptions();
+    }
   }
 }
