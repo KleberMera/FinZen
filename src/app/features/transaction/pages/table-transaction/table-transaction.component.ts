@@ -8,7 +8,7 @@ import { StorageService } from '@services/storage.service';
 import { FilterTransactionService } from '../../services/filter-transaction.service';
 import { BreakpointService } from '@services/breakpoint.service';
 import { apiResponse } from '@models/apiResponse';
-import { Transaction, TransactionName } from '@models/transaction';
+import { Transaction, TransactionName, TransactionReport } from '@models/transaction';
 import { CategoryName } from '@models/category';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { GeneratePdfTransactionComponent } from "../../components/generate-pdf-transaction/generate-pdf-transaction.component";
@@ -72,7 +72,7 @@ export default class TableTransactionComponent {
   });
 
 
-  filteredTransactions = rxResource<apiResponse<Transaction[]>, { userId: number; filters: any }>({
+  filteredTransactions = rxResource<apiResponse<TransactionReport[]>, { userId: number; filters: any }>({
     request: () => ({ userId: this.seletedUser(), filters: this.filterValue() }),
     loader: ({ request }) => this._FilterTransactionService.getFilteredTransactions( request.userId, request.filters),
   });
