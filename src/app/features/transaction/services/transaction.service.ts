@@ -13,7 +13,10 @@ import { Observable, tap } from 'rxjs';
 })
 export class TransactionService {
   private readonly _http = inject(HttpClient);
-
+  getCategoriesByUserId(userId: number): Observable<apiResponse<Category[]>> {
+    const url = `${environment.apiUrl}/category/user/${userId}`;
+    return this._http.get<apiResponse<Category[]>>(url);
+  }
   formTransaction(data: Partial<Transaction> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
@@ -31,10 +34,7 @@ export class TransactionService {
     return form;
   }
 
-  getCategoriesByUserId(userId: number): Observable<apiResponse<Category[]>> {
-    const url = `${environment.apiUrl}/category/user/${userId}`;
-    return this._http.get<apiResponse<Category[]>>(url);
-  }
+
 
   getCategoryNamesByUserId(
     userId: number

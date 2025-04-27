@@ -13,7 +13,7 @@ import { NgxSonnerToaster } from 'ngx-sonner';
 export class AppComponent {
   title = 'FinZen';
 
-  async ngOnInit() {
+  async ngOnInit() {   
     const theme = localStorage.getItem('theme') || 'dark';
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
