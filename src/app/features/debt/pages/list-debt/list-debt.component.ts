@@ -12,7 +12,7 @@ const AppComponenteImports = [ SearchFilterDebtComponent, CardAmortizationCompon
   styleUrl: './list-debt.component.scss',
 })
 
-export class ListDebtComponent {
+export default class ListDebtComponent {
   readonly SearchFilterDebtComponent = viewChild(SearchFilterDebtComponent);
   public readonly _screenService = inject(BreakpointService);
 

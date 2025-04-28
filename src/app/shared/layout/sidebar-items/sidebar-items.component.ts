@@ -80,7 +80,10 @@ export class SidebarItemsComponent {
         {
           label: 'Seguimiento',
           route: 'deudas-seguimiento',
-        },
+        },{
+          label: 'Estrategia',
+          route: 'deudas-strategy',
+        }
       ],
     },
     {

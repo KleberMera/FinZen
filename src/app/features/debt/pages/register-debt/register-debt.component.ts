@@ -19,7 +19,7 @@ const AppComponent = [ TableAmortizationComponent, CardAmortizationComponent ];
   styleUrl: './register-debt.component.scss',
 })
 
-export class RegisterDebtComponent {
+export default class RegisterDebtComponent {
   private readonly _debtService = inject(DebtService);
   protected readonly seletedUser = signal<number>( inject(StorageService).getUserId() );
   protected readonly _methodService = inject(MethodService);
