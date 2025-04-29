@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import StrategyMethodComponent from './strategy-method.component';
 
-import { StrategyMethodComponent } from './strategy-method.component';
 
 describe('StrategyMethodComponent', () => {
   let component: StrategyMethodComponent;

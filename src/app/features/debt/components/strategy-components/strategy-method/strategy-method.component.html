@@ -1,12 +1,13 @@
 <div class="min-h-screen text-gray-900 dark:text-gray-100">
-    <div class="max-w-4xl mx-auto">
-      @if (metodo()) {
-        <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">
-          Estrategia: {{ metodo() === 'bola-de-nieve' ? 'Bola de Nieve' : 'Avalancha' }}
-        </h1>
-        
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
-          <div class="flex items-center mb-6">
+  <div class="max-w-4xl mx-auto">
+    @if (metodo()) {
+      <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">
+        Estrategia: {{ metodo() === 'bola-de-nieve' ? 'Bola de Nieve' : 'Avalancha' }}
+      </h1>
+      
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center">
             @if (metodo() === 'bola-de-nieve') {
               <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,56 +31,64 @@
             }
           </div>
           
-          <div class="mt-6">
-            <h3 class="text-xl font-semibold mb-4">Instrucciones</h3>
-            
-            @if (metodo() === 'bola-de-nieve') {
-              <p class="mb-4">El método Bola de Nieve se enfoca en ganar impulso psicológico al eliminar primero las deudas más pequeñas. Sigue estos pasos:</p>
-              
-              <ol class="list-decimal pl-5 space-y-2">
-                <li>Ordena tus deudas de <strong>menor a mayor</strong> por cantidad total.</li>
-                <li>Destina el dinero extra a pagar la deuda más pequeña primero.</li>
-                <li>Una vez pagada, suma ese pago a la siguiente deuda más pequeña.</li>
-                <li>Continúa el proceso hasta eliminar todas tus deudas.</li>
-              </ol>
-            } @else {
-              <p class="mb-4">El método Avalancha se enfoca en minimizar los intereses pagados al atacar primero las deudas más costosas. Sigue estos pasos:</p>
-              
-              <ol class="list-decimal pl-5 space-y-2">
-                <li>Ordena tus deudas de <strong>mayor a menor</strong> por tasa de interés.</li>
-                <li>Destina el dinero extra a pagar la deuda con mayor interés primero.</li>
-                <li>Una vez pagada, suma ese pago a la siguiente deuda con mayor interés.</li>
-                <li>Continúa el proceso hasta eliminar todas tus deudas.</li>
-              </ol>
-            }
-            
-            <div class="mt-8 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
-              <h4 class="font-semibold text-blue-700 dark:text-blue-300 mb-2">Recordatorio importante</h4>
-              <p>Siempre continúa pagando el mínimo en todas tus deudas mientras aplicas el método.</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Botón para añadir deudas -->
-        <div class="text-center">
-          <button class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+          <!-- Botón de seleccionar deuda reposicionado a la derecha -->
+          <button class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow hover:shadow-lg">
             <div class="flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
-              <span>Añadir mis deudas</span>
+              <span>Seleccionar deuda</span>
             </div>
           </button>
         </div>
-      } @else {
-        <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-          <p class="text-xl mb-4">No se ha seleccionado ningún método de pago.</p>
-          <a 
-            (click)="goToStrategy()"
-            class="text-blue-600 dark:text-blue-400 hover:underline">
-            Volver a seleccionar un método
-          </a>
+        
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold mb-4">¿Cómo funciona?</h3>
+          
+          @if (metodo() === 'bola-de-nieve') {
+            <p class="mb-4">El método <strong>Bola de Nieve</strong> te ayuda a sentir progreso rápido al eliminar primero las deudas más pequeñas:</p>
+            
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>Organiza tus deudas empezando por la <strong>más pequeña</strong>, sin importar su interés.</li>
+              <li>Paga lo mínimo en todas tus deudas, pero destina dinero extra a la más pequeña.</li>
+              <li>Cuando termines de pagar una deuda, usa ese dinero para atacar la siguiente más pequeña.</li>
+              <li>Así crearás un "efecto bola de nieve" que hará tus pagos cada vez más grandes.</li>
+            </ol>
+            
+            <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+              <p class="text-sm italic">Este método es ideal si necesitas <strong>motivación psicológica</strong> para continuar con el pago de tus deudas.</p>
+            </div>
+          } @else {
+            <p class="mb-4">El método <strong>Avalancha</strong> te ayuda a ahorrar dinero al eliminar primero las deudas más costosas:</p>
+            
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>Organiza tus deudas empezando por la que tiene <strong>mayor tasa de interés</strong>.</li>
+              <li>Paga lo mínimo en todas tus deudas, pero destina dinero extra a la de mayor interés.</li>
+              <li>Cuando termines de pagar una deuda, usa ese dinero para atacar la siguiente con mayor interés.</li>
+              <li>Así minimizarás el dinero total que pagas en intereses a largo plazo.</li>
+            </ol>
+            
+            <div class="mt-4 p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+              <p class="text-sm italic">Este método es ideal si buscas <strong>ahorrar dinero</strong> a largo plazo y reducir el costo total de tus deudas.</p>
+            </div>
+          }
+          
+          <div class="mt-8 bg-green-50 dark:bg-green-900/30 p-4 rounded-lg">
+            <h4 class="font-semibold text-green-700 dark:text-green-300 mb-2">Consejo importante</h4>
+            <p>Recuerda siempre pagar al menos el mínimo en todas tus deudas para evitar cargos por pagos atrasados y daños a tu historial crediticio.</p>
+          </div>
         </div>
-      }
-    </div>
+      </div>
+      
+    } @else {
+      <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+        <p class="text-xl mb-4">No se ha seleccionado ningún método de pago.</p>
+        <a 
+          (click)="goToStrategy()"
+          class="text-blue-600 dark:text-blue-400 hover:underline">
+          Volver a seleccionar un método
+        </a>
+      </div>
+    }
   </div>
+</div>
