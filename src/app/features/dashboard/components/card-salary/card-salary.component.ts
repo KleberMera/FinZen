@@ -19,12 +19,13 @@ export class CardSalaryComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _salaryService = inject(SalaryService);
   seletdUserId = signal(this._storage.getUserId());
-  lenguaje = signal<string>('es');
-  timeNow = signal<any>(new Date());
-
   currentMonth = computed(() =>
     format(this.timeNow(), 'MMMM', this.lenguaje())
   );
+  lenguaje = signal<string>('es');
+  timeNow = signal<any>(new Date());
+
+
   currentMonthNumber = computed(() =>
     format(this.timeNow(), 'M', this.lenguaje())
   );
