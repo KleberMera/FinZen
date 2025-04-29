@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../../../shared/layout/navbar/services/notification.service';
 import { SwPush } from '@angular/service-worker';
 import { toast } from 'ngx-sonner';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,10 +24,12 @@ export default class TabNotificationComponent {
  private readonly _storage = inject(StorageService);
  private readonly _notifications = inject(NotificationService);
  private readonly _swPush = inject(SwPush);
+private readonly  _router = inject(Router);
 
 
  // Signals para el estado reactivo
  userId = signal<number>(this._storage.getUserId());
+
  currentDevice = signal<Device | null>(null);
  notificationStatus = signal<'enabled' | 'disabled' | 'loading' | 'blocked' | 'granted-no-subscription'>('loading');
  subscriptionCount = signal<number>(0);
@@ -226,5 +229,6 @@ this._deviceService.hasNotifications(userId, deviceId!).subscribe({
 
  goToDevices(): void {
   //this._tabService.setActiveTab('dispositivos'); // Cambia el tab a 'dispositivos'
+  this._router.navigate(['dispositivos']); // Navega a la ruta de dispositivos
 }
 }

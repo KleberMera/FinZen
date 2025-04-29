@@ -1,7 +1,5 @@
 
 import { Component, inject, signal } from '@angular/core';
-
-
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CONFIG_PAGES_CONFIGURATION } from '../../config.routes';
 

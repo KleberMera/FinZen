@@ -45,10 +45,14 @@ export const configRoutes: Routes = [
 
       {
         path: '',
-        redirectTo: CONFIG_PAGES_CONFIGURATION.PERFIL,
         pathMatch: 'full',
+        redirectTo: CONFIG_PAGES_CONFIGURATION.PERFIL,
       },
     ],
   },
+  {
+    path: '**',
+    redirectTo: CONFIG_PAGES_CONFIGURATION.PERFIL,
+  }
 ];
 export default configRoutes;
