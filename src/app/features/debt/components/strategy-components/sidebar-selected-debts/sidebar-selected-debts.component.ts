@@ -98,7 +98,11 @@ export class SidebarSelectedDebtsComponent {
       salary: this.includeSalary(),
       debtIds: this.selectedDebtIds()
     });
-    this.close();
+    console.log('Selected items:', {
+      salary: this.includeSalary(),
+      debtIds: this.selectedDebtIds()
+    });    
+    //this.close();
   }
   
 }

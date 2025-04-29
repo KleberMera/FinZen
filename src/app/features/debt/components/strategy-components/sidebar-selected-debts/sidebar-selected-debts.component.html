@@ -72,32 +72,42 @@
                     </div>
 
                     <div class="space-y-2">
-                        @for (debt of debts.value()!.data; track debt.id) {
-                            <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
-                                <input 
-                                    type="checkbox" 
-                                    id="debt-{{ debt.id }}"
-                                    [checked]="isDebtSelected(debt.id!)"
-                                    (change)="toggleDebt(debt.id!)"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="debt-{{ debt.id }}" class="ms-3 flex-1">
-                                    <div class="text-sm font-medium text-gray-800 dark:text-gray-200">
-                                        {{ debt.name }}
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-lg font-bold text-red-600 dark:text-red-400">
-                                            ${{ debt.amount }}
+                  @if (debts.isLoading()) {
+                    <div class="flex items-center justify-center py-6">
+                        <div class="flex flex-col items-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"></div>
+                            <span class="mt-4 text-gray-300">Cargando datos...</span>
+                        </div>
+                    </div>
+
+                  } @else {
+                    @for (debt of debts.value()!.data; track debt.id) {
+                        <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                            <input 
+                                type="checkbox" 
+                                id="debt-{{ debt.id }}"
+                                [checked]="isDebtSelected(debt.id!)"
+                                (change)="toggleDebt(debt.id!)"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="debt-{{ debt.id }}" class="ms-3 flex-1">
+                                <div class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    {{ debt.name }}
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-lg font-bold text-red-600 dark:text-red-400">
+                                        ${{ debt.amount }}
+                                    </span>
+                                    @if (debt.interest_rate) {
+                                        <span class="text-xs text-gray-600 dark:text-gray-400 self-end">
+                                            {{ debt.interest_rate }}% interés
                                         </span>
-                                        @if (debt.interest_rate) {
-                                            <span class="text-xs text-gray-600 dark:text-gray-400 self-end">
-                                                {{ debt.interest_rate }}% interés
-                                            </span>
-                                        }
-                                    </div>
-                                </label>
-                            </div>
-                        }
+                                    }
+                                </div>
+                            </label>
+                        </div>
+                    }
+                  }
                     </div>
                 </div>
             }
