@@ -1,0 +1,85 @@
+<div class="min-h-screen text-gray-900 dark:text-gray-100">
+    <div class="max-w-4xl mx-auto">
+      @if (metodo()) {
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">
+          Estrategia: {{ metodo() === 'bola-de-nieve' ? 'Bola de Nieve' : 'Avalancha' }}
+        </h1>
+        
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+          <div class="flex items-center mb-6">
+            @if (metodo() === 'bola-de-nieve') {
+              <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold">Método Bola de Nieve</h2>
+                <p class="text-gray-600 dark:text-gray-400">Paga primero tus deudas más pequeñas</p>
+              </div>
+            } @else {
+              <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold">Método Avalancha</h2>
+                <p class="text-gray-600 dark:text-gray-400">Paga primero tus deudas con mayor interés</p>
+              </div>
+            }
+          </div>
+          
+          <div class="mt-6">
+            <h3 class="text-xl font-semibold mb-4">Instrucciones</h3>
+            
+            @if (metodo() === 'bola-de-nieve') {
+              <p class="mb-4">El método Bola de Nieve se enfoca en ganar impulso psicológico al eliminar primero las deudas más pequeñas. Sigue estos pasos:</p>
+              
+              <ol class="list-decimal pl-5 space-y-2">
+                <li>Ordena tus deudas de <strong>menor a mayor</strong> por cantidad total.</li>
+                <li>Destina el dinero extra a pagar la deuda más pequeña primero.</li>
+                <li>Una vez pagada, suma ese pago a la siguiente deuda más pequeña.</li>
+                <li>Continúa el proceso hasta eliminar todas tus deudas.</li>
+              </ol>
+            } @else {
+              <p class="mb-4">El método Avalancha se enfoca en minimizar los intereses pagados al atacar primero las deudas más costosas. Sigue estos pasos:</p>
+              
+              <ol class="list-decimal pl-5 space-y-2">
+                <li>Ordena tus deudas de <strong>mayor a menor</strong> por tasa de interés.</li>
+                <li>Destina el dinero extra a pagar la deuda con mayor interés primero.</li>
+                <li>Una vez pagada, suma ese pago a la siguiente deuda con mayor interés.</li>
+                <li>Continúa el proceso hasta eliminar todas tus deudas.</li>
+              </ol>
+            }
+            
+            <div class="mt-8 bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg">
+              <h4 class="font-semibold text-blue-700 dark:text-blue-300 mb-2">Recordatorio importante</h4>
+              <p>Siempre continúa pagando el mínimo en todas tus deudas mientras aplicas el método.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Botón para añadir deudas -->
+        <div class="text-center">
+          <button class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            <div class="flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              <span>Añadir mis deudas</span>
+            </div>
+          </button>
+        </div>
+      } @else {
+        <div class="text-center p-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <p class="text-xl mb-4">No se ha seleccionado ningún método de pago.</p>
+          <a 
+            (click)="goToStrategy()"
+            class="text-blue-600 dark:text-blue-400 hover:underline">
+            Volver a seleccionar un método
+          </a>
+        </div>
+      }
+    </div>
+  </div>

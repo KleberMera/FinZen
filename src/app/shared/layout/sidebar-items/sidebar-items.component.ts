@@ -1,6 +1,6 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, output, signal, Type } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal, Type } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { BookComponent } from '@icons/book/book.component';
 import { CashIconComponent } from '@icons/cash-icon/cash-icon.component';
 import { CashRegisterIconComponent } from '@icons/cash-register-icon/cash-register-icon.component';
@@ -36,6 +36,7 @@ interface SubMenuItem {
 })
 export class SidebarItemsComponent {
   itemSelected = output<void>();
+  readonly router = inject(Router);
   // Señal para los elementos del menú
   menuItems = signal<MenuItem[]>([
     {
@@ -82,7 +83,7 @@ export class SidebarItemsComponent {
           route: 'deudas-seguimiento',
         },{
           label: 'Estrategia',
-          route: 'deudas-strategy',
+          route: 'deudas-estrategia/elegir',
         }
       ],
     },
