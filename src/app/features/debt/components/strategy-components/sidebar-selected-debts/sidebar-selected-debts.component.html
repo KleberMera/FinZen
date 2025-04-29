@@ -1,3 +1,4 @@
+<!-- sidebar-selected-debts.component.html -->
 <div class="fixed inset-0 z-50">
     <!-- Fondo oscuro con blur -->
     <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity" (click)="close()">
@@ -10,12 +11,9 @@
         <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-
                     <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Seleccionar tus deudas</h2>
-
                 </div>
                 <div class="flex items-center gap-2">
-
                     <!-- Botón de cerrar -->
                     <button (click)="close()"
                         class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -32,7 +30,85 @@
 
         <!-- Contenido -->
         <div class="p-4">
+            @if (salary.value()?.data; as salaryData) {
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">Sueldo actual</h3>
+                    <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <input 
+                            type="checkbox" 
+                            id="include-salary"
+                            [checked]="includeSalary()"
+                            (change)="toggleSalary()"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                        >
+                        <label for="include-salary" class="ms-3 flex-1">
+                            <div class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                                Sueldo de {{ salaryData.month_name }}
+                            </div>
+                            <div class="text-lg font-bold text-green-600 dark:text-green-400">
+                                ${{ salaryData.salary_amount }}
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            }
 
+            @if (salary.value()?.data; as salaryData) {
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200">Tus deudas</h3>
+                        <div class="flex items-center">
+                            <input 
+                                type="checkbox" 
+                                id="select-all"
+                                [checked]="allDebtsSelected()"
+                                (change)="toggleAllDebts()"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="select-all" class="ms-2 text-sm font-medium text-gray-800 dark:text-gray-200">
+                                Seleccionar todas
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        @for (debt of debts.value()!.data; track debt.id) {
+                            <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+                                <input 
+                                    type="checkbox" 
+                                    id="debt-{{ debt.id }}"
+                                    [checked]="isDebtSelected(debt.id!)"
+                                    (change)="toggleDebt(debt.id!)"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="debt-{{ debt.id }}" class="ms-3 flex-1">
+                                    <div class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        {{ debt.name }}
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-lg font-bold text-red-600 dark:text-red-400">
+                                            ${{ debt.amount }}
+                                        </span>
+                                        @if (debt.interest_rate) {
+                                            <span class="text-xs text-gray-600 dark:text-gray-400 self-end">
+                                                {{ debt.interest_rate }}% interés
+                                            </span>
+                                        }
+                                    </div>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="mt-6">
+                <button (click)="applySelection()"
+                    class="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow hover:shadow-lg">
+                    Aplicar selección
+                </button>
+            </div>
         </div>
     </div>
 </div>
+
