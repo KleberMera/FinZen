@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../../../shared/layout/navbar/services/notification.service';
 import { SwPush } from '@angular/service-worker';
 import { toast } from 'ngx-sonner';
-import { TabService } from '../../services/tab.service';
+
 
 @Component({
   selector: 'app-tab-notification',
@@ -17,13 +17,13 @@ import { TabService } from '../../services/tab.service';
   templateUrl: './tab-notification.component.html',
   styleUrl: './tab-notification.component.scss'
 })
-export class TabNotificationComponent {
+export default class TabNotificationComponent {
  // Servicios inyectados
  private readonly _deviceService = inject(DeviceService);
  private readonly _storage = inject(StorageService);
  private readonly _notifications = inject(NotificationService);
  private readonly _swPush = inject(SwPush);
- private readonly _tabService = inject(TabService);
+
 
  // Signals para el estado reactivo
  userId = signal<number>(this._storage.getUserId());
@@ -225,6 +225,6 @@ this._deviceService.hasNotifications(userId, deviceId!).subscribe({
 
 
  goToDevices(): void {
-  this._tabService.setActiveTab('dispositivos'); // Cambia el tab a 'dispositivos'
+  //this._tabService.setActiveTab('dispositivos'); // Cambia el tab a 'dispositivos'
 }
 }

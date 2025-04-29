@@ -10,7 +10,7 @@ import { Device } from '@models/device';
   templateUrl: './tab-device.component.html',
   styleUrl: './tab-device.component.scss',
 })
-export class TabDeviceComponent {
+export default class TabDeviceComponent {
   private readonly _deviceService = inject(DeviceService);
   private readonly _storage = inject(StorageService);
 

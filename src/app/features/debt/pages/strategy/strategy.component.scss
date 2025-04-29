@@ -1,0 +1,67 @@
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  /* Personaliza la transición de las tarjetas */
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+  
+  /* Efectos hover mejorados */
+  div[class*="rounded-xl"] {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05));
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+  
+  /* Estilo para el icono de check en la tarjeta seleccionada */
+  .absolute.top-0.right-0 {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  /* Mejorar la visibilidad de los textos principales */
+  h1, h2 {
+    letter-spacing: -0.025em;
+  }
+  
+  /* Estilo para los botones con estado foco */
+  button:focus {
+    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+  }
+  
+  /* Dark mode optimizations */
+  @media (prefers-color-scheme: dark) {
+    div.bg-white {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* Accesibilidad - asegurar que los textos sean legibles */
+  .text-gray-700 {
+    line-height: 1.625;
+  }

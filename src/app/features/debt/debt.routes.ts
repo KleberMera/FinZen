@@ -23,7 +23,13 @@ export const debtRoutes: Routes = [
         path: DEBT_PAGES.DEBT_STRATEGY,
         loadComponent: () =>
           import('./pages/strategy/strategy.component')
+      },
+      {
+        path: DEBT_PAGES.DEBT_SEGUIMIENTO + '/:strategy',
+        loadComponent: () =>
+          import('./pages/strategy/strategy.component')
       }
+
     ],
   },
 ];

@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './tab-profile.component.html',
   styleUrl: './tab-profile.component.scss'
 })
-export class TabProfileComponent {
+export default class TabProfileComponent {
 
 }

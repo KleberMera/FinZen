@@ -11,17 +11,19 @@
       </h2>
 
    <!-- Menú de Tabs -->
-<div class="mb-6">
+   <div class="mb-6">
     <div class="flex overflow-x-auto border-b border-gray-700">
       <ul class="flex flex-nowrap text-sm font-medium text-center">
         @for (tab of tabs(); track tab.id) {
           <li class="mr-2 whitespace-nowrap">
             <button 
-              (click)="setActiveTab(tab.id)"
+              [routerLink]="tab.route"
+              routerLinkActive="text-blue-500 border-blue-500 active"
+              [routerLinkActiveOptions]="{exact: true}"
               class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg gap-2"
-              [class]="activeTab() === tab.id ? 
-                'text-blue-500 border-blue-500 active' : 
-                'border-transparent hover:text-gray-300 hover:border-gray-300'"
+              [class.border-transparent]="!(router.url.includes(tab.route))"
+              [class.hover:text-gray-300]="!(router.url.includes(tab.route))"
+              [class.hover:border-gray-300]="!(router.url.includes(tab.route))"
             >
               <i [class]="tab.icon"></i>
               {{ tab.label }}
@@ -34,32 +36,9 @@
 
       <!-- Contenido de los Tabs -->
       <div class="tab-content">
+        <router-outlet></router-outlet>
       
-        <!-- Tab Perfil -->
-        @if (activeTab() === 'perfil') {
-            <app-tab-profile class="animate-fadeIn"></app-tab-profile>
-        }
-
-        <!-- Tab Sincronizar -->
-        @if (activeTab() === 'sincronizar') {
-          <app-tab-google></app-tab-google>
-          
-        }
-
-        <!-- Tab Dispositivos -->
-        @if (activeTab() === 'dispositivos') {
-            <app-tab-device class="animate-fadeIn"></app-tab-device>
-        
-        }
-
-        <!-- Tab Contraseña -->
-        @if (activeTab() === 'contrasena') {
-          <app-tab-password></app-tab-password>
-        }
-
-        @if (activeTab() === 'notificaciones') {
-            <app-tab-notification></app-tab-notification>
-        }
+      
       </div>
     </div>
   } @placeholder {

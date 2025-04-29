@@ -6,7 +6,7 @@ import { Component, signal } from '@angular/core';
   templateUrl: './tab-google.component.html',
   styleUrl: './tab-google.component.scss'
 })
-export class TabGoogleComponent {
+export default class  TabGoogleComponent {
   // Opciones de sincronización (ejemplo)
   syncOptions = signal([
     { 

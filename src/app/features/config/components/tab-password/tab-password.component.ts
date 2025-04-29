@@ -7,7 +7,7 @@ import { Component, signal } from '@angular/core';
   templateUrl: './tab-password.component.html',
   styleUrl: './tab-password.component.scss'
 })
-export class TabPasswordComponent {
+export default class TabPasswordComponent {
   // Control de visibilidad de contraseña
   showPassword = signal(false);
 
