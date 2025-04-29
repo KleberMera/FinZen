@@ -33,6 +33,10 @@ export class UserProfileSidebarComponent {
   private readonly _router = inject(Router);
 
   closeSidebar = output<void>();
+  
+  close() {
+    this.closeSidebar.emit();
+  }
 
   public user = rxResource<apiResponse<User>, { userId: number }>({
     request: () => ({ userId: this.seletedUser() }),
@@ -48,13 +52,7 @@ export class UserProfileSidebarComponent {
     this._storageService.setTheme(theme!);
 
     toast.success('Sesión cerrada');
-    
-  }
-  isOpen = false;
-  close() {
-    this.closeSidebar.emit();
-    this.isOpen = false;
   }
 
-  
+
 }
