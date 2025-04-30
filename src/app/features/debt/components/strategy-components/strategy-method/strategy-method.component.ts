@@ -12,8 +12,14 @@ export default class StrategyMethodComponent {
   // Inyectar ActivatedRoute para acceder a los query parameters
   metodo = input<string>('');
   readonly router = inject(Router);
+  viewMethod = signal(true);
+
+  // Para almacenar las selecciones
+  selectedSalary = signal(false);
+  selectedDebtIds = signal<number[]>([]);
 
   isSeletedDebtsSidebarOpen = signal(false);
+
   onSeletedDebtsClick() {
     console.log('onSeletedDebtsClick');
     this.isSeletedDebtsSidebarOpen.update((value) => !value);
@@ -21,12 +27,20 @@ export default class StrategyMethodComponent {
 
   closeSeletedDebtsSidebar() {
     console.log('closeSeletedDebtsSidebar');
-
     this.isSeletedDebtsSidebarOpen.set(false);
-    
   }
 
   goToStrategy(): void {
     this.router.navigate(['home/deudas-estrategia/elegir']);
+  }
+
+  handleSelectedItems(selection: { salary: boolean; debtIds: number[] }) {
+    this.viewMethod.set(false);
+    console.log('Elementos seleccionados:', selection);
+    this.selectedSalary.set(selection.salary);
+    this.selectedDebtIds.set(selection.debtIds);
+
+    // Aquí puedes procesar los elementos seleccionados
+    // Por ejemplo, hacer cálculos, mostrar información, etc.
   }
 }
