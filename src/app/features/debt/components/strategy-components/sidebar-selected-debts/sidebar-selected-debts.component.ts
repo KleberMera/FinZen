@@ -134,4 +134,29 @@ export class SidebarSelectedDebtsComponent {
 
     this.close();
   }
+
+  calculateTotal(): string {
+    let total = 0;
+    
+    // Añadir el sueldo si está seleccionado
+    if (this.includeSalary() && this.salary.value()?.data) {
+      total += parseFloat(String(this.salary.value()!.data?.salary_amount || 0));
+    }
+    
+    // Añadir las deudas seleccionadas
+    if (this.debts.value()?.data) {
+      this.debts.value()!.data!.forEach(debt => {
+        if (this.isDebtSelected(debt.id!)) {
+          total += parseFloat(String(debt.amount));
+        }
+      });
+    }
+    
+    return total.toFixed(2);
+  }
+    
+  selectedDebtCount = computed(() => this.selectedDebtIds().length);
+  hasSelection = computed(() => this.includeSalary() || this.selectedDebtIds().length > 0);
+  
+    
 }
