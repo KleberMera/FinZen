@@ -10,7 +10,5 @@ import { StrategyMethod } from '@models/debt';
 export class StrategyPlanComponent {
   dataProcess = input.required<StrategyMethod>();
 
-  ngOnInit() {
-    console.log('Data process:', this.dataProcess());
-  }
+
 }

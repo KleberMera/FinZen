@@ -3,10 +3,6 @@ import { Router } from '@angular/router';
 import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar-selected-debts.component';
 import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component';
 import { StrategyMethod } from '@models/debt';
-
-
-
-
 @Component({
   selector: 'app-strategy-method',
   imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent],
