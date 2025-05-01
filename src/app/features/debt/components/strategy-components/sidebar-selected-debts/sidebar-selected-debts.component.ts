@@ -120,7 +120,7 @@ export class SidebarSelectedDebtsComponent {
   }
 
   applySelection() {
-    const selectionData = {
+    const selectionData: StrategyMethod = {
       salary: this.includeSalary(),
       method: this.method(),
       debtIds: this.selectedDebtIds(),
