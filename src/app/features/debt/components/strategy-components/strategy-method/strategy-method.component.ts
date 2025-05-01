@@ -1,10 +1,11 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar-selected-debts.component';
+import { StrategyPlanComponent } from "../strategy-plan/strategy-plan.component";
 
 @Component({
   selector: 'app-strategy-method',
-  imports: [SidebarSelectedDebtsComponent],
+  imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent],
   templateUrl: './strategy-method.component.html',
   styleUrl: './strategy-method.component.scss',
 })
