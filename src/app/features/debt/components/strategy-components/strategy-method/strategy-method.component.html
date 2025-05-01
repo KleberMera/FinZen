@@ -104,13 +104,14 @@
 </div>
 
 } @else {
-<app-strategy-plan></app-strategy-plan>
+@if (dataProcess()) {
+<app-strategy-plan [dataProcess]="dataProcess()"></app-strategy-plan>
+}
 }
 
 
 @if (isSeletedDebtsSidebarOpen()) {
-<app-sidebar-selected-debts (closeSeletedDebtsSidebar)="closeSeletedDebtsSidebar()"
-  [method]="method()"
+<app-sidebar-selected-debts (closeSeletedDebtsSidebar)="closeSeletedDebtsSidebar()" [method]="method()"
   (selectedItems)="handleSelectedItems($event)">
 </app-sidebar-selected-debts>
 

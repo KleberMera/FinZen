@@ -19,6 +19,8 @@ export default class StrategyMethodComponent {
   selectedSalary = signal(false);
   selectedDebtIds = signal<number[]>([]);
 
+  dataProcess = signal<any>([]);
+
   isSeletedDebtsSidebarOpen = signal(false);
 
   onSeletedDebtsClick() {
@@ -39,11 +41,18 @@ export default class StrategyMethodComponent {
     salary: boolean;
     debtIds: number[];
     method: string;
+    userId: number;
+    salaryData?: number;
   }) {
     this.viewMethod.set(false);
     console.log('Elementos seleccionados:', selection);
     this.selectedSalary.set(selection.salary);
-    this.selectedDebtIds.set(selection.debtIds);
 
+    this.selectedDebtIds.set(selection.debtIds);
+    this.dataProcess.set({
+      ...selection,
+    });
+
+    console.log('ELementos a procesar:', this.dataProcess());
   }
 }
