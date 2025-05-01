@@ -155,7 +155,7 @@ export class SidebarSelectedDebtsComponent {
   }
     
   selectedDebtCount = computed(() => this.selectedDebtIds().length);
-  hasSelection = computed(() => this.includeSalary() || this.selectedDebtIds().length > 0);
+  hasSelection = computed(() => this.includeSalary() || this.selectedDebtIds().length >= 2);
   
     
 }
