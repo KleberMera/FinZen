@@ -15,3 +15,13 @@ export interface Debt {
     amortizations: Amortization[];
   }
   
+
+
+
+  export interface StrategyMethod {
+    method: string;
+    salary: boolean;
+    debtIds: number[];
+    userId: number;
+    salaryData?: number;
+  }

@@ -2,6 +2,10 @@ import { Component, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar-selected-debts.component';
 import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component';
+import { StrategyMethod } from '@models/debt';
+
+
+
 
 @Component({
   selector: 'app-strategy-method',
@@ -19,7 +23,12 @@ export default class StrategyMethodComponent {
   selectedSalary = signal(false);
   selectedDebtIds = signal<number[]>([]);
 
-  dataProcess = signal<any>([]);
+  dataProcess = signal<StrategyMethod>({
+    method: '',
+    salary: false,
+    debtIds: [],
+    userId: 0
+  });
 
   isSeletedDebtsSidebarOpen = signal(false);
 
@@ -37,18 +46,9 @@ export default class StrategyMethodComponent {
     this.router.navigate(['home/deudas-estrategia/elegir']);
   }
 
-  handleSelectedItems(selection: {
-    salary: boolean;
-    debtIds: number[];
-    method: string;
-    userId: number;
-    salaryData?: number;
-  }) {
+  handleSelectedItems(selection: StrategyMethod) {
     this.viewMethod.set(false);
-    console.log('Elementos seleccionados:', selection);
-    this.selectedSalary.set(selection.salary);
-
-    this.selectedDebtIds.set(selection.debtIds);
+    console.log('Elementos seleccionados:', selection);;
     this.dataProcess.set({
       ...selection,
     });

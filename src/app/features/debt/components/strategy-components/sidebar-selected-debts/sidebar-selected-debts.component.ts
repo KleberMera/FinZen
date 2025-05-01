@@ -13,6 +13,7 @@ import { format } from '@formkit/tempo';
 import { SnowballService } from '../../../services/snowball.service';
 import { apiResponse } from '@models/apiResponse';
 import { Salary } from '@models/salary';
+import { StrategyMethod } from '@models/debt';
 
 @Component({
   selector: 'app-sidebar-selected-debts',
@@ -26,13 +27,7 @@ export class SidebarSelectedDebtsComponent {
   method = input.required<string>();
 
   closeSeletedDebtsSidebar = output<void>();
-  selectedItems = output<{
-    salary: boolean;
-    debtIds: number[];
-    userId: number;
-    salaryData?: number;
-    method: string;
-  }>();
+  selectedItems = output<StrategyMethod>();
 
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
