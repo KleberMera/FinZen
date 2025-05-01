@@ -33,7 +33,7 @@ export class SidebarSelectedDebtsComponent {
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
 
   // Estados para elementos seleccionados
-  includeSalary = signal(true);
+  includeSalary = signal(false);
   selectedDebtIds = signal<number[]>([]);
 
   // Calcular si todos los items están seleccionados
