@@ -30,16 +30,16 @@ export class StrategyMainComponent {
 
   // Método para iniciar la estrategia seleccionada
   startStrategy(): void {
-    const metodo = this.selectedStrategy();
-    if (!metodo) {
+    const method = this.selectedStrategy();
+    if (!method) {
       return;
     }
 
-    console.log(`Iniciando estrategia: ${metodo}`);
+    console.log(`Iniciando estrategia: ${method}`);
 
     // Navegar usando query parameters en lugar de parámetros de ruta
     this.router.navigate([`home/${DEBT_PAGES.DEBT_SELECTED_STRATEGY}`], {
-      queryParams: { metodo },
+      queryParams: { method },
     });
   }
 

@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   output,
   signal,
 } from '@angular/core';
@@ -22,6 +23,7 @@ import { Salary } from '@models/salary';
 export class SidebarSelectedDebtsComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _snowballService = inject(SnowballService);
+  method = input.required<string>();
 
   closeSeletedDebtsSidebar = output<void>();
   selectedItems = output<{
@@ -29,6 +31,7 @@ export class SidebarSelectedDebtsComponent {
     debtIds: number[];
     userId: number;
     salaryData?: number;
+    method: string;
   }>();
 
   seletdUserId = signal(this._storage.getUserId());
@@ -124,6 +127,7 @@ export class SidebarSelectedDebtsComponent {
   applySelection() {
     const selectionData = {
       salary: this.includeSalary(),
+      method: this.method(),
       debtIds: this.selectedDebtIds(),
       userId: this.seletdUserId(),
       ...(this.includeSalary() && {

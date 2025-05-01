@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar-selected-debts.component';
-import { StrategyPlanComponent } from "../strategy-plan/strategy-plan.component";
+import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component';
 
 @Component({
   selector: 'app-strategy-method',
@@ -11,7 +11,7 @@ import { StrategyPlanComponent } from "../strategy-plan/strategy-plan.component"
 })
 export default class StrategyMethodComponent {
   // Inyectar ActivatedRoute para acceder a los query parameters
-  metodo = input<string>('');
+  method = input<string>('');
   readonly router = inject(Router);
   viewMethod = signal(true);
 
@@ -35,13 +35,15 @@ export default class StrategyMethodComponent {
     this.router.navigate(['home/deudas-estrategia/elegir']);
   }
 
-  handleSelectedItems(selection: { salary: boolean; debtIds: number[] }) {
+  handleSelectedItems(selection: {
+    salary: boolean;
+    debtIds: number[];
+    method: string;
+  }) {
     this.viewMethod.set(false);
     console.log('Elementos seleccionados:', selection);
     this.selectedSalary.set(selection.salary);
     this.selectedDebtIds.set(selection.debtIds);
 
-    // Aquí puedes procesar los elementos seleccionados
-    // Por ejemplo, hacer cálculos, mostrar información, etc.
   }
 }
