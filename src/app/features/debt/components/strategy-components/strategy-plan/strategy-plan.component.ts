@@ -1,7 +1,22 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StrategyMethod } from '@models/debt';
+import { Debt, StrategyMethod } from '@models/debt';
 import { SnowballService } from '../../../services/snowball.service';
+import { format } from '@formkit/tempo';
+
+export interface StrategyPlanComponentProps {
+  method: string;
+  currentSalary: number;
+  debts: Debt[];
+  currentDate: string;
+}
 
 @Component({
   selector: 'app-strategy-plan',
@@ -25,5 +40,20 @@ export class StrategyPlanComponent {
       ),
   });
 
-  constructor() {}
+
+  dataPayload = computed<StrategyPlanComponentProps>(() => ({
+    method: this.dataProcess().method,
+    currentSalary: this.dataProcess().salaryData as number,
+    debts: this.data.value() as Debt[],
+    currentDate: format(new Date(), 'YYYY-MM-DD', 'es'),
+  }));
+
+  constructor() {
+    effect(() => {
+      if(this.data.value()){
+        console.log('Payload:', this.dataPayload());
+        
+      }
+    });
+  }
 }
