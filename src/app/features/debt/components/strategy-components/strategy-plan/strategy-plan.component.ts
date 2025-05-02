@@ -18,11 +18,12 @@ export class StrategyPlanComponent {
       userId: this.dataProcess().userId,
       debtIds: this.dataProcess().debtIds,
     }),
-    loader: ({request}) =>
+    loader: ({ request }) =>
       this._snowballService.findDebtsByUserWithAmortizations(
         request.userId,
         request.debtIds
-
       ),
   });
+
+  constructor() {}
 }
