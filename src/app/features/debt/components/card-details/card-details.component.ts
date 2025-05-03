@@ -33,10 +33,16 @@ export class CardDetailsComponent {
 
   // Método para obtener el total de cuotas atrasadas
   protected getCuotasAtrasadas(debt: Debt): number {
+    console.log('Cuotas atrasadas:', debt.amortizations);
+    
     const today = format(new Date(), 'YYYY-MM-DD');
+    console.log('Hoy:', today);
+    
    
     return debt.amortizations.filter((a) => {
       const fechaCuota = format(new Date(a.date), 'YYYY-MM-DD');
+      console.log('Fecha cuota:', fechaCuota);
+      
      
       return a.status === 'Pendiente' && fechaCuota < today;
     }).length;
