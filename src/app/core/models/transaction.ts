@@ -12,6 +12,7 @@ export interface Transaction {
   category?: Category;
   time: string;
   createdAt?: string;
+  isRecurring?: boolean;
   
 }
 

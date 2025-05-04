@@ -53,12 +53,7 @@ export default class FormTransactionsComponent {
       ),
   });
 
-  paymentMethods = signal([
-    { value: 'efectivo', label: 'Efectivo' },
-    { value: 'tarjeta', label: 'Tarjeta' },
-    { value: 'transferencia', label: 'Transferencia' },
-    { value: 'otro', label: 'Otro' },
-  ]);
+
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {

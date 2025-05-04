@@ -66,6 +66,10 @@ export class SidebarItemsComponent {
           label: 'Movimientos',
           route: `${TRANSACTION_PAGES.ROOT}/${TRANSACTION_PAGES.MOVIMIENTOS}`,
         },
+        {
+          label: 'Recurrentes',
+          route: `${TRANSACTION_PAGES.ROOT}/${TRANSACTION_PAGES.RECURRENTES}`,
+        },
 
       ],
     },

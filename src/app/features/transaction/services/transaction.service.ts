@@ -61,6 +61,11 @@ export class TransactionService {
     return this._http.get<apiResponse<Transaction[]>>(url);
   }
 
+  getTransactionByCategoryId( categoryId: number): Observable<apiResponse<Transaction[]>> {
+    const url = `${environment.apiUrl}/transaction/category/${categoryId}`;
+    return this._http.get<apiResponse<Transaction[]>>(url);
+  }
+
   getTotalType(transactions: Transaction[]) {
     const ingresos = transactions
       .filter((t) => t.category?.type === 'Ingreso')

@@ -2,7 +2,6 @@
 
 <app-card-salary-transaction></app-card-salary-transaction>
 
-@defer (on viewport) {
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-gray-800 text-white rounded-lg shadow-lg">
     <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
       <span class="flex items-center gap-2">
@@ -167,29 +166,6 @@
         </div>
       </div>
   
-      <!-- Método de pago -->
-      <!-- <div class="relative">
-        <label for="payment_method" class="block mb-2 text-sm font-medium text-gray-300">
-          Método de Pago
-        </label>
-        <div class="flex flex-wrap gap-3">
-          @for (method of paymentMethods(); track method.value) {
-          <label class="flex items-center p-3 bg-gray-700 border border-gray-600 rounded-lg cursor-pointer hover:bg-gray-650 transition-colors">
-            <input type="radio" formControlName="payment_method" [value]="method.value" class="sr-only peer" />
-            <div class="w-4 h-4 mr-3 rounded-full border border-gray-400 flex items-center justify-center peer-checked:border-blue-400 peer-checked:bg-blue-400">
-              <div class="w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100"></div>
-            </div>
-            <span class="text-gray-300 peer-checked:text-white">{{ method.label }}</span>
-          </label>
-          }
-        </div>
-        @if (isFieldInvalid('payment_method')) {
-        <p class="mt-1 text-sm text-red-500">
-          {{ getErrorMessage('payment_method') }}
-        </p>
-        }
-      </div> -->
-  
       <!-- Descripción -->
       <div class="relative">
         <label for="description" class="mb-2 text-sm font-medium text-gray-300 flex items-center gap-2">
@@ -208,30 +184,7 @@
         </div>
       </div>
   
-      <!-- Añadir imagen/recibo (nuevo campo) -->
-      <!-- <div class="relative">
-        <label class="block mb-2 text-sm font-medium text-gray-300  items-center gap-2">
-          Adjuntar Recibo
-          <span class="text-xs text-gray-500">(Opcional)</span>
-        </label>
-        <div class="flex items-center justify-center w-full">
-          <label for="receipt-upload"
-            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer border-gray-600 hover:border-blue-400 bg-gray-700 hover:bg-gray-650 transition-all">
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mb-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-              </svg>
-              <p class="mb-2 text-sm text-gray-400">
-                <span class="font-semibold">Haz clic para subir</span> o arrastra y suelta
-              </p>
-              <p class="text-xs text-gray-500">PNG, JPG o PDF (Máx. 10MB)</p>
-            </div>
-            <input id="receipt-upload" formControlName="receipt" type="file" class="hidden" />
-          </label>
-        </div>
-      </div> -->
-
-      
+ 
   
       <!-- Botones -->
       <div class="flex items-center justify-end gap-4">
@@ -262,6 +215,3 @@
     </form>
   </div>
   
-} @placeholder {
-  <div></div>
-}
