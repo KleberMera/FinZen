@@ -1,44 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 import { FormValidationService } from '@services/form-validation.service';
-
 import { BreakpointService } from '@services/breakpoint.service';
-
 import { AuthService } from '../../services/auth.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { LockComponent } from '@icons/lock/lock.component';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
-import {
-  UserCicleIconComponent,
-  GoogleComponent,
-  EyeComponent,
-  EyeSlashComponent,
-  SpinnerComponent,
-  SignComponent,
-  LoadingGoogleComponent,
-} from '../../components';
+import { GoogleComponent,EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent } from '../../components';
 import { AUTH_PAGES } from '../../auth.routes';
-
 export const IconsApp = [LogoComponent, UserComponent, LockComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [
-    IconsApp,
-    RouterLink,
-    ReactiveFormsModule,
-    LockComponent,
-    GoogleComponent,
-    EyeComponent,
-    EyeSlashComponent,
-    SpinnerComponent,
-    SignComponent,
-    LoadingGoogleComponent,
-  ],
+  imports: [ IconsApp, RouterLink, ReactiveFormsModule, LockComponent, GoogleComponent, EyeComponent,
+    EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

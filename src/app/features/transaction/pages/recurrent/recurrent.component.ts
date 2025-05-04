@@ -11,7 +11,7 @@ import { CardRecurrentComponent } from "../../components/recurrent-components/ca
 
 @Component({
   selector: 'app-recurrent',
-  imports: [FormsModule, CurrencyPipe, DatePipe, CardRecurrentComponent],
+  imports: [FormsModule, CardRecurrentComponent],
   templateUrl: './recurrent.component.html',
   styleUrl: './recurrent.component.scss',
 })
