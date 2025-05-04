@@ -31,7 +31,7 @@ export default class RecurrentComponent {
   );
   
   // Tipos disponibles (incluyendo 'Todos')
-  protected readonly types = signal<string[]>(['Todos', 'Ingreso', 'Gasto']);
+  protected readonly types = signal<string[]>(['Ingreso', 'Gasto']);
   
   // Recurso para categorías
   categories = rxResource({

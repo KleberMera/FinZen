@@ -1,27 +1,29 @@
 <div class="mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
     <h3 class="text-lg font-medium text-gray-200 mb-3">Detalle de la transacción</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <p class="text-sm text-gray-400">Nombre</p>
-        <p class="text-gray-200">{{ selectedTransaction().name }}</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-400">Monto</p>
-        <p [class]="selectedType() === 'Ingreso' ? 'text-green-400' : 'text-red-400'" class="font-medium">
-          {{ selectedType() === 'Ingreso' ? '+' : '-' }}{{ selectedTransaction().amount | currency:'USD':'symbol':'1.2-2' }}
-        </p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-400">Fecha</p>
-        <p class="text-gray-200">{{ selectedTransaction().date | date:'dd/MM/yyyy' }} {{ selectedTransaction().time }}</p>
-      </div>
-      <div>
-        <p class="text-sm text-gray-400">Recurrente</p>
-        <p class="text-gray-200">{{ selectedTransaction().isRecurring ? 'Sí' : 'No' }}</p>
-      </div>
-      <div class="col-span-2">
-        <p class="text-sm text-gray-400">Descripción</p>
-        <p class="text-gray-200">{{ selectedTransaction().description }}</p>
-      </div>
+        <div>
+            <p class="text-sm text-gray-400">Nombre</p>
+            <p class="text-gray-200">{{ selectedTransaction().name }}</p>
+        </div>
+        <div>
+            <p class="text-sm text-gray-400">Monto</p>
+            <p [class]="selectedType() === 'Ingreso' ? 'text-green-400' : 'text-red-400'" class="font-medium">
+                {{ selectedType() === 'Ingreso' ? '+' : '-' }}{{ selectedTransaction().amount |
+                currency:'USD':'symbol':'1.2-2' }}
+            </p>
+        </div>
+        <div>
+            <p class="text-sm text-gray-400">Fecha</p>
+            <p class="text-gray-200">{{ selectedTransaction().date | date:'dd/MM/yyyy' }} {{ selectedTransaction().time
+                }}</p>
+        </div>
+        <div>
+            <p class="text-sm text-gray-400">Recurrente</p>
+            <p class="text-gray-200">{{ selectedTransaction().isRecurring ? 'Sí' : 'No' }}</p>
+        </div>
+        <div class="col-span-2">
+            <p class="text-sm text-gray-400">Descripción</p>
+            <p class="text-gray-200">{{ selectedTransaction().description }}</p>
+        </div>
     </div>
-  </div>
+</div>
