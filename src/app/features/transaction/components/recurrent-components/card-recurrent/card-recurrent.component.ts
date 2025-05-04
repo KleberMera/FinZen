@@ -103,10 +103,11 @@ export class CardRecurrentComponent {
     dayOfMonthControl?.updateValueAndValidity();
     dayOfWeekControl?.updateValueAndValidity();
   }
-
+  protected readonly isSubmitting = signal(false);
   // Método para enviar el formulario
   onSubmit(): void {
     if (this.recurringForm.valid) {
+      this.isSubmitting.set(true);
       const recurringData: RecurringTransaction = {
         frequency: this.recurringForm.value.frequency,
         nextExecutionDate: format(this.recurringForm.value.nextExecutionDate, 'YYYY-MM-DD', 'es'),
@@ -133,6 +134,7 @@ export class CardRecurrentComponent {
           next: (response) => {
            // console.log('Transacción recurrente creada:', response);
             toast.success('Transaccion Recurrente Creada')
+            this.isSubmitting.set(false)
           },
         });
     }
