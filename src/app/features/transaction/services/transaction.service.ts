@@ -7,7 +7,13 @@ import { apiResponse } from '@models/apiResponse';
 import { Category, CategoryName } from '@models/category';
 import { Transaction } from '@models/transaction';
 import { Observable, tap } from 'rxjs';
-
+interface RecurringTransaction {
+  frequency: string;
+  nextExecutionDate: string;
+  endDate?: string;
+  dayOfMonth?: number;
+  dayOfWeek?: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -55,6 +61,17 @@ export class TransactionService {
     const url = `${environment.apiUrl}/transaction`;
     return this._http.post<apiResponse<Transaction>>(url, data);
   }
+
+  createRecurringTransaction(
+    data: RecurringTransaction,
+    transactionId: number,
+    userid: number
+  ): Observable<any> {
+    const url = `${environment.apiUrl}/recurrent-transaction/${transactionId}/${userid}`;
+    return this._http.post<any>(url, data);
+  }
+
+
 
   getTransactionByUserId(id: number): Observable<apiResponse<Transaction[]>> {
     const url = `${environment.apiUrl}/transaction/user/${id}`;

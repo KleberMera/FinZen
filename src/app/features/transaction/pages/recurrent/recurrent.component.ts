@@ -18,7 +18,9 @@ import { CardRecurrentComponent } from "../../components/recurrent-components/ca
 export default class RecurrentComponent {
   private readonly _transactionService = inject(TransactionService);
   private readonly _storageService = inject(StorageService);
-  
+  protected readonly selectedUserId = signal<number>(
+    this._storageService.getUserId()
+  );
   // Señales para selecciones
   protected readonly selectedCategoryId = signal<string>('');
   protected readonly selectedTransactionId = signal<string>('');
@@ -26,9 +28,7 @@ export default class RecurrentComponent {
   protected readonly isTypeDropdownOpen = signal(false);
   
   // Datos del usuario
-  protected readonly selectedUserId = signal<number>(
-    this._storageService.getUserId()
-  );
+ 
   
   // Tipos disponibles (incluyendo 'Todos')
   protected readonly types = signal<string[]>(['Ingreso', 'Gasto']);
