@@ -18,6 +18,7 @@ import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../../services/transaction.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
+import { format } from '@formkit/tempo';
 interface RecurringTransaction {
   frequency: string;
   nextExecutionDate: string;
@@ -108,8 +109,8 @@ export class CardRecurrentComponent {
     if (this.recurringForm.valid) {
       const recurringData: RecurringTransaction = {
         frequency: this.recurringForm.value.frequency,
-        nextExecutionDate: this.recurringForm.value.nextExecutionDate,
-        endDate: this.recurringForm.value.endDate || undefined,
+        nextExecutionDate: format(this.recurringForm.value.nextExecutionDate, 'YYYY-MM-DD', 'es'),
+        endDate: format(this.recurringForm.value.endDate,'YYYY-MM-DD', 'es'),
         dayOfMonth: this.recurringForm.value.dayOfMonth || undefined,
         dayOfWeek: this.recurringForm.value.dayOfWeek || undefined,
       };
@@ -119,6 +120,8 @@ export class CardRecurrentComponent {
         recurringData,
       });
 
+      console.log('TRANSACCION', recurringData);
+      
 
       this._transactionService
         .createRecurringTransaction(
