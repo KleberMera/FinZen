@@ -9,14 +9,15 @@ import { FirebaseService } from '../../services/firebase.service';
 import { LockComponent } from '@icons/lock/lock.component';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { UserComponent } from '@icons/user/user.component';
-import { GoogleComponent,EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent } from '../../components';
+import { GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent} from '../../components';
 import { AUTH_PAGES } from '../../auth.routes';
-export const IconsApp = [LogoComponent, UserComponent, LockComponent];
+import { firstValueFrom } from 'rxjs';
+export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComponent, EyeComponent,
+  EyeSlashComponent, SpinnerComponent, SignComponent];
 
 @Component({
   selector: 'app-login',
-  imports: [ IconsApp, RouterLink, ReactiveFormsModule, LockComponent, GoogleComponent, EyeComponent,
-    EyeSlashComponent, SpinnerComponent, SignComponent, LoadingGoogleComponent ],
+  imports: [IconsApp, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -61,17 +62,14 @@ export default class LoginComponent {
   }
 
   async loginWithGoogle() {
-    this.isGoogleLoading.set(true);
-    (await this._firebaseService.loginWithGoogle()).subscribe({
-      next: (res) => {
-        toast.success(res.message);
-        this._router.navigate(['home']);
-        this.isSubmitting.set(false);
-        this.isGoogleLoading.set(false);
-      },
-      error: (error) => {
-        this.isGoogleLoading.set(false);
-      },
-    });
+      const loginResult = firstValueFrom(await this._firebaseService.loginWithGoogle());
+      toast.promise(loginResult, {
+        loading: 'Iniciando sesión con Google...',
+        success: (res) => {
+          this._router.navigate(['home']);
+          this.isSubmitting.set(false);
+          return res.message;
+        },
+      });
   }
 }
