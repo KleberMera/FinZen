@@ -63,6 +63,16 @@ export class SidebarSelectedDebtsComponent {
       this._snowballService.getDebtByIdData(request.userId),
   });
 
+
+  // Recurring transactions
+  recurringTransactions = rxResource({
+    request: () => ({ userId: this.seletdUserId() }),
+    loader: ({ request }) =>
+      this._snowballService.getRecurringTransaction(request.userId),
+  });
+
+
+
   // Al inicializar, pre-seleccionar todas las deudas
   constructor() {
     effect(() => {

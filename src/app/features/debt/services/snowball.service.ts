@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { Salary } from '@models/salary';
+import { Transaction } from '@models/transaction';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -31,4 +32,11 @@ export class SnowballService {
     const url = `${environment.apiUrl}/debt/user/debtsIds/${userId}`;
     return this._http.post<Debt[]>(url, { debtIds });
   }
+
+
+    getRecurringTransaction(userid: number): Observable<Transaction[]> {
+      const url = `${environment.apiUrl}/recurrent-transaction/${userid}`;
+      return this._http.get<Transaction[]>(url);
+    }
+  
 }

@@ -12,9 +12,8 @@ import { UserComponent } from '@icons/user/user.component';
 import { GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent} from '../../components';
 import { AUTH_PAGES } from '../../auth.routes';
 import { firstValueFrom } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComponent, EyeComponent,
-  EyeSlashComponent, SpinnerComponent, SignComponent];
+                        EyeSlashComponent, SpinnerComponent, SignComponent];
 
 @Component({
   selector: 'app-login',
