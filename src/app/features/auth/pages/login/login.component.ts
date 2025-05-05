@@ -12,6 +12,7 @@ import { UserComponent } from '@icons/user/user.component';
 import { GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent} from '../../components';
 import { AUTH_PAGES } from '../../auth.routes';
 import { firstValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComponent, EyeComponent,
   EyeSlashComponent, SpinnerComponent, SignComponent];
 
@@ -62,14 +63,16 @@ export default class LoginComponent {
   }
 
   async loginWithGoogle() {
-      const loginResult = firstValueFrom(await this._firebaseService.loginWithGoogle());
-      toast.promise(loginResult, {
-        loading: 'Iniciando sesión con Google...',
-        success: (res) => {
-          this._router.navigate(['home']);
-          this.isSubmitting.set(false);
-          return res.message;
-        },
-      });
+    this.isGoogleLoading.set(true);
+    const loginPromise = firstValueFrom(await this._firebaseService.loginWithGoogle());
+    toast.promise(loginPromise, {
+      loading: 'Iniciando sesión con Google...',
+      success: (res) => {
+        this._router.navigate(['home']);
+        this.isSubmitting.set(false);
+        this.isGoogleLoading.set(false);
+        return res.message;
+      },  
+    })
   }
 }
