@@ -39,3 +39,12 @@ export interface TransactionReport {
   createdAt?: string;
   
 }
+
+
+
+
+export interface TransactionRecurring extends Transaction {
+  
+  category: Category
+  
+}

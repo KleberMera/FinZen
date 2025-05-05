@@ -4,7 +4,7 @@ import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Debt } from '@models/debt';
 import { Salary } from '@models/salary';
-import { Transaction } from '@models/transaction';
+import { Transaction, TransactionRecurring } from '@models/transaction';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -34,9 +34,9 @@ export class SnowballService {
   }
 
 
-    getRecurringTransaction(userid: number): Observable<Transaction[]> {
+    getRecurringTransaction(userid: number): Observable<TransactionRecurring[]> {
       const url = `${environment.apiUrl}/recurrent-transaction/${userid}`;
-      return this._http.get<Transaction[]>(url);
+      return this._http.get<TransactionRecurring[]>(url);
     }
   
 }
