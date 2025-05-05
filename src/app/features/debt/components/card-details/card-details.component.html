@@ -74,7 +74,8 @@
           <p class="text-xs text-gray-500 dark:text-gray-400">Duración</p>
         </div>
         <p class="text-lg font-semibold text-gray-900 dark:text-white">
-          {{ item.duration_months }} meses
+          {{ item.duration_months }} 
+          {{ item.duration_type == 'months' ? 'meses' : 'días' }}
         </p>
       </div>
       

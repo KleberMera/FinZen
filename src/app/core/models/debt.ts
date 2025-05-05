@@ -8,6 +8,7 @@ export interface Debt {
   amount: number;
   interest_rate: number;
   duration_months: number;
+  duration_type: string;
   method: string;
   start_date: string;
   end_date: string;
