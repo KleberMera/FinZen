@@ -26,12 +26,6 @@ export class SidebarSelectedDebtsComponent {
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
 
-  // Recurring transactions
-  recurringTransactions = rxResource({
-    request: () => ({ userId: this.seletdUserId() }),
-    loader: ({ request }) =>
-      this._snowballService.getRecurringTransaction(request.userId),
-  });
 
   close() {
     this.closeSeletedDebtsSidebar.emit();
@@ -67,8 +61,8 @@ export class SidebarSelectedDebtsComponent {
 
   calculateTotal(): string {
     let total = 0;
-    const includeSalary = this.salaryComponent()!.includeSalary();
-    const salary = this.salaryComponent()!.salary.value()?.data;
+    const includeSalary = this.salaryComponent()!.includeSalary(); 
+    const salary = this.salaryComponent()!.salary.value()?.data?.salary_amount;
 
     // Añadir el sueldo si está seleccionado
     if (includeSalary && salary) {
