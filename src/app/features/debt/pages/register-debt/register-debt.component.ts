@@ -9,19 +9,21 @@ import { TableAmortizationComponent } from '../../components/table-amortization/
 import { BreakpointService } from '@services/breakpoint.service';
 import { CardAmortizationComponent } from '../../components/card-amortization/card-amortization.component';
 import { MethodService } from '../../services/method.service';
+import { firstValueFrom } from 'rxjs';
 
-const AppComponent = [ TableAmortizationComponent, CardAmortizationComponent ];
+const AppComponent = [TableAmortizationComponent, CardAmortizationComponent];
 
 @Component({
   selector: 'app-register-debt',
-  imports: [AppComponent, ReactiveFormsModule], 
+  imports: [AppComponent, ReactiveFormsModule],
   templateUrl: './register-debt.component.html',
   styleUrl: './register-debt.component.scss',
 })
-
 export default class RegisterDebtComponent {
   private readonly _debtService = inject(DebtService);
-  protected readonly seletedUser = signal<number>( inject(StorageService).getUserId() );
+  protected readonly seletedUser = signal<number>(
+    inject(StorageService).getUserId()
+  );
   protected readonly _methodService = inject(MethodService);
   public readonly _screenService = inject(BreakpointService);
   private readonly _validationService = inject(FormValidationService);
@@ -70,7 +72,7 @@ export default class RegisterDebtComponent {
 
       if (durationType === 'days') {
         // Add days to the start date
-        endDate = addDay(format(startDate, 'YYYY-MM-DD'), duration);
+        endDate = addDay(format(startDate, 'YYYY-MM-DD'), duration - 1);
       } else {
         // Add months to the start date (existing behavior)
         endDate = addMonth(format(startDate, 'YYYY-MM-DD'), duration - 1);
@@ -107,7 +109,7 @@ export default class RegisterDebtComponent {
     const { amount, interest_rate, duration_months, start_date, method } =
       this.form().value;
 
-    if (amount  && duration_months && start_date && method) {
+    if (amount && duration_months && start_date && method) {
       // Calcular la amortización según el método seleccionado
       if (method === 'frances') {
         this._methodService.calculateFrenchAmortization(this.form());
@@ -126,19 +128,17 @@ export default class RegisterDebtComponent {
   }
 
   async saveDebt() {
-    //Que duration_type sea eliminado
-    this.form().removeControl('duration_type');
-    console.log(this.form().value);
-    
     if (this.form().invalid || this.isSubmitting()) return;
-    toast.info('Registrando, esto puede tardar un rato...');
     this.isSubmitting.set(true);
-    this._debtService.createDebt(this.form().value).subscribe({
-      next: (res) => {
-        this.isSubmitting.set(false);
-        toast.success(res.message);
+    const debtPromise = firstValueFrom(this._debtService.createDebt(this.form().value));
+    toast.promise(debtPromise, {
+      loading: 'Registrando, esto puede tardar un rato...',
+      success: (res) => {
         this.resetFiels();
+        this.isSubmitting.set(false);
+        return res.message;
       },
+     
     });
   }
 
