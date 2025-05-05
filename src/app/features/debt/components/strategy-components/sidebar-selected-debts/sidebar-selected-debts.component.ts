@@ -130,20 +130,23 @@ export class SidebarSelectedDebtsComponent {
   }
 
   applySelection() {
+    const selectedDebts = this.debts.value()?.data?.filter(debt => 
+      this.selectedDebtIds().includes(debt.id!)
+    ) || [];
+  
     const selectionData: StrategyMethod = {
       salary: this.includeSalary(),
       method: this.method(),
-      debtIds: this.selectedDebtIds(),
+      debts: selectedDebts, // Enviamos los objetos completos de deuda en lugar de solo IDs
       userId: this.seletdUserId(),
       ...(this.includeSalary() && {
         salaryData: this.salary.value()?.data?.salary_amount,
       }),
     };
+    
     this.selectedItems.emit(selectionData);
-
     this.close();
   }
-
   calculateTotal(): string {
     let total = 0;
     

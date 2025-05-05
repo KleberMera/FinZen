@@ -22,7 +22,7 @@ export default class StrategyMethodComponent {
   dataProcess = signal<StrategyMethod>({
     method: '',
     salary: false,
-    debtIds: [],
+    debts: [],
     userId: 0
   });
 

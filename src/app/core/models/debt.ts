@@ -14,12 +14,17 @@ export interface Debt {
   end_date: string;
   status: string;
   amortizations: Amortization[];
+  totalPaidAmount: number;
+  paidInstallmentsCount: number;
+  remainingInstallments: number;
+  remainingAmount: number;
+
 }
 
 export interface StrategyMethod {
   method: string;
   salary: boolean;
-  debtIds: number[];
+  debts: Debt[]
   userId: number;
   salaryData?: number;
 }

@@ -1,23 +1,27 @@
-<app-search-filter-debt ></app-search-filter-debt>
+<app-search-filter-debt/>
+    @if (seletedDebt()) {
+        @if (loading()) {
+        <app-skeleton-card-detail-transaction/>
+            @if (_screenService.isMobile()) {
+                <app-skeleton-card-amortization/>
+                } @else {
+                <app-skeleton-table-amortization/>
+            }
+        } @else {
+            <app-card-details 
+            [debts]="filteredDebts()">
+            </app-card-details>
+            @if (_screenService.isMobile()) {
+                <app-card-amortization 
+                (updateSuccess)="onUpdateSuccess()" 
+                [filters]="filteredDebts()">
+                </app-card-amortization>
+                } @else {
+                    <app-table-amortization 
+                    [filters]="filteredDebts()" 
+                    (updateSuccess)="onUpdateSuccess()">
+                    </app-table-amortization>
+            }
+        }
 
-
-@if (seletedDebt()) {
-@if (loading()) {
-<app-skeleton-card-detail-transaction></app-skeleton-card-detail-transaction>
-
-
-@if (_screenService.isMobile()) {
-<app-skeleton-card-amortization></app-skeleton-card-amortization>
-} @else {
-<app-skeleton-table-amortization></app-skeleton-table-amortization>
-}
-}@else {
-<app-card-details [debts]="filteredDebts()"></app-card-details>
-@if (_screenService.isMobile()) {
-<app-card-amortization (updateSuccess)="onUpdateSuccess()" [filters]="filteredDebts()"></app-card-amortization>
-} @else {
-<app-table-amortization [filters]="filteredDebts()" (updateSuccess)="onUpdateSuccess()"></app-table-amortization>
-}
-}
-
-}
+    }

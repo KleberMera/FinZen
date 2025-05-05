@@ -14,29 +14,13 @@ export class StrategyPlanComponent {
   dataProcess = input.required<StrategyMethod>();
   protected readonly _snowballService = inject(SnowballService);
 
-  data = rxResource({
-    request: () => ({
-      userId: this.dataProcess().userId,
-      debtIds: this.dataProcess().debtIds,
-    }),
-    loader: ({ request }) =>
-      this._snowballService.findDebtsByUserWithAmortizations(
-        request.userId,
-        request.debtIds
-      ),
-  });
 
-  dataPayload = computed<StrategyPlanComponentProps>(() => ({
-    method: this.dataProcess().method,
-    currentSalary: this.dataProcess().salaryData!,
-    currentDate: format(new Date(), 'YYYY-MM-DD', 'es'),
-    debts: this.data.value()!,
-  }));
+
 
   constructor() {
     effect(() => {
-      if (this.data.value()) {
-        console.log('Payload:', this.dataPayload());
+      if (this.dataProcess()) {
+        console.log('Payload:', this.dataProcess());
       }
     });
   }
