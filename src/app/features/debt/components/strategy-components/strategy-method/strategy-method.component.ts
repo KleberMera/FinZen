@@ -5,7 +5,7 @@ import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component'
 import { StrategyMethod } from '@models/debt';
 @Component({
   selector: 'app-strategy-method',
-  imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent],
+  imports: [ StrategyPlanComponent],
   templateUrl: './strategy-method.component.html',
   styleUrl: './strategy-method.component.scss',
 })

@@ -1,103 +1,73 @@
-<div class="fixed inset-0 z-50">
-    <!-- Fondo oscuro con blur -->
-    <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity" (click)="close()">
+<div>
+    <div class="flex items-center mb-4">
+      <div class="bg-green-100 dark:bg-green-900 p-2 sm:p-3 rounded-full mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-green-600 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-semibold">Selección de Datos</h2>
     </div>
+    
+    <p class="text-gray-700 dark:text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base">
+      Selecciona los elementos que deseas incluir en tu estrategia de pago de deudas, como deudas, sueldo y transacciones recurrentes.
+    </p>
+    
+    <div class="bg-gray-50 dark:bg-gray-800 p-3 sm:p-5 rounded-lg text-sm sm:text-base">
+      <!-- <div class="bg-green-50 dark:bg-green-900/50 p-3 sm:p-4 rounded-lg mb-4">
+        <p class="font-medium mb-2 sm:mb-3 text-green-700 dark:text-green-300">Instrucciones:</p>
+        <p class="text-gray-700 dark:text-gray-300">
+          Usa las secciones a continuación para elegir tus deudas, incluir tu sueldo y agregar transacciones recurrentes. Revisa el resumen y aplica tu selección para personalizar tu estrategia.
+        </p>
+      </div> -->
+      <app-salary-seleted></app-salary-seleted>
+      <!-- Sección de Sueldo -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <app-section-debts></app-section-debts>
+        <app-section-recurring></app-section-recurring>
+       </div>
 
-    <!-- Drawer con animación de entrada -->
-    <div
-        class="absolute right-0 top-0 h-full w-full max-w-xs sm:max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0 overflow-y-auto rounded-l-xl custom-scrollbar ">
-        <!-- Header con diseño mejorado -->
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10 shadow-sm">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <!-- Icono para el título -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Seleccionar elementos</h2>
-                </div>
-                <div class="flex items-center gap-2">
-                    <!-- Botón de cerrar mejorado -->
-                    <button (click)="close()"
-                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                        title="Cerrar">
-                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Estado de carga con mejor diseño -->
-
-            <!-- Contenido con secciones mejoradas -->
-            <div class="p-5">
-                <!-- Tarjeta informativa -->
-                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 mb-6 border-l-4 border-blue-500">
-                    <div class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mt-0.5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p class="text-sm text-gray-700 dark:text-gray-300">
-                            Selecciona los elementos que deseas incluir en tu estrategia de pago de deudas.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Sección de Sueldo -->
-                <app-salary-seleted></app-salary-seleted>
-                <app-section-debts></app-section-debts>
-                <app-section-recurring></app-section-recurring>
-
-                <!-- Resumen de selección -->
-                <div class="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        Resumen de selección:
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <span class="text-gray-800 dark:text-gray-200">
-                                {{ selectedDebtCount() }} deudas seleccionadas
-                            </span>
-                            @if (this.salaryComponent()!.includeSalary()) {
-                                <span class="text-gray-600 dark:text-gray-400">
-                                    + sueldo
-                                </span>
-                            }
-
-                            @if (this.recurringComponent()!.recurringTransactions.value()?.length) {
-                                <span class="text-gray-600 dark:text-gray-400">
-                                    + {{ this.recurringComponent()!.recurringTransactions.value()?.length }} transacciones recurrentes
-                                </span>
-                            }
-                        </div>
-                        <div class="text-gray-800 dark:text-gray-200 font-medium">
-                            Total: ${{ calculateTotal() }}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Botones de acción -->
-                <div class="mt-6 grid grid-cols-2 gap-4">
-                    <button (click)="close()"
-                        class="px-4 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 font-medium">
-                        Cancelar
-                    </button>
-                    <button (click)="applySelection()"
-                        [disabled]="!hasSelection()"
-                        [class.opacity-50]="!hasSelection()"
-                        [class.cursor-not-allowed]="!hasSelection()"
-                        class="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow hover:shadow-lg font-medium flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        Aplicar selección
-                    </button>
-                </div>
-            </div>
  
+      
+ <!-- Resumen de selección -->
+ <div class="mt-6 p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+      Resumen de selección:
     </div>
-</div>
+    <div class="flex justify-between items-center">
+      <div>
+        <span class="text-gray-800 dark:text-gray-200">
+          {{ selectedDebtCount() }} deudas seleccionadas
+        </span>
+        @if (this.salaryComponent()!.includeSalary()) {
+          <span class="text-gray-600 dark:text-gray-400">
+            + sueldo
+          </span>
+        }
+
+        @if (this.recurringComponent()!.recurringTransactions.value()?.length) {
+            <span class="text-gray-600 dark:text-gray-400">
+                + {{ this.recurringComponent()!.recurringTransactions.value()?.length }} transacciones recurrentes
+            </span>
+        }
+      </div>
+      <div class="text-gray-800 dark:text-gray-200 font-medium">
+        Total: ${{ calculateTotal() }}
+      </div>
+    </div>
+  </div>
+      
+      <!-- Botones de acción -->
+      <div class="mt-6 flex justify-center">
+        <button (click)="applySelection()"
+          [disabled]="!hasSelection()"
+          [class.opacity-50]="!hasSelection()"
+          [class.cursor-not-allowed]="!hasSelection()"
+          class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 dark:from-green-500 dark:to-green-600 dark:hover:from-green-600 dark:hover:to-green-700 transition-all duration-300 shadow hover:shadow-lg font-medium flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Aplicar selección
+        </button>
+      </div>
+    </div>
+  </div>

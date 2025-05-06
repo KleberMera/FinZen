@@ -20,7 +20,7 @@ export class SidebarSelectedDebtsComponent {
   readonly salaryComponent = viewChild(SalarySeletedComponent);
   readonly debtComponent = viewChild(SectionDebtsComponent);
   readonly recurringComponent = viewChild(SectionRecurringComponent);
-  method = input.required<string>();
+
 
   closeSeletedDebtsSidebar = output<void>();
   selectedItems = output<StrategyMethod>();
@@ -29,9 +29,6 @@ export class SidebarSelectedDebtsComponent {
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
 
 
-  close() {
-    this.closeSeletedDebtsSidebar.emit();
-  }
 
   applySelection() {
     const selectedDebts =
@@ -43,7 +40,7 @@ export class SidebarSelectedDebtsComponent {
 
     const selectionData: StrategyMethod = {
       salary: this.salaryComponent()!.includeSalary(),
-      method: this.method(),
+      method: 'bola-de-nieve',
       currentDate: format(new Date(), 'YYYY-MM-DD', 'es'),
       debts: selectedDebts,
       userId: this.seletdUserId(),
@@ -58,7 +55,9 @@ export class SidebarSelectedDebtsComponent {
     };
 
     this.selectedItems.emit(selectionData);
-    this.close();
+    console.log('Elementos seleccionados:', selectionData);
+    
+
   }
 
   hasSelection = computed(

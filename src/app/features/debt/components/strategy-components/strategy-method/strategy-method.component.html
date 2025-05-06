@@ -110,9 +110,3 @@
 }
 
 
-@if (isSeletedDebtsSidebarOpen()) {
-<app-sidebar-selected-debts (closeSeletedDebtsSidebar)="closeSeletedDebtsSidebar()" [method]="method()"
-  (selectedItems)="handleSelectedItems($event)">
-</app-sidebar-selected-debts>
-
-}
