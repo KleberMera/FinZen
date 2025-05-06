@@ -33,6 +33,7 @@ export interface StrategyMethod {
     amount: number;
     type: string;
   }[]
+  currentDate: string;
 }
 
 export interface StrategyPlanComponentProps {

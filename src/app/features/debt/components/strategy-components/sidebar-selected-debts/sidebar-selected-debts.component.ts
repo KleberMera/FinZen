@@ -44,6 +44,7 @@ export class SidebarSelectedDebtsComponent {
     const selectionData: StrategyMethod = {
       salary: this.salaryComponent()!.includeSalary(),
       method: this.method(),
+      currentDate: format(new Date(), 'YYYY-MM-DD', 'es'),
       debts: selectedDebts,
       userId: this.seletdUserId(),
       ...(this.salaryComponent()!.includeSalary() && {
