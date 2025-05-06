@@ -19,20 +19,21 @@ export interface Debt {
   paidInstallmentsCount: number;
   remainingInstallments: number;
   remainingAmount: number;
-
+  minimumPayment?: number
+  isOverdue?: boolean
 }
 
 export interface StrategyMethod {
-  method: string;
+  method: 'bola-de-nieve' | 'avalancha';
   salary: boolean;
-  debts: Debt[]
+  debts: Debt[];
   userId: number;
   salaryData?: number;
   recurringTransactions: {
     name: string;
     amount: number;
     type: string;
-  }[]
+  }[];
   currentDate: string;
 }
 

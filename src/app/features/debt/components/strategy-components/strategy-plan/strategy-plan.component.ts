@@ -1,5 +1,8 @@
-import { Component, effect, input } from '@angular/core';
-import { StrategyMethod } from '@models/debt';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { StrategyMethod, StrategyPlanComponentProps } from '@models/debt';
+import { SnowballService } from '../../../services/snowball.service';
+import { format } from '@formkit/tempo';
 
 @Component({
   selector: 'app-strategy-plan',
@@ -9,6 +12,9 @@ import { StrategyMethod } from '@models/debt';
 })
 export class StrategyPlanComponent {
   dataProcess = input.required<StrategyMethod>();
+  protected readonly _snowballService = inject(SnowballService);
+
+
 
 
   constructor() {
