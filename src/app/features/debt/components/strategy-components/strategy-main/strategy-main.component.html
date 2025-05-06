@@ -1,145 +1,174 @@
-<div class="min-h-screen  text-gray-900 dark:text-gray-100">
+<div class="min-h-screen text-gray-900 dark:text-gray-100">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">Elige tu Estrategia de Pago</h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            <!-- Bola de Nieve -->
-            <div 
-                [class]="selectedStrategy() === 'bola-de-nieve' ? 
-                    'border-2 border-blue-500 transform scale-105 shadow-xl' : 
-                    'border border-transparent'"
-                (click)="selectStrategy('bola-de-nieve')"
-                class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer relative overflow-hidden">
-                
-                @if (selectedStrategy() === 'bola-de-nieve') {
-                    <div class="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-bl-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                }
-
-                <div class="flex items-center mb-4">
-                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                    </div>
-                    <h2 class="text-2xl font-semibold">Método Bola de Nieve</h2>
-                </div>
-                
-                <p class="text-gray-700 dark:text-gray-300 mb-6">
-                    Prioriza pagar primero la deuda más pequeña. Cada vez que eliminas una, usas ese dinero para la
-                    siguiente, generando motivación rápidamente.
-                </p>
-                
-                <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg">
-                    <p class="font-medium mb-3 text-blue-700 dark:text-blue-300">Ejemplo:</p>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 p-1 rounded-full mr-2">1</span>
-                            <span>Deuda 1: <span class="font-semibold">$500</span> (pagas primero)</span>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 p-1 rounded-full mr-2">2</span>
-                            <span>Deuda 2: <span class="font-semibold">$1,500</span> (pagas segundo)</span>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 p-1 rounded-full mr-2">3</span>
-                            <span>Deuda 3: <span class="font-semibold">$5,000</span> (pagas último)</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Avalancha -->
-            <div 
-                [class]="selectedStrategy() === 'avalancha' ? 
-                    'border-2 border-blue-500 transform scale-105 shadow-xl' : 
-                    'border border-transparent'"
-                (click)="selectStrategy('avalancha')"
-                class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer relative overflow-hidden">
-                
-                @if (selectedStrategy() === 'avalancha') {
-                    <div class="absolute top-0 right-0 bg-blue-500 text-white p-2 rounded-bl-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                }
-
-                <div class="flex items-center mb-4">
-                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h2 class="text-2xl font-semibold">Método Avalancha</h2>
-                </div>
-                
-                <p class="text-gray-700 dark:text-gray-300 mb-6">
-                    Prioriza pagar primero la deuda con mayor interés. Es el método más eficiente para pagar menos
-                    dinero en total.
-                </p>
-                
-                <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg">
-                    <p class="font-medium mb-3 text-purple-700 dark:text-purple-300">Ejemplo:</p>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <span class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 p-1 rounded-full mr-2">1</span>
-                            <span>Deuda 1: <span class="font-semibold">24% interés</span> (pagas primero)</span>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 p-1 rounded-full mr-2">2</span>
-                            <span>Deuda 2: <span class="font-semibold">18% interés</span> (pagas segundo)</span>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 p-1 rounded-full mr-2">3</span>
-                            <span>Deuda 3: <span class="font-semibold">9% interés</span> (pagas último)</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">Estrategias de Pago de Deudas</h1>
+      
+      <!-- Pestañas de estrategias -->
+      <div class="mb-8">
+        <!-- Control de pestañas -->
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <button 
+            (click)="activeTab = 'bola-de-nieve'" 
+            class="p-4 rounded-lg text-center text-lg font-medium transition-all duration-300"
+            [class]="activeTab === 'bola-de-nieve' ? 
+              'bg-blue-600 dark:bg-blue-700 text-white shadow-lg' : 
+              'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
+            Método Bola de Nieve
+          </button>
+          <button 
+            (click)="activeTab = 'avalancha'" 
+            class="p-4 rounded-lg text-center text-lg font-medium transition-all duration-300"
+            [class]="activeTab === 'avalancha' ? 
+              'bg-purple-600 dark:bg-purple-700 text-white shadow-lg' : 
+              'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
+            Método Avalancha
+          </button>
         </div>
-
-        <!-- Estrategia seleccionada -->
-        @if (selectedStrategy()) {
-            <div class="mb-8 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg animate-fade-in">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-700 dark:text-blue-300 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p class="font-medium">
-                        Has seleccionado: 
-                        <span class="font-bold text-blue-700 dark:text-blue-300">
-                            {{ selectedStrategy() === 'bola-de-nieve' ? 'Método Bola de Nieve' : 'Método Avalancha' }}
-                        </span>
-                    </p>
+        
+        <!-- Contenido de las pestañas -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fade-in">
+          @if (activeTab === 'bola-de-nieve') {
+            <div>
+              <div class="flex items-center mb-4">
+                <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
                 </div>
+                <h2 class="text-2xl font-semibold">Método Bola de Nieve</h2>
+              </div>
+              
+              <p class="text-gray-700 dark:text-gray-300 mb-6">
+                Prioriza pagar primero la deuda más pequeña. Cada vez que eliminas una, usas ese dinero para la
+                siguiente, generando motivación rápidamente.
+              </p>
+              
+              <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg">
+                <p class="font-medium mb-3 text-blue-700 dark:text-blue-300">¿Cómo funciona?</p>
+                <ul class="space-y-4 mb-4">
+                  <li class="flex items-start">
+                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 p-1 rounded-full mr-2 mt-1">1</span>
+                    <span>Ordenas tus deudas de <strong>menor a mayor</strong> según su monto total.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 p-1 rounded-full mr-2 mt-1">2</span>
+                    <span>Pagas el mínimo en todas tus deudas, pero destinas todo el dinero extra a la deuda más pequeña.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 p-1 rounded-full mr-2 mt-1">3</span>
+                    <span>Una vez que liquidas la primera deuda, usas ese pago para atacar la siguiente más pequeña, y así sucesivamente.</span>
+                  </li>
+                </ul>
+                
+                <div class="bg-blue-50 dark:bg-blue-900/50 p-4 rounded-lg">
+                  <p class="font-medium mb-3 text-blue-700 dark:text-blue-300">Ejemplo:</p>
+                  <ul class="space-y-2">
+                    <li class="flex items-center">
+                      <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 p-1 rounded-full mr-2">1</span>
+                      <span>Deuda 1: <span class="font-semibold">$500</span> (pagas primero)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 p-1 rounded-full mr-2">2</span>
+                      <span>Deuda 2: <span class="font-semibold">$1,500</span> (pagas segundo)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 p-1 rounded-full mr-2">3</span>
+                      <span>Deuda 3: <span class="font-semibold">$5,000</span> (pagas último)</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="mt-4">
+                  <p class="text-blue-700 dark:text-blue-300 font-medium">Ventajas:</p>
+                  <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
+                    <li>Proporciona victorias rápidas que te mantienen motivado</li>
+                    <li>Simplifica el proceso al centrarse solo en el tamaño de la deuda</li>
+                    <li>Reduce el número de pagos diferentes más rápidamente</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-        }
-
-        <!-- Botón Empezar -->
-        <div class="text-center">
-            <button 
-                [disabled]="!selectedStrategy()"
-                (click)="startStrategy()"
-                class="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                [class.opacity-50]="!selectedStrategy()"
-                [class.cursor-not-allowed]="!selectedStrategy()"
-                [class.transform]="selectedStrategy()"
-                [class.hover:scale-105]="selectedStrategy()">
-                <div class="flex items-center justify-center">
-                    @if (selectedStrategy()) {
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                        <span>Empezar con {{ selectedStrategy() === 'bola-de-nieve' ? 'Bola de Nieve' : 'Avalancha' }}</span>
-                    } @else {
-                        <span>Selecciona una estrategia</span>
-                    }
+          } @else if (activeTab === 'avalancha') {
+            <div>
+              <div class="flex items-center mb-4">
+                <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                 </div>
-            </button>
+                <h2 class="text-2xl font-semibold">Método Avalancha</h2>
+              </div>
+              
+              <p class="text-gray-700 dark:text-gray-300 mb-6">
+                Prioriza pagar primero la deuda con mayor interés. Es el método matemáticamente más eficiente para pagar menos
+                dinero en total a largo plazo.
+              </p>
+              
+              <div class="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg">
+                <p class="font-medium mb-3 text-purple-700 dark:text-purple-300">¿Cómo funciona?</p>
+                <ul class="space-y-4 mb-4">
+                  <li class="flex items-start">
+                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 p-1 rounded-full mr-2 mt-1">1</span>
+                    <span>Ordenas tus deudas de <strong>mayor a menor</strong> según su tasa de interés.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 p-1 rounded-full mr-2 mt-1">2</span>
+                    <span>Pagas el mínimo en todas tus deudas, pero destinas todo el dinero extra a la deuda con mayor interés.</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 p-1 rounded-full mr-2 mt-1">3</span>
+                    <span>Una vez que liquidas la deuda con mayor interés, usas ese pago para atacar la siguiente con mayor interés, y así sucesivamente.</span>
+                  </li>
+                </ul>
+                
+                <div class="bg-purple-50 dark:bg-purple-900/50 p-4 rounded-lg">
+                  <p class="font-medium mb-3 text-purple-700 dark:text-purple-300">Ejemplo:</p>
+                  <ul class="space-y-2">
+                    <li class="flex items-center">
+                      <span class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 p-1 rounded-full mr-2">1</span>
+                      <span>Deuda 1: <span class="font-semibold">24% interés</span> (pagas primero)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 p-1 rounded-full mr-2">2</span>
+                      <span>Deuda 2: <span class="font-semibold">18% interés</span> (pagas segundo)</span>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 p-1 rounded-full mr-2">3</span>
+                      <span>Deuda 3: <span class="font-semibold">9% interés</span> (pagas último)</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="mt-4">
+                  <p class="text-purple-700 dark:text-purple-300 font-medium">Ventajas:</p>
+                  <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-700 dark:text-gray-300">
+                    <li>Minimiza el interés total pagado a largo plazo</li>
+                    <li>Matemáticamente más eficiente y económico</li>
+                    <li>Ideal para deudas con intereses muy diferentes entre sí</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
         </div>
+      </div>
+      
+      <!-- Recursos adicionales -->
+      <div class="bg-blue-50 dark:bg-blue-900/30 p-6 rounded-xl shadow-md mb-8">
+        <h3 class="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-300">¿Necesitas más información?</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Ambas estrategias son efectivas para salir de deudas. La elección depende de tu situación personal y preferencias.
+        </p>
+        <div class="flex justify-center mt-2">
+          <button 
+            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition-all duration-300 shadow-md hover:shadow-lg">
+            <div class="flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Consultar recursos adicionales</span>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
