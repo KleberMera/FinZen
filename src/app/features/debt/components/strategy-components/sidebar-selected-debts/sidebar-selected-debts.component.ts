@@ -22,7 +22,6 @@ export class SidebarSelectedDebtsComponent {
   readonly recurringComponent = viewChild(SectionRecurringComponent);
 
 
-  closeSeletedDebtsSidebar = output<void>();
   selectedItems = output<StrategyMethod>();
 
   seletdUserId = signal(this._storage.getUserId());
