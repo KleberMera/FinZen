@@ -1,4 +1,5 @@
 import { Amortization } from './amortization';
+import { TransactionRecurring } from './transaction';
 
 export interface Debt {
   id?: number;
@@ -27,6 +28,11 @@ export interface StrategyMethod {
   debts: Debt[]
   userId: number;
   salaryData?: number;
+  recurringTransactions: {
+    name: string;
+    amount: number;
+    type: string;
+  }[]
 }
 
 export interface StrategyPlanComponentProps {

@@ -37,14 +37,11 @@ export interface TransactionReport {
   category: Category;
   time: string;
   createdAt?: string;
-  
 }
 
 
 
 
 export interface TransactionRecurring extends Transaction {
-  
   category: Category
-  
 }

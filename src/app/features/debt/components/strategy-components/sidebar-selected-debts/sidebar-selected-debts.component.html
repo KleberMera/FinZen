@@ -48,13 +48,9 @@
                 </div>
 
                 <!-- Sección de Sueldo -->
-                <app-salary-seleted
-           
-                ></app-salary-seleted>
-
-           
-
+                <app-salary-seleted></app-salary-seleted>
                 <app-section-debts></app-section-debts>
+                <app-section-recurring></app-section-recurring>
 
                 <!-- Resumen de selección -->
                 <div class="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -69,6 +65,12 @@
                             @if (this.salaryComponent()!.includeSalary()) {
                                 <span class="text-gray-600 dark:text-gray-400">
                                     + sueldo
+                                </span>
+                            }
+
+                            @if (this.recurringComponent()!.recurringTransactions.value()?.length) {
+                                <span class="text-gray-600 dark:text-gray-400">
+                                    + {{ this.recurringComponent()!.recurringTransactions.value()?.length }} transacciones recurrentes
                                 </span>
                             }
                         </div>

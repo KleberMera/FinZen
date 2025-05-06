@@ -23,7 +23,12 @@ export default class StrategyMethodComponent {
     method: '',
     salary: false,
     debts: [],
-    userId: 0
+    userId: 0,
+    recurringTransactions: [{
+      name: '',
+      amount: 0,
+      type: ''
+    }],
   });
 
   isSeletedDebtsSidebarOpen = signal(false);

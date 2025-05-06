@@ -6,10 +6,11 @@ import { SnowballService } from '../../../services/snowball.service';
 import { StrategyMethod } from '@models/debt';
 import { SalarySeletedComponent } from './components/salary-seleted/salary-seleted.component';
 import { SectionDebtsComponent } from './components/section-debts/section-debts.component';
+import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
 
 @Component({
   selector: 'app-sidebar-selected-debts',
-  imports: [SalarySeletedComponent, SectionDebtsComponent],
+  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent],
   templateUrl: './sidebar-selected-debts.component.html',
   styleUrl: './sidebar-selected-debts.component.scss',
 })
@@ -18,6 +19,7 @@ export class SidebarSelectedDebtsComponent {
   protected readonly _snowballService = inject(SnowballService);
   readonly salaryComponent = viewChild(SalarySeletedComponent);
   readonly debtComponent = viewChild(SectionDebtsComponent);
+  readonly recurringComponent = viewChild(SectionRecurringComponent);
   method = input.required<string>();
 
   closeSeletedDebtsSidebar = output<void>();
@@ -42,11 +44,16 @@ export class SidebarSelectedDebtsComponent {
     const selectionData: StrategyMethod = {
       salary: this.salaryComponent()!.includeSalary(),
       method: this.method(),
-      debts: selectedDebts, // Enviamos los objetos completos de deuda en lugar de solo IDs
+      debts: selectedDebts,
       userId: this.seletdUserId(),
       ...(this.salaryComponent()!.includeSalary() && {
-        salaryData: this.salaryComponent()!.salary.value()?.data?.salary_amount,
+      salaryData: this.salaryComponent()!.salary.value()?.data?.salary_amount,
       }),
+      recurringTransactions: this.recurringComponent()!.recurringTransactions.value()!.map(transaction => ({
+      name: transaction.name,
+      amount: transaction.amount,
+      type: transaction.category?.type
+      })) ,
     };
 
     this.selectedItems.emit(selectionData);
@@ -76,6 +83,17 @@ export class SidebarSelectedDebtsComponent {
         ?.data!.forEach((debt) => {
           if (this.debtComponent()?.isDebtSelected(debt.id!)) {
             total += parseFloat(String(debt.amount));
+          }
+        });
+    }
+
+    // Añadir los montos de las transacciones recurrentes
+    if (this.recurringComponent()?.recurringTransactions.value()) {
+      this.recurringComponent()
+        ?.recurringTransactions.value()
+        ?.forEach((transaction) => {
+          if (this.recurringComponent()?.isTransactionSelected(transaction.id!)) {
+            total += parseFloat(String(transaction.amount));
           }
         });
     }
