@@ -51,8 +51,6 @@ export class ChartTabComponent implements OnInit {
     const datasets = this.processedDebts().map((debt, index) => ({
       label: debt.name,
       data: chartData.map((d) => d[debt.name] || 0),
-      backgroundColor: this.COLORS[index % this.COLORS.length],
-      borderColor: this.COLORS[index % this.COLORS.length],
       borderWidth: 1,
     }))
 
@@ -81,6 +79,9 @@ export class ChartTabComponent implements OnInit {
           },
         },
         plugins: {
+          colors: {
+            forceOverride: true
+          },
           tooltip: {
             callbacks: {
               label: (context) => `${context.dataset.label}: $${context.parsed.y.toFixed(2)}`,
