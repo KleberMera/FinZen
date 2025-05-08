@@ -366,6 +366,6 @@ export class DebtCalculatorService {
 
   // Calculate original debt total
   calculateOriginalDebtTotal(processedDebts: Debt[]): number {
-    return processedDebts.reduce((total, debt) => total + debt.remainingAmount, 0)
+    return processedDebts.reduce((total, debt) => total + Number.parseFloat(debt.amount), 0)
   }
 }
