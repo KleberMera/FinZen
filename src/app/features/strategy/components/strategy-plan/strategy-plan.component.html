@@ -1,49 +1,114 @@
-<div class="container mx-auto py-6 px-4">
-    <h1 class="text-3xl font-bold mb-2">Plan para Pagar tus Deudas</h1>
-    <p class="text-gray-500 mb-6">
-      Visualización del plan de pagos basado en el método 
-      {{ debtData()!.method === "bola-de-nieve" ? "bola de nieve" : "avalancha" }}
-    </p>
+<div class="container mx-auto py-8 px-4 transition-colors duration-200 dark:bg-gray-900">
+  <!-- Header con gradiente de fondo -->
+  <div class="relative bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-800 dark:to-indigo-900 rounded-xl shadow-lg mb-8 overflow-hidden">
+    <div class="absolute right-0 top-0 opacity-10">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#FFFFFF" d="M42.7,-73.2C55.9,-65.7,67.3,-55.3,76.4,-42.2C85.5,-29,92.4,-14.5,93.4,0.6C94.4,15.7,89.6,31.5,80.4,44.3C71.2,57.1,57.8,67,43.1,73.9C28.4,80.7,14.2,84.4,-0.5,85.1C-15.1,85.9,-30.2,83.6,-42.8,76.5C-55.4,69.4,-65.5,57.3,-72.5,43.8C-79.5,30.2,-83.5,15.1,-83.9,-0.2C-84.4,-15.5,-81.4,-31,-73.2,-43.5C-65,-56,-51.7,-65.5,-37.9,-72.5C-24.1,-79.6,-12,-84.2,1,-85.8C14,-87.4,29.5,-80.8,42.7,-73.2Z" transform="translate(100 100)" />
+      </svg>
+    </div>
+    <div class="px-8 py-10 relative z-10">
+      <h1 class="text-4xl font-bold text-white mb-2">Plan para Pagar tus Deudas</h1>
+      <p class="text-blue-100 text-lg">
+        Visualización del plan de pagos basado en el método 
+        <span class="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white font-medium ml-1">
+          {{ debtData()!.method === "bola-de-nieve" ? "Bola de Nieve" : "Avalancha" }}
+        </span>
+      </p>
+    </div>
+  </div>
   
-    <app-summary-cards></app-summary-cards>
+  <!-- Tarjetas de resumen - Se mantiene el componente existente -->
+  <app-summary-cards></app-summary-cards>
   
-    @if (insufficientFunds()) {
-      <app-insufficient-funds-warning></app-insufficient-funds-warning>
-    } @else {
-      <app-payment-plan-summary></app-payment-plan-summary>
-  
-      <div>
-        <div class="flex border-b mb-4">
-          <button
-            class="px-4 py-2 text-sm font-medium"
-            [ngClass]="activeTab === 'table' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-            (click)="setActiveTab('table')"
-          >
-            Tabla de Pagos
-          </button>
-          <button
-            class="px-4 py-2 text-sm font-medium"
-            [ngClass]="activeTab === 'chart' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-            (click)="setActiveTab('chart')"
-          >
-            Gráfico
-          </button>
-          <button
-            class="px-4 py-2 text-sm font-medium"
-            [ngClass]="activeTab === 'distribution' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-            (click)="setActiveTab('distribution')"
-          >
-            Distribución
-          </button>
-          <button
-            class="px-4 py-2 text-sm font-medium"
-            [ngClass]="activeTab === 'calendar' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
-            (click)="setActiveTab('calendar')"
-          >
-            Calendario
-          </button>
+  @if (insufficientFunds()) {
+    <!-- Alerta de fondos insuficientes con mejor estilo -->
+    <!-- <div class="bg-gradient-to-r from-red-50 to-red-100 dark:from-red-900/50 dark:to-red-800/50 border-l-4 border-red-500 p-6 rounded-lg shadow-sm mb-8 backdrop-blur-sm">
+      <div class="flex items-center">
+        <div class="bg-red-100 dark:bg-red-800/80 p-3 rounded-full mr-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600 dark:text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
         </div>
+        <div>
+          <h3 class="text-lg font-semibold text-red-800 dark:text-red-300">Fondos insuficientes</h3>
+          <p class="text-red-700 dark:text-red-200 mt-1">Tu presupuesto mensual no es suficiente para cubrir los pagos mínimos de todas tus deudas.</p>
+        </div>
+      </div>
+    </div> -->
+    <app-insufficient-funds-warning></app-insufficient-funds-warning>
+  } @else {
+    <!-- Resumen del plan de pagos - Se mantiene el componente existente -->
+    <app-payment-plan-summary></app-payment-plan-summary>
   
+    <!-- Panel de contenido principal con tabs mejorados -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all mb-8">
+      <!-- Tabs de navegación mejorados -->
+      <div class="flex border-b dark:border-gray-700">
+        <button
+          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          [ngClass]="activeTab === 'table' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          (click)="setActiveTab('table')"
+        >
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            Tabla de Pagos
+          </div>
+          @if (activeTab === 'table') {
+            <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
+          }
+        </button>
+        <button
+          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          [ngClass]="activeTab === 'chart' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          (click)="setActiveTab('chart')"
+        >
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Gráfico
+          </div>
+          @if (activeTab === 'chart') {
+            <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
+          }
+        </button>
+        <button
+          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          [ngClass]="activeTab === 'distribution' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          (click)="setActiveTab('distribution')"
+        >
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+            </svg>
+            Distribución
+          </div>
+          @if (activeTab === 'distribution') {
+            <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
+          }
+        </button>
+        <button
+          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          [ngClass]="activeTab === 'calendar' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          (click)="setActiveTab('calendar')"
+        >
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Calendario
+          </div>
+          @if (activeTab === 'calendar') {
+            <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
+          }
+        </button>
+      </div>
+  
+      <!-- Contenido de cada tab - Se mantienen los componentes existentes -->
+      <div class="p-6">
         @if (activeTab === 'table') {
           <app-payment-table-tab></app-payment-table-tab>
         } @else if (activeTab === 'chart') {
@@ -54,6 +119,14 @@
           <app-calendar-tab></app-calendar-tab>
         }
       </div>
-    }
+    </div>
+  }
+  
+  <!-- Footer con información adicional -->
+  <div class="text-center text-sm text-gray-500 dark:text-gray-400 mt-10 pb-6">
+    <p>Para obtener mejores resultados, considera aumentar tus pagos mensuales cuando sea posible.</p>
+    <p class="mt-2">© 2025 Plan de Pago de Deudas</p>
   </div>
   
+
+</div>
