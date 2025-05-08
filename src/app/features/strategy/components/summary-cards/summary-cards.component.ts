@@ -18,9 +18,6 @@ export class SummaryCardsComponent {
   processedDebts = this.debtDataService.processedDebts;
   compareMethod = this.debtDataService.compareMethod;
 
-  constructor() {
-  
-  }
 
   // Helper signals (convertidos de getters a señales computadas)
   incomeTotal = computed(() => 
@@ -44,6 +41,8 @@ export class SummaryCardsComponent {
   );
 
   handleMethodChange(method: "bola-de-nieve" | "avalancha"): void {
+    console.log('handleMethodChange', method);
+    
     this.debtDataService.setMethod(method);
   }
 

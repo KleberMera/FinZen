@@ -47,8 +47,6 @@ export class DebtCalculatorService {
 
   // Calculate the monthly available amount
   calculateMonthlyAvailable(debtData: DebtData): number {
-    console.log('calculateMonthlyAvailable', debtData);
-    
     const salary = Number(debtData.salaryData)
     const income = debtData.recurringTransactions
       .filter((t) => t.type === "Ingreso")
@@ -97,8 +95,7 @@ export class DebtCalculatorService {
 
       // Advance one month in the date
       currentDateObj = addMonths(new Date(currentDateObj), 1)
-      console.log('currentDateObj', currentDateObj);
-      
+
 
       let availableFunds = totalMonthlyAvailable
       const monthData: MonthlyPayment = {

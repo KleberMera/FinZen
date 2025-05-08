@@ -23,6 +23,8 @@ export class DebtDataService {
 
 
   private initializeData(): void {
+    console.log('initializeData');
+    
     // Calculate monthly available
     this.updateMonthlyAvailable()
 
