@@ -32,13 +32,26 @@ export class SidebarSelectedDebtsComponent {
 
 
   applySelection() {
+    // Filtrar las deudas por los IDs seleccionados
     const selectedDebts =
       this.debtComponent()
         ?.debts.value()
         ?.data?.filter((debt) =>
           this.debtComponent()?.selectedDebtIds().includes(debt.id!)
         ) || [];
-
+    
+    // Filtrar las transacciones recurrentes por los IDs seleccionados
+    const selectedTransactions = 
+      this.recurringComponent()!.recurringTransactions.value()!
+        .filter(transaction => 
+          this.recurringComponent()?.selectedTransactionIds().includes(transaction.id!)
+        )
+        .map(transaction => ({
+          name: transaction.name,
+          amount: Number(transaction.amount),
+          type: transaction.category?.type as "Ingreso" | "Gasto"
+        }));
+  
     const selectionData: DebtData = {
       salary: this.salaryComponent()!.includeSalary(),
       method: 'bola-de-nieve',
@@ -48,17 +61,11 @@ export class SidebarSelectedDebtsComponent {
       salaryData: this.salaryComponent()!.includeSalary() 
         ? (this.salaryComponent()!.salary.value()?.data?.salary_amount ?? 0)
         : 0,
-      recurringTransactions: this.recurringComponent()!.recurringTransactions.value()!.map(transaction => ({
-      name: transaction.name,
-      amount: Number(transaction.amount),
-      type: transaction.category?.type as "Ingreso" | "Gasto"
-      })) ,
+      recurringTransactions: selectedTransactions,
     };
-
+  
     this.selectedItems.emit(selectionData);
     console.log('Elementos seleccionados:', selectionData);
-    
-
   }
 
   hasSelection = computed(
