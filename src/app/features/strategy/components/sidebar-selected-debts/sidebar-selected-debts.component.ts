@@ -2,11 +2,13 @@ import { Component, computed, effect, inject, input, output, signal, viewChild }
 import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { format } from '@formkit/tempo';
-import { SnowballService } from '../../../services/snowball.service';
+
 import { StrategyMethod } from '@models/debt';
 import { SalarySeletedComponent } from './components/salary-seleted/salary-seleted.component';
 import { SectionDebtsComponent } from './components/section-debts/section-debts.component';
 import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
+import { SnowballService } from '../../../debt/services/snowball.service';
+import { DebtData } from '../../types/debt-types';
 
 @Component({
   selector: 'app-sidebar-selected-debts',
@@ -22,7 +24,7 @@ export class SidebarSelectedDebtsComponent {
   readonly recurringComponent = viewChild(SectionRecurringComponent);
 
 
-  selectedItems = output<StrategyMethod>();
+  selectedItems = output<DebtData>();
 
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
@@ -37,19 +39,19 @@ export class SidebarSelectedDebtsComponent {
           this.debtComponent()?.selectedDebtIds().includes(debt.id!)
         ) || [];
 
-    const selectionData: StrategyMethod = {
+    const selectionData: DebtData = {
       salary: this.salaryComponent()!.includeSalary(),
       method: 'bola-de-nieve',
       currentDate: format(new Date(), 'YYYY-MM-DD', 'es'),
       debts: selectedDebts,
       userId: this.seletdUserId(),
-      ...(this.salaryComponent()!.includeSalary() && {
-      salaryData: this.salaryComponent()!.salary.value()?.data?.salary_amount,
-      }),
+      salaryData: this.salaryComponent()!.includeSalary() 
+        ? (this.salaryComponent()!.salary.value()?.data?.salary_amount ?? 0)
+        : 0,
       recurringTransactions: this.recurringComponent()!.recurringTransactions.value()!.map(transaction => ({
       name: transaction.name,
-      amount: transaction.amount,
-      type: transaction.category?.type
+      amount: Number(transaction.amount),
+      type: transaction.category?.type as "Ingreso" | "Gasto"
       })) ,
     };
 

@@ -1,0 +1,59 @@
+<div class="container mx-auto py-6 px-4">
+    <h1 class="text-3xl font-bold mb-2">Plan para Pagar tus Deudas</h1>
+    <p class="text-gray-500 mb-6">
+      Visualización del plan de pagos basado en el método 
+      {{ debtData()!.method === "bola-de-nieve" ? "bola de nieve" : "avalancha" }}
+    </p>
+  
+    <app-summary-cards></app-summary-cards>
+  
+    @if (insufficientFunds()) {
+      <app-insufficient-funds-warning></app-insufficient-funds-warning>
+    } @else {
+      <app-payment-plan-summary></app-payment-plan-summary>
+  
+      <div>
+        <div class="flex border-b mb-4">
+          <button
+            class="px-4 py-2 text-sm font-medium"
+            [ngClass]="activeTab === 'table' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+            (click)="setActiveTab('table')"
+          >
+            Tabla de Pagos
+          </button>
+          <button
+            class="px-4 py-2 text-sm font-medium"
+            [ngClass]="activeTab === 'chart' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+            (click)="setActiveTab('chart')"
+          >
+            Gráfico
+          </button>
+          <button
+            class="px-4 py-2 text-sm font-medium"
+            [ngClass]="activeTab === 'distribution' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+            (click)="setActiveTab('distribution')"
+          >
+            Distribución
+          </button>
+          <button
+            class="px-4 py-2 text-sm font-medium"
+            [ngClass]="activeTab === 'calendar' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'"
+            (click)="setActiveTab('calendar')"
+          >
+            Calendario
+          </button>
+        </div>
+  
+        @if (activeTab === 'table') {
+          <app-payment-table-tab></app-payment-table-tab>
+        } @else if (activeTab === 'chart') {
+          <app-chart-tab></app-chart-tab>
+        } @else if (activeTab === 'distribution') {
+          <app-distribution-tab></app-distribution-tab>
+        } @else if (activeTab === 'calendar') {
+          <app-calendar-tab></app-calendar-tab>
+        }
+      </div>
+    }
+  </div>
+  

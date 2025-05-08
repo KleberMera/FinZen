@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
-import { Debt } from '@models/debt';
+
 import { Salary } from '@models/salary';
 import { Transaction, TransactionRecurring } from '@models/transaction';
 import { Observable } from 'rxjs';
+import { Debt } from '../../strategy/types/debt-types';
 @Injectable({
   providedIn: 'root',
 })

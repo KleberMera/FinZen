@@ -3,8 +3,9 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { apiResponse } from '@models/apiResponse';
 import { Salary } from '@models/salary';
 import { StorageService } from '@services/storage.service';
-import { SnowballService } from '../../../../../services/snowball.service';
+
 import { format } from '@formkit/tempo';
+import { SnowballService } from '../../../../../debt/services/snowball.service';
 
 @Component({
   selector: 'app-salary-seleted',

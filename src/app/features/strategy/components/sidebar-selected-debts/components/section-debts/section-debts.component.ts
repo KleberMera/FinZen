@@ -1,8 +1,9 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { StorageService } from '@services/storage.service';
-import { SnowballService } from '../../../../../services/snowball.service';
+
 import { format } from '@formkit/tempo';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { SnowballService } from '../../../../../debt/services/snowball.service';
 
 @Component({
   selector: 'app-section-debts',

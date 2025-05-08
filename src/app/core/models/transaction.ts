@@ -32,7 +32,7 @@ export interface TransactionReport {
   description: string;
   amount: number;
   date: string;
-  type?: string;
+  type: "Ingreso" | "Gasto"
   payment_method?: string
   category: Category;
   time: string;

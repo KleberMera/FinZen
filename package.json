@@ -23,6 +23,8 @@
     "@formkit/tempo": "^0.1.2",
     "@types/pdfmake": "^0.2.11",
     "apexcharts": "^4.6.0",
+    "chart.js": "^4.4.9",
+    "date-fns": "^4.1.0",
     "flowbite": "^3.1.2",
     "ng-apexcharts": "^1.15.0",
     "ngx-sonner": "^3.1.0",

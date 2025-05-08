@@ -24,17 +24,20 @@ export interface Debt {
 }
 
 export interface StrategyMethod {
-  method: 'bola-de-nieve' | 'avalancha';
+  method: "bola-de-nieve" | "avalancha"
   salary: boolean;
   debts: Debt[];
   userId: number;
   salaryData?: number;
-  recurringTransactions: {
-    name: string;
-    amount: number;
-    type: string;
-  }[];
+  recurringTransactions:RecurringTransaction[]
   currentDate: string;
+}
+
+
+export interface RecurringTransaction {
+  name: string
+  amount: string
+  type: "Ingreso" | "Gasto"
 }
 
 export interface StrategyPlanComponentProps {

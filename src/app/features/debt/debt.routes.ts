@@ -22,12 +22,8 @@ export const debtRoutes: Routes = [
       },
       {
         path: `${DEBT_PAGES.DEBT_STRATEGY}`,
-        loadComponent: () => import('./pages/strategy/strategy.component'),
+        loadComponent: () => import('../strategy/pages/strategy/strategy.component'),
       },
-      {
-        path: `${DEBT_PAGES.DEBT_SELECTED_STRATEGY}`,
-        loadComponent: () => import('./components/strategy-components/strategy-method/strategy-method.component'),
-      }
     ],
   },
 ];

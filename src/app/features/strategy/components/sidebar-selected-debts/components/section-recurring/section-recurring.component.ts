@@ -1,8 +1,9 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
-import { SnowballService } from '../../../../../services/snowball.service';
+
 import { DatePipe, NgClass } from '@angular/common';
+import { SnowballService } from '../../../../../debt/services/snowball.service';
 
 @Component({
   selector: 'app-section-recurring',

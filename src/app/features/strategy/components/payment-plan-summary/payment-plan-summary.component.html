@@ -1,0 +1,72 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+  <div class="p-4 border-b">
+    <h3 class="text-lg font-medium">Resumen del Plan</h3>
+    <p class="text-sm text-gray-500">
+      Usando el método {{ debtData()!.method === "bola-de-nieve" ? "bola de nieve" : "avalancha" }}
+    </p>
+  </div>
+  <div class="p-4">
+    <div class="grid gap-4 md:grid-cols-4">
+      <div class="rounded-lg border p-4">
+        <h3 class="font-semibold">Tiempo Total</h3>
+        <p class="text-2xl font-bold">{{ paymentPlan().length }} meses</p>
+        <p class="text-sm text-gray-500">Para liberarte de todas tus deudas</p>
+      </div>
+      <div class="rounded-lg border p-4">
+        <h3 class="font-semibold">Fecha Estimada</h3>
+        <p class="text-2xl font-bold">{{ paymentPlan()[paymentPlan().length - 1]!.date || "N/A" }}</p>
+        <p class="text-sm text-gray-500">Cuando estarás libre de deudas</p>
+      </div>
+      <div class="rounded-lg border p-4">
+        <h3 class="font-semibold">Total Pagado</h3>
+        <p class="text-2xl font-bold">${{ totalPaid.toFixed(2) }}</p>
+        <p class="text-sm text-gray-500">Deuda original: ${{ originalDebtTotal.toFixed(2) }}</p>
+      </div>
+      <div class="rounded-lg border p-4">
+        <h3 class="font-semibold">Intereses Pagados</h3>
+        <p class="text-2xl font-bold">${{ totalInterestPaid.toFixed(2) }}</p>
+        <p class="text-sm text-gray-500">Dinero extra por intereses</p>
+      </div>
+    </div>
+
+    @if (compareMethod() && comparisonData()) {
+      <div class="mt-4 p-4 border rounded-lg bg-gray-50">
+        <h3 class="font-medium mb-2">
+          Comparación con método {{ comparisonData()!.method === "bola-de-nieve" ? "bola de nieve" : "avalancha" }}
+        </h3>
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <span class="text-sm text-gray-500">Tiempo total:</span>
+            <div class="font-medium">{{ comparisonData()!.months }} meses</div>
+            <div class="text-xs text-gray-500">
+              @if (comparisonData()!.months < paymentPlan().length) {
+                {{ paymentPlan().length - comparisonData()!.months }} meses menos
+              } @else if (comparisonData()!.months > paymentPlan().length) {
+                {{ comparisonData()!.months - paymentPlan().length }} meses más
+              } @else {
+                Igual tiempo
+              }
+            </div>
+          </div>
+          <div>
+            <span class="text-sm text-gray-500">Intereses pagados:</span>
+            <div class="font-medium">${{ comparisonData()!.totalInterest.toFixed(2) }}</div>
+            <div class="text-xs text-gray-500">
+              @if (comparisonData()!.totalInterest < totalInterestPaid) {
+                ${{ (totalInterestPaid - comparisonData()!.totalInterest).toFixed(2) }} menos
+              } @else if (comparisonData()!.totalInterest > totalInterestPaid) {
+                ${{ (comparisonData()!.totalInterest - totalInterestPaid).toFixed(2) }} más
+              } @else {
+                Igual interés
+              }
+            </div>
+          </div>
+          <div>
+            <span class="text-sm text-gray-500">Fecha estimada:</span>
+            <div class="font-medium">{{ comparisonData()!.lastDate }}</div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
