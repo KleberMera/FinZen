@@ -1,12 +1,12 @@
 import { Component, inject } from "@angular/core"
-import { CommonModule } from "@angular/common"
+import { CommonModule, NgClass } from "@angular/common"
 import { DebtDataService } from "../../services/debt-data.service"
 import { MonthlyPayment } from "../../types/debt-types"
 
 @Component({
   selector: "app-payment-table-tab",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgClass],
   templateUrl: "./payment-table-tab.component.html",
 })
 export class PaymentTableTabComponent {
