@@ -1,62 +1,143 @@
-<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-  <div class="p-4 border-b bg-red-50">
-    <h3 class="text-lg font-medium text-red-600 flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-      </svg>
-      Fondos Insuficientes
-    </h3>
-  </div>
-  <div class="p-4">
-    <div class="mb-4 bg-red-50 border border-red-200 p-4 rounded-md">
-      <div class="flex items-start">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+<!-- Componente de Fondos Insuficientes con soporte para modo oscuro -->
+<div class=" font-sans" >
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
+    <!-- Encabezado -->
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 bg-red-50 dark:bg-red-900/30">
+      <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
         </svg>
-        <div>
-          <h4 class="text-red-600 font-medium">No es posible aplicar el método bola de nieve</h4>
-          <p class="text-sm mt-1">Tus ingresos mensuales no son suficientes para cubrir los pagos mínimos de todas tus deudas.</p>
-        </div>
-      </div>
+        <span>Fondos Insuficientes</span>
+      </h3>
     </div>
 
-    <div class="p-4 border rounded-lg mb-4">
-      <h3 class="font-medium mb-2">Situación actual</h3>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <p class="text-sm text-gray-500">Ingresos mensuales disponibles:</p>
-          <p class="text-xl font-bold">${{ monthlyAvailable().toFixed(2) }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-gray-500">Pagos mínimos requeridos:</p>
-          <p class="text-xl font-bold">${{ totalMinimumPayment().toFixed(2) }}</p>
+    <!-- Contenido principal -->
+    <div class="p-5 dark:text-gray-200">
+      <!-- Mensaje de alerta -->
+      <div class="mb-5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 rounded-lg">
+        <div class="flex items-start">
+          <svg class="h-5 w-5 text-red-600 dark:text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1v-3a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <div>
+            <h4 class="text-red-600 dark:text-red-400 font-medium">No es posible aplicar el método bola de nieve</h4>
+            <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Tus ingresos mensuales no son suficientes para cubrir los pagos mínimos de todas tus deudas.</p>
+          </div>
         </div>
       </div>
-      <div class="mt-4 p-3 bg-red-50 rounded-md">
-        <p class="font-medium text-red-600">Déficit mensual: ${{ deficit().toFixed(2) }}</p>
-        <p class="text-sm mt-1">Necesitas este monto adicional cada mes para cubrir los pagos mínimos.</p>
-      </div>
-    </div>
 
-    <div class="space-y-4">
-      <h3 class="font-medium">Opciones para resolver esta situación:</h3>
-      <div class="space-y-2">
-        <div class="p-3 border rounded-md">
-          <h4 class="font-medium">1. Aumentar tus ingresos</h4>
-          <p class="text-sm">Busca fuentes adicionales de ingresos para cubrir el déficit mensual.</p>
+      <!-- Situación actual -->
+      <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg mb-5 bg-gray-50 dark:bg-gray-800/50">
+        <h3 class="font-medium mb-3 text-gray-800 dark:text-gray-200 flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+            <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+          </svg>
+          Situación actual
+        </h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Ingresos mensuales disponibles:</p>
+            <p class="text-xl font-bold text-gray-800 dark:text-white">${{ monthlyAvailable().toFixed(2) }}</p>
+          </div>
+          <div class="p-3 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Pagos mínimos requeridos:</p>
+            <p class="text-xl font-bold text-gray-800 dark:text-white">${{ totalMinimumPayment().toFixed(2) }}</p>
+          </div>
         </div>
-        <div class="p-3 border rounded-md">
-          <h4 class="font-medium">2. Reducir gastos</h4>
-          <p class="text-sm">Identifica gastos que puedas eliminar o reducir temporalmente.</p>
+        
+        <div class="mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-100 dark:border-red-900">
+          <div class="flex items-center justify-between">
+            <p class="font-medium text-red-600 dark:text-red-400">Déficit mensual</p>
+            <p class="font-bold text-red-600 dark:text-red-400">${{ deficit().toFixed(2) }}</p>
+          </div>
+          <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Necesitas este monto adicional cada mes para cubrir los pagos mínimos.</p>
         </div>
-        <div class="p-3 border rounded-md">
-          <h4 class="font-medium">3. Negociar con acreedores</h4>
-          <p class="text-sm">Intenta negociar pagos mínimos más bajos o períodos de gracia.</p>
+      </div>
+
+      <!-- Opciones -->
+      <div class="space-y-4">
+        <h3 class="font-medium text-gray-800 dark:text-gray-200 flex items-center mb-3">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
+          </svg>
+          Opciones para resolver esta situación
+        </h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Opción 1 -->
+          <div class="p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition duration-300 ease-in-out">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 mr-3">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white">Aumentar tus ingresos</h4>
+                <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Busca fuentes adicionales de ingresos para cubrir el déficit mensual.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Opción 2 -->
+          <div class="p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition duration-300 ease-in-out">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mr-3">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white">Reducir gastos</h4>
+                <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Identifica gastos que puedas eliminar o reducir temporalmente.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Opción 3 -->
+          <div class="p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition duration-300 ease-in-out">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 mr-3">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white">Negociar con acreedores</h4>
+                <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Intenta negociar pagos mínimos más bajos o períodos de gracia.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Opción 4 -->
+          <div class="p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md transition duration-300 ease-in-out">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 mr-3">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 dark:text-white">Consolidar deudas</h4>
+                <p class="text-sm mt-1 text-gray-600 dark:text-gray-300">Considera unificar tus deudas en un solo préstamo con cuota menor.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="p-3 border rounded-md">
-          <h4 class="font-medium">4. Consolidar deudas</h4>
-          <p class="text-sm">Considera unificar tus deudas en un solo préstamo con cuota menor.</p>
-        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-end">
+        <button type="button" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out text-sm font-medium">
+          Regresar al dashboard
+        </button>
+        <button type="button" class="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition duration-300 ease-in-out text-sm font-medium">
+          Revisar opciones
+        </button>
+   
       </div>
     </div>
   </div>
