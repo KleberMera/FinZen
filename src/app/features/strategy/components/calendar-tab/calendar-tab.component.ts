@@ -21,4 +21,14 @@ export class CalendarTabComponent {
   get debtCompletionDates() {
     return this.calculatorService.findDebtCompletionDates(this.paymentPlan(), this.processedDebts())
   }
+
+  // Get overdue debts for dynamic details
+  get overdueDebts() {
+    return this.processedDebts().filter((debt) => debt.isOverdue)
+  }
+
+  // Get debts with days duration for dynamic details
+  get daysDebts() {
+    return this.processedDebts().filter((debt) => debt.duration_type === "days")
+  }
 }

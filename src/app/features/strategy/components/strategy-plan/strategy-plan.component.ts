@@ -21,6 +21,7 @@ import { DistributionTabComponent } from '../distribution-tab/distribution-tab.c
 import { CalendarTabComponent } from '../calendar-tab/calendar-tab.component';
 import { SummaryCardsComponent } from '../summary-cards/summary-cards.component';
 import { DebtData } from '../../types/debt-types';
+import { DebtDetailsComponent } from "../debt-details/debt-details.component";
 
 @Component({
   selector: 'app-strategy-plan',
@@ -33,7 +34,8 @@ import { DebtData } from '../../types/debt-types';
     DistributionTabComponent,
     CalendarTabComponent,
     SummaryCardsComponent,
-  ],
+    DebtDetailsComponent
+],
   templateUrl: './strategy-plan.component.html',
   styleUrl: './strategy-plan.component.scss',
 })

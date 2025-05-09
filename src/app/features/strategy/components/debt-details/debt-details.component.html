@@ -1,0 +1,108 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+    <div class="p-4 border-b">
+      <h3 class="text-lg font-medium">Detalle de Deudas</h3>
+      <p class="text-sm text-gray-500">Información detallada de cada una de tus deudas</p>
+    </div>
+    <div class="p-4">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Original</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pagado</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cuotas Pagadas</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cuotas Restantes</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Restante</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interés</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            @for (debt of processedDebts(); track debt.id; let i = $index) {
+              <tr [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
+                <td class="px-4 py-4 whitespace-nowrap">
+                  <div class="font-medium text-gray-900">{{ debt.name }}</div>
+                  <div class="text-xs text-gray-500">{{ debt.method === 'frances' ? 'Amortización Francesa' : 'Sin amortización' }}</div>
+                </td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${{ debt.amount }}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${{ debt.totalPaidAmount.toFixed(2) }}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.paidInstallmentsCount }} / {{ debt.paidInstallmentsCount + debt.remainingInstallments }}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.remainingInstallments }}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${{ debt.remainingAmount.toFixed(2) }}</td>
+                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.interest_rate ? debt.interest_rate + '%' : 'N/A' }}</td>
+                <td class="px-4 py-4 whitespace-nowrap">
+                  @if (debt.isOverdue) {
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                      Vencida
+                    </span>
+                  } @else {
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                      Al día
+                    </span>
+                  }
+                </td>
+              </tr>
+            }
+            <!-- Summary row -->
+            <tr class="bg-gray-50 font-medium">
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">TOTALES</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalOriginalAmount.toFixed(2) }}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalPaidAmount.toFixed(2) }}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ totalPaidInstallments }}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ totalRemainingInstallments }}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalRemainingAmount.toFixed(2) }}</td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-blue-800 mb-2">Progreso de Pago</h4>
+          <div class="relative pt-1">
+            @let progressPercentage = (totalPaidAmount / (totalPaidAmount + totalRemainingAmount)) * 100;
+            <div class="overflow-hidden h-2 mb-2 text-xs flex rounded bg-blue-200">
+              <div [style.width.%]="progressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600"></div>
+            </div>
+            <div class="flex justify-between text-xs text-blue-800">
+              <span>{{ progressPercentage.toFixed(1) }}% Pagado</span>
+              <span>${{ totalPaidAmount.toFixed(2) }} / ${{ (totalPaidAmount + totalRemainingAmount).toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-green-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-green-800 mb-2">Cuotas Completadas</h4>
+          <div class="relative pt-1">
+            @let installmentProgressPercentage = (totalPaidInstallments / (totalPaidInstallments + totalRemainingInstallments)) * 100;
+            <div class="overflow-hidden h-2 mb-2 text-xs flex rounded bg-green-200">
+              <div [style.width.%]="installmentProgressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-600"></div>
+            </div>
+            <div class="flex justify-between text-xs text-green-800">
+              <span>{{ installmentProgressPercentage.toFixed(1) }}% Completado</span>
+              <span>{{ totalPaidInstallments }} / {{ totalPaidInstallments + totalRemainingInstallments }} cuotas</span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-purple-800 mb-2">Resumen Financiero</h4>
+          <div class="space-y-1 text-sm">
+            <div class="flex justify-between">
+              <span class="text-purple-800">Monto original total:</span>
+              <span class="font-medium">${{ totalOriginalAmount.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-purple-800">Total pagado hasta ahora:</span>
+              <span class="font-medium">${{ totalPaidAmount.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-purple-800">Monto restante por pagar:</span>
+              <span class="font-medium">${{ totalRemainingAmount.toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
