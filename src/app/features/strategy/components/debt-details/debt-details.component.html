@@ -1,43 +1,207 @@
-<div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-    <div class="p-4 border-b">
-      <h3 class="text-lg font-medium">Detalle de Deudas</h3>
-      <p class="text-sm text-gray-500">Información detallada de cada una de tus deudas</p>
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-6 transition-all duration-300">
+    <!-- Encabezado del componente -->
+    <div class="p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-800">
+      <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z" />
+        </svg>
+        Detalle de Deudas
+      </h3>
+      <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Información detallada de cada una de tus deudas y progreso de pago</p>
     </div>
-    <div class="p-4">
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+  
+    <!-- Contenido principal -->
+    <div class="p-5">
+      <!-- Tarjetas de resumen superior -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800 transition-all duration-300 hover:shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="text-sm font-medium text-blue-800 dark:text-blue-300 mb-1">Deuda Total</h4>
+              <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">${{ (totalPaidAmount + totalRemainingAmount).toFixed(2) }}</p>
+            </div>
+            <div class="p-2 bg-blue-200 dark:bg-blue-800/50 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-blue-700 dark:text-blue-300">Monto original: <span class="font-medium">${{ totalOriginalAmount.toFixed(2) }}</span></p>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 p-4 rounded-lg border border-green-200 dark:border-green-800 transition-all duration-300 hover:shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="text-sm font-medium text-green-800 dark:text-green-300 mb-1">Pagado Hasta Ahora</h4>
+              <p class="text-2xl font-bold text-green-600 dark:text-green-400">${{ totalPaidAmount.toFixed(2) }}</p>
+            </div>
+            <div class="p-2 bg-green-200 dark:bg-green-800/50 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-green-700 dark:text-green-300">Cuotas pagadas: <span class="font-medium">{{ totalPaidInstallments }}</span></p>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 p-4 rounded-lg border border-purple-200 dark:border-purple-800 transition-all duration-300 hover:shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <h4 class="text-sm font-medium text-purple-800 dark:text-purple-300 mb-1">Monto Restante</h4>
+              <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">${{ totalRemainingAmount.toFixed(2) }}</p>
+            </div>
+            <div class="p-2 bg-purple-200 dark:bg-purple-800/50 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-purple-700 dark:text-purple-300">Cuotas restantes: <span class="font-medium">{{ totalRemainingInstallments }}</span></p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Barras de progreso -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 transition-all duration-300">
+          <h4 class="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-blue-500 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Progreso de Pago
+          </h4>
+          <div class="relative pt-1">
+            @let progressPercentage = (totalPaidAmount / (totalPaidAmount + totalRemainingAmount)) * 100;
+            <div class="flex justify-between mb-1">
+              <span class="text-xs font-semibold inline-block text-blue-600 dark:text-blue-400">
+                {{ progressPercentage.toFixed(1) }}% Pagado
+              </span>
+              <span class="text-xs font-semibold inline-block text-gray-600 dark:text-gray-300">
+                ${{ totalPaidAmount.toFixed(2) }} / ${{ (totalPaidAmount + totalRemainingAmount).toFixed(2) }}
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 mb-1 text-xs flex rounded-full bg-blue-200 dark:bg-blue-900/50">
+              <div [style.width.%]="progressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500 rounded-full transition-all duration-500"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 transition-all duration-300">
+          <h4 class="text-sm font-medium text-gray-800 dark:text-white mb-3 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Cuotas Completadas
+          </h4>
+          <div class="relative pt-1">
+            @let installmentProgressPercentage = (totalPaidInstallments / (totalPaidInstallments + totalRemainingInstallments)) * 100;
+            <div class="flex justify-between mb-1">
+              <span class="text-xs font-semibold inline-block text-green-600 dark:text-green-400">
+                {{ installmentProgressPercentage.toFixed(1) }}% Completado
+              </span>
+              <span class="text-xs font-semibold inline-block text-gray-600 dark:text-gray-300">
+                {{ totalPaidInstallments }} / {{ totalPaidInstallments + totalRemainingInstallments }} cuotas
+              </span>
+            </div>
+            <div class="overflow-hidden h-2 mb-1 text-xs flex rounded-full bg-green-200 dark:bg-green-900/50">
+              <div [style.width.%]="installmentProgressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 rounded-full transition-all duration-500"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabla de deudas -->
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-800">
             <tr>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Original</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pagado</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cuotas Pagadas</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cuotas Restantes</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto Restante</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interés</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nombre</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Monto Original</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Pagado</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cuotas</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Monto Restante</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Interés</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
+              <th class="group px-4 py-3 text-left">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Estado</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                  </svg>
+                </div>
+              </th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             @for (debt of processedDebts(); track debt.id; let i = $index) {
-              <tr [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
-                <td class="px-4 py-4 whitespace-nowrap">
-                  <div class="font-medium text-gray-900">{{ debt.name }}</div>
-                  <div class="text-xs text-gray-500">{{ debt.method === 'frances' ? 'Amortización Francesa' : 'Sin amortización' }}</div>
+              <tr [ngClass]="i % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'" class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
+                <td class="px-4 py-3 whitespace-nowrap">
+                  <div class="font-medium text-gray-900 dark:text-white">{{ debt.name }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">{{ debt.method === 'frances' ? 'Amortización Francesa' : 'Sin amortización' }}</div>
                 </td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${{ debt.amount }}</td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">${{ debt.totalPaidAmount.toFixed(2) }}</td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.paidInstallmentsCount }} / {{ debt.paidInstallmentsCount + debt.remainingInstallments }}</td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.remainingInstallments }}</td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${{ debt.remainingAmount.toFixed(2) }}</td>
-                <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{{ debt.interest_rate ? debt.interest_rate + '%' : 'N/A' }}</td>
-                <td class="px-4 py-4 whitespace-nowrap">
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">${{ debt.amount }}</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">${{ debt.totalPaidAmount.toFixed(2) }}</td>
+                <td class="px-4 py-3 whitespace-nowrap">
+                  <div class="text-sm text-gray-600 dark:text-gray-300">{{ debt.paidInstallmentsCount }} / {{ debt.paidInstallmentsCount + debt.remainingInstallments }}</div>
+                  <div class="w-16 bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 mt-1">
+                    <div class="bg-blue-600 dark:bg-blue-500 h-1.5 rounded-full" [style.width.%]="(debt.paidInstallmentsCount / (debt.paidInstallmentsCount + debt.remainingInstallments)) * 100"></div>
+                  </div>
+                </td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">${{ debt.remainingAmount.toFixed(2) }}</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">{{ debt.interest_rate ? debt.interest_rate + '%' : 'N/A' }}</td>
+                <td class="px-4 py-3 whitespace-nowrap">
                   @if (debt.isOverdue) {
-                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
                       Vencida
                     </span>
                   } @else {
-                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                       Al día
                     </span>
                   }
@@ -45,64 +209,26 @@
               </tr>
             }
             <!-- Summary row -->
-            <tr class="bg-gray-50 font-medium">
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">TOTALES</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalOriginalAmount.toFixed(2) }}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalPaidAmount.toFixed(2) }}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ totalPaidInstallments }}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{{ totalRemainingInstallments }}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">${{ totalRemainingAmount.toFixed(2) }}</td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900"></td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+            <tr class="bg-gray-100 dark:bg-gray-700 font-medium">
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white">TOTALES</td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white">${{ totalOriginalAmount.toFixed(2) }}</td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white">${{ totalPaidAmount.toFixed(2) }}</td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ totalPaidInstallments }} / {{ totalPaidInstallments + totalRemainingInstallments }}</td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white">${{ totalRemainingAmount.toFixed(2) }}</td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white"></td>
+              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-white"></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-blue-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-blue-800 mb-2">Progreso de Pago</h4>
-          <div class="relative pt-1">
-            @let progressPercentage = (totalPaidAmount / (totalPaidAmount + totalRemainingAmount)) * 100;
-            <div class="overflow-hidden h-2 mb-2 text-xs flex rounded bg-blue-200">
-              <div [style.width.%]="progressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-600"></div>
-            </div>
-            <div class="flex justify-between text-xs text-blue-800">
-              <span>{{ progressPercentage.toFixed(1) }}% Pagado</span>
-              <span>${{ totalPaidAmount.toFixed(2) }} / ${{ (totalPaidAmount + totalRemainingAmount).toFixed(2) }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="bg-green-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-green-800 mb-2">Cuotas Completadas</h4>
-          <div class="relative pt-1">
-            @let installmentProgressPercentage = (totalPaidInstallments / (totalPaidInstallments + totalRemainingInstallments)) * 100;
-            <div class="overflow-hidden h-2 mb-2 text-xs flex rounded bg-green-200">
-              <div [style.width.%]="installmentProgressPercentage" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-600"></div>
-            </div>
-            <div class="flex justify-between text-xs text-green-800">
-              <span>{{ installmentProgressPercentage.toFixed(1) }}% Completado</span>
-              <span>{{ totalPaidInstallments }} / {{ totalPaidInstallments + totalRemainingInstallments }} cuotas</span>
-            </div>
-          </div>
-        </div>
-        <div class="bg-purple-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-purple-800 mb-2">Resumen Financiero</h4>
-          <div class="space-y-1 text-sm">
-            <div class="flex justify-between">
-              <span class="text-purple-800">Monto original total:</span>
-              <span class="font-medium">${{ totalOriginalAmount.toFixed(2) }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-purple-800">Total pagado hasta ahora:</span>
-              <span class="font-medium">${{ totalPaidAmount.toFixed(2) }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-purple-800">Monto restante por pagar:</span>
-              <span class="font-medium">${{ totalRemainingAmount.toFixed(2) }}</span>
-            </div>
-          </div>
-        </div>
+  
+      <div class="flex justify-end gap-3 mt-6">
+        <button class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150 text-sm font-medium">
+          Exportar reporte
+        </button>
+        <button class="px-4 py-2 bg-blue-600 dark:bg-blue-700 border border-blue-600 dark:border-blue-700 rounded-lg text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-150 text-sm font-medium">
+          Añadir deuda
+        </button>
       </div>
     </div>
   </div>
-  
