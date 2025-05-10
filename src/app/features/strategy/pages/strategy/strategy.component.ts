@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { StrategyMainComponent } from '../../components/strategy-main/strategy-main.component';
+import StrategyMainComponent from '../../components/strategy-main/strategy-main.component';
 
 @Component({
   selector: 'app-strategy',

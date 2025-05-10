@@ -1,43 +1,39 @@
-@if (selectedData()) {
-    <app-strategy-plan [dataProcess]="selectedData()!"> </app-strategy-plan>
-} @else {
-    <div class="min-h-screen text-gray-900 dark:text-gray-100">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">Estrategias de Pago de Deudas
-            </h1>
-            <!-- Pestañas de estrategias -->
-            <div class="mb-8">
-                <!-- Control de pestañas -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-4">
-                    <button [routerLink]="['bola-de-nieve']"
-                        class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
-                        [class]="activeTab === 'bola-de-nieve' ? 
-                  'bg-blue-600 dark:bg-blue-700 text-white shadow-lg' : 
-                  'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
-                        Método Bola de Nieve
-                    </button>
-                    <button [routerLink]="['avalancha']"
-                        class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
-                        [class]="activeTab === 'avalancha' ? 
-                  'bg-purple-600 dark:bg-purple-700 text-white shadow-lg' : 
-                  'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
-                        Método Avalancha
-                    </button>
-                    <button [routerLink]="['seleccion-datos']"
-                        class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
-                        [class]="activeTab === 'seleccion-datos' ? 
-                  'bg-green-600 dark:bg-green-700 text-white shadow-lg' : 
-                  'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
-                        Selección de Datos
-                    </button>
-                </div>
-
-                <!-- Contenido de las pestañas -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 animate-fade-in">
-                    <router-outlet></router-outlet>
-                 </div>
-        
+<div class="min-h-screen text-gray-900 dark:text-gray-100">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 dark:text-blue-300">Estrategias de Pago de Deudas
+        </h1>
+        <!-- Pestañas de estrategias -->
+        <div class="mb-8">
+            <!-- Control de pestañas -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-4">
+                <button [routerLink]="['bola-de-nieve']"
+                    class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
+                    [class]="activeTab === 'bola-de-nieve' ? 
+              'bg-blue-600 dark:bg-blue-700 text-white shadow-lg' : 
+              'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
+                    Método Bola de Nieve
+                </button>
+                <button [routerLink]="['avalancha']"
+                    class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
+                    [class]="activeTab === 'avalancha' ? 
+              'bg-purple-600 dark:bg-purple-700 text-white shadow-lg' : 
+              'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
+                    Método Avalancha
+                </button>
+                <button [routerLink]="['seleccion-datos']"
+                    class="p-3 sm:p-4 rounded-lg text-center text-base sm:text-lg font-medium transition-all duration-300"
+                    [class]="activeTab === 'seleccion-datos' ? 
+              'bg-green-600 dark:bg-green-700 text-white shadow-lg' : 
+              'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
+                    Selección de Datos
+                </button>
             </div>
+
+            <!-- Contenido de las pestañas -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 animate-fade-in">
+                <router-outlet></router-outlet>
+             </div>
+    
         </div>
     </div>
-}
+</div>

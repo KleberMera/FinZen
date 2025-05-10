@@ -5,12 +5,10 @@ export enum STRATEGY_PAGES {
   SNOWBALL = 'bola-de-nieve',
   AVALANCHE = 'avalancha',
   SELECTION_DATA = 'seleccion-datos',
+  PLAN = 'plan'
 }
 
 export const strategyRoutes: Routes = [
-  {
-    path: '',
-    children: [
       {
         path: STRATEGY_PAGES.STRATEGY,
         loadComponent: () =>
@@ -31,10 +29,25 @@ export const strategyRoutes: Routes = [
             loadComponent: () =>
               import('./components/sidebar-selected-debts/sidebar-selected-debts.component'),
           },
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: STRATEGY_PAGES.SNOWBALL,
+          },
         ],
       },
-    ],
-  },
-];
+      {
+        path: STRATEGY_PAGES.PLAN,
+        loadComponent: () =>
+          import('./components/strategy-plan/strategy-plan.component'),
+      },
+      {
+        path: '**',
+        redirectTo: STRATEGY_PAGES.SNOWBALL,
+      }
+    ]
+
+
+
 
 export default strategyRoutes;

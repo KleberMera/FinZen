@@ -1,30 +1,32 @@
-import { Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { StorageService } from '@services/storage.service';
-import { rxResource } from '@angular/core/rxjs-interop';
 import { format } from '@formkit/tempo';
-
-import { StrategyMethod } from '@models/debt';
+import { DebtData } from '../../types/debt-types';
 import { SalarySeletedComponent } from './components/salary-seleted/salary-seleted.component';
 import { SectionDebtsComponent } from './components/section-debts/section-debts.component';
 import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
 import { SnowballService } from '../../../debt/services/snowball.service';
-import { DebtData } from '../../types/debt-types';
+import StrategyStateService from '../../services/strategy-state.service';
 
 @Component({
   selector: 'app-sidebar-selected-debts',
-  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent],
+  standalone: true,
   templateUrl: './sidebar-selected-debts.component.html',
-  styleUrl: './sidebar-selected-debts.component.scss',
+  styleUrls: ['./sidebar-selected-debts.component.scss'],
+  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent]
 })
 export default class SidebarSelectedDebtsComponent {
+  private router = inject(Router);
+  private strategyState = inject(StrategyStateService);
   protected readonly _storage = inject(StorageService);
   protected readonly _snowballService = inject(SnowballService);
+
   readonly salaryComponent = viewChild(SalarySeletedComponent);
   readonly debtComponent = viewChild(SectionDebtsComponent);
   readonly recurringComponent = viewChild(SectionRecurringComponent);
 
 
-  selectedItems = output<DebtData>();
 
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
@@ -64,7 +66,9 @@ export default class SidebarSelectedDebtsComponent {
       recurringTransactions: selectedTransactions,
     };
   
-    this.selectedItems.emit(selectionData);
+    // Guardar los datos en el servicio de estado y navegar al plan
+    this.strategyState.setSelectedData(selectionData);
+    this.router.navigate(['home/plan']);
     console.log('Elementos seleccionados:', selectionData);
   }
 
