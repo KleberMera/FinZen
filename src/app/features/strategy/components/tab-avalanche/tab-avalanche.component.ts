@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './tab-avalanche.component.html',
   styleUrl: './tab-avalanche.component.scss'
 })
-export class TabAvalancheComponent {
+export default class TabAvalancheComponent {
 
 }

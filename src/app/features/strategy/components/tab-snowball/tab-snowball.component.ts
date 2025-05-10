@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './tab-snowball.component.html',
   styleUrl: './tab-snowball.component.scss'
 })
-export class TabSnowballComponent {
+export default class TabSnowballComponent {
 
 }

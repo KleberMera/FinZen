@@ -1,20 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar-selected-debts.component';
+import { RouterModule } from '@angular/router';
 import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component';
 import { StrategyMethod } from '@models/debt';
 import { DebtData } from '../../types/debt-types';
-import { TabSnowballComponent } from "../tab-snowball/tab-snowball.component";
-import { TabAvalancheComponent } from "../tab-avalanche/tab-avalanche.component";
+import { STRATEGY_PAGES } from '../../strategy.routes';
 
 @Component({
   selector: 'app-strategy-main',
-  imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent, TabSnowballComponent, TabAvalancheComponent],
+  standalone: true,
+  imports: [RouterModule, StrategyPlanComponent ],
   templateUrl: './strategy-main.component.html',
-  styleUrl: './strategy-main.component.scss',
+  styleUrls: ['./strategy-main.component.scss'],  
 })
-export class StrategyMainComponent {
-  activeTab: 'bola-de-nieve' | 'avalancha' | 'seleccion-datos' =
-    'bola-de-nieve';
+export default class StrategyMainComponent {
+  activeTab = STRATEGY_PAGES.SNOWBALL;
   selectedData = signal<DebtData | null>(null);
 
   // Manejador para cuando se reciben datos desde el sidebar

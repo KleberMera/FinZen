@@ -16,7 +16,7 @@ import { DebtData } from '../../types/debt-types';
   templateUrl: './sidebar-selected-debts.component.html',
   styleUrl: './sidebar-selected-debts.component.scss',
 })
-export class SidebarSelectedDebtsComponent {
+export default class SidebarSelectedDebtsComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _snowballService = inject(SnowballService);
   readonly salaryComponent = viewChild(SalarySeletedComponent);

@@ -27,4 +27,6 @@ export class ConfigComponent {
     { id: 'notificaciones', label: 'Notificaciones', icon: 'pi pi-bell', route: this.url.NOTIFICACIONES }
   ]);
 
+  
+
 }
