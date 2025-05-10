@@ -3,10 +3,12 @@ import { SidebarSelectedDebtsComponent } from '../sidebar-selected-debts/sidebar
 import { StrategyPlanComponent } from '../strategy-plan/strategy-plan.component';
 import { StrategyMethod } from '@models/debt';
 import { DebtData } from '../../types/debt-types';
+import { TabSnowballComponent } from "../tab-snowball/tab-snowball.component";
+import { TabAvalancheComponent } from "../tab-avalanche/tab-avalanche.component";
 
 @Component({
   selector: 'app-strategy-main',
-  imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent],
+  imports: [SidebarSelectedDebtsComponent, StrategyPlanComponent, TabSnowballComponent, TabAvalancheComponent],
   templateUrl: './strategy-main.component.html',
   styleUrl: './strategy-main.component.scss',
 })

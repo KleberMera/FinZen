@@ -16,6 +16,28 @@
       </p>
     </div>
   </div>
+
+  <div class="flex flex-wrap gap-4 mb-6">
+    <button 
+      class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center transition-colors"
+      (click)="saveCurrentPlan()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4V5h12v10z" />
+        <path d="M7 7h6v2H7V7zm0 4h6v2H7v-2z" />
+      </svg>
+      Guardar Plan
+    </button>
+    <button 
+      class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg flex items-center transition-colors"
+      (click)="generateNewPlan()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      Generar Nuevo Plan
+    </button>
+  </div>
   
   <!-- Tarjetas de resumen - Se mantiene el componente existente -->
   <app-summary-cards></app-summary-cards>
@@ -134,3 +156,4 @@
   
 
 </div>
+

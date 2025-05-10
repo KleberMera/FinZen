@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export enum DEBT_PAGES {
   DEUDAS = 'deudas',
   DEBT_SEGUIMIENTO = 'deudas-seguimiento',
-  DEBT_STRATEGY = 'deudas-estrategia',
+  DEBT_STRATEGY = 'estrategia',
   DEBT_SELECTED_STRATEGY = 'deudas-metodo',
 }
 

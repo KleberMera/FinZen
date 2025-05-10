@@ -87,7 +87,7 @@ export class SidebarItemsComponent {
           route: 'deudas-seguimiento',
         },{
           label: 'Estrategia',
-          route: 'deudas-estrategia',
+          route: 'estrategia',
         }
       ],
     },
