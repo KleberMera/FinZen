@@ -4,10 +4,10 @@ import { Device } from '@models/device';
 import { DeviceService } from '../../services/device.service';
 import { StorageService } from '@services/storage.service';
 import { environment } from '@environments/environment';
-import { NotificationService } from '../../../../shared/layout/navbar/services/notification.service';
 import { SwPush } from '@angular/service-worker';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../../layout/components/navbar/services/notification.service';
 
 
 @Component({

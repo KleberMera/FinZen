@@ -1,16 +1,17 @@
 import { Component, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { LogoComponent } from '../../icons/logo/logo.component';
+
 import { UserProfileSidebarComponent } from './components/user-profile-sidebar/user-profile-sidebar.component';
 import { UserNotificationSidebarComponent } from './components/user-notification-sidebar/user-notification-sidebar.component';
+import { LogoComponent } from '@icons/logo/logo.component';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     RouterLink,
     NgIf,
-    LogoComponent,
+     LogoComponent,
     UserProfileSidebarComponent,
     UserNotificationSidebarComponent,
   ],

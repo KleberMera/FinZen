@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../shared/layout/navbar/navbar.component';
-import { SidebarComponent } from '../shared/layout/sidebar/sidebar.component';
 import { filter } from 'rxjs';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',
