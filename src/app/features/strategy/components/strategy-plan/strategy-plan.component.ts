@@ -1,9 +1,5 @@
-import {
-  Component,  inject,
-  OnInit
-} from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { format } from '@formkit/tempo';
 import { SnowballService } from '../../../debt/services/snowball.service';
 import { DebtDataService } from '../../services/debt-data.service';
 import { DebtCalculatorService } from '../../services/debt-calculator.service';
@@ -17,6 +13,8 @@ import { CalendarTabComponent } from '../calendar-tab/calendar-tab.component';
 import { SummaryCardsComponent } from '../summary-cards/summary-cards.component';
 import { DebtDetailsComponent } from '../debt-details/debt-details.component';
 import StrategyStateService from '../../services/strategy-state.service';
+import { StorageService } from '@services/storage.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-strategy-plan',
@@ -30,39 +28,48 @@ import StrategyStateService from '../../services/strategy-state.service';
     CalendarTabComponent,
     SummaryCardsComponent,
     DebtDetailsComponent,
-],
+  ],
   templateUrl: './strategy-plan.component.html',
   styleUrl: './strategy-plan.component.scss',
-  
 })
 export default class StrategyPlanComponent implements OnInit {
   protected readonly _snowballService = inject(SnowballService);
   private debtDataService = inject(DebtDataService);
   private strategyState = inject(StrategyStateService);
+  protected readonly _storage = inject(StorageService);
+  userId = signal<number>(this._storage.getUserId());
   private router = inject(Router);
-
-  // Access signals directly from the service
-  private calculatorService = inject(DebtCalculatorService);
   paymentPlan = this.debtDataService.paymentPlan;
   processedDebts = this.debtDataService.processedDebts;
   // Tab management
   activeTab = 'table';
 
   ngOnInit(): void {
-
-    console.log('ngOnInit');
-    
-    console.log(this.strategyState.selectedData());
-        // Si no hay datos seleccionados, redirigir a la selección
+    // Si no hay datos seleccionados, intentar obtener el plan guardado
     if (!this.strategyState.selectedData()) {
-      this.router.navigate(['home/estrategia/bola-de-nieve']);
+      this.strategyState.getPlan(this.userId()).subscribe({
+        next: (response) => {
+          if (response.data) {
+            // Si hay un plan guardado, establecer los datos
+            const planData = JSON.parse(response.data.datajson);
+            this.strategyState.setSelectedData(planData);
+            this.debtDataService.setData(planData);
+          } else {
+            // Si no hay plan guardado, redirigir a la selección
+            this.router.navigate(['home/estrategia/bola-de-nieve']);
+          }
+        },
+        error: (error) => {
+          console.error('Error al obtener el plan:', error);
+          this.router.navigate(['home/estrategia/bola-de-nieve']);
+        }
+      });
       return;
     }
 
-    // Usar los datos del servicio
+    // Si hay datos seleccionados, usarlos
     const data = this.strategyState.selectedData()!;
     this.debtDataService.setData(data);
-    
   }
 
   // Access signals directly from the service
@@ -78,37 +85,20 @@ export default class StrategyPlanComponent implements OnInit {
     this.activeTab = tab;
   }
 
-
   saveCurrentPlan(): void {
-    // Create a data object with all the necessary information
-    const planData = {
-      debtData: this.debtData(),
-      processedDebts: this.processedDebts(),
-      paymentPlan: this.paymentPlan(),
-      statistics: {
-        totalOriginalAmount: this.calculatorService.calculateOriginalDebtTotal(this.processedDebts()),
-        totalPaid: this.calculatorService.calculateTotalPaid(this.paymentPlan()),
-        totalInterestPaid: this.calculatorService.calculateTotalInterestPaid(this.paymentPlan()),
-        monthsToFreedom: this.paymentPlan().length,
-        freedomDate: this.paymentPlan()[this.paymentPlan().length - 1]?.date || "N/A",
+
+    const data = this.debtDataService.debtData();
+
+    this.strategyState.createStrategy(this.userId(), data).subscribe({
+      next: (res) => {
+        toast.success(res.message);
       },
-    }
-
-    console.log(planData);
-    
-
-   
+    });
   }
 
 
-
-  /**
-   * Generate a new payment plan
-   */
   generateNewPlan(): void {
-    
+    //Eliminar plan actual y crear uno nuevo
+  
   }
-
-
 }
-
