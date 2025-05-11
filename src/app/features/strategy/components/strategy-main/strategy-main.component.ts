@@ -42,7 +42,7 @@ export default class StrategyMainComponent {
 
   constructor() {
     effect(() => {
-      if (this.dataStrategy.value()) {
+      if (this.dataStrategy.value()?.data?.datajson) {
         const planData = JSON.parse(this.dataStrategy.value()?.data?.datajson!);
         this.strategyState.setSelectedData(planData);
         this.router.navigate(['home/plan']);

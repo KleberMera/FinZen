@@ -49,4 +49,27 @@ export default class StrategyStateService {
     const url = `${environment.apiUrl}/snowball/strategy-plan/user/${userId}/${id}`;
     return this._http.delete<apiResponse<StrategyPlan>>(url);
   }
+
+  deleteStrategy(userId: number): Observable<apiResponse<StrategyPlan>> {
+    return new Observable((observer) => {
+      this.getPlan(userId).subscribe({
+        next: (response) => {
+          if (response.data) {
+            this.deletePlan(userId, response.data.id).subscribe({
+              next: (deleteResponse) => {
+                this.clearSelectedData();
+                observer.next(deleteResponse);
+                observer.complete();
+              },
+              error: (error) => observer.error(error)
+            });
+          } else {
+            observer.next({ message: 'No hay plan para eliminar', error: false, data: undefined });
+            observer.complete();
+          }
+        },
+        error: (error) => observer.error(error)
+      });
+    });
+  }
 }

@@ -33,6 +33,7 @@ import { toast } from 'ngx-sonner';
   styleUrl: './strategy-plan.component.scss',
 })
 export default class StrategyPlanComponent implements OnInit {
+  hasSavedPlan = signal<boolean>(false);
   protected readonly _snowballService = inject(SnowballService);
   private debtDataService = inject(DebtDataService);
   private strategyState = inject(StrategyStateService);
@@ -50,19 +51,18 @@ export default class StrategyPlanComponent implements OnInit {
       this.strategyState.getPlan(this.userId()).subscribe({
         next: (response) => {
           if (response.data) {
+            console.log(response.data);
+            
             // Si hay un plan guardado, establecer los datos
             const planData = JSON.parse(response.data.datajson);
             this.strategyState.setSelectedData(planData);
             this.debtDataService.setData(planData);
+            this.hasSavedPlan.set(true);
           } else {
             // Si no hay plan guardado, redirigir a la selección
             this.router.navigate(['home/estrategia/bola-de-nieve']);
           }
         },
-        error: (error) => {
-          console.error('Error al obtener el plan:', error);
-          this.router.navigate(['home/estrategia/bola-de-nieve']);
-        }
       });
       return;
     }
@@ -86,19 +86,26 @@ export default class StrategyPlanComponent implements OnInit {
   }
 
   saveCurrentPlan(): void {
-
     const data = this.debtDataService.debtData();
 
     this.strategyState.createStrategy(this.userId(), data).subscribe({
       next: (res) => {
         toast.success(res.message);
+        this.hasSavedPlan.set(true);
       },
     });
   }
 
-
   generateNewPlan(): void {
-    //Eliminar plan actual y crear uno nuevo
-  
+    this.strategyState.deleteStrategy(this.userId()).subscribe({
+      next: () => {
+        this.hasSavedPlan.set(false);
+        this.router.navigate(['home/estrategia/bola-de-nieve']);
+        toast.success('Plan eliminado. Puedes generar un nuevo plan.');
+      },
+      error: () => {
+        toast.error('Error al eliminar el plan');
+      }
+    });
   }
 }
