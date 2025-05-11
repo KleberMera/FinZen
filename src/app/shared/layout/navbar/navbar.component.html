@@ -7,12 +7,28 @@
     </div>
     <div class="flex justify-start items-center gap-3 z-10">
       <button (click)="toggleSidebar.emit()"
-        class="md:hidden relative p-2 rounded-lg hover:bg-white/90 dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-lg">
-        <svg class=" text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-          height="24" fill="none" viewBox="0 0 24 24">
+        class="relative p-2 rounded-lg hover:bg-white/90 dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-lg group">
+        <!-- Menú Icon -->
+        <svg *ngIf="!sidebarOpen()" 
+          class="text-gray-800 dark:text-white transform transition-transform duration-200 group-hover:scale-110" 
+          aria-hidden="true" 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" height="24" 
+          fill="none" 
+          viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
         </svg>
 
+        <!-- Close Icon -->
+        <svg *ngIf="sidebarOpen()"
+          class="text-gray-800 dark:text-white transform transition-transform duration-200 group-hover:scale-110 group-hover:rotate-90"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24" height="24"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
 
       <a routerLink="dashboard" class="flex items-center gap-3 group">
