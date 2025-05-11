@@ -47,11 +47,24 @@ export default class StrategyPlanComponent implements OnInit {
 
   ngOnInit(): void {
     // Si no hay datos seleccionados, intentar obtener el plan guardado
-    if (!this.strategyState.selectedData()) {
+
+    if(this.strategyState.selectedData()) {
       this.strategyState.getPlan(this.userId()).subscribe({
         next: (response) => {
           if (response.data) {
-            console.log(response.data);
+            this.hasSavedPlan.set(true);
+          } 
+        },
+      });
+    }
+
+    
+    if (!this.strategyState.selectedData()) {
+      console.log(this.userId());
+      
+      this.strategyState.getPlan(this.userId()).subscribe({
+        next: (response) => {
+          if (response.data) {
             
             // Si hay un plan guardado, establecer los datos
             const planData = JSON.parse(response.data.datajson);
