@@ -73,7 +73,7 @@
       <div class="flex border-b dark:border-gray-700">
         <button
           class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
-          [ngClass]="activeTab === 'table' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          [class]="activeTab === 'table' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
           (click)="setActiveTab('table')"
         >
           <div class="flex items-center">
@@ -88,7 +88,7 @@
         </button>
         <button
           class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
-          [ngClass]="activeTab === 'chart' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          [class]="activeTab === 'chart' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
           (click)="setActiveTab('chart')"
         >
           <div class="flex items-center">
@@ -103,7 +103,7 @@
         </button>
         <button
           class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
-          [ngClass]="activeTab === 'distribution' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          [class]="activeTab === 'distribution' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
           (click)="setActiveTab('distribution')"
         >
           <div class="flex items-center">
@@ -119,7 +119,7 @@
         </button>
         <button
           class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
-          [ngClass]="activeTab === 'calendar' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
+          [class]="activeTab === 'calendar' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
           (click)="setActiveTab('calendar')"
         >
           <div class="flex items-center">

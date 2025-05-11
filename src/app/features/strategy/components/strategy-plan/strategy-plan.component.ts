@@ -2,8 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnowballService } from '../../../debt/services/snowball.service';
 import { DebtDataService } from '../../services/debt-data.service';
-import { DebtCalculatorService } from '../../services/debt-calculator.service';
-import { NgClass } from '@angular/common';
 import { PaymentPlanSummaryComponent } from '../payment-plan-summary/payment-plan-summary.component';
 import { InsufficientFundsWarningComponent } from '../insufficient-funds-warning/insufficient-funds-warning.component';
 import { PaymentTableTabComponent } from '../payment-table-tab/payment-table-tab.component';
@@ -19,7 +17,6 @@ import { toast } from 'ngx-sonner';
 @Component({
   selector: 'app-strategy-plan',
   imports: [
-    NgClass,
     PaymentPlanSummaryComponent,
     InsufficientFundsWarningComponent,
     PaymentTableTabComponent,
