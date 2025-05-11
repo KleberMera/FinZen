@@ -24,10 +24,10 @@ export const authRoutes: Routes = [
         loadComponent: () => import('./pages/sign-up/sign-up.component'),
       },
       {
-        path: AUTH_PAGES.FORGOTPASSWORD,
-        loadComponent: () =>
-          import('./pages/forgot-password/forgot-password.component'),
+        path: '',
+        loadChildren: () => import('./forgot-password.routes'),
       },
+
     ],
   },
   {

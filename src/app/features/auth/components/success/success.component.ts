@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './success.component.html',
   styleUrl: './success.component.scss'
 })
-export class SuccessComponent {
+export default class SuccessComponent {
   private _router = inject(Router);
 
   goToLogin() {

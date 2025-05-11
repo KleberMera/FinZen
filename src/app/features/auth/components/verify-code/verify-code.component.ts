@@ -1,6 +1,8 @@
 import { Component, ElementRef, inject, viewChildren, input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ForgotPassService } from '../../services/forgot-pass.service';
+import { Router } from '@angular/router';
+import { FORGOT_PASSWORD_PAGES } from '../../forgot-password.routes';
 
 @Component({
   selector: 'app-verify-code',
@@ -8,13 +10,14 @@ import { ForgotPassService } from '../../services/forgot-pass.service';
   templateUrl: './verify-code.component.html',
   styleUrl: './verify-code.component.scss'
 })
-export class VerifyCodeComponent {
+export default class VerifyCodeComponent {
   //readonly email = input.required<string>();
   private _fb = inject(FormBuilder);
   private _forgotService = inject(ForgotPassService);
   private _stageService = inject(ForgotPassService);
   readonly codeInputs = viewChildren<ElementRef>('codeInput');
   readonly email = this._stageService.email;
+  private _router = inject(Router);
 
   isLoading = false;
 
@@ -32,6 +35,7 @@ export class VerifyCodeComponent {
           this._stageService.setCode(code); // Almacena el code en el servicio
           this.isLoading = false;
           this._stageService.setStage('password-reset');
+          this._router.navigate([`/auth/${FORGOT_PASSWORD_PAGES.FORGOT_PASSWORD}/${FORGOT_PASSWORD_PAGES.PASSWORD_RESET}`]);
         },
         error: (error) => {
           // toast.error(error.error?.message || 'Error al verificar el código');

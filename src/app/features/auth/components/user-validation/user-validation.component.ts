@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ForgotPassService } from '../../services/forgot-pass.service';
+import { Router } from '@angular/router';
+import { FORGOT_PASSWORD_PAGES } from '../../forgot-password.routes';
+
 
 @Component({
   selector: 'app-user-validation',
@@ -8,10 +11,11 @@ import { ForgotPassService } from '../../services/forgot-pass.service';
   templateUrl: './user-validation.component.html',
   styleUrl: './user-validation.component.scss'
 })
-export class UserValidationComponent {
+export default class UserValidationComponent {
   private _fb = inject(FormBuilder);
   private _forgotService = inject(ForgotPassService);
   private _stageService = inject(ForgotPassService);
+  private _router = inject(Router);
 
   isLoading = false;
 
@@ -29,6 +33,7 @@ public  userForm: FormGroup = this._fb.group({
           this._stageService.setEmail(email); //
           this.isLoading = false;
           this._stageService.setStage('code-verification');
+          this._router.navigate([`/auth/${FORGOT_PASSWORD_PAGES.FORGOT_PASSWORD}/${FORGOT_PASSWORD_PAGES.CODE_VERIFICATION}`]);
         },
         error: (error) => {
           // toast.error(error.error?.message || 'Error al enviar el código');
@@ -40,6 +45,7 @@ public  userForm: FormGroup = this._fb.group({
   }
 
   goToCodeVerification() {
-    this._stageService.setStage('code-verification');
+
+    this._router.navigate([`/auth/${FORGOT_PASSWORD_PAGES.FORGOT_PASSWORD}/${FORGOT_PASSWORD_PAGES.CODE_VERIFICATION}`]);
   }
 }

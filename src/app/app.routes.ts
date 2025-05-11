@@ -18,6 +18,7 @@ export const routes: Routes = [
         path: FEATURE_PAGES.AUTH,
         loadChildren: () => import('./features/auth/auth.routes'),
       },
+
       {
         path: FEATURE_PAGES.HOME,
         component: LayoutComponent,
