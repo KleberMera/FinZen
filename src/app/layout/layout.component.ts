@@ -4,7 +4,6 @@ import { NavbarComponent } from '../shared/layout/navbar/navbar.component';
 import { SidebarComponent } from '../shared/layout/sidebar/sidebar.component';
 import { filter } from 'rxjs';
 
-
 @Component({
   selector: 'app-layout',
   imports: [NavbarComponent, RouterOutlet, SidebarComponent],
@@ -13,6 +12,7 @@ import { filter } from 'rxjs';
 })
 export class LayoutComponent {
   sidebarOpen = signal(false);
+  sidebarCollapsed = signal(false);
   private router = inject(Router);
 
   constructor() {
@@ -24,6 +24,20 @@ export class LayoutComponent {
         this.closeSidebar();
       }
     });
+
+    // Escuchar eventos de redimensionamiento de ventana
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        this.sidebarOpen.set(true);
+      } else {
+        this.sidebarOpen.set(false);
+      }
+    });
+
+    // Establecer estado inicial del sidebar según el tamaño de la ventana
+    if (window.innerWidth >= 768) {
+      this.sidebarOpen.set(true);
+    }
   }
 
   toggleSidebar() {
