@@ -1,8 +1,10 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ForgotPassService } from '../../services/forgot-pass.service';
 import { FORGOT_PASSWORD_PAGES } from '../../forgot-password.routes';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-password-reset',
@@ -17,6 +19,11 @@ export default class PasswordResetComponent {
   private _stageService = inject(ForgotPassService);
   private _router = inject(Router);
   readonly code = this._stageService.code; // Accede al code desde el servicio
+  
+    // Variables para mostrar/ocultar contraseñas
+    showNewPassword = signal<boolean>(false);
+    showConfirmPassword = signal<boolean>(false);
+    
 
   passwordForm: FormGroup = this._fb.group(
     {
@@ -27,18 +34,20 @@ export default class PasswordResetComponent {
   );
 
   resetPassword() {
-    if (this.passwordForm.valid) {
-      this._forgotService.resetPassword(this.code(), this.passwordForm.value.newPassword).subscribe({
-        next: (response) => {
-          // toast.success(response.message);
+    if (this.passwordForm.valid){
+      const resetPromise = firstValueFrom(
+        this._forgotService.resetPassword(this.code(), this.passwordForm.value.newPassword)
+      );
+      this.passwordForm.reset();
+      toast.promise(resetPromise, {
+        loading: 'Restableciendo contraseña...',
+        success: (res) => {
           this._stageService.setStage('success');
           this._router.navigate([`/auth/${FORGOT_PASSWORD_PAGES.FORGOT_PASSWORD}/${FORGOT_PASSWORD_PAGES.SUCCESS}`]);
-        },
-        error: (error) => {
-          // toast.error(error.error?.message || 'Error al restablecer la contraseña');
-          this.passwordForm.reset();
+          return res.message;
         },
       });
+
     }
   }
 
@@ -46,5 +55,15 @@ export default class PasswordResetComponent {
     const password = form.get('newPassword')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+
+  // Función para alternar visibilidad de contraseña
+  togglePasswordVisibility(field: 'new' | 'confirm'): void {
+    if (field === 'new') {
+      this.showNewPassword.set(!this.showNewPassword());
+    } else {
+      this.showConfirmPassword.set(!this.showConfirmPassword());
+    }
   }
 }

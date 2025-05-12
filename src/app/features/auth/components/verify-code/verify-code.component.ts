@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ForgotPassService } from '../../services/forgot-pass.service';
 import { Router } from '@angular/router';
 import { FORGOT_PASSWORD_PAGES } from '../../forgot-password.routes';
+import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-verify-code',
@@ -28,34 +30,24 @@ export default class VerifyCodeComponent {
   verifyCode() {
     if (this.codeForm.valid) {
       this.isLoading = true;
-      const code = this.codeForm.value.code;
-      this._forgotService.verifyCode(code).subscribe({
-        next: (response) => {
-          // toast.success(response.message);
-          this._stageService.setCode(code); // Almacena el code en el servicio
+      const verifyPromise = firstValueFrom(this._forgotService.verifyCode(this.codeForm.value.code));
+      toast.promise(verifyPromise, {
+        loading: 'Verificando código...',
+        success: (res) => {
+          this._stageService.setCode(this.codeForm.value.code); // Almacena el code en el servicio
           this.isLoading = false;
           this._stageService.setStage('password-reset');
           this._router.navigate([`/auth/${FORGOT_PASSWORD_PAGES.FORGOT_PASSWORD}/${FORGOT_PASSWORD_PAGES.PASSWORD_RESET}`]);
+          return res.message;
         },
-        error: (error) => {
-          // toast.error(error.error?.message || 'Error al verificar el código');
+        error: (error: any) => {
           this.isLoading = false;
           this.codeForm.reset();
           this.codeInputs().forEach((input) => (input.nativeElement.value = ''));
+          return error.error?.message;
         },
       });
     }
-  }
-
-  resendCode() {
-    this._forgotService.requestPasswordReset(this.email()).subscribe({
-      next: (response) => {
-        // toast.success('Código reenviado exitosamente');
-      },
-      error: (error) => {
-        // toast.error(error.error?.message || 'Error al reenviar el código');
-      },
-    });
   }
 
   onInput(event: Event, index: number) {
