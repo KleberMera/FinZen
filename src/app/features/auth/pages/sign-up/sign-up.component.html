@@ -1,12 +1,15 @@
-<section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center p-4">
-  <div class="flex w-full max-w-7xl mx-auto">
-    <!-- Panel izquierdo - Ilustración (similar al login) -->
-    <div class="hidden lg:flex lg:w-1/2 flex-col items-center justify-center p-12 relative">
-      <img src="logo_signup.svg" alt="logo" class="max-w-full h-auto animate-float" />
+<section class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen flex items-center justify-center p-4 relative">
+  <div class="flex w-full max-w-7xl mx-auto relative">
+    <!-- Panel izquierdo - Ilustración (fixed) -->
+    <div class="hidden lg:block lg:w-1/2 fixed left-1/2 transform -translate-x-full top-0 h-screen">
+      <div class="flex items-center justify-center h-full p-12">
+        <img src="logo_signup.svg" alt="logo" class="max-w-full h-auto animate-float" />
+      </div>
     </div>
-
+    <!-- Panel izquierdo - Ilustración (similar al login) -->
+ 
     <!-- Panel derecho - Formulario -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+    <div class="w-full lg:w-1/2 lg:ml-auto flex items-start justify-center p-6 lg:p-12 min-h-screen overflow-y-auto">
       <div class="w-full max-w-lg">
         <!-- Logo y título en mobile -->
         @if (_BreakpointService.isMobile()) {
@@ -43,10 +46,6 @@
             <app-google></app-google>
             <span>Continuar con Google</span>
           </button>
-
-          @if (isGoogleLoading()) {
-            <app-loading-google />
-          }
 
           <div class="relative flex items-center justify-center">
             <div class="absolute w-full border-t border-gray-300 dark:border-gray-600"></div>
@@ -116,7 +115,7 @@
             </div>
 
             <!-- Campo Contraseña -->
-            <div>
+            <div class="md:col-span-2">
               <label for="password" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
                 Contraseña
               </label>
@@ -127,7 +126,7 @@
                 <input [type]="showPassword() ? 'text' : 'password'" name="password" id="password" formControlName="password"
                   class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
                   [class.border-red-500]="isFieldInvalid('password')" placeholder="••••••••" />
-                <button type="button" (click)="showPassword.set(!showPassword())"
+                <button type="button" (click)="togglePasswordVisibility('password')"
                   class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                   @if (showPassword()) {
                     <app-eye-slash />
@@ -137,11 +136,64 @@
                 </button>
               </div>
               @if (isFieldInvalid('password')) {
-                <p class="mt-1 text-xs text-red-500">{{ getErrorMessage("password") }}</p>
+                <p class="mt-1 text-xs text-red-500">
+                  @if (form().get('password')?.errors?.['required']) {
+                    La contraseña es obligatoria
+                  } @else if (form().get('password')?.errors?.['minlength']) {
+                    La contraseña debe tener al menos 8 caracteres
+                  } @else if (form().get('password')?.errors?.['weakPassword']) {
+                    La contraseña debe ser al menos de fortaleza regular
+                  }
+                </p>
+              }
+
+              <!-- Indicador de fortaleza de contraseña -->
+              @if (form().get('password')?.value) {
+                <div class="mt-2">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm font-medium text-gray-400">Fortaleza de la contraseña:</span>
+                    <span class="text-sm font-medium" [style.color]="passwordStrength().color">{{ passwordStrength().feedback }}</span>
+                  </div>
+                  <div class="w-full h-2 bg-gray-600 rounded-full overflow-hidden">
+                    <div class="h-full transition-all duration-300" 
+                         [style.width.%]="(passwordStrength().score / 4) * 100"
+                         [style.background-color]="passwordStrength().color"></div>
+                  </div>
+                </div>
               }
             </div>
 
-         
+            <!-- Campo Confirmar Contraseña -->
+            <div class="md:col-span-2">
+              <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Confirmar Contraseña
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <lock-icon></lock-icon>
+                </span>
+                <input [type]="showConfirmPassword() ? 'text' : 'password'" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword"
+                  class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+                  [class.border-red-500]="isFieldInvalid('confirmPassword') || form().hasError('passwordMismatch')" placeholder="••••••••" />
+                <button type="button" (click)="togglePasswordVisibility('confirm')"
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                  @if (showConfirmPassword()) {
+                    <app-eye-slash />
+                  } @else {
+                    <app-eye />
+                  }
+                </button>
+              </div>
+              @if (isFieldInvalid('confirmPassword') || form().hasError('passwordMismatch')) {
+                <p class="mt-1 text-xs text-red-500">
+                  @if (form().get('confirmPassword')?.errors?.['required']) {
+                    Confirmar contraseña es obligatorio
+                  } @else if (form().hasError('passwordMismatch')) {
+                    Las contraseñas no coinciden
+                  }
+                </p>
+              }
+            </div>
 
             <!-- Botón submit -->
             <div class="md:col-span-2">

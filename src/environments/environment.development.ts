@@ -9,6 +9,9 @@ export const environment = {
     appId: import.meta.env.NG_APP_FIREBASE_APP_ID,
     measurementId: import.meta.env.NG_APP_FIREBASE_MEASUREMENT_ID,
   },
+  apiUrlEmail: import.meta.env.NG_APP_EMAIL_VERIFICATION_URL,
+  apiKeyEmail: import.meta.env.NG_APP_EMAIL_VERIFICATION_API_KEY,
+
   VAPID_PUBLIC_KEY: import.meta.env.NG_APP_VAPID_PUBLIC_KEY,
   production: false,
 };

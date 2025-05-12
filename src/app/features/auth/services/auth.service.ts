@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { User } from '@models/user';
 import { apiResponse } from '@models/apiResponse';
 import { StorageService } from '@services/storage.service';
 import { environment } from '@environments/environment';
+import { VerifyEmail } from '@models/email';
+import { PasswordStrengthService } from './password-strength.service';
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class AuthService {
   private readonly _storage = inject(StorageService);
   private keyUser = signal<string>('user');
   private keyAccessToken = signal<string>('access_token');
+    private readonly _passwordStrength = inject(PasswordStrengthService);
 
   formLogin(initialData: Partial<User> = {}) {
     const form = signal<FormGroup>(
@@ -78,36 +80,54 @@ export class AuthService {
   }
 
   formUserSignUp(initialData: Partial<User> = {}) {
-    const form = signal<FormGroup>(
-      new FormGroup({
-        rol_id: new FormControl(initialData.rol_id || 2, [Validators.required]),
-        name: new FormControl(initialData.name || '', [Validators.required]),
-        last_name: new FormControl(initialData.last_name || '', [
-          Validators.required,
-        ]),
-        username: new FormControl(initialData.username || ''),
-        email : new FormControl(initialData.email || '', [Validators.email, Validators.required]),
-        password: new FormControl(initialData.password || '', [
-          Validators.required,
-          Validators.minLength(8),
-        ]),
-
-        status: new FormControl(initialData.status || true, [
-          Validators.required,
-        ]),
-      })
-    );
+    const form = signal<FormGroup>(new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    last_name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordStrengthValidator.bind(this)
+    ]),
+    confirmPassword: new FormControl('', [Validators.required]),
+    rol_id: new FormControl(2, [Validators.required])
+  }));
 
     return form;
   }
 
-  signUp(user: User): Observable<apiResponse<User>> {
+
+  
+   passwordMatchValidator = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    if (!control || !(control instanceof FormGroup)) return null;
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  };
+
+    private passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+    const strength = this._passwordStrength.checkStrength(control.value);
+    return strength.score < 2 ? { weakPassword: true } : null;
+  }
+
+  signUp(user: User): Observable<apiResponse<Partial<User>>> {
+    const username = `${user.name.toLowerCase()}_${user.last_name.toLowerCase()}`.replace(/\s+/g, '_');
+    user.username = username;
     const url = `${environment.apiUrl}/auth/sign-up`;
-    return this._http.post<apiResponse<User>>(url, user);
+    return this._http.post<apiResponse<Partial<User>>>(url, user);
   }
 
   logout() {
     const url = `${environment.apiUrl}/auth/logout`;
     return this._http.post<apiResponse<User>>(url, {});
+  }
+
+
+  verifyEmail(email: string): Observable<apiResponse<VerifyEmail>> {
+    const url = `${environment.apiUrlEmail}/?api_key=${environment.apiKeyEmail}&email=${email}`;
+    return this._http.get<apiResponse<VerifyEmail>>(url);
   }
 }
