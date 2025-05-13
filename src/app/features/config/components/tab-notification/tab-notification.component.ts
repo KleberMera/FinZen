@@ -8,6 +8,7 @@ import { SwPush } from '@angular/service-worker';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../layout/components/navbar/services/notification.service';
+import { DeviceUtilService } from '../../services/device-util.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export default class TabNotificationComponent {
  private readonly _storage = inject(StorageService);
  private readonly _notifications = inject(NotificationService);
  private readonly _swPush = inject(SwPush);
-private readonly  _router = inject(Router);
+ private readonly _router = inject(Router);
+ public readonly _deviceUtil = inject(DeviceUtilService);
 
 
  // Signals para el estado reactivo
@@ -61,19 +63,7 @@ private readonly  _router = inject(Router);
 
  // Método para identificar el dispositivo actual
  private findCurrentDevice(devices: Device[]): Device | undefined {
-   return devices.find(device => this.isCurrentDevice(device));
- }
-
- // Método para verificar si un dispositivo es el actual
- isCurrentDevice(device: Device): boolean {
-   return (
-     device.userAgent === navigator.userAgent &&
-     device.os === (navigator.platform || 'Unknown') &&
-     device.browser === this.getBrowserInfo() &&
-     device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-     device.brand === (navigator.vendor || 'Unknown') &&
-     device.model === (navigator.platform || 'Unknown')
-   );
+   return devices.find(device => this._deviceUtil.isCurrentDevice(device));
  }
 
  // Cargar el conteo de suscripciones
@@ -213,20 +203,11 @@ this._deviceService.hasNotifications(userId, deviceId!).subscribe({
    });
  }
 
- // Detectar el navegador actual
- private getBrowserInfo(): string {
-   const userAgent = navigator.userAgent.toLowerCase();
-   if (/firefox/.test(userAgent)) return 'Firefox';
-   if (/edg/.test(userAgent)) return 'Edge';
-   if (/chrome/.test(userAgent)) return 'Chrome';
-   if (/safari/.test(userAgent)) return 'Safari';
-   if (/opera/.test(userAgent)) return 'Opera';
-   return 'Unknown';
- }
+
 
 
  goToDevices(): void {
   //this._tabService.setActiveTab('dispositivos'); // Cambia el tab a 'dispositivos'
-  this._router.navigate(['dispositivos']); // Navega a la ruta de dispositivos
+  this._router.navigate(['home/configuracion/dispositivos']); // Navega a la ruta de dispositivos
 }
 }

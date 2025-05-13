@@ -3,6 +3,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { DeviceService } from '../../services/device.service';
 import { StorageService } from '@services/storage.service';
 import { Device } from '@models/device';
+import { DeviceUtilService } from '../../services/device-util.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-tab-device',
@@ -13,6 +15,7 @@ import { Device } from '@models/device';
 export default class TabDeviceComponent {
   private readonly _deviceService = inject(DeviceService);
   private readonly _storage = inject(StorageService);
+  private readonly _deviceUtil = inject(DeviceUtilService);
 
   // Signal para el ID del usuario
   userId = signal<number>(this._storage.getUserId());
@@ -23,16 +26,8 @@ export default class TabDeviceComponent {
     loader: ({ request }) => this._deviceService.getDevicesByUserId(request.userId),
   });
 
-  // Función privada para verificar si un dispositivo es el actual
   private isCurrentDevice(device: Device): boolean {
-    return (
-      device.userAgent === navigator.userAgent &&
-      device.os === (navigator.platform || 'Unknown') &&
-      device.browser === this.getBrowserInfo() &&
-      device.isMobile === /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-      device.brand === (navigator.vendor || 'Unknown') &&
-      device.model === (navigator.platform || 'Unknown')
-    );
+    return this._deviceUtil.isCurrentDevice(device);
   }
 
   // Computed signal para determinar si el dispositivo actual está registrado
@@ -41,39 +36,47 @@ export default class TabDeviceComponent {
     return devices.some(device => this.isCurrentDevice(device));
   });
 
+  // Signal para el estado de sincronización
+  isSynchronizing = signal<boolean>(false);
+
   // Método para sincronizar el dispositivo
   synchronizeDevice() {
-    const deviceData: Device = {
-      userAgent: navigator.userAgent,
-      os: navigator.platform || 'Unknown',
-      browser: this.getBrowserInfo(),
-      isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-      brand: navigator.vendor || 'Unknown',
-      model: navigator.platform || 'Unknown',
-      status: 'Active',
-    };
+    if (this.isSynchronizing()) return;
+    
+    this.isSynchronizing.set(true);
+    const deviceData = this._deviceUtil.getCurrentDeviceData();
 
     this._deviceService.createDevice(this.userId(), deviceData).subscribe({
       next: () => {
         console.log('Dispositivo sincronizado correctamente');
         this.devicesResource.reload(); // Refrescar la lista de dispositivos
+        toast.success('Dispositivo sincronizado correctamente');
       },
       error: (error) => {
         console.error('Error al sincronizar el dispositivo:', error);
+        toast.error('Error al sincronizar el dispositivo');
+      },
+      complete: () => {
+        this.isSynchronizing.set(false);
+      }
+    });
+  }
+
+  deleteDevice(deviceId: number) {
+    this._deviceService.deleteDevice(this.userId(), deviceId).subscribe({
+      next: () => {
+        console.log('Dispositivo eliminado correctamente');
+        this.devicesResource.reload(); // Refrescar la lista de dispositivos
+        toast.success('Dispositivo eliminado correctamente');
+      },
+      error: (error) => {
+        console.error('Error al eliminar el dispositivo:', error);
+        toast.error('Error al eliminar el dispositivo');
       },
     });
   }
 
-  // Método privado para detectar el navegador
-  private getBrowserInfo(): string {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (/firefox/.test(userAgent)) return 'Firefox';
-    if (/edg/.test(userAgent)) return 'Edge';
-    if (/chrome/.test(userAgent)) return 'Chrome';
-    if (/safari/.test(userAgent)) return 'Safari';
-    if (/opera/.test(userAgent)) return 'Opera';
-    return 'Unknown';
-  }
+
 
   // Método público para usar en la plantilla
   isCurrentDeviceFn(device: Device): boolean {

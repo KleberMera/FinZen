@@ -1,24 +1,12 @@
-
-
 @if (devicesResource.isLoading()) {
-
-} @else {
-<!-- Estado del dispositivo -->
-@if (!isDeviceSynced()) {
-  <div class="py-8 px-6 text-center ">
-    <div class="flex flex-col items-center">
-      <div class="p-4 bg-yellow-500/20 rounded-full mb-4">
-        <i class="pi pi-exclamation-circle text-4xl text-yellow-400"></i>
+  <div class="flex flex-col items-center justify-center py-12">
+    <div class="relative w-16 h-16 mb-4">
+      <div class="w-16 h-16 rounded-full border-4 border-blue-400/30 border-t-blue-400 animate-spin"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <i class="pi pi-bell text-blue-400 text-xl"></i>
       </div>
-      <h3 class="text-xl font-semibold text-white mb-1">Dispositivo no sincronizado</h3>
-      <p class="text-gray-300 mb-6">Necesitas sincronizar este dispositivo para recibir notificaciones</p>
-      <button 
-       (click)="goToDevices()"
-       class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 mx-auto transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-        <i class="pi pi-mobile"></i>
-        <span>Ir a Dispositivos</span>
-      </button>
     </div>
+    <p class="text-gray-300">Cargando notificaciones...</p>
   </div>
 } @else {
   <!-- Estado de notificaciones -->
@@ -137,14 +125,14 @@
                 </div>
               </div>
               <div class="flex items-center">
-                <span class="text-xs text-gray-400 mr-2" [class.text-green-400]="isCurrentDevice(device)">
-                  {{ isCurrentDevice(device) ? 'Dispositivo actual' : '' }}
+                <span class="text-xs text-gray-400 mr-2" [class.text-green-400]="_deviceUtil.isCurrentDevice(device)">
+                  {{ _deviceUtil.isCurrentDevice(device) ? 'Dispositivo actual' : '' }}
                 </span>
                 <div class="h-3 w-3 rounded-full relative" 
-                     [class]="isCurrentDevice(device) ? 'bg-green-500' : 'bg-gray-500'">
+                     [class]="_deviceUtil.isCurrentDevice(device) ? 'bg-green-500' : 'bg-gray-500'">
                   <div class="absolute inset-0 rounded-full bg-green-500 animate-ping" 
-                       [class.opacity-0]="!isCurrentDevice(device)"
-                       [class.opacity-75]="isCurrentDevice(device)"></div>
+                       [class.opacity-0]="!_deviceUtil.isCurrentDevice(device)"
+                       [class.opacity-75]="_deviceUtil.isCurrentDevice(device)"></div>
                 </div>
               </div>
             </div>
@@ -153,6 +141,4 @@
       </div>
     }
   </div>
-}
-
 }

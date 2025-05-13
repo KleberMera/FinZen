@@ -28,4 +28,9 @@ export class DeviceService {
     const url = `${environment.apiUrl}/device/has-notifications/${deviceId}/${userId}`;
     return this._http.get<hasNotificationsResponse>(url);
   }
+
+  deleteDevice(userId: number, deviceId: number) {
+    const url = `${environment.apiUrl}/device/delete/${userId}/${deviceId}`;
+    return this._http.delete<apiResponse<void>>(url);
+  }
 }
