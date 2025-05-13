@@ -85,7 +85,7 @@ export default class SignUpComponent {
     // Watch email changes to reset verification
     this.form().get('email')?.valueChanges.subscribe(() => {
       if (this.emailVerified()) {
-        this.emailVerified.set(false);
+        this.emailVerified.update((value) => false);
       }
     });
   }
@@ -132,7 +132,7 @@ export default class SignUpComponent {
   }
 
 
-  
+
 
   saveUser() {
     if (!this.emailVerified()) {
