@@ -126,8 +126,8 @@ export class AuthService {
   }
 
 
-  verifyEmail(email: string): Observable<apiResponse<VerifyEmail>> {
+  verifyEmail(email: string): Observable<VerifyEmail> {
     const url = `${environment.apiUrlEmail}/?api_key=${environment.apiKeyEmail}&email=${email}`;
-    return this._http.get<apiResponse<VerifyEmail>>(url);
+    return this._http.get<VerifyEmail>(url);
   }
-}
+} 

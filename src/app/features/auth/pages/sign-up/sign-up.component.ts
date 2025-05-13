@@ -52,6 +52,8 @@ export default class SignUpComponent {
   readonly pages = signal(AUTH_PAGES.LOGIN);
   protected showPassword = signal<boolean>(false);
   protected showConfirmPassword = signal<boolean>(false);
+  protected isVerifyingEmail = signal<boolean>(false);
+  protected emailVerified = signal<boolean>(false);
   passwordStrength = signal<PasswordStrength>({ score: 0, feedback: '', color: '#ff4444' });
 
   constructor() {
@@ -89,15 +91,63 @@ export default class SignUpComponent {
     }
   }
 
+  async verifyEmail() {
+    const email = this.form().get('email')?.value;
+    if (!email) {
+      toast.error('Por favor, ingresa un email');
+      return;
+    }
+
+    this.isVerifyingEmail.set(true);
+    try {
+      const response = await firstValueFrom(this._authService.verifyEmail(email));
+      const emailData = response;
+      console.log(emailData);
+      
+      
+      // Validar que:
+      // - is_smtp_valid sea true
+      // - is_disposable_email sea false
+      // - is_mx_found sea true
+      const isSmtpValid = emailData?.is_smtp_valid?.value === true;
+      const isNotDisposable = emailData?.is_disposable_email?.value === false;
+      const hasMxRecords = emailData?.is_mx_found?.value === true;
+
+      console.log('Validación de email:', {
+        isSmtpValid,
+        isNotDisposable,
+        hasMxRecords
+      });
+
+      if (!isSmtpValid || !isNotDisposable || !hasMxRecords) {
+        toast.error('El email no es válido o no puede recibir correos');
+        this.emailVerified.set(false);
+        return;
+      }
+
+      this.emailVerified.set(true);
+      toast.success('Email verificado correctamente');
+    } catch (error: any) {
+      toast.error(error.error?.message || 'Error al verificar el email');
+      this.emailVerified.set(false);
+    } finally {
+      this.isVerifyingEmail.set(false);
+    }
+  }
+
   saveUser() {
+    if (!this.emailVerified()) {
+      toast.error('Por favor, verifica el email antes de continuar');
+      return;
+    }
     this.isSubmitting.set(true);
-    //toast.info('Registrando...');
+    toast.info('Registrando...');
     //Borrar el id del formulario
     delete this.form().value.confirmPassword;
     const user = this.form().value;
     this._authService.signUp(user).subscribe({
       next: (res) => {
-        toast.info(res.message);
+       // toast.info(res.message);
         const userandpass = { email: user.email, password: user.password };
         const login = firstValueFrom( this._authService.login(userandpass as User));
         toast.promise(login, {
