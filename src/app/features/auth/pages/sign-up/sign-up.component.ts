@@ -73,13 +73,21 @@ export default class SignUpComponent {
   }
 
   ngOnInit() {
+    // Watch password changes for strength
     this.form().get('password')?.valueChanges.subscribe((password) => {
-        if (password) {
-          this.passwordStrength.set(this._passwordStrength.checkStrength(password));
-        } else {
-          this.passwordStrength.set({ score: 0, feedback: '', color: '#ff4444' });
-        }
-      });
+      if (password) {
+        this.passwordStrength.set(this._passwordStrength.checkStrength(password));
+      } else {
+        this.passwordStrength.set({ score: 0, feedback: '', color: '#ff4444' });
+      }
+    });
+
+    // Watch email changes to reset verification
+    this.form().get('email')?.valueChanges.subscribe(() => {
+      if (this.emailVerified()) {
+        this.emailVerified.set(false);
+      }
+    });
   }
 
 
@@ -99,25 +107,13 @@ export default class SignUpComponent {
     }
 
     this.isVerifyingEmail.set(true);
+    this.emailVerified.set(false);
     try {
       const response = await firstValueFrom(this._authService.verifyEmail(email));
       const emailData = response;
-      console.log(emailData);
-      
-      
-      // Validar que:
-      // - is_smtp_valid sea true
-      // - is_disposable_email sea false
-      // - is_mx_found sea true
       const isSmtpValid = emailData?.is_smtp_valid?.value === true;
       const isNotDisposable = emailData?.is_disposable_email?.value === false;
       const hasMxRecords = emailData?.is_mx_found?.value === true;
-
-      console.log('Validación de email:', {
-        isSmtpValid,
-        isNotDisposable,
-        hasMxRecords
-      });
 
       if (!isSmtpValid || !isNotDisposable || !hasMxRecords) {
         toast.error('El email no es válido o no puede recibir correos');
@@ -134,6 +130,9 @@ export default class SignUpComponent {
       this.isVerifyingEmail.set(false);
     }
   }
+
+
+  
 
   saveUser() {
     if (!this.emailVerified()) {
