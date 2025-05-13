@@ -105,23 +105,31 @@
 
       <button
         (click)="onUserClick()"
-        class="relative p-2 rounded-lg hover:bg-white/90 dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-lg"
+        class="relative  rounded-lg hover:bg-white/90 dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-lg overflow-hidden"
       >
-        <!-- Icono de usuario -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-5 h-5 text-gray-600 dark:text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
+        @if (profileImageService.hasSafePhotoUrl()) {
+          <img 
+            [src]="profileImageService.getSafePhotoUrl()" 
+            (error)="profileImageService.handleImageError()"
+            alt="Avatar del usuario"
+            class="w-7 h-7 rounded-full object-cover"
+          >
+        } @else {
+          <!-- Icono de usuario por defecto -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 text-gray-600 dark:text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
           />
-        </svg>
+        </svg>}
       </button>
     </div>
   </div>

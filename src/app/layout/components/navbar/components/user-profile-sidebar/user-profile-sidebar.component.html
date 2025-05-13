@@ -1,7 +1,7 @@
-@if (user.isLoading()) {
-  <app-user-profile-sidebar-skeleton></app-user-profile-sidebar-skeleton>
-} @else {
-  <div class="fixed inset-0 z-50 flex justify-end">
+<div class="fixed inset-0 z-50 flex justify-end">
+  @if (user.isLoading()) {
+    <app-user-profile-sidebar-skeleton></app-user-profile-sidebar-skeleton>
+  } @else {
     <!-- Fondo oscuro -->
     <div 
       class="absolute inset-0 bg-gray-900/60 dark:bg-gray-950/70 backdrop-blur-sm transition-opacity duration-300"
@@ -41,10 +41,20 @@
         <!-- Avatar y nombre -->
         <div class="flex flex-col items-center">
           <div class="relative mb-3">
-            <img 
-              [src]="user.value()?.data?.avatar || 'favicon.webp'"   
-              alt="Avatar del usuario"
-              class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300 hover:ring-blue-300">
+            @if (profileImageService.hasSafePhotoUrl()) {
+              <img 
+                [src]="profileImageService.getSafePhotoUrl()" 
+                (error)="handleImageError()"
+                alt="Avatar del usuario"
+                class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300 hover:ring-blue-300"
+              >
+            } @else {
+              <img 
+                [src]="profileImageService.getDefaultAvatarUrl()" 
+                alt="Avatar por defecto"
+                class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300 hover:ring-blue-300"
+              >
+            }
             <span class="absolute bottom-0 right-0 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 dark:bg-green-400 border-2 border-white dark:border-gray-900 rounded-full"></span>
           </div>
           <h3 class="text-lg sm:text-xl font-medium text-gray-900 dark:text-gray-100 tracking-wide">
@@ -111,5 +121,5 @@
         </div>
       </div>
     </div>
-  </div>
-}
+  }
+</div>

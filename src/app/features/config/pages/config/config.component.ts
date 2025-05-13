@@ -2,7 +2,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CONFIG_PAGES_CONFIGURATION } from '../../config.routes';
-
+import { Auth, authState } from '@angular/fire/auth';
+import { User } from '@models/user';
 @Component({
   selector: 'app-config',
   imports: [
@@ -27,6 +28,12 @@ export class ConfigComponent {
     { id: 'notificaciones', label: 'Notificaciones', icon: 'pi pi-bell', route: this.url.NOTIFICACIONES }
   ]);
 
-  
+  // private readonly auth = inject(Auth);
 
+  // //Datos del Usuario Autenticado con Firebase
+  // ngOnInit(): void {
+  //   authState(this.auth).subscribe(user => {
+  //     console.log('Usuario autenticado:', user);
+  //   });
+  // }
 }

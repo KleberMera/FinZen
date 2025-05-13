@@ -1,9 +1,10 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { UserProfileSidebarComponent } from './components/user-profile-sidebar/user-profile-sidebar.component';
 import { UserNotificationSidebarComponent } from './components/user-notification-sidebar/user-notification-sidebar.component';
 import { LogoComponent } from '@icons/logo/logo.component';
+import { ProfileImageService } from '@services/profile-image.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,7 @@ import { LogoComponent } from '@icons/logo/logo.component';
 export class NavbarComponent {
   sidebarOpen = input(false);
   toggleSidebar = output<void>();
+  protected readonly profileImageService = inject(ProfileImageService);
   toggleSidebarUser = output<void>();
   isUserSidebarOpen = signal(false);
   isUserNotificationOpen = signal(false);

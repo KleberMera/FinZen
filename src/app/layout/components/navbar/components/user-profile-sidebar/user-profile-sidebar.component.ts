@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, NgOptimizedImage } from '@angular/common';
 import { Component, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from '@services/storage.service';
 import { UserProfileService } from '../../services/user-profile.service';
+import { ProfileImageService } from '@services/profile-image.service';
 
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
@@ -15,7 +16,7 @@ import { AuthService } from '../../../../../features/auth/services/auth.service'
 @Component({
   selector: 'app-user-profile-sidebar',
   imports: [
-    CommonModule,
+    DatePipe,
     ReactiveFormsModule,
     UserProfileSidebarSkeletonComponent,
   ],
@@ -33,7 +34,7 @@ export class UserProfileSidebarComponent {
   private readonly _router = inject(Router);
 
   closeSidebar = output<void>();
-  
+
   close() {
     this.closeSidebar.emit();
   }
@@ -54,5 +55,14 @@ export class UserProfileSidebarComponent {
     toast.success('Sesión cerrada');
   }
 
+  protected readonly profileImageService = inject(ProfileImageService);
 
+  constructor() {}
+
+  /**
+   * Maneja los errores al cargar la imagen
+   */
+  handleImageError(): void {
+    this.profileImageService.handleImageError();
+  }
 }
