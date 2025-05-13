@@ -12,6 +12,5 @@ export interface User {
   phone: string;
   avatar: string;
   status: boolean;
-  createdAt:string
 }
 

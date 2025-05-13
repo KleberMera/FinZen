@@ -1,4 +1,4 @@
-<div class="mb-8 mx-auto  text-white ">
+<div class="mb-8 mx-auto text-white">
   <!-- Cabecera de Tabs -->
   <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
     <span class="flex items-center gap-2">
@@ -11,31 +11,33 @@
     </span>
   </h2>
 
-  <!-- Menú de Tabs -->
-  <div class="mb-6">
-    <div class="flex overflow-x-auto  border-gray-700">
-      <ul class="flex flex-nowrap text-sm font-medium text-center">
-        @for (tab of tabs(); track tab.id) {
-        <li class="mr-2 whitespace-nowrap">
-          <button [routerLink]="tab.route" routerLinkActive="text-blue-500 border-blue-500"
-            [routerLinkActiveOptions]="{exact: true}"
-            class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg gap-2"
-            [class.border-transparent]="!(router.url.includes(tab.route))"
-            [class.hover:text-gray-300]="!(router.url.includes(tab.route))"
-            [class.hover:border-gray-300]="!(router.url.includes(tab.route))">
-            <i [class]="tab.icon"></i>
+  <!-- Panel de contenido principal con tabs mejorados -->
+  <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all mb-8">
+    <!-- Tabs de navegación mejorados -->
+    <div class="flex border-b border-gray-700">
+      @for (tab of tabs(); track tab.id) {
+        <button 
+          [routerLink]="tab.route" 
+          routerLinkActive="text-blue-400"
+          [routerLinkActiveOptions]="{exact: true}"
+          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          [class.text-gray-400]="!(router.url.includes(tab.route))"
+          [class.hover:text-gray-300]="!(router.url.includes(tab.route))"
+        >
+          <div class="flex items-center">
+            <i [class]="tab.icon + ' mr-2'"></i>
             {{ tab.label }}
-          </button>
-        </li>
-        }
-      </ul>
+          </div>
+          @if (router.url.includes(tab.route)) {
+            <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
+          }
+        </button>
+      }
     </div>
-  </div>
 
-  <!-- Contenido de los Tabs -->
-  <div class="tab-content">
-    <router-outlet></router-outlet>
-
-
+    <!-- Contenido de los Tabs -->
+    <div class="p-6">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
