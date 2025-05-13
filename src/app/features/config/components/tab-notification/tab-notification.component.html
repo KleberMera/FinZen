@@ -1,4 +1,4 @@
-@if (devicesResource.isLoading()) {
+@if (devicesResource.isLoading() || notificationStatus() === 'loading') {
   <div class="flex flex-col items-center justify-center py-12">
     <div class="relative w-16 h-16 mb-4">
       <div class="w-16 h-16 rounded-full border-4 border-blue-400/30 border-t-blue-400 animate-spin"></div>
@@ -6,21 +6,28 @@
         <i class="pi pi-bell text-blue-400 text-xl"></i>
       </div>
     </div>
-    <p class="text-gray-300">Cargando notificaciones...</p>
+    <p class="text-gray-300">{{ devicesResource.isLoading() ? 'Cargando notificaciones...' : 'Comprobando notificaciones...' }}</p>
+  </div>
+} @else if (!isDeviceSynced()) {
+  <div class="py-8 px-6 text-center">
+    <div class="flex flex-col items-center">
+      <div class="p-4 bg-yellow-500/20 rounded-full mb-4">
+        <i class="pi pi-exclamation-circle text-4xl text-yellow-400"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-white mb-1">Dispositivo no sincronizado</h3>
+      <p class="text-gray-300 mb-6">Necesitas sincronizar este dispositivo para recibir notificaciones</p>
+      <button 
+        (click)="goToDevices()"
+        class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 mx-auto transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+        <i class="pi pi-mobile"></i>
+        <span>Ir a Dispositivos</span>
+      </button>
+    </div>
   </div>
 } @else {
-  <!-- Estado de notificaciones -->
-  <div class="rounded-xl  overflow-hidden">
+  <div class="rounded-xl overflow-hidden">
     <div class="px-6 py-8 flex flex-col items-center justify-center gap-4">
       @switch (notificationStatus()) {
-        @case ('loading') {
-          <div class="flex items-center justify-center py-6">
-            <div class="flex flex-col items-center">
-              <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"></div>
-              <span class="mt-4 text-gray-300">Comprobando notificaciones...</span>
-            </div>
-          </div>
-        }
         @case ('enabled') {
           <div class="text-center">
             <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-green-500/10 ring-2 ring-green-500/20">
