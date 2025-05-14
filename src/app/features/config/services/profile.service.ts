@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
@@ -35,5 +36,20 @@ export class ProfileService {
   verifyEmail(email: string): Observable<{exists: boolean}> {
     const url = `${environment.apiUrl}/auth/verify-email`;
     return this._http.post<{exists: boolean}>(url, { email });
+  }
+
+
+  profileForm(data: Partial<UserUpdate> = {}){
+    const form = signal<FormGroup>(
+      new FormGroup({
+        name: new FormControl(data.name, [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]),
+        last_name: new FormControl(data.last_name, [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]),
+        username: new FormControl(data.username, [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_]+$/)]),
+        email: new FormControl(data.email, [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+        phone: new FormControl(data.phone, [Validators.pattern(/^[0-9]{10}$/)]),
+      })
+    );
+    return form;
+  
   }
 }
