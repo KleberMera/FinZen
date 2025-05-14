@@ -20,6 +20,7 @@ import { environment } from '@environments/environment';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import es from '@angular/common/locales/es-EC';
 import { registerLocaleData } from '@angular/common';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 registerLocaleData(es);
 export const appConfig: ApplicationConfig = {
@@ -28,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAnimationsAsync(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([handleErrorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([handleErrorInterceptor, authInterceptor])),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideMessaging(() => getMessaging()),
