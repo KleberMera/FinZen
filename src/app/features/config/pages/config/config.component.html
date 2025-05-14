@@ -1,5 +1,5 @@
 <div class="mb-8 mx-auto text-white">
-  <!-- Cabecera de Tabs -->
+  <!-- Cabecera mejorada -->
   <h2 class="text-xl sm:text-2xl font-bold mb-6 text-blue-400 border-b border-gray-700 pb-3">
     <span class="flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -11,22 +11,24 @@
     </span>
   </h2>
 
-  <!-- Panel de contenido principal con tabs mejorados -->
-  <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all mb-8">
-    <!-- Tabs de navegación mejorados -->
-    <div class="flex border-b border-gray-700">
+  <!-- Panel principal mejorado con sombras y efecto de elevación -->
+  <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all  border border-gray-700 hover:shadow-xl">
+    <!-- Tabs de navegación mejorados y responsivos -->
+    <div class="flex flex-wrap border-b border-gray-700">
       @for (tab of tabs(); track tab.id) {
         <button 
           [routerLink]="tab.route" 
-          routerLinkActive="text-blue-400"
+          routerLinkActive="text-blue-400 bg-gray-750"
           [routerLinkActiveOptions]="{exact: true}"
-          class="relative px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden"
+          class="group relative px-3 sm:px-6 py-4 text-sm font-medium transition-all focus:outline-none overflow-hidden flex-1 sm:flex-none"
           [class.text-gray-400]="!(router.url.includes(tab.route))"
           [class.hover:text-gray-300]="!(router.url.includes(tab.route))"
+          [class.hover:bg-gray-750]="!(router.url.includes(tab.route))"
+          [attr.title]="tab.label"
         >
-          <div class="flex items-center">
-            <i [class]="tab.icon + ' mr-2'"></i>
-            {{ tab.label }}
+          <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start">
+            <i [class]="tab.icon + ' text-lg sm:mr-2'"></i>
+            <span class="text-xs sm:text-sm mt-1 sm:mt-0 truncate max-w-full">{{ tab.label }}</span>
           </div>
           @if (router.url.includes(tab.route)) {
             <span class="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></span>
@@ -35,8 +37,8 @@
       }
     </div>
 
-    <!-- Contenido de los Tabs -->
-    <div class="p-6">
+    <!-- Contenido de los Tabs con padding adaptable -->
+    <div class="p-4 sm:p-6">
       <router-outlet></router-outlet>
     </div>
   </div>
