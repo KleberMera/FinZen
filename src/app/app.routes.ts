@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { authGuard, publicGuard } from './core/guards/auth.guard';
+import { hasRoleGuard } from './core/guards/has-role.guard';
+import { ROLE } from './core/guards/rol';
 export enum FEATURE_PAGES {
   AUTH = 'auth',
   HOME = 'home',
@@ -24,6 +26,7 @@ export const routes: Routes = [
 
       {
         canMatch: [authGuard],
+        canActivate: [hasRoleGuard([ ROLE.CLIENT])],
         path: FEATURE_PAGES.HOME,
         component: LayoutComponent,
         children: [
@@ -71,11 +74,16 @@ export const routes: Routes = [
             loadChildren: () => import('./features/strategy/strategy.routes'),
           },
           {
+            path:'',
+            loadChildren: () => import('./features/admin/user-management/admin.routes'),
+          },
+          {
             path: '**',
             redirectTo: 'dashboard',
           },
         ],
       },
+
       {
         path: '**',
         redirectTo: FEATURE_PAGES.AUTH,

@@ -58,4 +58,10 @@ export class StorageService {
     const token = this._storage.getItem(this._token());
     return token ? JSON.parse(token) : null;
   }
+
+
+  getRole() {
+    const dataUser: User | null = this.get(this._userId());
+    return dataUser?.rol_id as number;
+  }
 }
