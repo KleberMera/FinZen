@@ -44,7 +44,7 @@ export class ProfileService {
       new FormGroup({
         name: new FormControl(data.name, [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]),
         last_name: new FormControl(data.last_name, [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)]),
-        username: new FormControl(data.username, [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_]+$/)]),
+        username: new FormControl(data.username, [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z0-9_\.]+$/)]),
         email: new FormControl(data.email, [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
         phone: new FormControl(data.phone, [Validators.pattern(/^[0-9]{10}$/)]),
       })
