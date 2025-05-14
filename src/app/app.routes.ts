@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
+import { authGuard, publicGuard } from './core/guards/auth.guard';
 export enum FEATURE_PAGES {
   AUTH = 'auth',
   HOME = 'home',
@@ -10,16 +11,19 @@ export const routes: Routes = [
     path: '',
     children: [
       {
+       // canMatch: [publicGuard],
         path: '',
         pathMatch: 'full',
         redirectTo: FEATURE_PAGES.AUTH,
       },
       {
+       canMatch: [publicGuard],
         path: FEATURE_PAGES.AUTH,
         loadChildren: () => import('./features/auth/auth.routes'),
       },
 
       {
+        canMatch: [authGuard],
         path: FEATURE_PAGES.HOME,
         component: LayoutComponent,
         children: [

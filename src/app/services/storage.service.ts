@@ -32,7 +32,7 @@ export class StorageService {
 
   getName() {
     const dataUser: User | null = this.get(this._userId());
-    return dataUser ? `${dataUser.name} ${dataUser.last_name}` : '';
+    return dataUser ? `${dataUser.name} ${dataUser.last_name || ''}` : '';
   }
 
   getAvatar() {
