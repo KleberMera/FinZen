@@ -6,7 +6,7 @@ import { DebtData } from '../../types/debt-types';
 import { SalarySeletedComponent } from './components/salary-seleted/salary-seleted.component';
 import { SectionDebtsComponent } from './components/section-debts/section-debts.component';
 import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
-import { SnowballService } from '../../../debt/services/snowball.service';
+import { MethodPlanService } from '../../../debt/services/method-plan.service';
 import StrategyStateService from '../../services/strategy-state.service';
 
 @Component({
@@ -20,7 +20,7 @@ export default class SidebarSelectedDebtsComponent {
   private router = inject(Router);
   private strategyState = inject(StrategyStateService);
   protected readonly _storage = inject(StorageService);
-  protected readonly _snowballService = inject(SnowballService);
+  protected readonly _methodPlanService = inject(MethodPlanService);
 
   readonly salaryComponent = viewChild(SalarySeletedComponent);
   readonly debtComponent = viewChild(SectionDebtsComponent);

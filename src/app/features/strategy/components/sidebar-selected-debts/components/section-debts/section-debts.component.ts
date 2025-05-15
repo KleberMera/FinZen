@@ -3,7 +3,7 @@ import { StorageService } from '@services/storage.service';
 
 import { format } from '@formkit/tempo';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { SnowballService } from '../../../../../debt/services/snowball.service';
+import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
 
 @Component({
   selector: 'app-section-debts',
@@ -13,7 +13,7 @@ import { SnowballService } from '../../../../../debt/services/snowball.service';
 })
 export class SectionDebtsComponent {
   protected readonly _storage = inject(StorageService);
-  protected readonly _snowballService = inject(SnowballService);
+  protected readonly _methodPlanService = inject(MethodPlanService);
 
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
@@ -29,7 +29,7 @@ export class SectionDebtsComponent {
   debts = rxResource({
     request: () => ({ userId: this.seletdUserId() }),
     loader: ({ request }) =>
-      this._snowballService.getDebtByIdData(request.userId),
+      this._methodPlanService.getDebtByIdData(request.userId),
   });
 
   // Al inicializar, pre-seleccionar todas las deudas

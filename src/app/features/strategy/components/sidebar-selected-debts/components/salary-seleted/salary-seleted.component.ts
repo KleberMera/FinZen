@@ -5,7 +5,7 @@ import { Salary } from '@models/salary';
 import { StorageService } from '@services/storage.service';
 
 import { format } from '@formkit/tempo';
-import { SnowballService } from '../../../../../debt/services/snowball.service';
+import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
 
 @Component({
   selector: 'app-salary-seleted',
@@ -15,7 +15,7 @@ import { SnowballService } from '../../../../../debt/services/snowball.service';
 })
 export class SalarySeletedComponent {
   protected readonly _storage = inject(StorageService);
-  protected readonly _snowballService = inject(SnowballService);
+  protected readonly _methodPlanService = inject(MethodPlanService);
 
   includeSalary = signal(false);
 
@@ -30,7 +30,7 @@ export class SalarySeletedComponent {
       currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
     }),
     loader: ({ request }) =>
-      this._snowballService.getSalaryByMonth(
+      this._methodPlanService.getSalaryByMonth(
         request.userId,
         request.currentMonth
       ),

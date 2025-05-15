@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { SnowballService } from '../../../debt/services/snowball.service';
 import { DebtDataService } from '../../services/debt-data.service';
 import { PaymentPlanSummaryComponent } from '../payment-plan-summary/payment-plan-summary.component';
 import { InsufficientFundsWarningComponent } from '../insufficient-funds-warning/insufficient-funds-warning.component';
@@ -31,7 +30,7 @@ import { toast } from 'ngx-sonner';
 })
 export default class StrategyPlanComponent implements OnInit {
   hasSavedPlan = signal<boolean>(false);
-  protected readonly _snowballService = inject(SnowballService);
+
   private debtDataService = inject(DebtDataService);
   private strategyState = inject(StrategyStateService);
   protected readonly _storage = inject(StorageService);

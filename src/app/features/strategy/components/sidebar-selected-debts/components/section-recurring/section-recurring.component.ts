@@ -3,7 +3,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 
 import { DatePipe, NgClass } from '@angular/common';
-import { SnowballService } from '../../../../../debt/services/snowball.service';
+import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
 
 @Component({
   selector: 'app-section-recurring',
@@ -13,7 +13,7 @@ import { SnowballService } from '../../../../../debt/services/snowball.service';
 })
 export class SectionRecurringComponent {
   protected readonly _storage = inject(StorageService);
-  protected readonly _snowballService = inject(SnowballService);
+  protected readonly _methodPlanService = inject(MethodPlanService);
 
   
   seletdUserId = signal(this._storage.getUserId());
@@ -23,7 +23,7 @@ export class SectionRecurringComponent {
   recurringTransactions = rxResource({
     request: () => ({ userId: this.seletdUserId() }),
     loader: ({ request }) =>
-      this._snowballService.getRecurringTransaction(request.userId),
+      this._methodPlanService.getRecurringTransaction(request.userId),
   });
   
   // Calcular si todos los items están seleccionados

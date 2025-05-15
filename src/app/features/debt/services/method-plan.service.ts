@@ -4,17 +4,17 @@ import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 
 import { Salary } from '@models/salary';
-import { Transaction, TransactionRecurring } from '@models/transaction';
+import {  TransactionRecurring } from '@models/transaction';
 import { Observable } from 'rxjs';
 import { Debt } from '../../strategy/types/debt-types';
 @Injectable({
   providedIn: 'root',
 })
-export class SnowballService {
+export class MethodPlanService {
   protected readonly _http = inject(HttpClient);
 
   getDebtByIdData(id: number): Observable<apiResponse<Debt[]>> {
-    const url = `${environment.apiUrl}/snowball/debt/user/${id}`;
+    const url = `${environment.apiUrl}/method/debt/user/${id}`;
     return this._http.get<apiResponse<Debt[]>>(url);
   }
 
