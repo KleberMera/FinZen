@@ -10,7 +10,7 @@ export enum ADMIN_PAGES {
 export const adminRoutes: Routes = [
   {
     canMatch: [authGuard],
-    canActivate: [hasRoleGuard([ROLE.ADMIN])],
+    //canActivate: [hasRoleGuard([ROLE.ADMIN])],
     path: '',
     children: [
       {

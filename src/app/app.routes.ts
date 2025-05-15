@@ -26,7 +26,6 @@ export const routes: Routes = [
 
       {
         canMatch: [authGuard],
-        canActivate: [hasRoleGuard([ ROLE.CLIENT])],
         path: FEATURE_PAGES.HOME,
         component: LayoutComponent,
         children: [
@@ -36,50 +35,60 @@ export const routes: Routes = [
             redirectTo: 'dashboard', // Redirige a "dashboard" cuando accedas a "HOME" sin ruta específica.
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: 'dashboard',
             loadComponent: () =>
               import('./features/dashboard/pages/overview/overview.component'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () =>
               import('./features/transaction/transaaction.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () => import('./features/debt/debt.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () => import('./features/config/config.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () => import('./features/goals/goal.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () => import('./features/chat/chat.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path: '',
             loadChildren: () => import('./features/category/category.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path:'',
             loadChildren: () => import('./features/grafic/grafic.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.CLIENT])],
             path:'',
             loadChildren: () => import('./features/strategy/strategy.routes'),
           },
           {
+            canActivate: [hasRoleGuard([ROLE.ADMIN])],
             path:'',
             loadChildren: () => import('./features/admin/user-management/admin.routes'),
           },
           {
             path: '**',
-            redirectTo: 'dashboard',
+            redirectTo: 'dashboard',  
           },
         ],
       },
