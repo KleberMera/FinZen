@@ -9,11 +9,12 @@ import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../layout/components/navbar/services/notification.service';
 import { DeviceUtilService } from '../../services/device-util.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-tab-notification',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './tab-notification.component.html',
   styleUrl: './tab-notification.component.scss'
 })
@@ -44,6 +45,7 @@ export default class TabNotificationComponent {
    request: () => ({ userId: this.userId() }),
    loader: ({ request }) => this._deviceService.getDevicesByUserId(request.userId),
  });
+
 
  constructor() {
    // Effect para actualizar el dispositivo actual y el estado de notificaciones
@@ -209,5 +211,33 @@ this._deviceService.hasNotifications(userId, deviceId!).subscribe({
  goToDevices(): void {
   //this._tabService.setActiveTab('dispositivos'); // Cambia el tab a 'dispositivos'
   this._router.navigate(['home/configuracion/dispositivos']); // Navega a la ruta de dispositivos
+}
+
+
+
+daysBeforeNotifyAllResource = rxResource({
+  request: () => ({ userId: this.userId() }),
+  loader: ({ request }) => this._notifications.getDaysBeforeNotifyAll(request.userId),
+});
+isChangingDays: boolean = false;
+
+async updateDaysBeforeNotifyAll(daysBeforeNotifyAll: number) {
+  // Si el valor es null o 0, establecer un valor entre 1 y 3
+  const days = daysBeforeNotifyAll || Math.floor(Math.random() * 3) + 1;
+  console.log(days);
+  
+  
+  this._notifications.updateDaysBeforeNotifyAll(this.userId(), days).subscribe({
+    next: (response) => {
+      toast.success(response.message);
+      this.daysBeforeNotifyAllResource.reload();
+      this.isChangingDays = false;
+   
+    },
+    error: (error) => {
+      console.error('Error al actualizar días de notificación:', error);
+      toast.error('Error al actualizar los días de notificación');
+    }
+  });
 }
 }

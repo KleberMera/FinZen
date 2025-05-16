@@ -3,6 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Observable } from 'rxjs';
+interface updateDaysBeforeNotifyAll {
+  count: number;
+}
+export type BeforeNotifyAll = Notify[]
+
+export interface Notify {
+  daysBeforeNotify: number
+}
 
 @Injectable({
   providedIn: 'root',
@@ -49,5 +57,15 @@ export class NotificationService {
   unsubscribeWithDevice(userId: number, deviceId: number) {
     const url = `${environment.apiUrl}/notifications/unsubscribe/${userId}/${deviceId}`;
     return this._http.delete(url);
+  }
+
+  updateDaysBeforeNotifyAll(userId: number, daysBeforeNotify: number): Observable<apiResponse<updateDaysBeforeNotifyAll>> {
+    const url = `${environment.apiUrl}/notifications/update-days-before-notify-all/${userId}`;
+    return this._http.put<apiResponse<updateDaysBeforeNotifyAll>>(url, { daysBeforeNotify });
+  }
+
+  getDaysBeforeNotifyAll(userId: number): Observable<apiResponse<BeforeNotifyAll>> {
+    const url = `${environment.apiUrl}/notifications/days-before-notify-all/${userId}`;
+    return this._http.get<apiResponse<BeforeNotifyAll>>(url);
   }
 }
