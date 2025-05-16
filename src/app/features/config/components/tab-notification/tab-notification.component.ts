@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../../../layout/components/navbar/services/notification.service';
 import { DeviceUtilService } from '../../services/device-util.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -197,6 +198,8 @@ this._deviceService.hasNotifications(userId, deviceId!).subscribe({
        toast.success('Notificaciones desactivadas correctamente');
        this.notificationStatus.set('disabled');
        this.loadSubscriptionCount();
+       this.updateDaysBeforeNotifyAll(0);
+
      },
      error: (error) => {
        console.error('Error al desactivar las notificaciones:', error);
@@ -223,21 +226,40 @@ isChangingDays: boolean = false;
 
 async updateDaysBeforeNotifyAll(daysBeforeNotifyAll: number) {
   // Si el valor es null o 0, establecer un valor entre 1 y 3
-  const days = daysBeforeNotifyAll || Math.floor(Math.random() * 3) + 1;
-  console.log(days);
-  
-  
-  this._notifications.updateDaysBeforeNotifyAll(this.userId(), days).subscribe({
-    next: (response) => {
-      toast.success(response.message);
+ this.update(daysBeforeNotifyAll);
+
+}
+
+update(daysBeforeNotifyAll: number){
+  const promiseNotification = firstValueFrom(this._notifications.updateDaysBeforeNotifyAll(this.userId(), daysBeforeNotifyAll));
+
+  toast.promise(promiseNotification, {
+    loading: 'Actualizando días de notificación...',
+    success: (response) => {
       this.daysBeforeNotifyAllResource.reload();
       this.isChangingDays = false;
-   
+      return response.message;
     },
     error: (error) => {
       console.error('Error al actualizar días de notificación:', error);
-      toast.error('Error al actualizar los días de notificación');
+      return 'Error al actualizar los días de notificación';
     }
   });
+}
+
+// Para incrementar los días de anticipación
+incrementDays(): void {
+  const currentDays = this.daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify || 0;
+  if (currentDays < 7) { // Suponiendo un máximo de 7 días
+    this.updateDaysBeforeNotifyAll(currentDays + 1);
+  }
+}
+
+// Para decrementar los días de anticipación
+decrementDays(): void {
+  const currentDays = this.daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify || 0;
+  if (currentDays > 1) { // No permitir menos de 1 día
+    this.updateDaysBeforeNotifyAll(currentDays - 1);
+  }
 }
 }
