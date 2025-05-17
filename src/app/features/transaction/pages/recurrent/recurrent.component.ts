@@ -53,6 +53,11 @@ export default class RecurrentComponent {
         : this._transactionService.getTransactionByCategoryId(Number(request.categoryId)),
   });
   
+  reloadTransactions(){
+    console.log('Recargando transacciones');
+    
+    this.transactions.reload()
+  }
   // Categorías filtradas
   filteredCategories = computed(() => {
     return (this.categories.value()?.data as CategoryName[]) || [];

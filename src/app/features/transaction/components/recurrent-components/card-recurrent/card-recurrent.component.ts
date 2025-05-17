@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
+import { Component, effect, EventEmitter, inject, input, Output, signal, viewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { addMonth, format } from '@formkit/tempo';
 import { firstValueFrom } from 'rxjs';
+import RecurrentComponent from '../../../pages/recurrent/recurrent.component';
 interface RecurringTransaction {
   frequency: string;
   nextExecutionDate: string;
@@ -36,6 +37,7 @@ export class CardRecurrentComponent {
   selectedTransaction = input.required<Transaction>();
   selectedType = input.required<string>();
   private readonly _storageService = inject(StorageService);
+    readonly recurrentC = viewChild(RecurrentComponent);
   protected readonly selectedUserId = signal<number>(
     this._storageService.getUserId()
   );
@@ -44,6 +46,9 @@ export class CardRecurrentComponent {
     transactionId: number;
     recurringData: RecurringTransaction;
   }>();
+
+  @Output() reloadTransactionsEvent = new EventEmitter<void>();
+  
   protected readonly _transactionService = inject(TransactionService);
 
   // Formulario reactivo
@@ -202,6 +207,7 @@ export class CardRecurrentComponent {
           next: (response) => {
            // console.log('Transacción recurrente creada:', response);
             toast.success('Transaccion Recurrente Creada')
+            this.reloadTransactionsEvent.emit();
             this.recurringForm.reset()
 
             this.isSubmitting.set(false)
@@ -236,6 +242,7 @@ export class CardRecurrentComponent {
           console.log(res);
           this.recurringForm.reset()
           this.isSubmitting.set(false)
+          this.reloadTransactionsEvent.emit();
           return 'Transacción recurrente eliminada'
         },
     

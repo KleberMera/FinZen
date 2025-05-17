@@ -108,10 +108,12 @@
     <!-- Detalle de la transacción -->
     @if (selectedTransaction()) {
         <div class="">
-          <app-card-recurrent
-           [selectedTransaction]="selectedTransaction()"
-           [selectedType]="selectedType()"
-          ></app-card-recurrent>
+          <!-- Asumiendo que tienes algo como esto en tu template -->
+          <app-card-recurrent 
+            [selectedTransaction]="selectedTransaction()" 
+            [selectedType]="selectedType()"
+            (reloadTransactionsEvent)="reloadTransactions()">
+          </app-card-recurrent>
         </div>
     }
   }
