@@ -1,7 +1,7 @@
 @if (categories.isLoading()) {
-    <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
+    <div class="animate-pulse grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+      <div class="bg-gray-800/50 rounded-lg p-5 shadow-lg">
+        <div class="h-5 w-24 bg-gray-600 rounded mb-3"></div>
         <div class="flex">
           <div class="h-10 w-28 bg-gray-600 rounded-s-lg"></div>
           <div class="h-10 flex-grow bg-gray-600 rounded-e-lg"></div>
@@ -9,10 +9,10 @@
       </div>
     </div>
   } @else {
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
       <!-- Selector de Tipo y Categoría -->
-      <div>
-        <label class="block mb-2 text-sm font-medium text-gray-300">
+      <div class="bg-gray-800/40 rounded-lg p-5 shadow-lg border border-gray-700 transition-all hover:border-gray-600">
+        <label class="block mb-3 text-sm font-medium text-gray-300">
           Categoría
         </label>
         <div class="flex">
@@ -20,8 +20,8 @@
           <button 
             id="type-button"
             type="button"
-            [class]="selectedType() === 'Ingreso' ? 'bg-green-900/20 text-green-400' : selectedType() === 'Todos' ? 'bg-blue-900/20 text-blue-400' : 'bg-red-900/20 text-red-400'"
-            class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center border border-gray-600 font-semibold float-right rounded-s-lg focus:ring-2 focus:outline-none focus:ring-gray-500"
+            [class]="selectedType() === 'Ingreso' ? 'bg-green-900/30 text-green-400 hover:bg-green-900/50' : selectedType() === 'Todos' ? 'bg-blue-900/30 text-blue-400 hover:bg-blue-900/50' : 'bg-red-900/30 text-red-400 hover:bg-red-900/50'"
+            class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center border border-gray-600 font-semibold float-right rounded-s-lg focus:ring-2 focus:outline-none focus:ring-gray-500 transition-colors"
             (click)="toggleTypeDropdown()"
           >
             <!-- Icono dinámico basado en el tipo -->
@@ -33,7 +33,7 @@
           <select 
             [ngModel]="selectedCategoryId()" 
             (ngModelChange)="handleCategoryChange($event)"
-            class="bg-gray-700 border border-gray-600 text-gray-300 rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+            class="bg-gray-700 border border-gray-600 text-gray-300 rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none transition-colors hover:border-gray-500"
           >
             <option value="" disabled>Selecciona una categoría</option>
             @for (categoria of filteredCategories(); track categoria.id) {
@@ -47,7 +47,7 @@
         <!-- Dropdown de tipos con iconos -->
         <div 
           id="type-dropdown" 
-          class="z-10 absolute bg-gray-700 divide-y divide-gray-600 rounded-lg shadow-lg w-44 mt-1" 
+          class="z-20 absolute bg-gray-700 divide-y divide-gray-600 rounded-lg shadow-xl w-44 mt-1 border border-gray-600 transform transition-all" 
           [class.hidden]="!isTypeDropdownOpen()"
         >
           <ul class="py-2 text-sm text-gray-200">
@@ -55,7 +55,7 @@
               <li>
                 <button 
                   type="button" 
-                  class="inline-flex w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                  class="inline-flex w-full px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-600 transition-colors"
                   (click)="handleTypeChange(tipo)"
                 >
                   <i [class]="tipo === 'Ingreso' ? 'pi pi-arrow-up mr-2' : tipo === 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
@@ -69,27 +69,27 @@
     
       <!-- Transacción -->
       @if (!selectedCategoryId()) {
-        <div class="flex items-center justify-center p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+        <div class="flex items-center justify-center p-6 bg-gray-800/40 rounded-lg border border-gray-700 shadow-lg h-full transition-all hover:border-gray-600">
           <div class="text-center">
-            <i class="pi pi-info-circle text-2xl text-blue-400 mb-2"></i>
+            <i class="pi pi-info-circle text-3xl text-blue-400 mb-3"></i>
             <p class="text-gray-300">Selecciona una categoría para ver las transacciones disponibles</p>
           </div>
         </div>
       } @else if (transactions.isLoading()) {
-        <div class="animate-pulse">
-          <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
+        <div class="animate-pulse bg-gray-800/40 rounded-lg p-5 shadow-lg border border-gray-700">
+          <div class="h-5 w-24 bg-gray-600 rounded mb-3"></div>
           <div class="h-10 w-full bg-gray-600 rounded"></div>
         </div>
       } @else {
-        <div>
-            <label class="block mb-2 text-sm font-medium text-gray-300">
+        <div class="bg-gray-800/40 rounded-lg p-5 shadow-lg border border-gray-700 transition-all hover:border-gray-600">
+            <label class="block mb-3 text-sm font-medium text-gray-300">
               Transacción
             </label>
             <div class="relative">
               <select 
                 [ngModel]="selectedTransactionId()"
                 (ngModelChange)="handleTransactionChange($event)"
-                class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+                class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none transition-colors hover:border-gray-500"
                 [disabled]="filteredTransactions().length === 0"
               >
                 <option value="" disabled>Selecciona una transacción</option>
@@ -107,9 +107,11 @@
   
     <!-- Detalle de la transacción -->
     @if (selectedTransaction()) {
-        <app-card-recurrent
-         [selectedTransaction]="selectedTransaction()"
-         [selectedType]="selectedType()"
-        ></app-card-recurrent>
+        <div class="">
+          <app-card-recurrent
+           [selectedTransaction]="selectedTransaction()"
+           [selectedType]="selectedType()"
+          ></app-card-recurrent>
+        </div>
     }
   }

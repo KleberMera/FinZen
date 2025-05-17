@@ -1,6 +1,7 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import {
   Component,
+  effect,
   EventEmitter,
   inject,
   input,
@@ -18,7 +19,7 @@ import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../../services/transaction.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
-import { format } from '@formkit/tempo';
+import { addMonth, format } from '@formkit/tempo';
 interface RecurringTransaction {
   frequency: string;
   nextExecutionDate: string;
@@ -59,7 +60,7 @@ export class CardRecurrentComponent {
   selectedFrequency = signal<string>('Mensual');
 
   constructor(private fb: FormBuilder) {
-    // Inicializar formulario
+    // Inicializar el formulario primero
     this.recurringForm = this.fb.group({
       frequency: ['Mensual', Validators.required],
       nextExecutionDate: ['', Validators.required],
@@ -68,10 +69,48 @@ export class CardRecurrentComponent {
       dayOfWeek: [null],
     });
 
+ effect(() => {
+   // Configurar los valores iniciales basados en la transacción
+   this.initializeFormValues();
+    
+   // Configurar observables
+   this.setupFormObservables();
+ })
+  }
+  
+  private initializeFormValues(): void {
+    console.log(this.selectedTransaction().date);
+
+    const nextExecutionDate = format(addMonth(this.selectedTransaction().date, 1), 'YYYY-MM-DD', 'es');
+    console.log(nextExecutionDate);
+    
+    const transactionDate = nextExecutionDate;
+    const dayOfMonth = parseInt(transactionDate.split('-')[2]);
+    
+
+    
+    // Establecer los valores iniciales
+    this.recurringForm.patchValue({
+      dayOfMonth: dayOfMonth,
+      nextExecutionDate:  nextExecutionDate
+    }, { emitEvent: false });
+    
+    // Establecer la frecuencia inicial
+    this.selectedFrequency.set('Mensual');
+  }
+  
+  private setupFormObservables(): void {
     // Observar cambios en la frecuencia
     this.recurringForm.get('frequency')?.valueChanges.subscribe((value) => {
       this.selectedFrequency.set(value);
       this.updateValidatorsBasedOnFrequency(value);
+    });
+    
+    // Observar cambios en el día del mes para actualizar la próxima fecha de ejecución
+    this.recurringForm.get('dayOfMonth')?.valueChanges.subscribe((day) => {
+      if (day && this.recurringForm.get('frequency')?.value === 'Mensual') {
+        this.updateNextExecutionDate(parseInt(day, 10));
+      }
     });
   }
 
@@ -91,17 +130,53 @@ export class CardRecurrentComponent {
         Validators.min(1),
         Validators.max(31),
       ]);
+      
+      // Si no hay un día del mes establecido, usar el día de la transacción
+      if (!dayOfMonthControl?.value) {
+        const transactionDate = new Date(this.selectedTransaction().date);
+        dayOfMonthControl?.setValue(transactionDate.getDate());
+      }
     } else if (frequency === 'Semanal') {
-      dayOfWeekControl?.setValidators([
-        Validators.required,
-        Validators.min(0),
-        Validators.max(6),
-      ]);
+      // Si ya hay un día de la semana establecido, mantener los validadores
+      if (dayOfWeekControl?.value) {
+        dayOfWeekControl?.setValidators([
+          Validators.required,
+          Validators.min(0),
+          Validators.max(6),
+        ]);
+      }
     }
 
     // Actualizar estado de los controles
     dayOfMonthControl?.updateValueAndValidity();
     dayOfWeekControl?.updateValueAndValidity();
+  }
+  
+  // Actualizar la próxima fecha de ejecución basada en el día del mes
+  private updateNextExecutionDate(day: number): void {
+    if (day < 1 || day > 31) return;
+    
+    const transactionDate = new Date(this.selectedTransaction().date);
+    const nextExecutionDate = new Date(transactionDate);
+    
+    // Establecer el día del mes, manejando meses con diferente cantidad de días
+    const lastDayOfMonth = new Date(
+      nextExecutionDate.getFullYear(), 
+      nextExecutionDate.getMonth() + 2, 
+      0
+    ).getDate();
+    
+    // Si el día seleccionado es mayor que el último día del mes, usar el último día
+    const dayToSet = Math.min(day, lastDayOfMonth);
+    
+    // Establecer el mes siguiente y el día
+    nextExecutionDate.setMonth(nextExecutionDate.getMonth() + 1, dayToSet);
+    
+    // Formatear la fecha para el input date (YYYY-MM-DD)
+    const formattedDate = nextExecutionDate.toISOString().split('T')[0];
+    
+    // Actualizar el valor del formulario sin emitir eventos para evitar bucles
+    this.recurringForm.get('nextExecutionDate')?.setValue(formattedDate, { emitEvent: false });
   }
   protected readonly isSubmitting = signal(false);
   // Método para enviar el formulario
@@ -111,7 +186,7 @@ export class CardRecurrentComponent {
       const recurringData: RecurringTransaction = {
         frequency: this.recurringForm.value.frequency,
         nextExecutionDate: format(this.recurringForm.value.nextExecutionDate, 'YYYY-MM-DD', 'es'),
-        endDate: format(this.recurringForm.value.endDate,'YYYY-MM-DD', 'es'),
+        endDate: this.recurringForm.value.endDate ? format(this.recurringForm.value.endDate, 'YYYY-MM-DD', 'es') : undefined,
         dayOfMonth: this.recurringForm.value.dayOfMonth || undefined,
         dayOfWeek: this.recurringForm.value.dayOfWeek || undefined,
       };
@@ -150,5 +225,17 @@ export class CardRecurrentComponent {
   // Devuelve true si el formulario es válido
   isFormValid(): boolean {
     return this.recurringForm.valid;
+  }
+
+
+  deleteRecurringTransaction(id: number): void {
+    console.log(id);
+    
+    // this._transactionService.deleteTransactionRecurring(id, this.selectedUserId()).subscribe({
+    //   next: (response) => {
+    //     console.log('Transacción recurrente eliminada:', response);
+    //     toast.success('Transaccion Recurrente Eliminada')
+    //   },
+    // });
   }
 }

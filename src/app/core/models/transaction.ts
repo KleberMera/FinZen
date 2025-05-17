@@ -13,7 +13,7 @@ export interface Transaction {
   time: string;
   createdAt?: string;
   isRecurring?: boolean;
-  
+  recurringConfig?: RecurringConfig;
 }
 
 
@@ -44,4 +44,16 @@ export interface TransactionReport {
 
 export interface TransactionRecurring extends Transaction {
   category: Category
+}
+
+
+
+export interface RecurringConfig {
+  id?: number;
+  frequency: string;
+  nextExecutionDate: string;
+  endDate?: string;
+  dayOfMonth?: number;
+  lastExecuted?: string;
+  generatedTransactions?: Transaction[];
 }

@@ -1,69 +1,111 @@
 @if (selectedTransaction()) {
-  <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden shadow-lg transition-all duration-300">
-    <!-- Encabezado con color según tipo de transacción -->
-    <div [class]="selectedType() === 'Ingreso' ? 'bg-green-900/30' : 'bg-red-900/30'" class="px-4 py-3 border-b border-gray-700">
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-200">Detalle de la transacción</h3>
-        <span [class]="selectedType() === 'Ingreso' ? 'bg-green-900/50 text-green-400' : 'bg-red-900/50 text-red-400'" 
-              class="px-3 py-1 rounded-full text-sm font-medium">
+  <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1">
+    <!-- Encabezado con diseño mejorado según tipo de transacción -->
+    <div [class]="selectedType() === 'Ingreso' ? 'from-green-900/30 to-green-800/10' : 'from-red-900/30 to-red-800/10'" 
+         class="bg-gradient-to-r px-6 py-4 border-b border-gray-700">
+      <div class="flex flex-wrap justify-between items-center gap-3">
+        <h3 class="text-xl font-semibold text-gray-100 flex items-center">
+          <i [class]="selectedType() === 'Ingreso' ? 'pi pi-arrow-up mr-3 text-green-400' : 'pi pi-arrow-down mr-3 text-red-400'"></i>
+          Detalle de la transacción
+        </h3>
+        <span [class]="selectedType() === 'Ingreso' ? 'bg-green-900/50 text-green-400 border-green-700' : 'bg-red-900/50 text-red-400 border-red-700'" 
+              class="px-4 py-1.5 rounded-full text-sm font-medium border backdrop-blur-sm">
           {{ selectedType() }}
         </span>
       </div>
     </div>
     
-    <!-- Contenido principal -->
-    <div class="p-4">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Bloque de información principal -->
-        <div class="space-y-4">
-          <!-- Nombre -->
-          <div>
-            <p class="text-sm text-gray-400 mb-1">Nombre</p>
-            <p class="text-gray-200 font-medium">{{ selectedTransaction().name }}</p>
+    <!-- Contenido principal con diseño mejorado -->
+    <div class="p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Bloque de información principal con mejor diseño -->
+        <div class="space-y-6">
+          <!-- Nombre con icono -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-gray-700 p-2 rounded-lg mr-4">
+                <i class="pi pi-tag text-blue-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Nombre</p>
+                <p class="text-gray-200 font-medium text-lg">{{ selectedTransaction().name }}</p>
+              </div>
+            </div>
           </div>
           
-          <!-- Descripción -->
-          <div>
-            <p class="text-sm text-gray-400 mb-1">Descripción</p>
-            <p class="text-gray-200">{{ selectedTransaction().description }}</p>
+          <!-- Descripción con icono -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-gray-700 p-2 rounded-lg mr-4">
+                <i class="pi pi-align-left text-purple-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Descripción</p>
+                <p class="text-gray-200">{{ selectedTransaction().description || 'Sin descripción' }}</p>
+              </div>
+            </div>
           </div>
         </div>
         
-        <!-- Bloque de información secundaria -->
-        <div class="space-y-4">
-          <!-- Monto con fondo -->
-          <div>
-            <p class="text-sm text-gray-400 mb-1">Monto</p>
-            <div [class]="selectedType() === 'Ingreso' ? 'bg-green-900/20' : 'bg-red-900/20'" 
-                 class="inline-block px-4 py-2 rounded-lg">
-              <p [class]="selectedType() === 'Ingreso' ? 'text-green-400' : 'text-red-400'" class="text-xl font-semibold">
-                {{ selectedType() === 'Ingreso' ? '+' : '-' }}{{ selectedTransaction().amount | currency:'USD':'symbol':'1.2-2' }}
-              </p>
+        <!-- Bloque de información secundaria con mejor diseño -->
+        <div class="space-y-6">
+          <!-- Monto con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div [class]="selectedType() === 'Ingreso' ? 'bg-green-900/50' : 'bg-red-900/50'" class="p-2 rounded-lg mr-4">
+                <i class="pi pi-dollar text-lg" [class]="selectedType() === 'Ingreso' ? 'text-green-400' : 'text-red-400'"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Monto</p>
+                <p [class]="selectedType() === 'Ingreso' ? 'text-green-400' : 'text-red-400'" class="text-2xl font-bold">
+                  {{ selectedType() === 'Ingreso' ? '+' : '-' }}{{ selectedTransaction().amount | currency:'USD':'symbol':'1.2-2' }}
+                </p>
+              </div>
             </div>
           </div>
           
-          <!-- Fecha -->
-          <div>
-            <p class="text-sm text-gray-400 mb-1">Fecha y hora</p>
-            <div class="flex items-center">
-              <i class="pi pi-calendar mr-2 text-gray-400"></i>
-              <p class="text-gray-200">{{ selectedTransaction().date | date:'dd/MM/yyyy' }} <span class="text-gray-400">|</span> {{ selectedTransaction().time }}</p>
+          <!-- Fecha con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-gray-700 p-2 rounded-lg mr-4">
+                <i class="pi pi-calendar text-yellow-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Fecha y hora</p>
+                <p class="text-gray-200 flex flex-wrap items-center gap-2">
+                  <span class="bg-gray-700 px-3 py-1 rounded-md">{{ selectedTransaction().date | date:'dd/MM/yyyy' }}</span>
+                  <span class="text-gray-400">|</span>
+                  <span class="bg-gray-700 px-3 py-1 rounded-md">{{ selectedTransaction().time }}</span>
+                </p>
+              </div>
             </div>
           </div>
           
-          <!-- Recurrente -->
-          <div>
-            <p class="text-sm text-gray-400 mb-1">Estado</p>
-            <div class="flex items-center">
-              @if (selectedTransaction().isRecurring) {
-                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-900/30 text-blue-400 border border-blue-800/50 shadow-inner">
-                  <i class="pi pi-sync mr-2"></i> Recurrente
-                </span>
-              } @else {
-                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-gray-700 text-gray-300 border border-gray-600/50 shadow-inner hover:bg-gray-600 transition-colors">
-                  <i class="pi pi-stop-circle mr-2"></i> No recurrente
-                </span>
-              }
+          <!-- Estado de recurrencia con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div [class]="selectedTransaction().isRecurring ? 'bg-blue-900/50' : 'bg-gray-700'" class="p-2 rounded-lg mr-4">
+                <i [class]="selectedTransaction().isRecurring ? 'pi pi-sync text-blue-400' : 'pi pi-stop-circle text-gray-400'" class="text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Estado</p>
+                <div class="flex items-center">
+                  @if (selectedTransaction().isRecurring) {
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-900/30 text-blue-400 border border-blue-800/50 shadow-inner">
+                      <i class="pi pi-sync mr-2"></i> Recurrente
+                    </span>
+<button (click)="deleteRecurringTransaction(selectedTransaction().recurringConfig?.id!)" 
+        class="ml-3 inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-red-900/30 text-red-400 border border-red-800/50 shadow-inner hover:bg-red-800/30 transition-colors">
+  <i class="pi pi-trash mr-1"></i>
+  Eliminar
+</button>
+                  } @else {
+                    <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-gray-700 text-gray-300 border border-gray-600/50 shadow-inner hover:bg-gray-600 transition-colors">
+                      <i class="pi pi-stop-circle mr-2"></i> No recurrente
+                    </span>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -71,110 +113,190 @@
     </div>
   </div>
   
-  <!-- Formulario de transacción recurrente -->
+  <!-- Formulario de transacción recurrente con diseño mejorado -->
   @if (!selectedTransaction().isRecurring) {
-    <div class="mt-6 bg-gray-800 rounded-lg border border-gray-700 overflow-hidden shadow-lg transition-all duration-300 hover:border-blue-700/50">
-      <div class="bg-blue-900/30 px-4 py-3 border-b border-gray-700">
-        <div class="flex justify-between items-center">
-          <h3 class="text-lg font-medium text-gray-200">Configurar recurrencia</h3>
-          <span class="bg-blue-900/50 text-blue-400 px-3 py-1 rounded-full text-sm font-medium">
+    <div class="mt-8 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 overflow-hidden ">
+      <div class="bg-gradient-to-r from-blue-900/30 to-blue-800/10 px-6 py-4 border-b border-gray-700">
+        <div class="flex flex-wrap justify-between items-center gap-3">
+          <h3 class="text-xl font-semibold text-gray-100 flex items-center">
+            <i class="pi pi-calendar-plus mr-3 text-blue-400"></i>
+            Configurar recurrencia
+          </h3>
+          <span class="bg-blue-900/50 text-blue-400 border-blue-700 px-4 py-1.5 rounded-full text-sm font-medium border backdrop-blur-sm">
             <i class="pi pi-sync mr-1"></i> Programación
           </span>
         </div>
       </div>
       
-      <div class="p-4">
+      <div class="p-6">
         <form [formGroup]="recurringForm" (ngSubmit)="onSubmit()" class="space-y-6">
-          <!-- Frecuencia -->
-          <div>
-            <label class="block mb-2 text-sm font-medium text-gray-300">Frecuencia</label>
-            <select formControlName="frequency" class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option value="Diario">Diario</option>
-              <option value="Semanal">Semanal</option>
-              <option value="Quincenal">Quincenal</option>
-              <option value="Mensual">Mensual</option>
-            </select>
+          <!-- Frecuencia con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
+                <i class="pi pi-clock text-blue-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <label class="block mb-2 text-sm font-medium text-gray-300">Frecuencia</label>
+                <div class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-3 flex items-center">
+                  <i class="pi pi-calendar-plus mr-2 text-blue-400"></i>
+                  Mensual
+                  <input type="hidden" formControlName="frequency" value="Mensual">
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Próxima ejecución -->
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-300">Próxima ejecución</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <i class="pi pi-calendar text-gray-400"></i>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Próxima ejecución con diseño mejorado -->
+            <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+              <div class="flex items-start">
+                <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
+                  <i class="pi pi-calendar text-blue-400 text-lg"></i>
                 </div>
-                <input type="date" formControlName="nextExecutionDate" class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Seleccionar fecha">
-              </div>
-              <div *ngIf="recurringForm.get('nextExecutionDate')?.invalid && recurringForm.get('nextExecutionDate')?.touched" class="text-red-400 text-xs mt-1">
-                Fecha requerida
+                <div class="flex-1">
+                  <label class="block mb-2 text-sm font-medium text-gray-300">Próxima ejecución</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <i class="pi pi-calendar text-gray-400"></i>
+                    </div>
+                    <input type="date" formControlName="nextExecutionDate" 
+                           class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-3 outline-none" 
+                           placeholder="Seleccionar fecha">
+                  </div>
+                  <div *ngIf="recurringForm.get('nextExecutionDate')?.invalid && recurringForm.get('nextExecutionDate')?.touched" 
+                       class="text-red-400 text-xs mt-2 flex items-center">
+                    <i class="pi pi-exclamation-circle mr-1"></i> Fecha requerida
+                  </div>
+                </div>
               </div>
             </div>
             
-            <!-- Fecha de finalización (opcional) -->
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-300">Fecha de finalización (opcional)</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <i class="pi pi-calendar-times text-gray-400"></i>
+            <!-- Fecha de finalización con diseño mejorado -->
+            <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+              <div class="flex items-start">
+                <div class="bg-gray-700 p-2 rounded-lg mr-4">
+                  <i class="pi pi-calendar-times text-gray-400 text-lg"></i>
                 </div>
-                <input type="date" formControlName="endDate" class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Seleccionar fecha">
+                <div class="flex-1">
+                  <label class="block mb-2 text-sm font-medium text-gray-300">Fecha de finalización (opcional)</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                      <i class="pi pi-calendar-times text-gray-400"></i>
+                    </div>
+                    <input type="date" formControlName="endDate" 
+                           class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-3 outline-none" 
+                           placeholder="Seleccionar fecha">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           
-          <!-- Día del mes (visible solo para frecuencia mensual) -->
-          <div *ngIf="selectedFrequency() === 'Mensual'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-300">Día del mes</label>
-              <input type="number" formControlName="dayOfMonth" min="1" max="31" class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej: 15">
-              <div *ngIf="recurringForm.get('dayOfMonth')?.invalid && recurringForm.get('dayOfMonth')?.touched" class="text-red-400 text-xs mt-1">
-                Día del mes requerido (entre 1 y 31)
-              </div>
-            </div>
-          </div>
-          
-          <!-- Día de la semana (visible solo para frecuencia semanal) -->
-          <div *ngIf="selectedFrequency() === 'Semanal'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-300">Día de la semana</label>
-              <select formControlName="dayOfWeek" class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="0">Domingo</option>
-                <option value="1">Lunes</option>
-                <option value="2">Martes</option>
-                <option value="3">Miércoles</option>
-                <option value="4">Jueves</option>
-                <option value="5">Viernes</option>
-                <option value="6">Sábado</option>
-              </select>
-              <div *ngIf="recurringForm.get('dayOfWeek')?.invalid && recurringForm.get('dayOfWeek')?.touched" class="text-red-400 text-xs mt-1">
-                Día de la semana requerido
-              </div>
-            </div>
-          </div>
-          
-          <!-- Botones de acción -->
-          <div class="flex justify-end space-x-3 pt-3">
-            <button type="button" (click)="cancel()" class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors">
+          <!-- Botones de acción con diseño mejorado -->
+          <div class="flex flex-wrap justify-end gap-4 pt-4">
+            <button type="button" (click)="cancel()" 
+                    class="px-5 py-2.5 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-2 border border-gray-600">
+              <i class="pi pi-times"></i>
               Cancelar
             </button>
             <button type="submit" [disabled]="recurringForm.invalid || isSubmitting()"
-            class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2">
-            @if (isSubmitting()) {
-            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Guardando...
-            } @else {
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-            Programar Transacción
-            }
-          </button>
+                    class="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-300 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-lg">
+              @if (isSubmitting()) {
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Guardando...
+              } @else {
+                <i class="pi pi-check-circle"></i>
+                Programar Transacción
+              }
+            </button>
           </div>
         </form>
+      </div>
+    </div>
+  } @else {
+    <div class="mt-8 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-900/30 to-blue-800/10 px-6 py-4 border-b border-gray-700">
+        <div class="flex flex-wrap justify-between items-center gap-3">
+          <h3 class="text-xl font-semibold text-gray-100 flex items-center">
+            <i class="pi pi-calendar-plus mr-3 text-blue-400"></i>
+            Detalles de Recurrencia
+          </h3>
+          <span class="bg-blue-900/50 text-blue-400 border-blue-700 px-4 py-1.5 rounded-full text-sm font-medium border backdrop-blur-sm">
+            <i class="pi pi-sync mr-1"></i> Programación
+          </span>
+        </div>
+      </div>
+      
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Frecuencia con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
+                <i class="pi pi-clock text-blue-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Frecuencia</p>
+                <div class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-3 flex items-center">
+                  <i class="pi pi-calendar-plus mr-2 text-blue-400"></i>
+                  {{ selectedTransaction().recurringConfig?.frequency }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Próxima ejecución con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
+                <i class="pi pi-calendar text-blue-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Próxima ejecución</p>
+                <div class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-3 flex items-center">
+                  <i class="pi pi-calendar mr-2 text-blue-400"></i>
+                  {{ selectedTransaction().recurringConfig?.nextExecutionDate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Fecha de finalización con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-gray-700 p-2 rounded-lg mr-4">
+                <i class="pi pi-calendar-times text-gray-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Fecha de finalización</p>
+                <div class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-3 flex items-center">
+                  <i class="pi pi-calendar-times mr-2 text-gray-400"></i>
+                  {{ selectedTransaction().recurringConfig?.endDate || 'N/A' }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Día del mes con diseño mejorado -->
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-700 hover:border-gray-600 transition-all">
+            <div class="flex items-start">
+              <div class="bg-blue-900/50 p-2 rounded-lg mr-4">
+                <i class="pi pi-calendar-plus text-blue-400 text-lg"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm text-gray-400 mb-1">Día del mes</p>
+                <div class="bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-3 flex items-center">
+                  <i class="pi pi-calendar-plus mr-2 text-blue-400"></i>
+                  {{ selectedTransaction().recurringConfig?.dayOfMonth || 'N/A' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   }

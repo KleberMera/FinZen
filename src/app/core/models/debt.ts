@@ -1,5 +1,5 @@
 import { Amortization } from './amortization';
-import { TransactionRecurring } from './transaction';
+
 
 export interface Debt {
   id?: number;

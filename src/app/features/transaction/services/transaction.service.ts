@@ -108,4 +108,12 @@ export class TransactionService {
     const url = `${environment.apiUrl}/transaction/user/delete/${id}`;
     return this._http.delete<apiResponse<Transaction>>(url);
   }
+
+
+  deleteTransactionRecurring(id: number, userId: number): Observable<apiResponse<Transaction>> {
+    const url = `${environment.apiUrl}/recurrent-transaction/${id}`;
+    return this._http.delete<apiResponse<Transaction>>(url, {
+      body: { userId }, // userId ahora va en el cuerpo de la solicitud
+    });
+  }
 }
