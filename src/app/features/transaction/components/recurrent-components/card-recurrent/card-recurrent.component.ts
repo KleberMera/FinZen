@@ -1,13 +1,5 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import {
-  Component,
-  effect,
-  EventEmitter,
-  inject,
-  input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,6 +12,7 @@ import { TransactionService } from '../../../services/transaction.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { addMonth, format } from '@formkit/tempo';
+import { firstValueFrom } from 'rxjs';
 interface RecurringTransaction {
   frequency: string;
   nextExecutionDate: string;
@@ -209,6 +202,8 @@ export class CardRecurrentComponent {
           next: (response) => {
            // console.log('Transacción recurrente creada:', response);
             toast.success('Transaccion Recurrente Creada')
+            this.recurringForm.reset()
+
             this.isSubmitting.set(false)
           },
         });
@@ -217,9 +212,7 @@ export class CardRecurrentComponent {
 
   // Método para cancelar
   cancel(): void {
-    this.recurringForm.reset({
-      frequency: 'Mensual',
-    });
+ 
   }
 
   // Devuelve true si el formulario es válido
@@ -230,12 +223,25 @@ export class CardRecurrentComponent {
 
   deleteRecurringTransaction(id: number): void {
     console.log(id);
+
+    const promise = firstValueFrom(
+      this._transactionService.deleteTransactionRecurring(id, this.selectedUserId())
+    );
+
+    toast.promise(
+      promise,
+      {
+        loading: 'Eliminando transacción recurrente...',
+        success: (res) => {
+          console.log(res);
+          this.recurringForm.reset()
+          this.isSubmitting.set(false)
+          return 'Transacción recurrente eliminada'
+        },
     
-    // this._transactionService.deleteTransactionRecurring(id, this.selectedUserId()).subscribe({
-    //   next: (response) => {
-    //     console.log('Transacción recurrente eliminada:', response);
-    //     toast.success('Transaccion Recurrente Eliminada')
-    //   },
-    // });
+      }
+    )
+    
+
   }
 }

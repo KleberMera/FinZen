@@ -2,11 +2,9 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { TransactionService } from '../../services/transaction.service';
-import { FormValidationService } from '@services/form-validation.service';
-import { FormControl, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CategoryName } from '@models/category';
 import { NEVER } from 'rxjs';
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { CardRecurrentComponent } from "../../components/recurrent-components/card-recurrent/card-recurrent.component";
 
 @Component({
