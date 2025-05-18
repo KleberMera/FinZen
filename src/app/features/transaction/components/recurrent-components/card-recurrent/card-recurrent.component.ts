@@ -209,8 +209,15 @@ export class CardRecurrentComponent {
             toast.success('Transaccion Recurrente Creada')
             this.reloadTransactionsEvent.emit();
             this.recurringForm.reset()
-
+            
             this.isSubmitting.set(false)
+            this.recurringForm.patchValue({
+              frequency: 'Mensual',
+              nextExecutionDate: '',
+              endDate: '',
+              dayOfMonth: null,
+              dayOfWeek: null,
+            })
           },
         });
     }
@@ -243,6 +250,13 @@ export class CardRecurrentComponent {
           this.recurringForm.reset()
           this.isSubmitting.set(false)
           this.reloadTransactionsEvent.emit();
+          this.recurringForm.patchValue({
+            frequency: 'Mensual',
+            nextExecutionDate: '',
+            endDate: '',
+            dayOfMonth: null,
+            dayOfWeek: null,
+          })
           return 'Transacción recurrente eliminada'
         },
     
