@@ -8,7 +8,7 @@ import { StorageService } from '@services/storage.service';
 import { FilterTransactionService } from '../../services/filter-transaction.service';
 import { BreakpointService } from '@services/breakpoint.service';
 import { apiResponse } from '@models/apiResponse';
-import { Transaction, TransactionName, TransactionReport } from '@models/transaction';
+import { TransactionName, TransactionReport } from '@models/transaction';
 import { CategoryName } from '@models/category';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { GeneratePdfTransactionComponent } from "../../components/generate-pdf-transaction/generate-pdf-transaction.component";

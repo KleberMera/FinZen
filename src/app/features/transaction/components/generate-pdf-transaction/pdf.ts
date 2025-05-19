@@ -1,3 +1,4 @@
+import { format } from '@formkit/tempo';
 import { variable64 } from './img'; // Asegúrate de que esta variable esté definida
 import { TransactionReport } from '@models/transaction';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -153,6 +154,7 @@ function generatePieChartSVG(
 export const generatePDFService = (
   transactions: TransactionReport[],
   reportDate: string,
+  singleDate?: string,
   fromDate?: string,
   toDate?: string,
   generatedBy?: string
@@ -161,32 +163,42 @@ export const generatePDFService = (
   let totalIngresos = 0;
   let totalGastos = 0;
 
-  transactions.forEach((transaction) => {
-    const amount = parseFloat(String(transaction.amount));
-    if (transaction.category.type === 'Ingreso') {
-      totalIngresos += amount;
-    } else if (transaction.category.type === 'Gasto') {
-      totalGastos += amount;
-    }
-  });
-  const balance = totalIngresos - totalGastos;
+  // Determinar el título de la sección de fechas
+  let dateSectionTitle = '';
+  if (singleDate) {
+    dateSectionTitle = `Fecha: ${singleDate}`;
+  } else if (fromDate && toDate) {
+    dateSectionTitle = `Del ${fromDate} al ${toDate}`;
+  } else if (reportDate) {
+    dateSectionTitle = `Reporte del ${reportDate}`;
+  } else {
+    dateSectionTitle = 'Reporte';
+  };
 
-  // Procesar datos para los gráficos
+  // Filtrar transacciones según la fecha seleccionada
+  const filteredTransactions = singleDate 
+    ? transactions.filter(t => t.date === singleDate)
+    : transactions;
+
+  // Calcular totales y procesar datos para los gráficos
   const gastosPorCategoria: Record<string, number> = {};
   const ingresosPorCategoria: Record<string, number> = {};
 
-  transactions.forEach((transaction) => {
+  filteredTransactions.forEach((transaction) => {
     const amount = parseFloat(String(transaction.amount));
     const categoryName = transaction.category.name;
 
     if (transaction.category.type === 'Ingreso') {
+      totalIngresos += amount;
       ingresosPorCategoria[categoryName] =
         (ingresosPorCategoria[categoryName] || 0) + amount;
     } else if (transaction.category.type === 'Gasto') {
+      totalGastos += amount;
       gastosPorCategoria[categoryName] =
         (gastosPorCategoria[categoryName] || 0) + amount;
     }
   });
+  const balance = totalIngresos - totalGastos;
 
   // Convertir a arrays para los gráficos
   const gastosArray: CategoryTotal[] = Object.entries(gastosPorCategoria).map(
@@ -250,10 +262,11 @@ export const generatePDFService = (
         stack: [
           { text: 'Finzen App', style: 'header' },
           { text: 'Reporte de Transacciones', style: 'subheader' },
-          { text: `Fecha: ${reportDate}`, style: 'dateText' },
-          ...(fromDate ? [{ text: `Fecha desde: ${fromDate}`, style: 'dateText' }] : []),
-          ...(toDate ? [{ text: `Fecha hasta: ${toDate}`, style: 'dateText' }] : []),
+          { text: `Fecha: ${format(reportDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' },
+          ...(fromDate ? [{ text: `Fecha desde: ${format(fromDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
+          ...(toDate ? [{ text: `Fecha hasta: ${format(toDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
           ...(generatedBy ? [{ text: `Generado por: ${generatedBy}`, style: 'dateText' }] : []),
+          ...(singleDate ? [{ text: `Fecha de Transacciones: ${format(singleDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
         ],
         alignment: 'right',
       },
@@ -520,5 +533,7 @@ export const generatePDFService = (
     .createPdf(docDefinition)
     .download(`reporte_transacciones_${reportDate}.pdf`);
 };
+
+
 
 export default generatePDFService;
