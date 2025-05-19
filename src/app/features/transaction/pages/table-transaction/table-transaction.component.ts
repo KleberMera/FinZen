@@ -135,4 +135,9 @@ export default class TableTransactionComponent {
   onDeleteSuccess(): void {
     this.filteredTransactions.reload(); // Refresca los datos
   }
+
+
+  //Reaccionar a los cambios de las fechas
+  ComputedStartDate = computed(() => this.startDate());
+  ComputedEndDate = computed(() => this.endDate());
 }

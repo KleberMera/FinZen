@@ -152,7 +152,10 @@ function generatePieChartSVG(
 
 export const generatePDFService = (
   transactions: TransactionReport[],
-  reportDate: string
+  reportDate: string,
+  fromDate?: string,
+  toDate?: string,
+  generatedBy?: string
 ) => {
   // Calcular totales
   let totalIngresos = 0;
@@ -248,6 +251,9 @@ export const generatePDFService = (
           { text: 'Finzen App', style: 'header' },
           { text: 'Reporte de Transacciones', style: 'subheader' },
           { text: `Fecha: ${reportDate}`, style: 'dateText' },
+          ...(fromDate ? [{ text: `Fecha desde: ${fromDate}`, style: 'dateText' }] : []),
+          ...(toDate ? [{ text: `Fecha hasta: ${toDate}`, style: 'dateText' }] : []),
+          ...(generatedBy ? [{ text: `Generado por: ${generatedBy}`, style: 'dateText' }] : []),
         ],
         alignment: 'right',
       },
@@ -317,7 +323,7 @@ export const generatePDFService = (
   content.push({
     stack: [
       { text: 'Análisis Visual de Transacciones', style: 'analysisHeader' },
-      { text: `Periodo: ${reportDate}`, style: 'dateText' },
+      { text: `Periodo: ${fromDate ? `${fromDate} - ${toDate || reportDate}` : reportDate}`, style: 'dateText' },
     ],
     margin: [0, 0, 0, 30],
   });
