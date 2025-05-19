@@ -16,19 +16,53 @@ export class GeneratePdfTransactionComponent {
   readonly data = input.required<TransactionReport[]>();
   readonly startDate = input<string | undefined>();
   readonly endDate = input<string | undefined>();
+  readonly date = input<string | undefined>();
   protected readonly _pdfService = inject(PdfService);
   protected readonly _storageService = inject(StorageService);
   generatePdf() {
-    // Obtener las fechas
+    // Validar fechas según el modo seleccionado
     const startDateValue = this.startDate();
     const endDateValue = this.endDate();
-    
-    // Imprimir solo las fechas que existen
+    const dateValue = this.date();
+
+    // Validaciones para rango de fechas
+    if (startDateValue && !endDateValue) {
+      console.error('Error: Se requiere fecha final cuando se usa fecha inicial');
+      toast.error('Error: Se requiere fecha final cuando se usa fecha inicial');
+      return;
+    }
+    if (!startDateValue && endDateValue) {
+      console.error('Error: Se requiere fecha inicial cuando se usa fecha final');
+      toast.error('Error: Se requiere fecha inicial cuando se usa fecha final');
+      return;
+    }
+    if (startDateValue && endDateValue) {
+      // Validar que la fecha final no sea menor que la inicial
+      const startDate = new Date(startDateValue);
+      const endDate = new Date(endDateValue);
+      if (endDate < startDate) {
+        console.error('Error: La fecha final no puede ser menor que la fecha inicial');
+        toast.error('Error: La fecha final no puede ser menor que la fecha inicial');
+        return;
+      }
+    }
+
+    // Validación para fecha única
+    if (dateValue && (startDateValue || endDateValue)) {
+      console.error('Error: No se pueden usar fecha única y rango de fechas al mismo tiempo');
+      toast.error('Error: No se pueden usar fecha única y rango de fechas al mismo tiempo');
+      return;
+    }
+
+    // Imprimir las fechas
     if (startDateValue) {
       console.log('Fecha inicial:', format(startDateValue, 'YYYY-MM-DD', 'es'));
     }
     if (endDateValue) {
       console.log('Fecha final:', format(endDateValue, 'YYYY-MM-DD', 'es'));
+    }
+    if (dateValue) {
+      console.log('Fecha única:', format(dateValue, 'YYYY-MM-DD', 'es'));
     }
     console.log('Datos:', this.data());
 
@@ -49,6 +83,8 @@ export class GeneratePdfTransactionComponent {
 
     // Si solo hay fecha inicial
     if (!endDateValue) {
+      console.log('Solo fecha inicial');
+      
       generatePDF(
         this.data()!,
         format(new Date(), 'YYYY-MM-DD', 'es'),
