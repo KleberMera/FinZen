@@ -26,8 +26,8 @@ export default class TableTransactionComponent {
   categoryName = signal<string>('');
   type = signal<string>('');
   date = signal<string>('');
-  startDate = signal<string>('');
-  endDate = signal<string>('');
+  startDate = signal<string | undefined>(undefined);
+  endDate = signal<string | undefined>(undefined);
   all = signal<boolean>(false);
   useDateRange = signal<boolean>(false);
   today = signal<boolean>(true);
@@ -137,7 +137,5 @@ export default class TableTransactionComponent {
   }
 
 
-  //Reaccionar a los cambios de las fechas
-  ComputedStartDate = computed(() => this.startDate());
-  ComputedEndDate = computed(() => this.endDate());
+
 }

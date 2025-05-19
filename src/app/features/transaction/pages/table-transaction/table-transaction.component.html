@@ -187,8 +187,8 @@
 
     <app-generate-pdf-transaction
     [data]="filteredTransactions.value()?.data!"
-    [startDate]="ComputedStartDate()"
-    [endDate]="ComputedEndDate()"
+    [startDate]="startDate()"
+    [endDate]="endDate()"
     ></app-generate-pdf-transaction>
 
     <!-- Botón de Limpiar -->
