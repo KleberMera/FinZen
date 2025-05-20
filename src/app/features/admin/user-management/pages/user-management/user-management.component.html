@@ -85,6 +85,11 @@
             </th>
             <th class="px-4 py-3 text-left">
               <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-gray-900 dark:text-white">Usuario</span>
+              </div>
+            </th>
+            <th class="px-4 py-3 text-left">
+              <div class="flex items-center justify-between">
                 <span class="text-sm font-medium text-gray-900 dark:text-white">Email</span>
               </div>
             </th>
@@ -119,6 +124,11 @@
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
                 <div class="font-medium text-gray-900 dark:text-white">{{ user.name }}</div>
+              </td>
+              <td class="px-4 py-3 whitespace-nowrap">
+                <div class="font-medium text-gray-900 dark:text-white">
+                  {{'@' + user.username}}
+                </div>
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
                 <div class="text-gray-600 dark:text-gray-300">{{ user.email }}</div>
