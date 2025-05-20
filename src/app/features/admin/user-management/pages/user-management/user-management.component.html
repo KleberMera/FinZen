@@ -193,6 +193,7 @@
                   
                   <!-- Botón de eliminar mejorado -->
                   <button 
+                    (click)="deletePermanently(user)"
                     class="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-800/50 transition-colors tooltip-trigger"
                     title="Eliminar usuario"
                   >
@@ -204,6 +205,7 @@
                   
                   <!-- Botón de cambiar estado (nuevo) -->
                   <button 
+                    (click)="changeStatus(user)"
                     class="p-1.5 rounded-lg {{ user.status ? 'bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-800/50' : 'bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-800/50' }} transition-colors tooltip-trigger"
                     title="{{ user.status ? 'Desactivar usuario' : 'Activar usuario' }}"
                   >

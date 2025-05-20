@@ -5,6 +5,8 @@ import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { SidebarDataUserComponent } from '../../components/sidebar-data-user/sidebar-data-user.component';
 import { User } from '@models/user';
+import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-management',
@@ -48,5 +50,41 @@ export default class UserManagementComponent {
   closeUserData() {
     this.selectedUser.set(null);
     this.isUserDataOpen.set(false);
+  }
+
+  changeStatus(user: User) {
+    const promise = firstValueFrom(
+      this._userAdminService.deleteUser(user.id!, user.status)
+    );
+
+    toast.promise(promise, {
+      loading: `${user.status ? 'Desactivando' : 'Activando'} usuario...`,
+      success: (data) => {
+        this.closeUserData();
+        this.userResource.reload();
+        return data.message;
+      },
+      error: (error: any) => {
+        return error.message;
+      },
+    });
+  }
+
+  deletePermanently(user: User) {
+    const promise = firstValueFrom(
+      this._userAdminService.deleteUserPermanently(user.id!)
+    );
+
+    toast.promise(promise, {
+      loading: 'Eliminando usuario permanentemente...',
+      success: (data) => {
+        this.closeUserData();
+        this.userResource.reload();
+        return data.message;
+      },
+      error: (error: any) => {
+        return error.message;
+      },
+    });
   }
 }

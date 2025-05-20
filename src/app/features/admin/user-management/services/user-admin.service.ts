@@ -66,8 +66,14 @@ export class UserAdminService {
   }
 
 
-  deleteUser(id: number): Observable<apiResponse<User>> {
+  deleteUser(id: number, status: boolean): Observable<apiResponse<User>> {
     const url = `${environment.apiUrl}/user/${id}`;
+    return this.http.delete<apiResponse<User>>(url, { body: { status: status } });
+  }
+
+
+  deleteUserPermanently(id: number): Observable<apiResponse<User>> {
+    const url = `${environment.apiUrl}/user/${id}/permanent`;
     return this.http.delete<apiResponse<User>>(url);
   }
 
