@@ -64,4 +64,14 @@ export class StorageService {
     const dataUser: User | null = this.get(this._userId());
     return dataUser?.rol_id as number;
   }
+
+  getStatus(){
+    const userStatus: User | null = this.get(this._userId());
+    return userStatus?.status as boolean
+  }
+
+  getFirebaseUserId(){
+    const dataUser: User | null = this.get(this._userId());
+    return dataUser?.firebaseUid as string;
+  }
 }

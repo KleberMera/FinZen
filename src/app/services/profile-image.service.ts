@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Auth, authState } from '@angular/fire/auth';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { Auth, authState } from '@angular/fire/auth';
 export class ProfileImageService {
   private readonly auth = inject(Auth);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly storageService = inject(StorageService);
 
   // Señales para la URL de la foto
   protected userPhotoUrl = signal<string>('');
@@ -21,6 +23,15 @@ export class ProfileImageService {
   }
 
   private initializePhotoUrl(): void {
+    const firebaseUserId = this.storageService.getFirebaseUserId();
+    if (!firebaseUserId) {
+      console.log('No Firebase user ID found, using default avatar');
+      this.userPhotoUrl.set('');
+      this.safePhotoUrl.set(null);
+      this.imageError.set(false);
+      return;
+    }
+
     authState(this.auth).subscribe((user) => {
       const photoURL = user?.providerData[0]?.photoURL || '';
       console.log('Photo URL:', photoURL);
