@@ -10,7 +10,8 @@ import { ChatIconComponent } from '@icons/chat-icon/chat-icon.component';
 import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-settings.component';
 import { TRANSACTION_PAGES } from '../../../features/transaction/transaaction.routes';
 import { ChartIconComponent } from '@icons/chart-icon/chart-icon.component';
-
+import { SettingIconComponent } from '@icons/setting-icon/setting-icon.component';
+import { StorageService } from '@services/storage.service';
 
 interface MenuItem {
   type: 'link' | 'dropdown';
@@ -20,6 +21,7 @@ interface MenuItem {
   activeClass?: string;
   subItems?: SubMenuItem[];
   badge?: number;
+  visible?: () => boolean;
 }
 
 interface SubMenuItem {
@@ -27,16 +29,26 @@ interface SubMenuItem {
   route: string;
   icon?: Type<any>; // Icono opcional para subitems
 }
+
 @Component({
   selector: 'app-sidebar-items',
   imports: [RouterLink, RouterLinkActive, NgComponentOutlet],
   templateUrl: './sidebar-items.component.html',
   styleUrl: './sidebar-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [StorageService]
 })
 export class SidebarItemsComponent {
   itemSelected = output<void>();
   readonly router = inject(Router);
+  private readonly storageService = inject(StorageService);
+
+  // Señal computada para obtener solo los elementos visibles
+  visibleMenuItems = computed(() => {
+    const items = this.menuItems();
+    return items.filter(item => item.visible === undefined || item.visible());
+  });
+
   // Señal para los elementos del menú
   menuItems = signal<MenuItem[]>([
     {
@@ -128,11 +140,19 @@ export class SidebarItemsComponent {
         },
                
       ],
+    },{
+      type: 'link',
+      label: 'Gestión de Usuarios',
+      icon: UserIconSettingsComponent,
+      route: 'gestion-usuarios',
+      activeClass: 'bg-gray-100 dark:bg-gray-700',
+      visible: computed(() => this.storageService.getRole() === 1),
     },
+
     {
       type: 'link',
       label: 'Configuración',
-      icon: UserIconSettingsComponent,
+      icon: SettingIconComponent,
       route: 'configuracion',
       activeClass: 'bg-gray-100 dark:bg-gray-700',
     },

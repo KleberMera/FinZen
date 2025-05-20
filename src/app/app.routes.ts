@@ -52,7 +52,7 @@ export const routes: Routes = [
             loadChildren: () => import('./features/debt/debt.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () => import('./features/config/config.routes'),
           },
