@@ -13,18 +13,20 @@ export class AuthStateService {
   }
 
   getSession(): string | null {
-    let currentSession: string | null = null;
+    const status = this._storageService.getStatus();
+    if (!status) {
+      this.signOut();
+      return null;
+    }
 
     const maybeSession = this._storageService.getToken();
     if (maybeSession !== null) {
       if (this._isValidSession(maybeSession)) {
-        currentSession = maybeSession;
-      } else {
-        this.signOut();
+        return maybeSession;
       }
     }
 
-    return currentSession;
+    return null;
   }
 
   private _isValidSession(maybeSession: unknown): boolean {

@@ -68,4 +68,9 @@ export class StorageService {
     const dataUser: User | null = this.get(this._userId());
     return dataUser?.firebaseUid as string;
   }
+
+  getStatus() {
+    const dataUser: User | null = this.get(this._userId());
+    return dataUser?.status as boolean;
+  }
 }
