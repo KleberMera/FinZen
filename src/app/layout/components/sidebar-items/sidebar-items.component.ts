@@ -36,7 +36,6 @@ interface SubMenuItem {
   templateUrl: './sidebar-items.component.html',
   styleUrl: './sidebar-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [StorageService]
 })
 export class SidebarItemsComponent {
   itemSelected = output<void>();
