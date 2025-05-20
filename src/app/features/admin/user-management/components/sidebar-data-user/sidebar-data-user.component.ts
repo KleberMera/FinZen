@@ -1,18 +1,15 @@
-import { Component, computed, inject, signal, effect, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, input, output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal, effect, input, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { UserAdminService } from '../../services/user-admin.service';
 import { toast } from 'ngx-sonner';
 import { firstValueFrom } from 'rxjs';
 import { User } from '@models/user';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar-data-user',
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './sidebar-data-user.component.html',
   styleUrl: './sidebar-data-user.component.scss',
-  standalone: true,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SidebarDataUserComponent {
   private readonly _userAdminService = inject(UserAdminService);
