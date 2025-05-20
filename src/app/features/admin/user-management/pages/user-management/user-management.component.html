@@ -95,7 +95,7 @@
             </th>
             <th class="px-4 py-3 text-left">
               <div class="flex items-center justify-between">
-                <span class="text-sm font-medium text-gray-900 dark:text-white">Uid</span>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">Autenticación</span>
               </div>
             </th>
 
@@ -134,30 +134,90 @@
                 <div class="text-gray-600 dark:text-gray-300">{{ user.email }}</div>
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
-                <div class="text-gray-600 dark:text-gray-300">{{ user.firebaseUid || 'N/A' }}</div>
+                <div class="flex items-center">
+                  @if (user.firebaseUid) {
+                    <div class="flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 48 48">
+                        <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                        <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                        <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                        <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                      </svg>
+                      <span class="text-sm text-gray-600 dark:text-gray-300">Google</span>
+                    </div>
+                  } @else {
+                    <div class="flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 48 48">
+                        <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z"></path>
+                        <path fill="#1e88e5" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z"></path>
+                        <polygon fill="#e53935" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17"></polygon>
+                        <path fill="#c62828" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z"></path>
+                        <path fill="#fbc02d" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z"></path>
+                      </svg>
+                      <span class="text-sm text-gray-600 dark:text-gray-300">Email</span>
+                    </div>
+                  }
+                </div>
               </td>
+
               <td class="px-4 py-3 whitespace-nowrap">
                 <div class="text-gray-600 dark:text-gray-300">{{ user.rol_id === 1 ? 'Administrador' : 'Cliente' }}</div>
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium {{ user.status ? 'text-green-600' : 'text-red-600' }}">{{ user.status ? 'Activo' : 'Inactivo' }}</div>
-                </div>
+                <!-- Estado mejorado con badge -->
+                @if (user.status) {
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                    <span class="w-2 h-2 mr-1.5 rounded-full bg-green-500 dark:bg-green-400"></span>
+                    Activo
+                  </span>
+                } @else {
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                    <span class="w-2 h-2 mr-1.5 rounded-full bg-red-500 dark:bg-red-400"></span>
+                    Inactivo
+                  </span>
+                }
               </td>
               <td class="px-4 py-3 whitespace-nowrap">
                 <div class="flex items-center space-x-2">
+                  <!-- Botón de editar mejorado -->
                   <button 
-                  
-                  (click)="onUserDataClick( user)"
-                  class="p-1 text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    (click)="onUserDataClick(user)"
+                    class="p-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-800/50 transition-colors tooltip-trigger"
+                    title="Editar usuario"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
+                    <!-- <span class="tooltip-text">Editar</span> -->
                   </button>
-                  <button class="p-1 text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  
+                  <!-- Botón de eliminar mejorado -->
+                  <button 
+                    class="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-800/50 transition-colors tooltip-trigger"
+                    title="Eliminar usuario"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
+                    <!-- <span class="tooltip-text">Eliminar</span> -->
+                  </button>
+                  
+                  <!-- Botón de cambiar estado (nuevo) -->
+                  <button 
+                    class="p-1.5 rounded-lg {{ user.status ? 'bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-800/50' : 'bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-800/50' }} transition-colors tooltip-trigger"
+                    title="{{ user.status ? 'Desactivar usuario' : 'Activar usuario' }}"
+                  >
+                    @if (user.status) {
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      </svg>
+                      <!-- <span class="tooltip-text"></span> -->
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <!-- <span class="tooltip-text"></span> -->
+                    }
                   </button>
                 </div>
               </td>
