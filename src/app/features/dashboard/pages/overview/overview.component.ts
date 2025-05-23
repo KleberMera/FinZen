@@ -3,10 +3,11 @@ import { DashboardHeaderComponent } from "../../components/dashboard-header/dash
 import { CardSalaryComponent } from "../../components/card-salary/card-salary.component";
 import { CardMovementsComponent } from "../../components/card-movements/card-movements.component";
 import { StorageService } from '@services/storage.service';
+import { CardMonthSummaryComponent } from "../../components/card-month-summary/card-month-summary.component";
 
 @Component({
   selector: 'app-overview',
-  imports: [DashboardHeaderComponent, CardSalaryComponent, CardMovementsComponent],
+  imports: [DashboardHeaderComponent, CardSalaryComponent, CardMovementsComponent, CardMonthSummaryComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })

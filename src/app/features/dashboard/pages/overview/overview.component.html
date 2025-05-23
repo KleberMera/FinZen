@@ -1,18 +1,23 @@
 @if (rolIdUser() === 1) {
+
   <!-- Contenido exclusivo del rol 1 (Administrador) -->
-
-
-  <!-- Contenido del rol 2 que también puede ver el rol 1 -->
   <app-dashboard-header></app-dashboard-header>
+  <p class="text-gray-500 dark:text-gray-400">Solo Acceso Administrador</p>
+  <app-card-month-summary></app-card-month-summary>
+
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
     <app-card-salary></app-card-salary>
     <app-card-movements></app-card-movements>
   </div>
 
-  <p class="text-gray-500 dark:text-gray-400">Solo Acceso Administrador</p>
+
+
+
 } @else if (rolIdUser() === 2) {
   <!-- Contenido exclusivo del rol 2 -->
   <app-dashboard-header></app-dashboard-header>
+  <app-card-month-summary></app-card-month-summary>
+
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
     <app-card-salary></app-card-salary>
     <app-card-movements></app-card-movements>

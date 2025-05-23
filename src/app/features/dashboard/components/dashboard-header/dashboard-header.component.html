@@ -1,5 +1,5 @@
 <!-- Header con saludo -->
-@if (balance.isLoading()) {
+@if (!name()) {
   <!-- Header con saludo skeleton -->
 <div class="mb-8">
   <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
@@ -7,212 +7,16 @@
   </h1>
 </div>
 
-<!-- Stats Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-  <!-- Balance Total Skeleton -->
-  <div class="group relative h-full">
-    <div
-      class="absolute -inset-0.5 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-2xl opacity-20 blur-sm">
-    </div>
-    <div
-      class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-3">
-            <div class="p-2 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg shrink-0">
-              <div class="w-5 h-5 rounded bg-blue-200 dark:bg-blue-700 animate-pulse"></div>
-            </div>
-            <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Balance Total</h3>
-          </div>
-          <span
-            class="w-16 h-6 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse">
-          </span>
-        </div>
-      </div>
-      <div class="mt-auto">
-        <div class="w-32 h-8 mb-2 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-        <div class="flex items-center mt-2 space-x-2">
-          <div class="w-20 h-5 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-          <div class="w-24 h-5 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Ingresos Card Skeleton -->
-  <div class="group relative h-full">
-    <div
-      class="absolute -inset-0.5 bg-gradient-to-r from-green-600/10 to-emerald-600/10 rounded-2xl opacity-20 blur-sm">
-    </div>
-    <div
-      class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-3">
-            <div class="p-2 bg-green-50/50 dark:bg-green-900/20 rounded-lg shrink-0">
-              <div class="w-5 h-5 rounded bg-green-200 dark:bg-green-700 animate-pulse"></div>
-            </div>
-            <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Ingresos</h3>
-          </div>
-          <div class="w-12 h-6 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse">
-          </div>
-        </div>
-      </div>
-      <div class="mt-auto">
-        <div class="w-32 h-8 mb-2 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-        <div class="w-48 h-5 mt-2 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Gastos Card Skeleton -->
-  <div class="group relative h-full">
-    <div
-      class="absolute -inset-0.5 bg-gradient-to-r from-red-600/10 to-pink-600/10 rounded-2xl opacity-20 blur-sm">
-    </div>
-    <div
-      class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-3">
-            <div class="p-2 bg-red-50/50 dark:bg-red-900/20 rounded-lg shrink-0">
-              <div class="w-5 h-5 rounded bg-red-200 dark:bg-red-700 animate-pulse"></div>
-            </div>
-            <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Gastos</h3>
-          </div>
-          <div class="w-12 h-6 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse">
-          </div>
-        </div>
-      </div>
-      <div class="mt-auto">
-        <div class="w-32 h-8 mb-2 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-        <div class="w-48 h-5 mt-2 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-      </div>
-    </div>
-  </div>
-</div>
 } @else {
-  @let data = balance.value()!.data;
+
   <div class="mb-8">
     <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
       ¡Hola, <span class="text-blue-600 dark:text-blue-400 animate-pulse">{{ name() }}</span>! 👋
     </h1>
   </div>
   
-  <!-- Stats Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-    <!-- Balance Total -->
-    <div class="group relative h-full transform transition-transform duration-300 hover:scale-105">
-      <div
-        class="absolute -inset-0.5 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-300 blur-sm">
-      </div>
-      <div
-        class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md hover:shadow-lg flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-3">
-              <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg shrink-0 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/40 transition-colors duration-300">
-                <svg class="w-5 h-5 text-blue-600/90 dark:text-blue-400" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                  </path>
-                </svg>
-              </div>
-              <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Balance Total</h3>
-            </div>
-          
-            <span
-              class="text-xs font-medium px-2.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-              {{ currenMonthName() | titlecase}}
-            </span>
-        
-          </div>
-        </div>
-        <div class="mt-auto">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonthData.balance | currency}}
-          </p>
-            @if (data!.previousMonthData) {
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
-            <span class="mr-1">Mes anterior:</span>
-            <span class="font-medium">{{ data!.previousMonthData.balance  | currency }}</span>
-            </p>
-            }
-        </div>
-      </div>
-    </div>
-  
-    <!-- Ingresos Card -->
-    <div class="group relative h-full transform transition-transform duration-300 hover:scale-105">
-      <div
-        class="absolute -inset-0.5 bg-gradient-to-r from-green-600/20 to-emerald-600/20 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-300 blur-sm">
-      </div>
-      <div
-        class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md hover:shadow-lg flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-3">
-              <div class="p-2 bg-green-50 dark:bg-green-900/30 rounded-lg shrink-0 group-hover:bg-green-100 dark:group-hover:bg-green-800/40 transition-colors duration-300">
-                <svg class="w-5 h-5 text-green-600/90 dark:text-green-400" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                </svg>
-              </div>
-              <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Ingresos</h3>
-            </div>
-          </div>
-        </div>
-        <div class="mt-auto">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonthData.totalIncome| currency:data!.currentMonthData.currency }}
-          </p>
-          @if (data!.previousMonthData) {
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
-            <span class="mr-1">Mes anterior:</span> 
-            <span class="font-medium">{{ data!.previousMonthData.totalIncome | currency:data!.previousMonthData.currency }}</span>
-          </p>
-          }
-        </div>
-      </div>
-    </div>
-  
-    <!-- Gastos Card -->
-    <div class="group relative h-full transform transition-transform duration-300 hover:scale-105">
-      <div
-        class="absolute -inset-0.5 bg-gradient-to-r from-red-600/20 to-pink-600/20 rounded-2xl opacity-20 group-hover:opacity-40 transition duration-300 blur-sm">
-      </div>
-      <div
-        class="relative h-full bg-white dark:bg-gray-800/90 backdrop-blur-xl rounded-xl p-6 border border-gray-100/80 dark:border-gray-700/80 shadow-md hover:shadow-lg flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-3">
-              <div class="p-2 bg-red-50 dark:bg-red-900/30 rounded-lg shrink-0 group-hover:bg-red-100 dark:group-hover:bg-red-800/40 transition-colors duration-300">
-                <svg class="w-5 h-5 text-red-600/90 dark:text-red-400" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3">
-                  </path>
-                </svg>
-              </div>
-              <h3 class="text-base font-medium text-gray-700 dark:text-gray-200">Gastos</h3>
-            </div>
-          </div>
-        </div>
-        <div class="mt-auto">
-          <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {{ data!.currentMonthData.totalExpenses | currency:data!.currentMonthData.currency }}
-          </p>
-          @if (data!.previousMonthData) {
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex items-center">
-            <span class="mr-1">Mes anterior:</span>
-            <span class="font-medium">{{ data!.previousMonthData.totalExpenses | currency:data!.previousMonthData.currency }}</span>
-          </p>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
+
 }
 
 
