@@ -41,13 +41,13 @@ export const routes: Routes = [
               import('./features/dashboard/pages/overview/overview.component'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () =>
               import('./features/transaction/transaaction.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () => import('./features/debt/debt.routes'),
           },
@@ -57,7 +57,7 @@ export const routes: Routes = [
             loadChildren: () => import('./features/config/config.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () => import('./features/goals/goal.routes'),
           },
@@ -77,7 +77,7 @@ export const routes: Routes = [
             loadChildren: () => import('./features/grafic/grafic.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path:'',
             loadChildren: () => import('./features/strategy/strategy.routes'),
           },

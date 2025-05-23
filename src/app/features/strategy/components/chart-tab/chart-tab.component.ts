@@ -9,7 +9,6 @@ Chart.register(...registerables)
 
 @Component({
   selector: "app-chart-tab",
-  standalone: true,
   imports: [CommonModule],
   templateUrl: "./chart-tab.component.html",
 })
