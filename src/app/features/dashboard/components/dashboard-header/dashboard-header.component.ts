@@ -4,9 +4,7 @@ import { format } from '@formkit/tempo';
 
 function getTimeBasedGreeting(): string {
   const hour = format(new Date(), 'h:mm a', 'es');
-  console.log(hour);
-  
-  
+
   if (hour >= '5:00 AM' && hour < '12:00 PM') {
     return 'Buenos días';
   } else if (hour >= '12:00 PM' && hour < '7:00 PM') {
@@ -15,7 +13,6 @@ function getTimeBasedGreeting(): string {
     return 'Buenas noches';
   }
 }
-
 
 @Component({
   selector: 'app-dashboard-header',

@@ -40,3 +40,15 @@ export interface ExpenseDetail {
   updatedAt: string; // Fecha de actualización
   category: Category; // Categoría asociada al gasto
 }
+
+
+
+export interface CategoryExpenseDistribution {
+  categoryId: number;
+  categoryName: string;
+  icon: string;
+  totalAmount: number;
+  transactionCount: number;
+  percentage: number;
+  userCount?: number; // Para admin: cantidad de usuarios que usaron esta categoría
+}
