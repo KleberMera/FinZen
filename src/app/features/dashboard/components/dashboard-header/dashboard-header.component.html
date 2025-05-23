@@ -2,9 +2,9 @@
 @if (!name()) {
   <!-- Header con saludo skeleton -->
 <div class="mb-8">
-  <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-    ¡Hola, <span class="inline-block w-24 h-8 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></span>! 👋
-  </h1>
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+      {{ greeting() }}, <span class="inline-block w-24 h-8 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"></span>! 👋
+    </h1>
 </div>
 
 
@@ -12,7 +12,7 @@
 
   <div class="mb-8">
     <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-      ¡Hola, <span class="text-blue-600 dark:text-blue-400 animate-pulse">{{ name() }}</span>! 👋
+      {{ greeting() }}, <span class="text-blue-600 dark:text-blue-400 animate-pulse">{{ name() }}</span>! 👋
     </h1>
   </div>
   
