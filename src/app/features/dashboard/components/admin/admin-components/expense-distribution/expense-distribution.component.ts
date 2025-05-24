@@ -14,6 +14,7 @@ Chart.register(...registerables);
 })
 export class ExpenseDistributionComponent {
   protected readonly _graficsService = inject(GraficsService);
+  Math = Math
   lenguaje = signal<string>('es');
   timeNow = signal<Date>(new Date());
   currentPage: number = 0; // Track current page of categories
@@ -193,5 +194,5 @@ export class ExpenseDistributionComponent {
     return this.expenseDistribution.value()?.data!.length || 0;
   }
 
-  Math = Math
+
 }

@@ -62,17 +62,17 @@ export const routes: Routes = [
             loadChildren: () => import('./features/goals/goal.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () => import('./features/chat/chat.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path: '',
             loadChildren: () => import('./features/category/category.routes'),
           },
           {
-            canActivate: [hasRoleGuard([ROLE.CLIENT])],
+            canActivate: [hasRoleGuard([ROLE.CLIENT, ROLE.ADMIN])],
             path:'',
             loadChildren: () => import('./features/grafic/grafic.routes'),
           },
