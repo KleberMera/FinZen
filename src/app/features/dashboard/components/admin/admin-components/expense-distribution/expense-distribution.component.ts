@@ -17,11 +17,11 @@ export class ExpenseDistributionComponent {
   Math = Math
   lenguaje = signal<string>('es');
   timeNow = signal<Date>(new Date());
-  currentPage: number = 0; // Track current page of categories
-  itemsPerPage: number = 3; // Number of categories to show per page
+  currentPage = signal<number>(0);
+  itemsPerPage = signal<number>(3);
 
   // Lista de meses
-  months = [
+  months = signal([
     { value: '01', name: 'Enero' },
     { value: '02', name: 'Febrero' },
     { value: '03', name: 'Marzo' },
@@ -34,10 +34,9 @@ export class ExpenseDistributionComponent {
     { value: '10', name: 'Octubre' },
     { value: '11', name: 'Noviembre' },
     { value: '12', name: 'Diciembre' }
-  ];
-
+  ])
   // Años disponibles (últimos 5 años y próximos 5)
-  years = Array.from({ length: 10 }, (_, i) => (this.timeNow().getFullYear() - 5 + i).toString());
+  years = computed(() => Array.from({ length: 10 }, (_, i) => (this.timeNow().getFullYear() - 5 + i).toString()));
 
   // Señales para mes y año seleccionados
   selectedMonth = signal<string>(format(this.timeNow(), 'MM', this.lenguaje()));
@@ -45,13 +44,13 @@ export class ExpenseDistributionComponent {
 
   // Señal computada para el nombre del mes seleccionado
   selectedMonthName = computed(() => {
-    const month = this.months.find(m => m.value === this.selectedMonth());
+    const month = this.months().find(m => m.value === this.selectedMonth());
     return month ? month.name : '';
   });
 
   // Método para actualizar los datos cuando cambia el mes o año
   updateDate() {
-    this.currentPage = 0; // Reiniciar a la primera página
+    this.currentPage.set(0); // Reiniciar a la primera página
     // Asegurarse de que los valores son strings antes de pasarlos al servicio
     const month = this.selectedMonth().toString().padStart(2, '0');
     const year = this.selectedYear().toString();
@@ -66,22 +65,22 @@ export class ExpenseDistributionComponent {
 
   // Get the current page of categories to display
   getVisibleItems() {
-    const startIndex = this.currentPage * this.itemsPerPage;
-    return this.expenseDistribution.value()?.data?.slice(startIndex, startIndex + this.itemsPerPage) || [];
+    const startIndex = this.currentPage() * this.itemsPerPage();
+    return this.expenseDistribution.value()?.data?.slice(startIndex, startIndex + this.itemsPerPage()) || [];
   }
 
   // Navigate to the next page of categories
   nextItems() {
-    const totalPages = Math.ceil((this.expenseDistribution.value()?.data?.length || 0) / this.itemsPerPage);
-    if (this.currentPage < totalPages - 1) {
-      this.currentPage = Number(this.currentPage) + 1;
+    const totalPages = Math.ceil((this.expenseDistribution.value()?.data?.length || 0) / this.itemsPerPage());
+    if (this.currentPage() < totalPages - 1) {
+      this.currentPage.set(this.currentPage() + 1);
     }
   }
 
   // Navigate to the previous page of categories
   previousItems() {
-    if (this.currentPage > 0) {
-      this.currentPage = Number(this.currentPage) - 1;
+    if (this.currentPage() > 0) {
+      this.currentPage.set(this.currentPage() - 1);
     }
   }
 

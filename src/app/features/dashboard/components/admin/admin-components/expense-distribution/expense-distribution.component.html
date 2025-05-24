@@ -1,4 +1,4 @@
-<div class="">
+
 
     <!-- Gráfico de Distribución de Gastos -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
@@ -12,14 +12,18 @@
             (ngModelChange)="updateDate()"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+            @for (month of months(); track month.value) {
+                <option [value]="month.value">{{ month.name }}</option>
+            }
           </select>
           <select 
             [(ngModel)]="selectedYear" 
             (ngModelChange)="updateDate()"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            @for (year of years(); track $index) {
+                <option [value]="year">{{ year }}</option>
+            }
           </select>
         </div>
       </div>
@@ -45,26 +49,26 @@
           <!-- Detalles de las categorías -->
           <div class="space-y-4">
             <div class="flex justify-between items-center">
-              <p class="text-sm text-gray-500 dark:text-gray-400">Mostrando {{ currentPage * 3 + 1 }} - {{ Math.min((currentPage + 1) * 3, getTotalCategories()) }} de {{ getTotalCategories() }} categorías</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Mostrando {{ currentPage() * 3 + 1 }} - {{ Math.min((currentPage() + 1) * 3, getTotalCategories()) }} de {{ getTotalCategories() }} categorías</p>
            
               <div class="flex space-x-2">
                 <button 
                   (click)="previousItems()" 
-                  [disabled]="currentPage === 0"
+                  [disabled]="currentPage() === 0"
                   class="p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  [class.cursor-pointer]="currentPage > 0"
-                  [class.hover:bg-gray-200]="currentPage > 0"
-                  [class.dark:hover:bg-gray-600]="currentPage > 0"
+                  [class.cursor-pointer]="currentPage() > 0"
+                  [class.hover:bg-gray-200]="currentPage() > 0"
+                  [class.dark:hover:bg-gray-600]="currentPage() > 0"
                 >
                   <i class="pi pi-chevron-left"></i>
                 </button>
                 <button 
                   (click)="nextItems()" 
-                  [disabled]="(currentPage + 1) * 3 >= (expenseDistribution.value()?.data?.length || 0)"
+                  [disabled]="(currentPage() + 1) * 3 >= (expenseDistribution.value()?.data?.length || 0)"
                   class="p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  [class.cursor-pointer]="(currentPage + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
-                  [class.hover:bg-gray-200]="(currentPage + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
-                  [class.dark:hover:bg-gray-600]="(currentPage + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
+                  [class.cursor-pointer]="(currentPage() + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
+                  [class.hover:bg-gray-200]="(currentPage() + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
+                  [class.dark:hover:bg-gray-600]="(currentPage() + 1) * 3 < (expenseDistribution.value()?.data?.length || 0)"
                 >
                   <i class="pi pi-chevron-right"></i>
                 </button>
@@ -79,7 +83,7 @@
                     <!-- Indicador de color -->
                     <div 
                       class="w-4 h-4 rounded-full flex-shrink-0" 
-                      [style.background-color]="getCategoryColor(i + (currentPage * 3))">
+                      [style.background-color]="getCategoryColor(i + (currentPage() * 3))">
                     </div>
                     
                     <!-- Icono y nombre de categoría -->
@@ -124,4 +128,3 @@
       }
     </div>
     
-  </div>
