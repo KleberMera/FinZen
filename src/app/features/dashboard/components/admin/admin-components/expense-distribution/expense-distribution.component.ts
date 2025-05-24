@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 Chart.register(...registerables);
 @Component({
   selector: 'app-expense-distribution',
-  imports: [CurrencyPipe, NgFor, FormsModule],
+  imports: [CurrencyPipe, FormsModule],
   templateUrl: './expense-distribution.component.html',
   styleUrl: './expense-distribution.component.scss'
 })
