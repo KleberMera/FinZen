@@ -1,18 +1,19 @@
 import { Component, inject, signal } from '@angular/core';
 import { StorageService } from '@services/storage.service';
-import { format } from '@formkit/tempo';
+
 
 function getTimeBasedGreeting(): string {
-  const hour = format(new Date(), 'h:mm a', 'es');
-
-  if (hour >= '5:00 AM' && hour < '12:00 PM') {
+  const now = new Date();
+  const hour = now.getHours();
+  if (hour >= 5 && hour < 12) {
     return 'Buenos días';
-  } else if (hour >= '12:00 PM' && hour < '7:00 PM') {
+  } else if (hour >= 12 && hour < 19) {
     return 'Buenas tardes';
   } else {
     return 'Buenas noches';
   }
 }
+
 
 @Component({
   selector: 'app-dashboard-header',
