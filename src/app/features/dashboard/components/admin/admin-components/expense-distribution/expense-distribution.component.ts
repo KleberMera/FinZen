@@ -21,20 +21,7 @@ export class ExpenseDistributionComponent {
   itemsPerPage = signal<number>(3);
 
   // Lista de meses
-  months = signal([
-    { value: '01', name: 'Enero' },
-    { value: '02', name: 'Febrero' },
-    { value: '03', name: 'Marzo' },
-    { value: '04', name: 'Abril' },
-    { value: '05', name: 'Mayo' },
-    { value: '06', name: 'Junio' },
-    { value: '07', name: 'Julio' },
-    { value: '08', name: 'Agosto' },
-    { value: '09', name: 'Septiembre' },
-    { value: '10', name: 'Octubre' },
-    { value: '11', name: 'Noviembre' },
-    { value: '12', name: 'Diciembre' }
-  ])
+  months = signal(this._graficsService.getMonth());
   // Años disponibles (últimos 5 años y próximos 5)
   years = computed(() => Array.from({ length: 10 }, (_, i) => (this.timeNow().getFullYear() - 5 + i).toString()));
 
