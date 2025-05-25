@@ -90,6 +90,10 @@ export class ExpenseDistributionTrendComponent {
   });
 
   private areaChart: Chart | null = null;
+  
+  // Categorías seleccionadas
+  selectedCategories = signal<Set<string>>(new Set());
+  allCategories = signal<string[]>([]);
 
   // Colores para el gráfico de área
   COLORS = [
@@ -154,8 +158,22 @@ export class ExpenseDistributionTrendComponent {
     // Obtener todas las categorías únicas
     const categories = [...new Set(trendData.map((item: any) => item.categoryName))];
     
-    // Crear datasets para cada categoría
-    const datasets = categories.map((categoryName, index) => {
+    // Actualizar las categorías disponibles
+    this.allCategories.set(categories);
+    
+    // Si no hay categorías seleccionadas o las categorías seleccionadas ya no existen, seleccionar las 3 primeras por defecto
+    const currentSelected = this.selectedCategories();
+    const hasValidSelections = Array.from(currentSelected).some(cat => categories.includes(cat));
+    
+    if ((currentSelected.size === 0 || !hasValidSelections) && categories.length > 0) {
+      const defaultCategories = new Set(categories.slice(0, Math.min(3, categories.length)));
+      this.selectedCategories.set(defaultCategories);
+    }
+    
+    // Crear datasets solo para las categorías seleccionadas
+    const categoriesToShow = categories.filter(cat => this.selectedCategories().has(cat));
+    
+    const datasets = categoriesToShow.map((categoryName) => {
       const categoryData = periods.map(period => {
         const dataPoint = trendData.find((item: any) => 
           item.period === period && item.categoryName === categoryName
@@ -163,15 +181,19 @@ export class ExpenseDistributionTrendComponent {
         return dataPoint ? dataPoint.totalAmount : 0;
       });
 
+      // Obtener el color de la categoría usando el mismo método que en los botones
+      const categoryColor = this.getCategoryColor(categoryName).replace('1)', '0.8)');
+      const borderColor = this.getCategoryColor(categoryName);
+
       return {
         label: categoryName,
         data: categoryData,
-        backgroundColor: this.COLORS[index % this.COLORS.length],
-        borderColor: this.BORDER_COLORS[index % this.BORDER_COLORS.length],
+        backgroundColor: categoryColor,
+        borderColor: borderColor,
         borderWidth: 2,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: this.BORDER_COLORS[index % this.BORDER_COLORS.length],
+        pointBackgroundColor: borderColor,
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
         pointRadius: 4,
@@ -203,17 +225,20 @@ export class ExpenseDistributionTrendComponent {
         },
         plugins: {
           legend: {
-            position: 'top',
-            labels: {
-              usePointStyle: true,
-              padding: 20,
-              color: isDarkMode ? '#e2e8f0' : '#334155',
-              font: {
-                size: 12,
-                //weight: '500'
-              }
-            }
+            display: false // Ocultamos la leyenda por defecto porque crearemos una personalizada
           },
+          // legend: {
+          //   position: 'top',
+          //   labels: {
+          //     usePointStyle: true,
+          //     padding: 20,
+          //     color: isDarkMode ? '#e2e8f0' : '#334155',
+          //     font: {
+          //       size: 12,
+          //       //weight: '500'
+          //     }
+          //   }
+          // },
           tooltip: {
             backgroundColor: isDarkMode ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.95)',
             titleColor: isDarkMode ? '#f1f5f9' : '#1f2937',
@@ -291,6 +316,38 @@ export class ExpenseDistributionTrendComponent {
     });
   }
 
+  // Método para obtener el color de una categoría específica
+  getCategoryColor(categoryName: string): string {
+    // Obtener el índice de la categoría en la lista completa de categorías
+    const categoryIndex = this.allCategories().indexOf(categoryName);
+    // Asegurarse de que el índice esté dentro del rango de colores disponibles
+    const colorIndex = categoryIndex % this.COLORS.length;
+    return this.COLORS[colorIndex].replace('0.8', '1'); // Usar versión opaca para los indicadores
+  }
+
+  // Método para alternar una categoría seleccionada
+  toggleCategory(category: string): void {
+    const selected = new Set(this.selectedCategories());
+    if (selected.has(category)) {
+      selected.delete(category);
+      // Asegurarse de que al menos una categoría esté seleccionada
+      if (selected.size === 0 && this.allCategories().length > 0) {
+        // Si era la última categoría, no permitir deseleccionar
+        return;
+      }
+    } else {
+      selected.add(category);
+    }
+    this.selectedCategories.set(selected);
+    
+    // Recrear el gráfico con las categorías actualizadas
+    if (this.areaChart) {
+      this.areaChart.destroy();
+      this.areaChart = null;
+    }
+    setTimeout(() => this.createAreaChart(), 0);
+  }
+
   // Métodos para obtener resúmenes
   getTotalExpensesTrend(): number {
     const summary = this.expenseDistributionTrend.value()?.data?.summary;
@@ -312,8 +369,4 @@ export class ExpenseDistributionTrendComponent {
     return summary?.reduce((sum: number, item: any) => sum + Number(item.userCount || 0), 0) || 0;
   }
 
-  // Método para obtener el color de una categoría específica
-  getCategoryColor(index: number): string {
-    return this.BORDER_COLORS[index % this.BORDER_COLORS.length];
-  }
 }
