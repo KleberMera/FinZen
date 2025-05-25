@@ -52,3 +52,14 @@ export interface CategoryExpenseDistribution {
   percentage: number;
   userCount?: number; // Para admin: cantidad de usuarios que usaron esta categoría
 }
+
+
+export interface TrendData {
+  period: string; // "2024-01" formato
+  categoryId: number;
+  categoryName: string;
+  icon: string;
+  totalAmount: number;
+  transactionCount: number;
+  userCount?: number; // Para admin: cantidad de usuarios que usaron esta categoría en este período
+}

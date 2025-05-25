@@ -1,0 +1,224 @@
+<!-- Expense Distribution Trend Component -->
+<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-4 mb-8 transition-all duration-500 hover:shadow-3xl">
+  
+  <!-- Header con controles de rango de fechas -->
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+    <div class="space-y-2">
+      <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent">
+        Tendencia de Distribución de Gastos
+      </h3>
+      <p class="text-gray-600 dark:text-gray-300 font-medium">
+        {{ startMonthName() }} {{ startYear() }} - {{ endMonthName() }} {{ endYear() }}
+      </p>
+    </div>
+    
+    <!-- Controles de rango de fechas -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Mes inicial -->
+      <div class="relative group">
+        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Mes Inicial</label>
+        <select 
+          [(ngModel)]="startMonth" 
+          (ngModelChange)="updateDateRange()"
+          class="appearance-none bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 block w-full px-3 py-2 pr-8 transition-all duration-300 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-500 cursor-pointer"
+        >
+          @for (month of months(); track month.value) {
+            <option [value]="month.value" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">{{ month.name }}</option>
+          }
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mt-6">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Año inicial -->
+      <div class="relative group">
+        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Año Inicial</label>
+        <select 
+          [(ngModel)]="startYear" 
+          (ngModelChange)="updateDateRange()"
+          class="appearance-none bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 block w-full px-3 py-2 pr-8 transition-all duration-300 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-500 cursor-pointer"
+        >
+          @for (year of years(); track $index) {
+            <option [value]="year" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">{{ year }}</option>
+          }
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mt-6">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Mes final -->
+      <div class="relative group">
+        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Mes Final</label>
+        <select 
+          [(ngModel)]="endMonth" 
+          (ngModelChange)="updateDateRange()"
+          class="appearance-none bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 block w-full px-3 py-2 pr-8 transition-all duration-300 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-500 cursor-pointer"
+        >
+          @for (month of months(); track month.value) {
+            <option [value]="month.value" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">{{ month.name }}</option>
+          }
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mt-6">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Año final -->
+      <div class="relative group">
+        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Año Final</label>
+        <select 
+          [(ngModel)]="endYear" 
+          (ngModelChange)="updateDateRange()"
+          class="appearance-none bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 block w-full px-3 py-2 pr-8 transition-all duration-300 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-500 cursor-pointer"
+        >
+          @for (year of years(); track $index) {
+            <option [value]="year" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">{{ year }}</option>
+          }
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none mt-6">
+          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Estados de carga y error -->
+  @if (expenseDistributionTrend.isLoading()) {
+    <div class="flex flex-col justify-center items-center h-80 space-y-4">
+      <div class="relative">
+        <div class="animate-spin rounded-full h-16 w-16 border-4 border-gradient-to-r from-blue-500 via-slate-500 to-gray-600 border-t-transparent"></div>
+        <div class="absolute inset-0 animate-ping rounded-full h-16 w-16 border-4 border-gradient-to-r from-blue-500/20 via-slate-500/20 to-gray-600/20"></div>
+      </div>
+      <p class="text-gray-600 dark:text-gray-300 font-medium animate-pulse">Cargando tendencias...</p>
+    </div>
+    
+  } @else if (expenseDistributionTrend.error()) {
+    <div class="text-center py-12">
+      <div class="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-8 max-w-md mx-auto">
+        <i class="pi pi-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+        <h4 class="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">Error al cargar</h4>
+        <p class="text-red-600 dark:text-red-400">{{ expenseDistributionTrend.error() }}</p>
+      </div>
+    </div>
+    
+  } @else if (expenseDistributionTrend.value()?.data && expenseDistributionTrend.value()?.data!.trendData!.length > 0) {
+    <div class="space-y-6">
+      
+      <!-- Gráfico de Área -->
+      <div class="bg-gradient-to-br from-blue-50/50 via-slate-50/50 to-gray-50/50 dark:from-blue-900/10 dark:via-slate-900/10 dark:to-gray-900/10 rounded-2xl p-6 border border-blue-200/30 dark:border-blue-700/30">
+        <div class="relative w-full h-96">
+          <canvas id="expenseTrendChart" class="w-full h-full"></canvas>
+        </div>
+      </div>
+      
+      <!-- Panel de resumen de estadísticas -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total de Gastos -->
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-slate-50 to-gray-50 dark:from-blue-900/20 dark:via-slate-900/20 dark:to-gray-900/20 border-2 border-blue-200 dark:border-blue-700 p-6">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-slate-400/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div class="relative space-y-2">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 bg-blue-500 rounded-xl">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Gastos</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getTotalExpensesTrend() | currency:'USD':'symbol':'1.2-2' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Total de Transacciones -->
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-slate-900/20 dark:via-gray-900/20 dark:to-blue-900/20 border-2 border-slate-200 dark:border-slate-700 p-6">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-slate-400/10 to-gray-400/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div class="relative space-y-2">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 bg-slate-500 rounded-xl">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Transacciones</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getTotalTransactionsTrend().toLocaleString() }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Total de Categorías -->
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 via-blue-50 to-slate-50 dark:from-gray-900/20 dark:via-blue-900/20 dark:to-slate-900/20 border-2 border-gray-200 dark:border-gray-700 p-6">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gray-400/10 to-blue-400/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div class="relative space-y-2">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 bg-gray-500 rounded-xl">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Categorías</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getTotalCategoriesTrend() }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Total de Usuarios -->
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-gray-50 to-slate-50 dark:from-blue-900/20 dark:via-gray-900/20 dark:to-slate-900/20 border-2 border-blue-200 dark:border-blue-700 p-6">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-gray-400/10 rounded-full -translate-y-10 translate-x-10"></div>
+          <div class="relative space-y-2">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 bg-blue-600 rounded-xl">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Usuarios</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ getTotalUsersTrend() }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  } @else {
+    <!-- Estado sin datos -->
+    <div class="text-center py-16">
+      <div class="max-w-md mx-auto">
+        <div class="relative mb-8">
+          <div class="w-24 h-24 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-full flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <div class="absolute inset-0 w-24 h-24 mx-auto bg-gradient-to-br from-blue-500/20 to-slate-500/20 rounded-full animate-ping"></div>
+        </div>
+        <h4 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-3">No hay datos de tendencia</h4>
+        <p class="text-gray-500 dark:text-gray-400 leading-relaxed">
+          No se encontraron datos de gastos para el rango de fechas seleccionado. 
+          Intenta ajustar el período de consulta.
+        </p>
+      </div>
+    </div>
+  }
+  
+</div>
