@@ -1,37 +1,12 @@
 
 @if (salaryData.isLoading()) {
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
-    <div class="mb-6">
-      <!-- Skeleton header -->
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-3">
-          <div class="h-9 w-9 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
-          <div class="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        </div>
-        <div class="h-7 w-24 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
-      </div>
-
-      <!-- Skeleton income grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-lg">
-          <div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
-          <div class="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        </div>
-        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-lg">
-          <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
-          <div class="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        </div>
-        <div class="bg-gray-100/50 dark:bg-gray-800/50 p-3 rounded-lg">
-          <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
-          <div class="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        </div>
-      </div>
-
-      <!-- Skeleton progress bar -->
+    <div class="flex flex-col justify-center items-center h-80 space-y-4">
       <div class="relative">
-        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
-        <div class="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        <div class="animate-spin rounded-full h-16 w-16 border-4 border-gradient-to-r from-blue-500 via-slate-500 to-gray-600 border-t-transparent"></div>
+        <div class="absolute inset-0 animate-ping rounded-full h-16 w-16 border-4 border-gradient-to-r from-blue-500/20 via-slate-500/20 to-gray-600/20"></div>
       </div>
+      <p class="text-gray-600 dark:text-gray-300 font-medium animate-pulse">Cargando finanzas...</p>
     </div>
   </div>
 } @else {
@@ -40,20 +15,21 @@
       <!-- Header con título y mes -->
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-4">
         <div class="space-y-2">
-          <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent flex items-center gap-3">
-            <span class="p-2 bg-gradient-to-br from-blue-500 to-slate-600 dark:from-blue-400 dark:to-slate-500 rounded-lg shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
-                <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
-              </svg>
-            </span>
+          <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent">
             Finanzas Personales
           </h3>
           <p class="text-gray-600 dark:text-gray-300 font-medium">
             {{ capitalizeFirstLetter(currentMonth()) }} {{ currenYear() }}
           </p>
         </div>
-       </div>
+        
+        <div class="flex items-center gap-3">
+          <button (click)="toggleFormVisibility()" type="button" class="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors duration-300">
+            <i class="pi pi-times"></i>
+            Cerrar
+          </button>
+        </div>
+      </div>
       
       <!-- Contenedor principal responsivo -->
       <div class="flex flex-col lg:flex-row gap-6">
