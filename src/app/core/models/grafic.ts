@@ -6,6 +6,14 @@ export interface WeeklyDataItem {
   ingreso: number; // Ingresos en el día
 }
 
+export interface FilterTransactionStatistics {
+  month: number;
+  year: number;
+  endMonth?: number;
+  endYear?: number;
+}
+
+
 export interface MonthlyDataItem {
   month: string; // Mes
   year: number; // Año
@@ -62,4 +70,55 @@ export interface TrendData {
   totalAmount: number;
   transactionCount: number;
   userCount?: number; // Para admin: cantidad de usuarios que usaron esta categoría en este período
+}
+
+
+
+
+
+
+
+export interface TransactionStatistics {
+  periods: Period[]
+  total: Total
+}
+
+export interface Period {
+  period: string
+  totalTransactions: number
+  income: Income
+  expense: Expense
+  balance: number
+  transactionsWithReceipt: number
+  transactionsWithoutReceipt: number
+}
+
+export interface Income {
+  total: number
+  transactions: number
+}
+
+export interface Expense {
+  total: number
+  transactions: number
+}
+
+export interface Total {
+  period: string
+  totalTransactions: number
+  income: IncomeTotal
+  expense: ExpenseTotal
+  balance: number
+  transactionsWithReceipt: number
+  transactionsWithoutReceipt: number
+}
+
+export interface IncomeTotal {
+  total: number
+  transactions: number
+}
+
+export interface ExpenseTotal {
+  total: number
+  transactions: number
 }
