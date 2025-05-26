@@ -28,29 +28,31 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Selector de Tipo y Categoría -->
         <div>
-          <label class="block mb-2 text-sm font-medium text-gray-300">
+          <label class="block mb-2 text-sm font-medium dark:text-gray-300 text-gray-700">
             Categoría
           </label>
           <div class="flex">
             <!-- Botón para seleccionar tipo con cambio de color -->
             <button 
-              id="type-button"
-              type="button"
-              [class]="selectedType() === 'Ingreso' ? 'bg-green-900/20 text-green-400' : selectedType() === 'Todos' ? 'bg-blue-900/20 text-blue-400' : 'bg-red-900/20 text-red-400'"
-              class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm  text-center  border border-gray-600 font-semibold float-right rounded-s-lg focus:ring-2 focus:outline-none focus:ring-gray-500"
-              (click)="toggleTypeDropdown()"
-            >
-              <!-- Icono dinámico basado en el tipo -->
-              <i [class]="selectedType() === 'Ingreso' ? 'pi pi-arrow-up mr-2' : selectedType()=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
-              {{ selectedType() }}
-          
-            </button>
+            id="type-button"
+            type="button"
+            [class]="selectedType() === 'Ingreso' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' : selectedType() === 'Todos' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300' : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'"
+            class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm text-center border border-gray-300 dark:border-gray-600 font-semibold float-right rounded-s-lg focus:ring-4 focus:outline-none focus:ring-blue-500/20 transition-all duration-300"
+            (click)="toggleTypeDropdown()"
+          >
+            <!-- Icono dinámico basado en el tipo -->
+            <i [class]="selectedType() === 'Ingreso' ? 'pi pi-arrow-up mr-2' : selectedType()=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
+            {{ selectedType() }}
+          </button>
+        
           
             <!-- Selector de categorías con iconos -->
             <select 
               id="category_id" 
               formControlName="category_id"
-              class="bg-gray-700 border border-gray-600 text-gray-300 rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+              class="
+              bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white
+              rounded-e-lg border-s-0 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
             >
               <option value="" disabled>Selecciona una categoría</option>
               @for (categoria of filteredCategories(); track categoria.id) {
@@ -65,15 +67,15 @@
           <!-- Dropdown de tipos con iconos -->
           <div 
             id="type-dropdown" 
-            class="z-10 absolute bg-gray-700 divide-y divide-gray-600 rounded-lg shadow-lg w-44 mt-1" 
+            class="z-10 absolute bg-gray-600 dark:bg-gray-800 divide-y dark:divide-gray-600 border dark:border-gray-600 rounded-lg shadow-lg w-44 mt-1" 
             [class.hidden]="!isTypeDropdownOpen()"
           >
-            <ul class="py-2 text-sm text-gray-200">
+            <ul class="py-2 text-sm text-gray-200 dark:text-gray-300">
               @for (tipo of type(); track $index) {
                 <li>
                   <button 
                     type="button" 
-                    class="inline-flex w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-600"
+                    class="inline-flex w-full px-4 py-2 text-sm text-gray-300 dark:text-gray-200 hover:bg-gray-600 dark:hover:bg-gray-700 transition-colors"
                     (click)="selectedType.set(tipo); isTypeDropdownOpen.set(false)"
                   >
                   <i [class]="tipo === 'Ingreso' ? 'pi pi-arrow-up mr-2' : tipo=== 'Todos' ? 'pi pi-arrows-v mr-2': 'pi pi-arrow-down mr-2'"></i>
@@ -94,7 +96,7 @@
       
         <!-- Nombre -->
         <div>
-          <label for="name" class="block mb-2 text-sm font-medium text-gray-300">
+          <label for="name" class="block mb-2 text-sm font-medium dark:text-gray-300 text-gray-700">
             Nombre
           </label>
           <div class="relative">
@@ -102,7 +104,7 @@
               type="text" 
               id="name" 
               formControlName="name"
-              class="w-full p-2.5 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+              class="w-full p-2.5 pl-10 rounded-lg bg-white dark:bg-gray-800 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
               placeholder="Ej: Compra supermercado" 
             />
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -123,12 +125,12 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Monto -->
         <div class="relative">
-          <label for="amount" class="block mb-2 text-sm font-medium text-gray-300">
+          <label for="amount" class="block mb-2 text-sm font-medium dark:text-gray-300 text-gray-700">
             Monto
           </label>
           <div class="relative">
             <input type="number" id="amount" formControlName="amount"
-              class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+              class="w-full p-3 pl-10 rounded-lg bg-white dark:bg-gray-800 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
               placeholder="0.00" step="0.01" min="0" />
             <span class="absolute left-3 top-3.5 text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -146,12 +148,12 @@
   
         <!-- Fecha -->
         <div class="relative">
-          <label for="date" class="block mb-2 text-sm font-medium text-gray-300">
+          <label for="date" class="block mb-2 text-sm font-medium dark:text-gray-300 text-gray-700">
             Fecha
           </label>
           <div class="relative">
             <input type="date" id="date" formControlName="date"
-              class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200" />
+              class="w-full p-3 pl-10 rounded-lg bg-white dark:bg-gray-800 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200" />
             <span class="absolute left-3 top-3.5 text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
@@ -168,13 +170,13 @@
   
       <!-- Descripción -->
       <div class="relative">
-        <label for="description" class="mb-2 text-sm font-medium text-gray-300 flex items-center gap-2">
+        <label for="description" class="mb-2 text-sm font-medium dark:text-gray-300 text-gray-700 flex items-center gap-2">
           Descripción
           <span class="text-xs text-gray-500">(Opcional)</span>
         </label>
         <div class="relative">
           <textarea id="description" formControlName="description" rows="3"
-            class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+            class="w-full p-3 pl-10 rounded-lg bg-white dark:bg-gray-800 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
             placeholder="Añade detalles adicionales de la transacción..."></textarea>
           <span class="absolute left-3 top-3.5 text-gray-400">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
