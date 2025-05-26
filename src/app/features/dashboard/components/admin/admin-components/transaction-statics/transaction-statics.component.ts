@@ -4,6 +4,7 @@ import { format } from '@formkit/tempo';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CommonModule, CurrencyPipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Period } from '@models/grafic';
 
 @Component({
   selector: 'app-transaction-statics',
@@ -60,18 +61,25 @@ export class TransactionStaticsComponent {
     this.currentYear.set(year);
     
     // Si hay fechas de fin, también formatearlas
-    if (this.endMonth()) {
-      const endMonth = this.endMonth()!.toString().padStart(2, '0');
-      this.endMonth.set(endMonth);
+    if (this.showEndDateControls()) {
+      if (this.endMonth()) {
+        const endMonth = this.endMonth()!.toString().padStart(2, '0');
+        this.endMonth.set(endMonth);
+      }
+      
+      if (this.endYear()) {
+        const endYear = this.endYear()!.toString();
+        this.endYear.set(endYear);
+      }
+      
+      // Solo recargar si tanto el mes como el año final están definidos
+      if (this.endMonth() && this.endYear()) {
+        this.transactionStatistics.reload();
+      }
+    } else {
+      // Si no está en modo comparación, recargar normalmente
+      this.transactionStatistics.reload();
     }
-    
-    if (this.endYear()) {
-      const endYear = this.endYear()!.toString();
-      this.endYear.set(endYear);
-    }
-    
-    // Recargar los datos
-    this.transactionStatistics.reload();
   }
 
   // Método para alternar la visibilidad de los controles de fecha de fin
@@ -125,22 +133,35 @@ export class TransactionStaticsComponent {
   }
 
   // Métodos para obtener totales
-  getTotalTransactions(period?: any): number {
+  getTotalTransactions(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.totalTransactions || 0;
   }
 
-  getTotalIncome(period?: any): number {
+  getTotalIncome(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.income?.total || 0;
   }
 
-  getTotalExpense(period?: any): number {
+  getTotalExpense(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.expense?.total || 0;
   }
 
-  getTotalBalance(period?: any): number {
+
+  getTotalTransactionIncome(period?: Period): number {
+    const target = period || this.getCurrentPeriod();
+    return target?.income?.transactions || 0;
+  }
+
+
+  getTotalTransactionExpense(period?: Period): number {
+    const target = period || this.getCurrentPeriod();
+    return target?.expense?.transactions || 0;
+  }
+
+
+  getTotalBalance(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.balance || 0;
   }
@@ -148,18 +169,18 @@ export class TransactionStaticsComponent {
   // Método para obtener el color del balance
 
 
-  getTotalWithReceipt(period?: any): number {
+  getTotalWithReceipt(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.transactionsWithReceipt || 0;
   }
 
-  getTotalWithoutReceipt(period?: any): number {
+  getTotalWithoutReceipt(period?: Period): number {
     const target = period || this.getCurrentPeriod();
     return target?.transactionsWithoutReceipt || 0;
   }
 
   // Método para obtener el porcentaje de transacciones con recibo
-  getReceiptPercentage(period?: any): number {
+  getReceiptPercentage(period?: Period): number {
     const total = this.getTotalTransactions(period);
     const withReceipt = this.getTotalWithReceipt(period);
     return total > 0 ? (withReceipt / total) * 100 : 0;
