@@ -1,8 +1,8 @@
 <!-- Estadísticas de Transacciones -->
-<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-4 mb-8 transition-all duration-500 hover:shadow-3xl">
+<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-4 mb-6 transition-all duration-500 hover:shadow-3xl">
   
   <!-- Header con controles -->
-  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-4">
     <div class="space-y-2">
       <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent">
         Estadísticas de Transacciones
@@ -23,7 +23,7 @@
         (click)="toggleEndDateControls()" 
         class="self-end text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors duration-300"
       >
-        <i class="pi" [ngClass]="showEndDateControls() ? 'pi-calendar-times' : 'pi-calendar-plus'"></i>
+        <i class="pi" [class]="showEndDateControls() ? 'pi-calendar-times' : 'pi-calendar-plus'"></i>
         {{ showEndDateControls() ? 'Usar un solo mes' : 'Comparar período' }}
       </button>
       

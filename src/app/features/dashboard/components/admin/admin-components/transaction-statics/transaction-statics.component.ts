@@ -14,7 +14,7 @@ import { Period } from '@models/grafic';
 })
 export class TransactionStaticsComponent {
   protected readonly _graficsService = inject(GraficsService);
-  Math = Math;
+  //Math = Math;
   lenguaje = signal<string>('es');
   timeNow = signal<Date>(new Date());
   
@@ -55,6 +55,7 @@ export class TransactionStaticsComponent {
     // Asegurarse de que los valores son strings antes de pasarlos al servicio
     const month = this.currentMonth().toString().padStart(2, '0');
     const year = this.currentYear().toString();
+    
     
     // Actualizar las señales con los valores formateados
     this.currentMonth.set(month);
