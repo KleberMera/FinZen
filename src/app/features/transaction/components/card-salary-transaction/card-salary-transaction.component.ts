@@ -67,19 +67,12 @@ export class CardSalaryTransactionComponent {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-
   isFormVisible = signal<boolean>(true);
   toggleFormVisibility(): void {
     this.isFormVisible.set(!this.isFormVisible());
   }
 
-
-
-
-
   activeMetric = signal<'actual' | 'expected' | 'days'>('actual');
-
-
 
   setActiveMetric(metric: 'actual' | 'expected' | 'days'): void {
     this.activeMetric.set(metric);
@@ -124,6 +117,17 @@ export class CardSalaryTransactionComponent {
       return 'bg-red-900/20 text-red-400';
     }
   }
+  
+  getRecommendationIconClass(): string {
+    const expensePercentage = parseFloat(String(this.salaryData.value()?.data!.expensePercentage));
+    if (expensePercentage < 50) {
+      return 'bg-blue-100 dark:bg-blue-900/30 text-blue-500';
+    } else if (expensePercentage < 80) {
+      return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-500';
+    } else {
+      return 'bg-red-100 dark:bg-red-900/30 text-red-500';
+    }
+  }
 
   getRecommendationIcon(): string {
     const expensePercentage = parseFloat(String(this.salaryData.value()?.data!.expensePercentage));
@@ -142,6 +146,5 @@ export class CardSalaryTransactionComponent {
 
   getDaysInMonth(): number {
     return monthEnd(this.timeNow()).getDate();
-    
   }
 }
