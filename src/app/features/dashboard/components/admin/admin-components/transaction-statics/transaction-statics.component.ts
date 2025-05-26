@@ -148,18 +148,20 @@ export class TransactionStaticsComponent {
   // Método para obtener el color del balance
 
 
-  getTotalWithReceipt(): number {
-    return this.transactionStatistics.value()?.data?.total?.transactionsWithReceipt || 0;
+  getTotalWithReceipt(period?: any): number {
+    const target = period || this.getCurrentPeriod();
+    return target?.transactionsWithReceipt || 0;
   }
 
-  getTotalWithoutReceipt(): number {
-    return this.transactionStatistics.value()?.data?.total?.transactionsWithoutReceipt || 0;
+  getTotalWithoutReceipt(period?: any): number {
+    const target = period || this.getCurrentPeriod();
+    return target?.transactionsWithoutReceipt || 0;
   }
 
   // Método para obtener el porcentaje de transacciones con recibo
-  getReceiptPercentage(): number {
-    const total = this.getTotalTransactions();
-    const withReceipt = this.getTotalWithReceipt();
+  getReceiptPercentage(period?: any): number {
+    const total = this.getTotalTransactions(period);
+    const withReceipt = this.getTotalWithReceipt(period);
     return total > 0 ? (withReceipt / total) * 100 : 0;
   }
 
