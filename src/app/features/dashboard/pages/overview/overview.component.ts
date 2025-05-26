@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DashboardHeaderComponent } from "../../components/dashboard-header/dashboard-header.component";
 import { CardSalaryComponent } from "../../components/card-salary/card-salary.component";
 import { CardMovementsComponent } from "../../components/card-movements/card-movements.component";
@@ -8,13 +9,27 @@ import { OverviewAdminComponent } from "../../components/admin/overview-admin/ov
 
 @Component({
   selector: 'app-overview',
-  imports: [DashboardHeaderComponent, CardSalaryComponent, CardMovementsComponent, CardMonthSummaryComponent, OverviewAdminComponent],
+  standalone: true,
+  imports: [
+    CommonModule,
+    DashboardHeaderComponent, 
+    CardSalaryComponent, 
+    CardMovementsComponent, 
+    CardMonthSummaryComponent, 
+    OverviewAdminComponent
+  ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
 export default class OverviewComponent {
   protected readonly _storageService = inject(StorageService);
-
   rolIdUser = signal<number>(this._storageService.getRole()!);
-
+  
+  // Control de pestañas
+  activeTab: 'admin' | 'user' = 'admin';
+  
+  // Método para cambiar entre pestañas
+  setActiveTab(tab: 'admin' | 'user'): void {
+    this.activeTab = tab;
+  }
 }

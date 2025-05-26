@@ -1,23 +1,50 @@
-@if (rolIdUser() === 1) {
-
-<!-- Contenido exclusivo del rol 1 (Administrador) -->
 <app-dashboard-header></app-dashboard-header>
 
-<app-overview-admin></app-overview-admin>
-<app-card-month-summary></app-card-month-summary>
 
 
-  <app-card-salary></app-card-salary>
-  <app-card-movements></app-card-movements>
+  @if (rolIdUser() === 1) {
+  <!-- Menú de pestañas para administradores -->
+  <div class="space-y-8">
+    <div class="flex space-x-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
+      <button 
+        class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+        [ngClass]="{
+          'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400': activeTab === 'admin',
+          'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200': activeTab !== 'admin'
+        }"
+        (click)="setActiveTab('admin')">
+        <i class="pi pi-shield mr-2"></i> Vista de Administrador
+      </button>
+      <button 
+        class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+        [ngClass]="{
+          'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400': activeTab === 'user',
+          'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200': activeTab !== 'user'
+        }"
+        (click)="setActiveTab('user')">
+        <i class="pi pi-user mr-2"></i> Vista de Usuario
+      </button>
+    </div>
 
+    <div class="space-y-6">
+      @if (activeTab === 'admin') {
+        <!-- Contenido de administrador -->
+        <app-overview-admin></app-overview-admin>
+ 
+      } @else {
+        <!-- Contenido de usuario normal -->
+   
+          <app-card-month-summary></app-card-month-summary>
+          <app-card-salary></app-card-salary>
+      
+        <app-card-movements></app-card-movements>
+      }
+    </div>
+  </div>
 
-} @else if (rolIdUser() === 2) {
-<!-- Contenido exclusivo del rol 2 -->
-<app-dashboard-header></app-dashboard-header>
-<app-card-month-summary></app-card-month-summary>
-
-
-  <app-card-salary></app-card-salary>
-  <app-card-movements></app-card-movements>
-
-}
+  } @else if (rolIdUser() === 2) {
+  <!-- Contenido para usuarios normales -->
+    <app-card-month-summary></app-card-month-summary>
+    <app-card-salary></app-card-salary>
+    <app-card-movements></app-card-movements>
+  }
