@@ -1,132 +1,188 @@
-<!-- Resumen Mensual -->
-@if (balance.isLoading()) {
-  <!-- Skeleton Loader -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-    <!-- Balance Total Skeleton -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-slate-50 to-gray-50 dark:from-blue-900/20 dark:via-slate-900/20 dark:to-gray-900/20 border-2 border-blue-200 dark:border-blue-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-400/10 to-slate-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center space-x-3">
-          <div class="p-3 bg-blue-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-            <i class="pi pi-wallet text-white text-xl"></i>
-          </div>
-          <span class="font-bold text-lg text-blue-900 dark:text-blue-100">Balance Total</span>
-        </div>
-        <div class="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        <div class="w-48 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-      </div>
-    </div>
-    
-    <!-- Ingresos Skeleton -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 border-2 border-green-200 dark:border-green-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-400/10 to-emerald-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center space-x-3">
-          <div class="p-3 bg-green-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-            <i class="pi pi-arrow-down text-white text-xl"></i>
-          </div>
-          <span class="font-bold text-lg text-green-900 dark:text-green-100">Ingresos</span>
-        </div>
-        <div class="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        <div class="w-48 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-      </div>
-    </div>
-    
-    <!-- Gastos Skeleton -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 dark:from-red-900/20 dark:via-rose-900/20 dark:to-pink-900/20 border-2 border-red-200 dark:border-red-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-400/10 to-rose-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center space-x-3">
-          <div class="p-3 bg-red-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-            <i class="pi pi-arrow-up text-white text-xl"></i>
-          </div>
-          <span class="font-bold text-lg text-red-900 dark:text-red-100">Gastos</span>
-        </div>
-        <div class="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-        <div class="w-48 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-      </div>
-    </div>
-  </div>
-} @else {
-  @let data = balance.value()!.data;
+<!-- Resumen Mensual Modernizado -->
+<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-6 mb-6 transition-all duration-500 hover:shadow-3xl">
   
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-    <!-- Balance Total -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-slate-50 to-gray-50 dark:from-blue-900/20 dark:via-slate-900/20 dark:to-gray-900/20 border-2 border-blue-200 dark:border-blue-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-400/10 to-slate-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="p-3 bg-blue-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-              <i class="pi pi-wallet text-white text-xl"></i>
-            </div>
-            <span class="font-bold text-lg text-blue-900 dark:text-blue-100">Balance Total</span>
-          </div>
-          <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">
-            {{ currenMonthName() | titlecase }}
-          </span>
-        </div>
-        <div class="pt-2">
-          <span class="font-bold text-3xl bg-gradient-to-r from-blue-600 to-slate-600 dark:from-blue-400 dark:to-slate-400 bg-clip-text text-transparent">
-            {{ data!.currentMonthData.balance | currency }}
-          </span>
-          @if (data!.previousMonthData) {
-            <div class="text-sm text-blue-700 dark:text-blue-300 mt-1">
-              Mes anterior: {{ data!.previousMonthData.balance | currency }}
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-    
-    <!-- Ingresos -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 border-2 border-green-200 dark:border-green-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-400/10 to-emerald-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="p-3 bg-green-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-              <i class="pi pi-arrow-down text-white text-xl"></i>
-            </div>
-            <span class="font-bold text-lg text-green-900 dark:text-green-100">Ingresos</span>
-          </div>
-        </div>
-        <div class="pt-2">
-          <div class="font-bold text-3xl bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-            {{ data!.currentMonthData.totalIncome | currency:data!.currentMonthData.currency }}
-          </div>
-          @if (data!.previousMonthData) {
-            <div class="text-sm text-green-700 dark:text-green-300 mt-1">
-              Mes anterior: {{ data!.previousMonthData.totalIncome | currency:data!.previousMonthData.currency }}
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-    
-    <!-- Gastos -->
-    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 dark:from-red-900/20 dark:via-rose-900/20 dark:to-pink-900/20 border-2 border-red-200 dark:border-red-700 p-6 group hover:shadow-xl transition-all duration-300">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-400/10 to-rose-400/10 rounded-full -translate-y-12 translate-x-12 group-hover:scale-110 transition-transform duration-500"></div>
-      <div class="relative space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="p-3 bg-red-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-              <i class="pi pi-arrow-up text-white text-xl"></i>
-            </div>
-            <span class="font-bold text-lg text-red-900 dark:text-red-100">Gastos</span>
-          </div>
-        </div>
-        <div class="pt-2">
-          <div class="font-bold text-3xl bg-gradient-to-r from-red-600 to-rose-600 dark:from-red-400 dark:to-rose-400 bg-clip-text text-transparent">
-            {{ data!.currentMonthData.totalExpenses | currency:data!.currentMonthData.currency }}
-          </div>
-          @if (data!.previousMonthData) {
-            <div class="text-sm text-red-700 dark:text-red-300 mt-1">
-              Mes anterior: {{ data!.previousMonthData.totalExpenses | currency:data!.previousMonthData.currency }}
-            </div>
-          }
-        </div>
-      </div>
-    </div>
+  <!-- Header con título mejorado -->
+  <div class="mb-6">
+    <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent mb-2">
+      Resumen Mensual
+    </h3>
+
   </div>
-}
+
+  @if (balance.isLoading()) {
+    <!-- Skeleton Loader Mejorado -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Balance Total Skeleton -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/5 to-slate-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center space-x-4">
+            <div class="p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <i class="pi pi-wallet text-white text-2xl"></i>
+            </div>
+            <div class="space-y-2">
+              <span class="font-bold text-xl text-blue-900 dark:text-blue-100">Balance Total</span>
+              <div class="w-24 h-3 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="w-40 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mb-2"></div>
+            <div class="w-56 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Ingresos Skeleton -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/5 to-emerald-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center space-x-4">
+            <div class="p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <i class="pi pi-arrow-down text-white text-2xl"></i>
+            </div>
+            <div class="space-y-2">
+              <span class="font-bold text-xl text-green-900 dark:text-green-100">Ingresos</span>
+              <div class="w-20 h-3 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="w-40 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mb-2"></div>
+            <div class="w-56 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gastos Skeleton -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-400/5 to-rose-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center space-x-4">
+            <div class="p-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+              <i class="pi pi-arrow-up text-white text-2xl"></i>
+            </div>
+            <div class="space-y-2">
+              <span class="font-bold text-xl text-red-900 dark:text-red-100">Gastos</span>
+              <div class="w-16 h-3 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="w-40 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mb-2"></div>
+            <div class="w-56 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    @let data = balance.value()!.data;
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Balance Total -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500 hover:bg-white/80 dark:hover:bg-gray-800/80">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/5 to-slate-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <i class="pi pi-wallet text-white text-2xl"></i>
+              </div>
+              <div>
+                <span class="font-bold text-xl text-blue-900 dark:text-blue-100">Balance Total</span>
+                <div class="text-xs font-medium text-blue-700 dark:text-blue-300 mt-1">
+                  Estado financiero actual
+                </div>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-blue-100/80 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 border border-blue-200/50 dark:border-blue-700/50">
+              {{ currenMonthName() | titlecase }}
+            </span>
+          </div>
+          <div class="pt-3">
+            <div class="font-bold text-4xl bg-gradient-to-r from-blue-600 via-blue-700 to-slate-600 dark:from-blue-400 dark:via-blue-300 dark:to-slate-400 bg-clip-text text-transparent mb-2">
+              {{ data!.currentMonthData.balance | currency }}
+            </div>
+            @if (data!.previousMonthData) {
+              <div class="flex items-center space-x-2 text-sm">
+                <i class="pi pi-clock text-blue-600 dark:text-blue-400"></i>
+                <span class="text-blue-700 dark:text-blue-300 font-medium">
+                  Mes anterior: {{ data!.previousMonthData.balance | currency }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      
+      <!-- Ingresos -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500 hover:bg-white/80 dark:hover:bg-gray-800/80">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/5 to-emerald-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="p-4 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <i class="pi pi-arrow-down text-white text-2xl"></i>
+              </div>
+              <div>
+                <span class="font-bold text-xl text-green-900 dark:text-green-100">Ingresos</span>
+                <div class="text-xs font-medium text-green-700 dark:text-green-300 mt-1">
+                  Entradas de dinero
+                </div>
+              </div>
+            </div>
+            <div class="text-xs font-semibold px-3 py-1.5 rounded-full bg-green-100/80 dark:bg-green-900/40 text-green-800 dark:text-green-200 border border-green-200/50 dark:border-green-700/50">
+              +
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="font-bold text-4xl bg-gradient-to-r from-green-600 via-green-700 to-emerald-600 dark:from-green-400 dark:via-green-300 dark:to-emerald-400 bg-clip-text text-transparent mb-2">
+              {{ data!.currentMonthData.totalIncome | currency:data!.currentMonthData.currency }}
+            </div>
+            @if (data!.previousMonthData) {
+              <div class="flex items-center space-x-2 text-sm">
+                <i class="pi pi-clock text-green-600 dark:text-green-400"></i>
+                <span class="text-green-700 dark:text-green-300 font-medium">
+                  Mes anterior: {{ data!.previousMonthData.totalIncome | currency:data!.previousMonthData.currency }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gastos -->
+      <div class="relative overflow-hidden rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-6 group hover:shadow-xl transition-all duration-500 hover:bg-white/80 dark:hover:bg-gray-800/80">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-400/5 to-rose-400/5 rounded-full -translate-y-16 translate-x-16 group-hover:scale-110 transition-transform duration-700"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <div class="p-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <i class="pi pi-arrow-up text-white text-2xl"></i>
+              </div>
+              <div>
+                <span class="font-bold text-xl text-red-900 dark:text-red-100">Gastos</span>
+                <div class="text-xs font-medium text-red-700 dark:text-red-300 mt-1">
+                  Salidas de dinero
+                </div>
+              </div>
+            </div>
+            <div class="text-xs font-semibold px-3 py-1.5 rounded-full bg-red-100/80 dark:bg-red-900/40 text-red-800 dark:text-red-200 border border-red-200/50 dark:border-red-700/50">
+              -
+            </div>
+          </div>
+          <div class="pt-3">
+            <div class="font-bold text-4xl bg-gradient-to-r from-red-600 via-red-700 to-rose-600 dark:from-red-400 dark:via-red-300 dark:to-rose-400 bg-clip-text text-transparent mb-2">
+              {{ data!.currentMonthData.totalExpenses | currency:data!.currentMonthData.currency }}
+            </div>
+            @if (data!.previousMonthData) {
+              <div class="flex items-center space-x-2 text-sm">
+                <i class="pi pi-clock text-red-600 dark:text-red-400"></i>
+                <span class="text-red-700 dark:text-red-300 font-medium">
+                  Mes anterior: {{ data!.previousMonthData.totalExpenses | currency:data!.previousMonthData.currency }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

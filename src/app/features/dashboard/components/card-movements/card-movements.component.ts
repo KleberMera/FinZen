@@ -2,41 +2,16 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { GraficsService } from '../../services/grafics.service';
 import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexStroke,
-  ApexYAxis,
-  ApexTitleSubtitle,
-  ApexLegend,
-  ApexTooltip,
-  ApexFill,
-  ApexPlotOptions,
-  ApexGrid,
-  NgApexchartsModule,
-} from 'ng-apexcharts';
-import { CurrencyPipe, NgClass } from '@angular/common';
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  fill: ApexFill;
-  title: ApexTitleSubtitle;
-  plotOptions: ApexPlotOptions;
-  colors: string[];
-  grid: ApexGrid;
-};
+import { CurrencyPipe } from '@angular/common';
+import { Chart, registerables } from 'chart.js';
+
+// Register Chart.js components
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-card-movements',
-  imports: [NgApexchartsModule, NgClass, CurrencyPipe],
+  standalone: true,
+  imports: [CurrencyPipe],
   templateUrl: './card-movements.component.html',
   styleUrl: './card-movements.component.scss',
 })
@@ -52,134 +27,115 @@ export class CardMovementsComponent {
       this._graficsService.getGraficWeeklYByUserId(request.userId),
   });
 
-  // Estado derivado de manera reactiva usando computed
-  private data = computed(() => this.grafics.value()?.data || []);
+  private barChart: Chart | null = null;
+  
+  // Colors for the chart
+  private readonly COLORS = {
+    gasto: '#ef4444',
+    ingreso: '#10b981'
+  };
 
-  // Totales y balance calculados reactivamente
-  totalIngresos = computed(() =>
-    this.data().reduce((sum, item) => sum + item.ingreso, 0)
-  );
-  totalGastos = computed(() =>
-    this.data().reduce((sum, item) => sum + item.gasto, 0)
-  );
-  balance = computed(() => this.totalIngresos() - this.totalGastos());
+  constructor() {
+    // Watch for changes in the data and update the chart
+    effect(() => {
+      const data = this.grafics.value()?.data;
+      if (data && data.length > 0) {
+        // Destroy previous chart if exists
+        if (this.barChart) {
+          this.barChart.destroy();
+          this.barChart = null;
+        }
+        // Create new chart
+        setTimeout(() => this.createBarChart(), 0);
+      }
+    });
+  }
 
-  // Opciones del gráfico calculadas reactivamente
-  chartOptions = computed(() => this.createChartOptions(this.data()));
 
-  // Método separado para crear las opciones del gráfico
-  private createChartOptions(data: any[]): Partial<ChartOptions> {
-    const diasAbreviados = data.map((item) => item.day.substring(0, 3));
-    const ingresos = data.map((item) => item.ingreso);
-    const gastos = data.map((item) => item.gasto);
+  private createBarChart() {
+    const data = this.grafics.value()?.data || [];
+    const ctx = document.getElementById('weeklyMovementsChart') as HTMLCanvasElement;
+    
+    if (!ctx) return;
 
-    const maxValue = Math.max(...ingresos, ...gastos, 10); // Valor mínimo para evitar gráficos vacíos
-    const isDarkMode =
-      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    return {
-      series: [
-        { name: 'Ingresos', data: ingresos },
-        { name: 'Gastos', data: gastos },
-      ],
-      chart: {
-        type: 'bar',
-        height: 190,
-        stacked: false,
-        toolbar: { show: false },
-        zoom: { enabled: false },
-        fontFamily: 'inherit',
-        background: 'transparent',
-        animations: {
-          enabled: true,
-          speed: 800,
-          animateGradually: { enabled: true, delay: 150 },
-          dynamicAnimation: { enabled: true, speed: 350 },
-        },
+    this.barChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(item => item.day),
+        datasets: [
+          {
+            label: 'Gastos',
+            data: data.map(item => item.gasto || 0),
+            backgroundColor: this.COLORS.gasto,
+            borderRadius: 6,
+            borderWidth: 1
+          },
+          {
+            label: 'Ingresos',
+            data: data.map(item => item.ingreso || 0),
+            backgroundColor: this.COLORS.ingreso,
+            borderRadius: 6,
+            borderWidth: 1
+          }
+        ]
       },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          borderRadius: 4,
-          dataLabels: {
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              color: '#6b7280'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
+            },
+            ticks: {
+              color: '#6b7280'
+            }
+          }
+        },
+        plugins: {
+          legend: {
             position: 'top',
-            maxItems: 100,
-            hideOverflowingLabels: true,
+            labels: {
+              color: '#6b7280',
+              usePointStyle: true,
+              padding: 20
+            }
           },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleFont: { size: 14 },
+            bodyFont: { size: 14 },
+            padding: 12,
+            cornerRadius: 8
+          }
         },
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: (val: number) =>
-          typeof val === 'number' && val > 0 ? '$' + val.toFixed(0) : '',
-        offsetY: -20,
-        style: {
-          fontSize: '10px',
-          colors: [isDarkMode ? '#e2e8f0' : '#334155'],
+        interaction: {
+          intersect: false,
+          mode: 'index'
         },
-      },
-      stroke: {
-        show: false,
-        width: 2,
-        colors: ['transparent'],
-      },
-      grid: {
-        borderColor: isDarkMode ? '#334155' : '#e2e8f0',
-        strokeDashArray: 4,
-        yaxis: { lines: { show: true } },
-        xaxis: { lines: { show: false } },
-      },
-      xaxis: {
-        categories: diasAbreviados,
-        labels: {
-          style: {
-            colors: isDarkMode ? '#94a3b8' : '#64748b',
-            fontSize: '12px',
-          },
-        },
-        axisBorder: { show: false },
-        axisTicks: { show: false },
-      },
-      yaxis: {
-        max: maxValue * 1.2,
-        labels: {
-          style: {
-            colors: isDarkMode ? '#94a3b8' : '#64748b',
-            fontSize: '12px',
-          },
-          formatter: (val) => (val > 0 ? '$' + val.toFixed(0) : '0'),
-        },
-      },
-      fill: {
-        opacity: 0.8,
-        type: 'gradient',
-        gradient: {
-          shade: 'light',
-          type: 'vertical',
-          shadeIntensity: 0.2,
-          gradientToColors: undefined,
-          inverseColors: false,
-          opacityFrom: 0.85,
-          opacityTo: 0.85,
-          stops: [0, 100],
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: (val) => `$${val.toFixed(2)}`,
-        },
-        theme: isDarkMode ? 'dark' : 'light',
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        offsetY: -5,
-        labels: {
-          colors: isDarkMode ? '#e2e8f0' : '#334155',
-        },
-      },
-      colors: ['#10b981', '#f43f5e'],
-    };
+        animation: {
+          duration: 800,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
+  }
+
+
+  getTotalGastos() {
+    return this.grafics.value()?.data!.reduce((total, item) => total + (item.gasto || 0), 0);
+  }
+
+  getTotalIngresos() {  
+    return this.grafics.value()?.data!.reduce((total, item) => total + (item.ingreso || 0), 0);
   }
 }
