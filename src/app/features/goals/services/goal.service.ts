@@ -20,8 +20,10 @@ export class GoalService {
 
   createGoalContribution(
     goalContribution: GoalContribution
+  
+
   ): Observable<apiResponse<GoalContribution>> {
-    const url = `${environment.apiUrl}/goal/contribution`;
+    const url = `${environment.apiUrl}/goal/contribution/${goalContribution.goal_id}`;
     return this._htpp.post<apiResponse<GoalContribution>>(url, goalContribution);
   }
 
@@ -50,5 +52,17 @@ export class GoalService {
     );
     return form;
 
+  }
+
+  formGoalContribution(goalContribution: Partial<GoalContribution> = {}) {
+    const form = signal<FormGroup>(
+      new FormGroup({
+        goal_id : new FormControl(goalContribution.goal_id, [Validators.required]),
+        amount: new FormControl(goalContribution.amount, [Validators.required]),
+        date: new FormControl(format(goalContribution.date!, 'YYYY-MM-DD', 'es'), [Validators.required]),
+        note: new FormControl(goalContribution.note || ''),
+      })
+    );
+    return form;
   }
 }

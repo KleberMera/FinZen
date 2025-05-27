@@ -4,11 +4,12 @@ import { GoalService } from '../../services/goal.service';
 import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Goal, GoalContribution } from '@models/meta';
+import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormContributionComponent],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
@@ -17,7 +18,7 @@ export class GoalViewComponent {
   protected readonly storageService = inject(StorageService);
   userId = signal<number>(this.storageService.getUserId());
   goalId = signal<number | null>(null);
-
+  showSidebar = signal<boolean>(false);
   goal = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) => this.goalService.getGoalByUserId(request.userId),
@@ -59,5 +60,19 @@ export class GoalViewComponent {
       case 'Cancelled': return 'Cancelado';
       default: return status;
     }
+  }
+
+  reloadContributions() {
+    this.goalContributions.reload();
+  }
+
+  toggleSidebar() {
+    this.showSidebar.set(!this.showSidebar());
+  }
+  
+  // Método para manejar cuando se guarda una contribución
+  handleContributionSaved() {
+    this.toggleSidebar(); // Cerrar el sidebar
+    this.reloadContributions(); // Recargar las contribuciones
   }
 }

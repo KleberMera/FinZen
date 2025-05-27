@@ -13,7 +13,7 @@ export interface Goal {
 
 
 export interface GoalContribution {
-    meta_id: number;
+    goal_id: number;
     amount: number;
     note?: string;
     date: string;

@@ -121,12 +121,20 @@
           
           <!-- Contribuciones a la meta -->
           <div class="mt-8">
-            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-              <i class="pi pi-wallet mr-2 text-blue-500 dark:text-blue-400"></i> Aportes
-            </h3>
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 flex items-center">
+                <i class="pi pi-wallet mr-2 text-blue-500 dark:text-blue-400"></i> Aportes
+              </h3>
+              <button 
+                (click)="toggleSidebar()"
+                class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+                <i class="pi pi-plus"></i>
+                <span>Añadir aporte</span>
+              </button>
+            </div>
             @if (goalContributions.value()?.data! && goalContributions.value()?.data!.length > 0) {
               <div class="space-y-4">
-                @for (contribution of goalContributions.value()?.data!; track contribution.meta_id) {
+                @for (contribution of goalContributions.value()?.data!; track contribution.goal_id) {
                   <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl border border-gray-200/30 dark:border-gray-700/30 p-4 hover:shadow-md transition-all duration-300">
                     <div class="flex justify-between items-center">
                       <div class="font-bold text-xl bg-gradient-to-r from-green-600 via-green-700 to-emerald-600 dark:from-green-400 dark:via-green-300 dark:to-emerald-400 bg-clip-text text-transparent">
@@ -154,6 +162,27 @@
           </div>
         </div>
       }
+    }
+  </div>
+</div>
+
+
+<div class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 {{ showSidebar() ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" (click)="toggleSidebar()"></div>
+
+<div class="fixed top-0 right-0 h-full w-full md:w-96 bg-white dark:bg-gray-800 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out {{ showSidebar() ? 'translate-x-0' : 'translate-x-full' }} overflow-auto">
+  <div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">Añadir aporte</h2>
+      <button (click)="toggleSidebar()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <i class="pi pi-times text-gray-500 dark:text-gray-400"></i>
+      </button>
+    </div>
+    
+    @if (selectedGoal()) {
+      <app-form-contribution 
+        [goalId]="selectedGoal()!.id!" 
+        (onSave)="handleContributionSaved()"
+      ></app-form-contribution>
     }
   </div>
 </div>
