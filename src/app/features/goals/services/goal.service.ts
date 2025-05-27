@@ -25,6 +25,15 @@ export class GoalService {
     return this._htpp.post<apiResponse<GoalContribution>>(url, goalContribution);
   }
 
+  getGoalByUserId(userId: number): Observable<apiResponse<Goal[]>> {
+    const url = `${environment.apiUrl}/goal/user/${userId}`;
+    return this._htpp.get<apiResponse<Goal[]>>(url);
+  }
+
+  getGoalTrackingByUserIdAndGoalId(userId: number, goalId: number): Observable<apiResponse<GoalContribution[]>> {
+    const url = `${environment.apiUrl}/goal/contribution/user/${userId}/${goalId}`;
+    return this._htpp.get<apiResponse<GoalContribution[]>>(url);
+  }
 
   formGoal(goal: Partial<Goal> = {}) {
     const form = signal<FormGroup>(
