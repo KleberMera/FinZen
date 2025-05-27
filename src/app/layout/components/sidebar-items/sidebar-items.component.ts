@@ -111,6 +111,10 @@ export class SidebarItemsComponent {
           label: 'Nueva Meta',
           route: 'metas',
         },
+        {
+          label: 'Seguimiento',
+          route: 'meta-seguimiento',
+        },
                
       ],
     },
