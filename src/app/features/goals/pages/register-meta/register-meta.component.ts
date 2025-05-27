@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { MetaService } from '../../services/meta.service';
+import { GoalService } from '../../services/goal.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormValidationService } from '@services/form-validation.service';
 import { StorageService } from '@services/storage.service';
@@ -12,14 +12,14 @@ import { toast } from 'ngx-sonner';
   styleUrl: './register-meta.component.scss',
 })
 export class RegisterMetaComponent {
-  protected readonly _metaService = inject(MetaService);
+  protected readonly _goalService = inject(GoalService);
   private readonly _storageService = inject(StorageService);
   protected readonly _validationService = inject(FormValidationService);
   protected readonly seletedUser = signal<number>(
     this._storageService.getUserId()
   );
 
-  form = this._metaService.formMeta();
+  form = this._goalService.formGoal();
   protected readonly isSubmitting = signal(false);
 
   constructor() {
@@ -45,9 +45,9 @@ export class RegisterMetaComponent {
 
     try {
       this.isSubmitting.set(true);
-      this._metaService.createMeta(this.form().value).subscribe((res) => {
+      this._goalService.createGoal(this.form().value).subscribe((res) => {
         toast.success(res.message);
-        this.form().reset();
+        this.formReset();
         this.isSubmitting.set(false);
       });
     } catch (error) {
