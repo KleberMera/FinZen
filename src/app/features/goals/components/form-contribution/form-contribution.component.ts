@@ -14,6 +14,7 @@ import { toast } from 'ngx-sonner';
 export class FormContributionComponent {
   protected readonly _goalService = inject(GoalService);
   goalId = input.required<number>();
+  userId = input.required<number>();
   protected readonly form = this._goalService.formGoalContribution();
   protected isSaving = signal<boolean>(false);
   
@@ -33,7 +34,7 @@ export class FormContributionComponent {
     this.isSaving.set(true);
     const contribution: GoalContribution = this.form().value as GoalContribution;
     
-    this._goalService.createGoalContribution(contribution).subscribe({
+    this._goalService.createGoalContribution(contribution, this.userId()).subscribe({
       next: (res) => {
         this.isSaving.set(false);
         toast.success(res.message);

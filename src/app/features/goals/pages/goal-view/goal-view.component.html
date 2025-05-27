@@ -182,6 +182,7 @@
       <app-form-contribution 
         [goalId]="selectedGoal()!.id!" 
         (onSave)="handleContributionSaved()"
+        [userId]="userId()"
       ></app-form-contribution>
     }
   </div>

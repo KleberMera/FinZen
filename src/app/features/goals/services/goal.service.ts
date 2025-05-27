@@ -19,11 +19,10 @@ export class GoalService {
   }
 
   createGoalContribution(
-    goalContribution: GoalContribution
-  
-
+    goalContribution: GoalContribution,
+    userId: number
   ): Observable<apiResponse<GoalContribution>> {
-    const url = `${environment.apiUrl}/goal/contribution/${goalContribution.goal_id}`;
+    const url = `${environment.apiUrl}/goal/contribution/${goalContribution.goal_id}/${userId}`;
     return this._htpp.post<apiResponse<GoalContribution>>(url, goalContribution);
   }
 
