@@ -34,16 +34,16 @@ export class FormContributionComponent {
     const contribution: GoalContribution = this.form().value as GoalContribution;
     
     this._goalService.createGoalContribution(contribution).subscribe({
-      next: () => {
+      next: (res) => {
         this.isSaving.set(false);
-        toast.success('Aporte guardado exitosamente');
+        toast.success(res.message);
         this.form().reset();
         this.onSave.emit();
       },
-      error: (error) => {
-        console.error('Error al guardar la contribución:', error);
-        this.isSaving.set(false);
-      }
+      // error: (error) => {
+      //   console.error('Error al guardar la contribución:', error);
+      //   this.isSaving.set(false);
+      // }
     });
   }
   
