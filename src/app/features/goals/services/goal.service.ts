@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { environment } from '@environments/environment.development';
+import { environment } from '@environments/environment';
 import { format } from '@formkit/tempo';
 import { apiResponse } from '@models/apiResponse';
 import { DataProgress, Goal, GoalContribution } from '@models/meta';
