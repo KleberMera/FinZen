@@ -38,7 +38,9 @@ export class FormContributionComponent {
       next: (res) => {
         this.isSaving.set(false);
         toast.success(res.message);
-        this.form().reset();
+        this.form().controls['amount'].reset();
+        this.form().controls['date'].reset();
+        this.form().controls['note'].reset();
         this.onSave.emit();
       },
       // error: (error) => {
@@ -49,7 +51,9 @@ export class FormContributionComponent {
   }
   
   cancel() {
-    this.form().reset();
+    this.form().controls['amount'].reset();
+        this.form().controls['date'].reset();
+        this.form().controls['note'].reset();
     this.onCancel.emit();
   }
 }

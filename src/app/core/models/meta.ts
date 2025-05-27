@@ -13,6 +13,7 @@ export interface Goal {
 
 
 export interface GoalContribution {
+    id? : number;
     goal_id: number;
     amount: number;
     note?: string;

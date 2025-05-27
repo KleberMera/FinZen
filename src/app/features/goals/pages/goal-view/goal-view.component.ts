@@ -5,11 +5,12 @@ import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Goal, GoalContribution } from '@models/meta';
 import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
+import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule, FormContributionComponent],
+  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
