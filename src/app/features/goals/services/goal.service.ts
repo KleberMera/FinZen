@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment.development';
 import { format } from '@formkit/tempo';
 import { apiResponse } from '@models/apiResponse';
-import { Goal, GoalContribution } from '@models/meta';
+import { DataProgress, Goal, GoalContribution } from '@models/meta';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -44,7 +44,6 @@ export class GoalService {
         description: new FormControl(goal.description || ''),
         target_amount: new FormControl(goal.target_amount, [Validators.required]),
         deadline: new FormControl(format(goal.deadline!, 'YYYY-MM-DD', 'es'), [Validators.required]),
-        initial_amount: new FormControl(goal.initial_amount || 0),
         start_date: new FormControl(format(new Date(), 'YYYY-MM-DD', 'es')),
         status: new FormControl(goal.status || 'Active'),
       })
@@ -63,5 +62,10 @@ export class GoalService {
       })
     );
     return form;
+  }
+
+  getGoalProgress(userId: number,goalId: number): Observable<apiResponse<DataProgress>> {
+    const url = `${environment.apiUrl}/goal/progress/${userId}/${goalId}`;
+    return this._htpp.get<apiResponse<DataProgress>>(url);
   }
 }
