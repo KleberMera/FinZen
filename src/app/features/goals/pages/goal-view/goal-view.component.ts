@@ -6,6 +6,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { Goal, GoalContribution } from '@models/meta';
 import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
 import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
+import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-goal-view',
@@ -75,5 +77,21 @@ export class GoalViewComponent {
   handleContributionSaved() {
     this.toggleSidebar(); // Cerrar el sidebar
     this.reloadContributions(); // Recargar las contribuciones
+  }
+
+  deleteContribution(contributionId: number) {
+    // this.goalService.deleteGoalContribution(contributionId).subscribe(() => {
+    //   this.reloadContributions();
+    // });
+
+    const goalPromise = firstValueFrom(this.goalService.deleteGoalContribution(contributionId));
+    toast.promise(goalPromise, {
+      loading: 'Eliminando aporte...',
+      success: (res)=> {
+        this.reloadContributions();
+        return res.message;
+      },
+     
+    });
   }
 }
