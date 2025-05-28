@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, computed } from '@angular/core';
 import { GoalService } from '../../services/goal.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CurrencyPipe, CommonModule, PercentPipe } from '@angular/common';
@@ -27,6 +27,8 @@ export class ProgressGoalComponent {
       loader: ({ request }) => this._goalService.getGoalProgress(request!.userId!, request!.goalId!),
     }
   );
+
+  goalProgressData = computed(() => this.goalProgress.value()?.data!);
 
   // Convertir porcentajes de formato decimal (ej: 38.2) a formato fracción (ej: 0.382)
   getPercentValue(value: number | undefined): number {

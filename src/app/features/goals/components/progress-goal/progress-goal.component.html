@@ -6,7 +6,7 @@
         </div>
         <p class="text-gray-600 dark:text-gray-300 text-sm font-medium animate-pulse">Calculando progreso...</p>
       </div>
-    } @else if (goalProgress.value()?.data) {
+    } @else if (goalProgressData()) {
       <!-- Header con indicador de estado -->
       <div class="flex items-center justify-between mb-6">
         <div class="flex items-center space-x-3">
@@ -17,8 +17,8 @@
         </div>
         
         <span class="px-3 py-1.5 rounded-full text-xs font-semibold border
-                    {{ getStatusClass(goalProgress.value()?.data!.progress.progressStatus) }}">
-          {{ goalProgress.value()?.data!.progress.progressStatus }}
+                    {{ getStatusClass(goalProgressData().progress.progressStatus) }}">
+          {{ goalProgressData().progress.progressStatus }}
         </span>
       </div>
   
@@ -34,8 +34,8 @@
               </div>
               <div class="text-xs text-blue-600 dark:text-blue-400 uppercase tracking-wide font-medium">Días restantes</div>
             </div>
-            <div class="text-lg font-bold {{ goalProgress.value()?.data!.progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-blue-700 dark:text-blue-300' }}">
-              {{ goalProgress.value()?.data!.progress.daysRemaining }}
+            <div class="text-lg font-bold {{ goalProgressData().progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-blue-700 dark:text-blue-300' }}">
+              {{ goalProgressData().progress.daysRemaining }}
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
               <div class="text-xs text-green-600 dark:text-green-400 uppercase tracking-wide font-medium">Total aportes</div>
             </div>
             <div class="text-lg font-bold text-green-700 dark:text-green-300">
-              {{ goalProgress.value()?.data!.progress.contributionsCount }}
+              {{ goalProgressData().progress.contributionsCount }}
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
               <div class="text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide font-medium">Restante</div>
             </div>
             <div class="text-lg font-bold text-orange-700 dark:text-orange-300">
-              {{ goalProgress.value()?.data!.progress.remainingAmount | currency }}
+              {{ goalProgressData().progress.remainingAmount | currency }}
             </div>
           </div>
         </div>
@@ -82,12 +82,14 @@
               </div>
               <div class="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-wide font-medium">Último aporte</div>
             </div>
+           @if (goalProgressData().progress.lastContribution) {
             <div class="text-lg font-bold text-purple-700 dark:text-purple-300">
-              {{ goalProgress.value()?.data!.progress.lastContribution!.amount | currency }}
+              {{ goalProgressData().progress.lastContribution.amount | currency }}
             </div>
             <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-              {{ goalProgress.value()?.data!.progress.lastContribution!.date }}
+              {{ goalProgressData().progress.lastContribution.date }}
             </div>
+           }
           </div>
         </div>
       </div>
@@ -106,19 +108,19 @@
                 <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Progreso Financiero</span>
               </div>
               <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                {{ getPercentValue(goalProgress.value()?.data!.progress.financialProgress) | percent }}
+                {{ getPercentValue(goalProgressData().progress.financialProgress) | percent }}
               </span>
             </div>
             
             <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
               <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 rounded-full transition-all duration-1000 ease-out"
-                   [style.width.%]="goalProgress.value()?.data!.progress.financialProgress">
+                   [style.width.%]="goalProgressData().progress.financialProgress">
               </div>
             </div>
             
             <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span class="font-medium">{{ goalProgress.value()?.data!.progress.totalContributed | currency }}</span>
-              <span class="font-medium">{{ goalProgress.value()?.data!.progress.targetAmount | currency }}</span>
+              <span class="font-medium">{{ goalProgressData().progress.totalContributed | currency }}</span>
+              <span class="font-medium">{{ goalProgressData().progress.targetAmount | currency }}</span>
             </div>
           </div>
         </div>
@@ -134,20 +136,20 @@
                 </div>
                 <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Progreso Temporal</span>
               </div>
-              <span class="text-sm font-bold {{ goalProgress.value()?.data!.progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
-                {{ getPercentValue(goalProgress.value()?.data!.progress.timeProgress) | percent }}
+              <span class="text-sm font-bold {{ goalProgressData().progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
+                {{ getPercentValue(goalProgressData().progress.timeProgress) | percent }}
               </span>
             </div>
             
             <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
-              <div class="absolute inset-0 rounded-full transition-all duration-1000 ease-out {{ goalProgress.value()?.data!.progress.isOverdue ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-green-500 to-emerald-500' }}"
-                   [style.width.%]="goalProgress.value()?.data!.progress.timeProgress">
+              <div class="absolute inset-0 rounded-full transition-all duration-1000 ease-out {{ goalProgressData().progress.isOverdue ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-green-500 to-emerald-500' }}"
+                   [style.width.%]="goalProgressData().progress.timeProgress">
               </div>
             </div>
             
             <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span class="font-medium">{{ goalProgress.value()?.data!.progress.startDate }}</span>
-              <span class="font-medium">{{ goalProgress.value()?.data!.progress.deadline }}</span>
+              <span class="font-medium">{{ goalProgressData().progress.startDate }}</span>
+              <span class="font-medium">{{ goalProgressData().progress.deadline }}</span>
             </div>
           </div>
         </div>
