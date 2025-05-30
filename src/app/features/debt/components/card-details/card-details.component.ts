@@ -31,6 +31,11 @@ export class CardDetailsComponent {
       .reduce((sum, a) => sum + Number(a.quota), 0);
   }
 
+  //Metotal a pagar de todas las amortizaciones
+  protected getTotalAmortizaciones(debt: Debt): number {
+    return debt.amortizations.reduce((sum, a) => sum + Number(a.quota), 0);
+  }
+
   // Método para obtener el total de cuotas atrasadas
   protected getCuotasAtrasadas(debt: Debt): number {
     console.log('Cuotas atrasadas:', debt.amortizations);
