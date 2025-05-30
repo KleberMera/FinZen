@@ -75,7 +75,12 @@ export default class RegisterDebtComponent {
         endDate = addDay(format(startDate, 'YYYY-MM-DD'), duration - 1);
       } else {
         // Add months to the start date (existing behavior)
+        // console.log('months');
+        // console.log('startDate', startDate);
+        
         endDate = addMonth(format(startDate, 'YYYY-MM-DD'), duration - 1);
+        // console.log('endDate', endDate);
+        
       }
 
       const formattedEndDate = format(endDate, 'YYYY-MM-DD');
@@ -108,11 +113,18 @@ export default class RegisterDebtComponent {
     // Verificar si el formulario tiene los datos necesarios
     const { amount, interest_rate, duration_months, start_date, method } =
       this.form().value;
+  
+     
 
     if (amount && duration_months && start_date && method) {
       // Calcular la amortización según el método seleccionado
-      if (method === 'frances') {
-        this._methodService.calculateFrenchAmortization(this.form());
+      if (method === 'frances') {        
+        if(interest_rate === 0 || interest_rate=== null) {
+          toast.error('La tasa de interés no puede ser 0 para el método francés');
+        
+        } else {
+          this._methodService.calculateFrenchAmortization(this.form());
+        }
       } else if (method === 'aleman') {
         this._methodService.calculateGermanAmortization(this.form());
       } else if (method === 'ninguno') {

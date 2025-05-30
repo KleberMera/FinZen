@@ -36,7 +36,7 @@ export class MethodService {
           status: new FormControl('Pendiente')
         })
       );
-      console.log(amortizations.value);
+
     }
 
     data.get('amortizations')?.updateValueAndValidity();
@@ -73,7 +73,9 @@ export class MethodService {
     
     amortizations.clear();
   
-    let currentDate = new Date(data.get('start_date')?.value);
+    let currentDate = format(data.get('start_date')?.value, 'YYYY-MM-DD');
+    console.log('currentDate ', currentDate);
+    
   
     for (let period = 1; period <= periods; period++) {
       const interest = outstanding * ratePerPeriod;
@@ -81,9 +83,7 @@ export class MethodService {
       outstanding -= fixedAmortization;
   
       // Actualizar fecha según tipo de duración
-      durationType === 'months' 
-        ? currentDate = addMonth(currentDate, 1)
-        : currentDate = addDay(currentDate, 1);
+      currentDate = format(durationType === 'months' ? addMonth(currentDate, 1) : addDay(currentDate, 1), 'YYYY-MM-DD');
   
       amortizations.push(
         new FormGroup({
