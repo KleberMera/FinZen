@@ -14,10 +14,6 @@ export class MethodService {
                  (Math.pow(1 + monthlyRate, data.get('duration_months')?.value) - 1);
     let outstanding = data.get('amount')?.value;
     const amortizations = data.get('amortizations') as FormArray;
-    console.log(amortizations.value);
-    console.log(data.value);
-    
- 
     
     amortizations.clear();
     for (let month= 1; month <= data.get('duration_months')?.value; month++) {
@@ -64,17 +60,12 @@ export class MethodService {
   
     const fixedAmortization = loanAmount / periods;
     let outstanding = loanAmount;
-  
-  
     
     const amortizations = data.get('amortizations') as FormArray;
-    console.log(amortizations.value);
-    console.log(data.value);
-    
+
     amortizations.clear();
   
     let currentDate = format(data.get('start_date')?.value, 'YYYY-MM-DD');
-    console.log('currentDate ', currentDate);
     
   
     for (let period = 1; period <= periods; period++) {
@@ -83,12 +74,16 @@ export class MethodService {
       outstanding -= fixedAmortization;
   
       // Actualizar fecha según tipo de duración
-      currentDate = format(durationType === 'months' ? addMonth(currentDate, 1) : addDay(currentDate, 1), 'YYYY-MM-DD');
+     currentDate = format(durationType === 'months' ? addMonth(currentDate, 1) : addDay(currentDate, 1), 'YYYY-MM-DD');
   
+      
+      const dateMonth = format(addMonth(currentDate, -1), 'YYYY-MM-DD');
+      const dateDay = format(addDay(currentDate, -1), 'YYYY-MM-DD');
+    
       amortizations.push(
         new FormGroup({
           number_months: new FormControl(period),
-          date: new FormControl(format(currentDate, 'YYYY-MM-DD')),
+          date: new FormControl(durationType === 'months' ? dateMonth : dateDay),
           quota: new FormControl(quota.toFixed(2)),
           interest: new FormControl(interest.toFixed(2)),
           amortized: new FormControl(fixedAmortization.toFixed(2)),
@@ -97,7 +92,7 @@ export class MethodService {
         })
       );
 
-      console.log(amortizations.value);
+
     }
   }
 
