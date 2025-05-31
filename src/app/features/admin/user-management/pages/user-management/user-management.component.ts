@@ -10,7 +10,7 @@ import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-management',
-  imports: [CommonModule, SidebarDataUserComponent],
+  imports: [CommonModule],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss',
   standalone: true,
