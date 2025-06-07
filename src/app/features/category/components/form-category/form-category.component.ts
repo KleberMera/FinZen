@@ -16,7 +16,7 @@ import { Category } from '@models/category';
 export class FormCategoryComponent implements OnInit {
   readonly onReload = output<SubmitEvent>();
   readonly onClose = output<void>();
-  
+    protected readonly isSubmitting = signal(false);
   category = input<Category | null>(null);
   isEditMode = input<boolean>(false);
 
@@ -43,7 +43,7 @@ export class FormCategoryComponent implements OnInit {
 
 
   async saveCategory(event: SubmitEvent) {
-    if (this.form().invalid) {
+    if (this.form().invalid || this.isSubmitting()) {
       return;
     }
     
@@ -56,15 +56,21 @@ export class FormCategoryComponent implements OnInit {
       if (this.isEditMode() && this.category()?.id) {
         await this.updateCategory(event);
       } else {
+        this.isSubmitting.set(true);
         const catPromise = firstValueFrom(this._categService.createCategoria(category));
          toast.promise(catPromise, {
           loading: 'Guardando categoría...',
           success: (res) => {
             this.onReload.emit(event);
             this.form().reset();
+            this.isSubmitting.set(false);
             this.onClose.emit();
             return res.message;
           },
+          error: () => {
+            this.isSubmitting.set(false);
+            return 'Error al guardar la categoría';
+          }
         });
       }
     } catch (error) {
@@ -88,14 +94,20 @@ export class FormCategoryComponent implements OnInit {
       this._categService.updateCategory(this.category()!.id!, category)
     );
     
+    this.isSubmitting.set(true);
      toast.promise(catPromise, {
       loading: 'Actualizando categoría...',
       success: (res) => {
         this.onReload.emit(event);
+        this.isSubmitting.set(false);
         this.form().reset();
         this.onClose.emit();
         return res.message;
       },
+      error: () => {
+        this.isSubmitting.set(false);
+        return 'Error al actualizar la categoría';
+      }
     });
   }
 }
