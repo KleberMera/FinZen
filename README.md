@@ -1,5 +1,4 @@
-
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/KleberMera/FinZen)
+<a href="https://deepwiki.com/KleberMera/FinZen"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 # FinZen
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
