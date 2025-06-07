@@ -19,7 +19,7 @@ export interface primeIcons {
 
 export class CategoryService {
   private apiUrl = environment.apiUrl;
-  public readonly primeIcons = signal<primeIcons[]>(iconsData);
+  public readonly primeIcons = iconsData;
   private readonly htpp = inject(HttpClient);
 
   public getPrimeIcons() {
@@ -39,10 +39,8 @@ export class CategoryService {
   formCategory(initialData: Partial<Category> = {}) {
     const form = signal<FormGroup>(
       new FormGroup({
-        //id: new FormControl(initialData.id || null),
         user_id: new FormControl(initialData.user_id || null),
         name: new FormControl(initialData.name || '', [Validators.required]),
-        //description: new FormControl(initialData.description || ''),
         type: new FormControl(initialData.type || '', [Validators.required]),
         icon: new FormControl(initialData.icon || ''),
       })

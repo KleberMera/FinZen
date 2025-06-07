@@ -13,9 +13,7 @@ export const categoryRoutes: Routes = [
         {
             path: CATEGORY_PAGES.CATEGORIAS,
             loadComponent: () =>
-              import('./category.component').then(
-                (m) => m.CategoryComponent
-              ),
+              import('./pages/category/category.component')
           },
     ],
   },

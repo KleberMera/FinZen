@@ -3,13 +3,12 @@ import { FilterDebtService } from '../../services/filter-debt.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '@services/storage.service';
 import { FormsModule } from '@angular/forms';
-import { SkeletonDebtsComponent } from '../skeleton/skeleton-debts/skeleton-debts.component';
 import { RouterLink } from '@angular/router';
 import { NEVER } from 'rxjs';
 
 @Component({
   selector: 'app-search-filter-debt',
-  imports: [FormsModule, SkeletonDebtsComponent, RouterLink],
+  imports: [FormsModule, RouterLink],
   templateUrl: './search-filter-debt.component.html',
   styleUrl: './search-filter-debt.component.scss',
 })
