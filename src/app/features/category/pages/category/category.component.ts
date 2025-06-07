@@ -1,15 +1,18 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { CategoryService } from '../../services/category.service';
-import { StorageService } from '@services/storage.service';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { firstValueFrom } from 'rxjs';
+import { Category } from '@models/category';
+import { StorageService } from '@services/storage.service';
+import { CategoryService } from '../../services/category.service';
 import { FormCategoryComponent } from '../../components/form-category/form-category.component';
 import { toast } from 'ngx-sonner';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-category',
-  imports: [FormCategoryComponent],
+  standalone: true,
+  imports: [CommonModule, FormCategoryComponent],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })
@@ -18,6 +21,8 @@ export default class CategoryComponent {
   private _storageService = inject(StorageService);
   private _router = inject(Router);
   isFormOpen = signal<boolean>(false);
+  isEditMode = signal<boolean>(false);
+  selectedCategory = signal<Category | null>(null);
 
   protected readonly selectedUser = signal<number>(
     this._storageService.getUserId()
@@ -57,7 +62,24 @@ export default class CategoryComponent {
       },
     });
   }
-  toggleForm() {
+  toggleForm(category?: Category) {
+    if (category) {
+      this.isEditMode.set(true);
+      this.selectedCategory.set(category);
+    } else {
+      this.isEditMode.set(false);
+      this.selectedCategory.set(null);
+    }
     this.isFormOpen.set(!this.isFormOpen());
+  }
+
+  editCategory(category: Category) {
+    this.toggleForm(category);
+  }
+
+  handleFormClose() {
+    this.isFormOpen.set(false);
+    this.isEditMode.set(false);
+    this.selectedCategory.set(null);
   }
 }

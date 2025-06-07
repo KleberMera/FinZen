@@ -52,4 +52,9 @@ export class CategoryService {
     const url = `${this.apiUrl}/category/${id}`;
     return this.htpp.delete<apiResponse<Category>>(url);
   }
+
+  updateCategory(id: number, categoria: Category): Observable<apiResponse<Category>> {
+    const url = `${this.apiUrl}/category/${id}`;
+    return this.htpp.put<apiResponse<Category>>(url, categoria);
+  }
 }
