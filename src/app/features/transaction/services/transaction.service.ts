@@ -62,6 +62,13 @@ export class TransactionService {
     return this._http.post<apiResponse<Transaction>>(url, data);
   }
 
+  updateTransaction(id: number, data: Transaction): Observable<apiResponse<Transaction>> {
+   delete data.category;
+   
+    const url = `${environment.apiUrl}/transaction/${id}`;
+    return this._http.put<apiResponse<Transaction>>(url, data);
+  }
+
   createRecurringTransaction(
     data: RecurringTransaction,
     transactionId: number,

@@ -1,75 +1,45 @@
-import { Component, computed, inject, input, output, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { toast } from 'ngx-sonner';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { ReactiveFormsModule } from '@angular/forms';
 import { StorageService } from '@services/storage.service';
 import { firstValueFrom } from 'rxjs';
-import { Category } from '@models/category';
 
 @Component({
   selector: 'app-form-category',
-  standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './form-category.component.html',
   styleUrl: './form-category.component.scss'
 })
-export class FormCategoryComponent implements OnInit {
+export class FormCategoryComponent {
   readonly onReload = output<SubmitEvent>();
-  readonly onClose = output<void>();
-  
-  category = input<Category | null>(null);
-  isEditMode = input<boolean>(false);
 
-  protected readonly _storage = inject(StorageService);
+protected readonly _storage = inject(StorageService);
   readonly userid = signal<number | null>(this._storage.getUserId());
   readonly showMoreIcons = signal<boolean>(false);
   private _categService = inject(CategoryService);
 
   protected readonly icons = this._categService.getPrimeIcons();
-  protected form = this._categService.formCategory(this.category() || undefined);
-
-  ngOnInit() {
-    // If in edit mode and category is provided, patch the form with category data
-    if (this.isEditMode() && this.category()) {
-      this.form = this._categService.formCategory(this.category() || undefined);
-      this.form().patchValue({
-        ...this.category(),
-        user_id: this.userid()
-      });
-    } else {
-      this.form = this._categService.formCategory();
-    }
-  }
+  protected form = this._categService.formCategory();
 
 
   async saveCategory(event: SubmitEvent) {
     if (this.form().invalid) {
       return;
     }
-    
-    event.preventDefault();
-    
     this.form().patchValue({ user_id: this.userid() });
     const category = this.form().value;
-    
-    try {
-      if (this.isEditMode() && this.category()?.id) {
-        await this.updateCategory(event);
-      } else {
-        const catPromise = firstValueFrom(this._categService.createCategoria(category));
-        toast.promise(catPromise, {
-          loading: 'Guardando categoría...',
-          success: (res) => {
-            this.onReload.emit(event);
-            this.form().reset();
-            this.onClose.emit();
-            return res.message;
-          },
-        });
-      }
-    } catch (error) {
-      console.error('Error saving category:', error);
-    }
+    const catPromise = firstValueFrom(this._categService.createCategoria(category));
+    toast.promise(catPromise, {
+      loading: 'Guardando categoría...',
+      success: (res) => {
+        this.onReload.emit(event);
+
+        this.form().reset();
+        return res.message;
+      },
+    });
   }
   protected visibleIcons = computed(() => {
     return this.showMoreIcons() ? this.icons : this.icons.slice(0, 10);
@@ -77,23 +47,18 @@ export class FormCategoryComponent implements OnInit {
   
 
   async updateCategory(event: SubmitEvent) {
-    if (this.form().invalid || !this.category()?.id) {
+    if (this.form().invalid) {
       return;
     }
-    
     this.form().patchValue({ user_id: this.userid() });
     const category = this.form().value;
-    
-    const catPromise = firstValueFrom(
-      this._categService.updateCategory(this.category()!.id!, category)
-    );
-    
+    const catPromise = firstValueFrom(this._categService.updateCategory(category.id, category));
     toast.promise(catPromise, {
       loading: 'Actualizando categoría...',
       success: (res) => {
         this.onReload.emit(event);
+
         this.form().reset();
-        this.onClose.emit();
         return res.message;
       },
     });
