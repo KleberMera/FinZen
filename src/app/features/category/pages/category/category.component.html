@@ -1,139 +1,147 @@
-@if (this.isFormOpen()) {
-    <app-form-category (onReload)="this.onReload()" (onClose)="this.isFormOpen.set(false)"></app-form-category>
+@if (isFormOpen()) {
+  <app-form-category 
+    [category]="selectedCategory()"
+    [isEditMode]="isEditMode()"
+    (onReload)="onReload()"
+    (onClose)="handleFormClose()">
+  </app-form-category>
 }
 
 
 <!-- Header Section -->
-    <div class="mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-          <div class="p-2.5 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-xl shadow-md">
-            <i class="pi pi-tags text-white text-lg"></i>
+  <div class="mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-xl shadow-md">
+          <i class="pi pi-tags text-white text-lg"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-300 bg-clip-text text-transparent">
+            Categorías
+          </h2>
+          <p class="text-sm text-gray-600 dark:text-gray-400 font-medium mt-1">
+            Administra tus categorías de ingresos y gastos
+          </p>
+        </div>
+      </div>
+      
+      <!-- Botón Agregar Categoría (movido aquí) -->
+      <button 
+      (click)="toggleForm()"
+      class="px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 dark:from-blue-600 dark:to-indigo-700 dark:hover:from-blue-700 dark:hover:to-indigo-800 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95">
+      <i [class]="isFormOpen() ? 'pi pi-times' : 'pi pi-plus'" class="mr-2"></i>
+      <span class="hidden sm:inline">{{ isFormOpen() ? 'Ocultar Formulario' : 'Agregar Categoría' }}</span>
+      <span class="sm:hidden">{{ isFormOpen() ? 'Ocultar' : 'Agregar' }}</span>
+    </button>
+    </div>
+    <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-full"></div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="flex bg-gray-50 dark:bg-gray-800/50 rounded-lg p-1 mb-6 border border-gray-200 dark:border-gray-700">
+    <button 
+      (click)="setActiveTab('Gasto')"
+      class="flex-1 py-3 px-4 text-center font-medium rounded-md transition-all duration-200 flex items-center justify-center gap-2"
+      [class]="activeTab() === 'Gasto' 
+        ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm border border-gray-200 dark:border-gray-600' 
+        : 'text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white/50 dark:hover:bg-gray-700/50'"
+    >
+      <i class="pi pi-arrow-up-right text-lg"></i>
+      <span>Gastos</span>
+    </button>
+    <button 
+      (click)="setActiveTab('Ingreso')"
+      class="flex-1 py-3 px-4 text-center font-medium rounded-md transition-all duration-200 flex items-center justify-center gap-2"
+      [class]="activeTab() === 'Ingreso' 
+        ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-sm border border-gray-200 dark:border-gray-600' 
+        : 'text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-white/50 dark:hover:bg-gray-700/50'"
+    >
+      <i class="pi pi-arrow-down-left text-lg"></i>
+      <span>Ingresos</span>
+    </button>
+  </div>
+
+  <!-- Categories Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    @if (categoriasResource.isLoading()) {
+      <!-- Loading State -->
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <div class="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl p-4 h-28 border border-gray-200 dark:border-gray-700">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+              <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            </div>
           </div>
-          <div>
-            <h2 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-300 bg-clip-text text-transparent">
-              Categorías
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400 font-medium mt-1">
-              Administra tus categorías de ingresos y gastos
+        </div>
+      }
+    } @else if (categoriasResource.error()) {
+      <!-- Error State -->
+      <div class="col-span-full text-center py-12">
+        <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 inline-block">
+          <i class="pi pi-exclamation-triangle text-4xl text-yellow-500 dark:text-yellow-400 mb-4 block"></i>
+          <p class="text-gray-700 dark:text-gray-300 font-medium mb-4">Error al cargar las categorías</p>
+          <button 
+            (click)="onReload()" 
+            class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+          >
+            <i class="pi pi-refresh mr-2"></i>
+            Reintentar
+          </button>
+        </div>
+      </div>
+    } @else {
+      <!-- Success State -->
+      @if (filteredCategories().length === 0) {
+        <div class="col-span-full text-center py-12">
+          <div class="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600">
+            <i class="pi pi-inbox text-5xl text-gray-400 dark:text-gray-500 mb-4 block"></i>
+            <p class="text-gray-600 dark:text-gray-400 font-medium text-lg">
+              No hay categorías de {{ activeTab() === 'Gasto' ? 'gastos' : 'ingresos' }} registradas
+            </p>
+            <p class="text-gray-500 dark:text-gray-500 text-sm mt-2">
+              Agrega tu primera categoría para comenzar
             </p>
           </div>
         </div>
-        
-        <!-- Botón Agregar Categoría (movido aquí) -->
-        <button 
-        (click)="toggleForm()"
-        class="px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 dark:from-blue-600 dark:to-indigo-700 dark:hover:from-blue-700 dark:hover:to-indigo-800 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95">
-        <i [class]="isFormOpen() ? 'pi pi-times' : 'pi pi-plus'" class="mr-2"></i>
-        <span class="hidden sm:inline">{{ isFormOpen() ? 'Ocultar Formulario' : 'Agregar Categoría' }}</span>
-        <span class="sm:hidden">{{ isFormOpen() ? 'Ocultar' : 'Agregar' }}</span>
-      </button>
-      </div>
-      <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-full"></div>
-    </div>
-  
-    <!-- Navigation Tabs -->
-    <div class="flex bg-gray-50 dark:bg-gray-800/50 rounded-lg p-1 mb-6 border border-gray-200 dark:border-gray-700">
-      <button 
-        (click)="setActiveTab('Gasto')"
-        class="flex-1 py-3 px-4 text-center font-medium rounded-md transition-all duration-200 flex items-center justify-center gap-2"
-        [class]="activeTab() === 'Gasto' 
-          ? 'bg-white dark:bg-gray-700 text-red-600 dark:text-red-400 shadow-sm border border-gray-200 dark:border-gray-600' 
-          : 'text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-white/50 dark:hover:bg-gray-700/50'"
-      >
-        <i class="pi pi-arrow-down-left text-lg"></i>
-        <span>Gastos</span>
-      </button>
-      <button 
-        (click)="setActiveTab('Ingreso')"
-        class="flex-1 py-3 px-4 text-center font-medium rounded-md transition-all duration-200 flex items-center justify-center gap-2"
-        [class]="activeTab() === 'Ingreso' 
-          ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-sm border border-gray-200 dark:border-gray-600' 
-          : 'text-gray-600 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-white/50 dark:hover:bg-gray-700/50'"
-      >
-        <i class="pi pi-arrow-up-right text-lg"></i>
-        <span>Ingresos</span>
-      </button>
-    </div>
-  
-    <!-- Categories Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      @if (categoriasResource.isLoading()) {
-        <!-- Loading State -->
-        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-          <div class="animate-pulse bg-gray-100 dark:bg-gray-800 rounded-xl p-4 h-28 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center space-x-4">
-              <div class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-              <div class="flex-1 space-y-2">
-                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
-              </div>
-            </div>
-          </div>
-        }
-      } @else if (categoriasResource.error()) {
-        <!-- Error State -->
-        <div class="col-span-full text-center py-12">
-          <div class="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 inline-block">
-            <i class="pi pi-exclamation-triangle text-4xl text-yellow-500 dark:text-yellow-400 mb-4 block"></i>
-            <p class="text-gray-700 dark:text-gray-300 font-medium mb-4">Error al cargar las categorías</p>
-            <button 
-              (click)="onReload()" 
-              class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-            >
-              <i class="pi pi-refresh mr-2"></i>
-              Reintentar
-            </button>
-          </div>
-        </div>
       } @else {
-        <!-- Success State -->
-        @if (filteredCategories().length === 0) {
-          <div class="col-span-full text-center py-12">
-            <div class="p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600">
-              <i class="pi pi-inbox text-5xl text-gray-400 dark:text-gray-500 mb-4 block"></i>
-              <p class="text-gray-600 dark:text-gray-400 font-medium text-lg">
-                No hay categorías de {{ activeTab() === 'Gasto' ? 'gastos' : 'ingresos' }} registradas
-              </p>
-              <p class="text-gray-500 dark:text-gray-500 text-sm mt-2">
-                Agrega tu primera categoría para comenzar
-              </p>
-            </div>
-          </div>
-        } @else {
-          @for (categoria of filteredCategories(); track categoria.id) {
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 p-5 transition-all duration-300 transform hover:-translate-y-1 group"
-                 [class.border-l-4]="true"
-                 [class.!border-l-green-500]="categoria.type === 'Ingreso'"
-                 [class.!border-l-red-500]="categoria.type === 'Gasto'">
-              <div class="flex items-center">
-                <!-- Icon Container -->
-                <div class="p-3 rounded-xl mr-4 transition-colors duration-200"
-                     [class]="categoria.type === 'Ingreso' 
-                       ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50' 
-                       : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-200 dark:group-hover:bg-red-900/50'">
-                  <i [class]="categoria.icon + ' text-xl'"></i>
+        @for (categoria of filteredCategories(); track categoria.id) {
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 p-5 transition-all duration-300 transform hover:-translate-y-1 group"
+               [class.border-l-4]="true"
+               [class.!border-l-green-500]="categoria.type === 'Ingreso'"
+               [class.!border-l-red-500]="categoria.type === 'Gasto'">
+            <div class="flex items-center">
+              <!-- Icon Container -->
+              <div class="p-3 rounded-xl mr-4 transition-colors duration-200"
+                   [class]="categoria.type === 'Ingreso' 
+                     ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:bg-green-200 dark:group-hover:bg-green-900/50' 
+                     : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-200 dark:group-hover:bg-red-900/50'">
+                <i [class]="categoria.icon + ' text-xl'"></i>
+              </div>
+              
+              <!-- Category Info -->
+              <div class="flex-1 min-w-0">
+                <h3 class="font-semibold text-gray-900 dark:text-white text-lg truncate">
+                  {{ categoria.name }}
+                </h3>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-sm px-2 py-1 rounded-full font-medium"
+                        [class]="categoria.type === 'Ingreso'
+                          ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                          : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'">
+                    {{ categoria.type }}
+                  </span>
                 </div>
-                
-                <!-- Category Info -->
-                <div class="flex-1 min-w-0">
-                  <h3 class="font-semibold text-gray-900 dark:text-white text-lg truncate">
-                    {{ categoria.name }}
-                  </h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="text-sm px-2 py-1 rounded-full font-medium"
-                          [class]="categoria.type === 'Ingreso'
-                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                            : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'">
-                      {{ categoria.type }}
-                    </span>
-                  </div>
-                </div>
-                
-                <!-- Action Buttons -->
-                <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <button class="p-2 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200">
-                    <i class="pi pi-pencil text-sm"></i>
+              </div>
+              
+              <!-- Action Buttons -->
+              <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div class="flex items-center gap-2">
+                  <button 
+                    (click)="$event.stopPropagation(); editCategory(categoria)"
+                    class="p-1.5 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors duration-200">
+                    <i class="pi pi-pencil"></i>
                   </button>
                   <button (click)="deleteCategory(categoria.id)" class="p-2 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200">
                     <i class="pi pi-trash text-sm"></i>
@@ -141,7 +149,8 @@
                 </div>
               </div>
             </div>
-          }
+          </div>
         }
       }
-    </div>
+    }
+  </div>
