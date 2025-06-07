@@ -57,7 +57,7 @@ export class FormCategoryComponent implements OnInit {
         await this.updateCategory(event);
       } else {
         const catPromise = firstValueFrom(this._categService.createCategoria(category));
-        await toast.promise(catPromise, {
+        toast.promise(catPromise, {
           loading: 'Guardando categoría...',
           success: (res) => {
             this.onReload.emit(event);
@@ -88,7 +88,7 @@ export class FormCategoryComponent implements OnInit {
       this._categService.updateCategory(this.category()!.id!, category)
     );
     
-    await toast.promise(catPromise, {
+    toast.promise(catPromise, {
       loading: 'Actualizando categoría...',
       success: (res) => {
         this.onReload.emit(event);
