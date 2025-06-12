@@ -1,8 +1,9 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, input, output } from '@angular/core';
-import { Amortization, UpdateStatusDto } from '@models/amortization';
+import { Amortization, UpdateAllStatusDto, UpdateStatusDto } from '@models/amortization';
 import { DebtService } from '../../services/debt.service';
 import { toast } from 'ngx-sonner';
+import { format } from '@formkit/tempo';
 
 @Component({
   selector: 'app-sidebar-deb-details',
@@ -21,10 +22,30 @@ export class SidebarDebDetailsComponent {
     this.closeUserSidebar.emit();
   }
 
-  async onUpdateAmortizations() {
+  // async onUpdateAmortizations() {
+  //   const updateDto: UpdateAllStatusDto = {
+  //     ids: [this.amortization().id!], // Conversión segura
+  //     status: 'Pagado',
+  //     payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
+  //   };
+
+  //   console.log('updateDto', updateDto, this.debtId());
+
+  //   this._debtService.updateDebtStatusAll(this.debtId(), updateDto).subscribe({
+  //     next: (response) => {
+  //       console.log('Amortizaciones actualizadas:', response);
+  //       toast.success('Pagos actualizados correctamente');
+  //       this.updateSuccess.emit(); // Emitir el evento de éxito
+  //       this.close();
+  //     },
+  //   });
+  // }
+
+    async onUpdateAmortization() {
     const updateDto: UpdateStatusDto = {
-      ids: [this.amortization().id!], // Conversión segura
+      id: this.amortization().id!, // Conversión segura
       status: 'Pagado',
+      payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
     };
 
     console.log('updateDto', updateDto, this.debtId());

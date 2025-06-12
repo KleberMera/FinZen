@@ -3,6 +3,9 @@ export interface FinanceSummary {
   salaryAmount: number;
   otherIncome: number;
   totalExpenses: number;
+  totalDebtPaid: number;
+  totalGoalContributionPaid: number;
+  totalExpensesWithDebtAndGoals: number;
   netBalance: number;
   expensePercentage: number;
   daysPassedPercentage: number;
