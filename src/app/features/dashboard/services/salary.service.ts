@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { FinanceSummary } from '@models/finance';
@@ -29,6 +30,16 @@ export class SalaryService {
   createSalary(salary: Salary): Observable<apiResponse<Salary>> {
     const url = `${environment.apiUrl}/salary`;
     return this._http.post<apiResponse<Salary>>(url, salary);
+  }
+
+  updateSalary(id: number, salary: Salary): Observable<apiResponse<Salary>> {
+    const url = `${environment.apiUrl}/salary/${id}`;
+    return this._http.put<apiResponse<Salary>>(url, salary);
+  }
+
+  deleteSalary(id: number): Observable<apiResponse<Salary>> {
+    const url = `${environment.apiUrl}/salary/${id}`;
+    return this._http.delete<apiResponse<Salary>>(url);
   }
 
   getTotalExpenseByUserAndMonth(
@@ -65,5 +76,21 @@ export class SalaryService {
     const url = `${environment.apiUrl}/finance/summary/${userId}`;
     const data = { month, year };
     return this._http.post<apiResponse<FinanceSummary>>(url, data);
+  }
+
+
+  salaryForm(){
+   const salaryForm = signal<FormGroup>(
+      new FormGroup({
+        salary_amount: new FormControl(null, [
+          Validators.required,
+          Validators.min(0),
+        ]),
+        effective_date: new FormControl(new Date(), Validators.required),
+        description: new FormControl(''),
+        month_name: new FormControl('', Validators.required),
+      })
+    );
+    return salaryForm;
   }
 }

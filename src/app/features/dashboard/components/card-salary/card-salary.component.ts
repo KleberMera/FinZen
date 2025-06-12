@@ -8,10 +8,11 @@ import { Salary } from '@models/salary';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { apiResponse } from '@models/apiResponse';
 import { toast } from 'ngx-sonner';
+import { SidebarSalaryDataComponent } from "../sidebar-salary-data/sidebar-salary-data.component";
 
 @Component({
   selector: 'app-card-salary',
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe, SidebarSalaryDataComponent],
   templateUrl: './card-salary.component.html',
   styleUrl: './card-salary.component.scss',
 })
@@ -19,6 +20,7 @@ export class CardSalaryComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _salaryService = inject(SalaryService);
   seletdUserId = signal(this._storage.getUserId());
+  openSideBar = signal(false);
   currentMonth = computed(() =>
     format(this.timeNow(), 'MMMM', this.lenguaje())
   );
@@ -34,17 +36,7 @@ export class CardSalaryComponent {
   );
   currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
 
-  salaryForm = signal<FormGroup>(
-    new FormGroup({
-      salary_amount: new FormControl(null, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      effective_date: new FormControl(new Date(), Validators.required),
-      description: new FormControl(''),
-      month_name: new FormControl('', Validators.required),
-    })
-  );
+  salaryForm = this._salaryService.salaryForm();
 
   capitalizeFirstLetter(value: string): string {
     return value.charAt(0).toUpperCase() + value.slice(1);
@@ -89,9 +81,6 @@ export class CardSalaryComponent {
         user_id: this.seletdUserId(),
         ...this.salaryForm().value,
       } as Salary;
-
-      //console.log('salaryData: ', salaryData);
-      //this.salary.reload();
 
       this._salaryService.createSalary(salaryData).subscribe({
         next: (response) => {
@@ -155,4 +144,20 @@ totalIncome = computed(() => {
   const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
   return totalIncome;
 });
+
+toggleSidebar() {
+  this.openSideBar.set(!this.openSideBar());
+}
+
+reloadSalary() {
+  this.salary.reload();
+}
+
+  // Método para manejar cuando se guarda una contribución
+  handleSalarySaved() {
+    this.toggleSidebar(); // Cerrar el sidebar
+    this.reloadSalary(); // Recargar las contribuciones
+  }
+
+ 
 }
