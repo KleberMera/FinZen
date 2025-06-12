@@ -9,7 +9,8 @@ import { Transaction } from '@models/transaction';
 export class ChatService {
   private botMessages = signal<Message[]>([{
     id: 1,
-    text: '¡Hola! ¿En qué puedo ayudarte hoy?',
+    text: '¡Hola! 👋 Soy tu asistente para registrar transacciones.\n\nPuedes:\n- Enviarme una foto de tu recibo/factura 📸\n- Describir tu transacción en texto 💬\n\nEstoy aquí para ayudarte a registrar tus ingresos y gastos de forma fácil.',
+   
     time: this.getCurrentTime(),
     type: 'bot',
     timestamp: Date.now()
