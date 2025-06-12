@@ -87,4 +87,7 @@ export default class UserManagementComponent {
       },
     });
   }
+
+  //señal computed para ordenar usuarios por id
+  usersOrderedById = computed(() => this.userResource.value()?.data?.sort((a, b) => (a.id || 0) - (b.id || 0)) || []);
 }

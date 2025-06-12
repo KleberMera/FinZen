@@ -133,7 +133,7 @@
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-            @for (user of userResource.value()?.data || []; track user.id) {
+            @for (user of usersOrderedById() || []; track user.id) {
               <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
                 <td class="px-4 py-3 whitespace-nowrap">
                   <div class="font-medium text-gray-900 dark:text-white">{{ user.id }}</div>
