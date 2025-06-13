@@ -1,0 +1,23 @@
+/* Estilos adicionales para el botón flotante */
+
+:host {
+  display: block;
+}
+
+/* Efecto de brillo en hover */
+.from-blue-500.to-indigo-600:hover {
+  background-size: 200% 200%;
+  animation: gradient 2s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

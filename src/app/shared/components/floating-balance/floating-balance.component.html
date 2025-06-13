@@ -1,0 +1,23 @@
+<!-- Botón flotante que muestra el saldo disponible solo cuando el usuario está autenticado -->
+@if (isAuthenticated()) {
+  <div class="fixed bottom-6 right-6 z-50">
+    <div 
+      class="flex items-center justify-center rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-3 cursor-pointer hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+      [class.animate-pulse]="balanceResource.isLoading()"
+    >
+      @if (balanceResource.isLoading()) {
+        <div class="w-10 h-10 flex items-center justify-center">
+          <div class="animate-spin rounded-full h-6 w-6 border-2 border-white border-t-transparent"></div>
+        </div>
+      } @else if (balanceResource.value()?.data?.currentMonthData?.balance) {
+        <div class="text-center font-bold text-sm">
+          {{ formatBalance(balanceResource.value()?.data?.currentMonthData?.balance || 0) }}
+        </div>
+      } @else {
+        <div class="text-center font-bold text-sm">
+          $0
+        </div>
+      }
+    </div>
+  </div>
+}
