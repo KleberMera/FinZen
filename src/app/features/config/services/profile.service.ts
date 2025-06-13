@@ -52,4 +52,16 @@ export class ProfileService {
     return form;
   
   }
+
+
+  
+  verifyCurrentPassword(userId: number, password: string): Observable<{ message: string, error : string, success: boolean }> {
+    const url = `${environment.apiUrl}/auth/verify-password/${userId}`;
+    return this._http.post<{ message: string, error : string, success: boolean }>(url, { password });
+  }
+
+  resetPasswordId(userId: number, newPassword: string): Observable<{ message: string, success: boolean }> {
+    const url = `${environment.apiUrl}/auth/reset-password/${userId}`;
+    return this._http.post<{ message: string , success: boolean}>(url, { newPassword });
+  }
 }
