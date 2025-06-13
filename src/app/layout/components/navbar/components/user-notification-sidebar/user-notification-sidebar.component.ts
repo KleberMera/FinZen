@@ -20,6 +20,8 @@ export class UserNotificationSidebarComponent {
   protected readonly _includeAllDebts = signal<boolean>(true); // Por defecto incluir todas las deudas
 
   closeUserSidebar = output<void>();
+  notificationRead = output<void>(); // Nuevo output para notificar cuando se lee una notificación
+
   userId = signal<number>(this._storage.getUserId());
 
   close() {
@@ -79,6 +81,8 @@ export class UserNotificationSidebarComponent {
       next: () => {
         // Recargar las notificaciones después de marcar como leída
         this.notificationsResource.reload();
+        // Emitir evento para actualizar el contador en el navbar
+        this.notificationRead.emit();
       },
       error: (error) => {
         console.error('Error al marcar notificación como leída:', error);
@@ -104,8 +108,10 @@ export class UserNotificationSidebarComponent {
       next: () => {
         // Recargar las notificaciones después de marcar todas como leídas
         this.notificationsResource.reload();
+        // Emitir evento para actualizar el contador en el navbar
+        this.notificationRead.emit();
       },
-      error: (error: any) => {
+      error: (error) => {
         console.error('Error al marcar todas las notificaciones como leídas:', error);
         // Aquí puedes agregar manejo de errores
       }

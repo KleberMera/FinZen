@@ -1,11 +1,7 @@
-<div class="fixed inset-0 z-50">
-    <!-- Fondo oscuro con blur -->
-    <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity" (click)="close()"></div>
-
-    <!-- Drawer -->
-    <div class="absolute right-0 top-0 h-full w-full max-w-xs sm:max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ease-in-out transform translate-x-0 overflow-y-auto">
-        <!-- Header -->
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10">
+<!-- Contenido del sidebar sin el contenedor fixed -->
+<div class="h-full flex flex-col">
+    <!-- Header -->
+    <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10 flex-shrink-0">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <!-- Ícono de notificaciones -->
@@ -77,11 +73,10 @@
                         </span>
                     </button>
                 </div>
-            </div>
         </div>
 
         <!-- Contenido -->
-        <div class="p-4">
+        <div class="p-4 flex-1 overflow-y-auto">
             @if (notificationsResource.isLoading()) {
                 <!-- Skeleton loader -->
                 <div class="space-y-4">
@@ -133,6 +128,17 @@
                                 <div class="ml-3 flex-1">
                                     <p class="text-sm font-medium text-gray-800 dark:text-gray-200">{{notification.title}}</p>
                                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{notification.message}}</p>
+                                    
+                                    <!-- Información de la deuda si está disponible -->
+                                    @if (notification.debt) {
+                                        <div class="mt-1 inline-flex items-center px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/30 text-xs text-blue-700 dark:text-blue-300">
+                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                            {{notification.debt.name}}
+                                        </div>
+                                    }
+                                    
                                     <div class="flex items-center justify-between mt-2">
                                         <p class="text-xs text-gray-400 dark:text-gray-500">{{notification.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
                                         
