@@ -1,9 +1,13 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BalanceService } from '../../../features/dashboard/services/balance.service';
 import { StorageService } from '../../../services/storage.service';
 import { AuthStateService } from '../../../services/auth-state.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { SalaryService } from '../../../features/dashboard/services/salary.service';
+import { format } from '@formkit/tempo';
+import { FinanceSummary } from '@models/finance';
+import { apiResponse } from '@models/apiResponse';
 
 @Component({
   selector: 'app-floating-balance',
@@ -13,36 +17,50 @@ import { rxResource } from '@angular/core/rxjs-interop';
   styleUrls: ['./floating-balance.component.scss']
 })
 export class FloatingBalanceComponent implements OnInit {
-  private readonly _balanceService = inject(BalanceService);
-  private readonly _storageService = inject(StorageService);
-  private readonly _authStateService = inject(AuthStateService);
+ 
 
   isAuthenticated = signal<boolean>(false);
-  userId = signal<number>(0);
-  
-  // Obtener fecha actual para los parámetros del balance
-  currentDate = new Date();
-  currentMonth = this.currentDate.getMonth() + 1; // getMonth() devuelve 0-11
-  currentYear = this.currentDate.getFullYear();
-  previousMonth = this.currentMonth === 1 ? 12 : this.currentMonth - 1;
-  previousYear = this.currentMonth === 1 ? this.currentYear - 1 : this.currentYear;
 
-  // Recurso para obtener el balance
-  balanceResource = rxResource({
+  
+  private readonly _storageService = inject(StorageService);
+  private readonly _salaryService = inject(SalaryService);
+  private readonly _authStateService = inject(AuthStateService);
+
+  protected readonly seletedUser = signal<number>(
+    this._storageService.getUserId()
+  );
+  public readonly stateReset = signal(false);
+
+  lenguaje = signal<string>('es');
+  timeNow = signal<any>(new Date());
+
+  currentMonth = computed(() =>
+    format(this.timeNow(), 'MMMM', this.lenguaje())
+  );
+
+  currentMonthNumber = computed(() =>
+    format(this.timeNow(), 'M', this.lenguaje())
+  );
+  currenDate = computed(() =>
+    format(this.timeNow(), 'YYYY-MM-DD', this.lenguaje())
+  );
+  currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
+
+  salaryData = rxResource<
+    apiResponse<FinanceSummary>,
+    { userId: number; currentMonth: number; year: number }
+  >({
     request: () => ({
-      userId: this.userId(),
-      currentMonth: this.currentMonth,
-      currentYear: this.currentYear,
-      previousMonth: this.previousMonth,
-      previousYear: this.previousYear
+      userId: this.seletedUser(),
+      currentMonth: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
     }),
-    loader: ({ request }) => this._balanceService.getBalanceByUserId(
-      request.userId,
-      request.currentMonth,
-      request.currentYear,
-      request.previousMonth,
-      request.previousYear
-    ),
+    loader: ({ request }) =>
+      this._salaryService.getFinancialSummary(
+        request.userId,
+        request.currentMonth,
+        request.year
+      ),
   });
 
   ngOnInit(): void {
@@ -52,19 +70,12 @@ export class FloatingBalanceComponent implements OnInit {
     
     if (this.isAuthenticated()) {
       // Obtener el ID del usuario
-      this.userId.set(this._storageService.getUserId());
+      //this.userId.set(this._storageService.getUserId());
       
       // Cargar el balance
-      this.balanceResource.reload();
+      //this.balanceResource.reload();
     }
   }
 
-  // Método para formatear el número (redondear y formatear como moneda)
-  formatBalance(balance: number): string {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
-    }).format(balance);
-  }
+ 
 }
