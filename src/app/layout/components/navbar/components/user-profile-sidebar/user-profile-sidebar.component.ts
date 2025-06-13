@@ -12,6 +12,7 @@ import { UserProfileSidebarSkeletonComponent } from '../user-profile-sidebar-ske
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../../../features/auth/services/auth.service';
+import { AuthStateService } from '@services/auth-state.service';
 
 @Component({
   selector: 'app-user-profile-sidebar',
@@ -27,7 +28,8 @@ export class UserProfileSidebarComponent {
   readonly _storageService = inject(StorageService);
 
   readonly _userProfileService = inject(UserProfileService);
-  protected readonly _authService = inject(AuthService);
+  protected readonly _authService = inject(AuthStateService);
+  
   private readonly seletedUser = signal<number>(
     inject(StorageService).getUserId()
   );
@@ -45,15 +47,7 @@ export class UserProfileSidebarComponent {
       this._userProfileService.getUserProfile(request.userId),
   });
 
-  logout() {
-    this._router.navigate(['auth']);
-    //borrar todo de local storage
-    const theme = this._storageService.getTheme();
-    this._storageService.clear();
-    this._storageService.setTheme(theme!);
 
-    toast.success('Sesión cerrada');
-  }
 
   protected readonly profileImageService = inject(ProfileImageService);
 

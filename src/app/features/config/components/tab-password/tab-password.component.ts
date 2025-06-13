@@ -5,6 +5,8 @@ import { finalize } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
+import { AuthService } from '../../../auth/services/auth.service';
+import { AuthStateService } from '@services/auth-state.service';
 
 @Component({
   selector: 'app-tab-password',
@@ -17,6 +19,7 @@ export default class TabPasswordComponent {
   private readonly fb = inject(FormBuilder);
   private readonly profileService = inject(ProfileService);
   private readonly storageService = inject(StorageService);
+  private readonly _authService = inject(AuthStateService);
   protected readonly userId = this.storageService.getUserId();
 
   // Estados
@@ -105,6 +108,7 @@ export default class TabPasswordComponent {
             this.resetForms();
             this.isLoading.set(false);
             toast.success(response.message);
+            this._authService.logout();
           } else {
             this.errorMessage.set(response.message || 'Error al actualizar la contraseña');
             this.isLoading.set(false);

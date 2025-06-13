@@ -17,7 +17,7 @@
           <h2 class="text-lg sm:text-xl font-semibold text-blue-700 dark:text-blue-300 tracking-tight">Mi Perfil</h2>
           <div class="flex items-center gap-2 sm:gap-3">
             <button 
-              (click)="logout()" 
+              (click)="this._authService.logout()"
               class="py-1.5 px-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md group">
               <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
