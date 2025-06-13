@@ -117,7 +117,13 @@ export class MessageInputComponent {
     this.processService.textProcess(message, this.seletedUser()).subscribe({
       next: (res) => {
         stopAnimation();
-        this.chatService.addBotCardMessage(res?.transaction);
+        if (res.isTransaction) {
+          // Si es una transacción, mostrar la tarjeta
+          this.chatService.addBotCardMessage(res?.transaction);
+        } else {
+          // Si es una respuesta conversacional, mostrar el mensaje
+          this.chatService.addBotMessage(res.message);
+        }
       },
       error: (err) => {
         stopAnimation();
@@ -126,5 +132,22 @@ export class MessageInputComponent {
         );
       },
     });
+  }
+  
+  resetConversation() {
+    // Reiniciar la conversación en el frontend
+    this.chatService.resetChat();
+    
+    // Reiniciar la conversación en el backend
+    this.processService.resetConversation(this.seletedUser()).subscribe({
+      next: (res) => {
+        console.log('Conversación reiniciada en el backend:', res);
+      },
+      error: (err) => {
+        console.error('Error al reiniciar la conversación:', err);
+      }
+    });
+    
+    this.messageSent.emit();
   }
 }

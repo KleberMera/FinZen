@@ -7,6 +7,7 @@ export interface apiResponse<T> {
   pagination?: pagination
   transaction?: T;
   access_token?: string;
+  isTransaction?: boolean; // Indica si la respuesta contiene una transacción o es solo conversacional
 }
 
 

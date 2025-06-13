@@ -7,7 +7,11 @@
       </div>
     </div>
     <div class="bg-blue-50 dark:bg-blue-900/40 rounded-2xl rounded-tl-none p-3 md:p-4 max-w-[80%] md:max-w-[75%] shadow-sm border border-blue-100/50 dark:border-blue-800/30">
-      <p class="text-sm md:text-base text-gray-800 dark:text-gray-200 whitespace-pre-line leading-relaxed">{{message().text}}</p>
+      <!-- Contenido formateado con innerHTML para renderizar HTML -->
+      <div 
+        class="text-sm md:text-base text-gray-800 dark:text-gray-200 leading-relaxed prose prose-sm max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-strong:text-gray-900 dark:prose-strong:text-white"
+        [innerHTML]="message().text | formatText">
+      </div>
       <span class="text-xs text-gray-500 dark:text-gray-400 mt-3 block font-medium">{{message().time}}</span>
     </div>
   </div>
@@ -15,23 +19,22 @@
   <div class="flex flex-col items-center animate-fade-in mb-6 group hover:bg-gray-50/50 dark:hover:bg-gray-900/20 p-2 rounded-lg transition-all duration-200">
     <div class="flex w-full justify-start mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-sm border-l-4" 
     [class]="message().transaction?.category?.type === 'Ingreso' ? 'border-l-green-500' : 'border-l-red-500'">
- <div class="w-10 h-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center shadow-sm">
-   <div class="w-8 h-8 overflow-hidden">
-     <logo-app class="w-full h-full"></logo-app>
-   </div>
- </div>
- <div class="ml-3 flex flex-col justify-center">
-
-   <span class="text-sm font-medium"
-         [class]="message().transaction?.category?.type === 'Ingreso' ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
-     @if (message().transaction?.category?.type === 'Ingreso') {
-       ¡Ingreso registrado correctamente!
-     } @else {
-       Gasto registrado correctamente
-     }
-   </span>
- </div>
-</div>
+      <div class="w-10 h-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center shadow-sm">
+        <div class="w-8 h-8 overflow-hidden">
+          <logo-app class="w-full h-full"></logo-app>
+        </div>
+      </div>
+      <div class="ml-3 flex flex-col justify-center">
+        <span class="text-sm font-medium"
+              [class]="message().transaction?.category?.type === 'Ingreso' ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
+          @if (message().transaction?.category?.type === 'Ingreso') {
+            ¡Ingreso registrado correctamente!
+          } @else {
+            Gasto registrado correctamente
+          }
+        </span>
+      </div>
+    </div>
     <div class="bg-blue-50 dark:bg-blue-900/40 rounded-2xl p-3 md:p-4 max-w-full sm:max-w-[80%] md:max-w-[75%] shadow-sm border-spacing-4 border-blue-100/50 dark:border-blue-800/30">   
       <app-chat-transaction-card 
       [idMessage]="message().id"

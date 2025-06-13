@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { Transaction } from '@models/transaction';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,13 @@ export class ProcessService {
     return this._http.post<apiResponse<Transaction>>(url, formData);
   }
 
-  textProcess(text: string, userId: number) {
+  textProcess(text: string, userId: number): Observable<apiResponse<Transaction | null>> {
     const url = `${environment.apiUrl}/tickets/process-text/${userId}`;
-    return this._http.post<apiResponse<Transaction>>(url, { text });
+    return this._http.post<apiResponse<Transaction | null>>(url, { text });
+  }
+  
+  resetConversation(userId: number): Observable<apiResponse<null>> {
+    const url = `${environment.apiUrl}/tickets/reset-conversation/${userId}`;
+    return this._http.post<apiResponse<null>>(url, {});
   }
 }
