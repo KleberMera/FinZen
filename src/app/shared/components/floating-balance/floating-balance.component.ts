@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { BalanceService } from '../../../features/dashboard/services/balance.service';
 import { StorageService } from '../../../services/storage.service';
 import { AuthStateService } from '../../../services/auth-state.service';
@@ -12,7 +12,7 @@ import { apiResponse } from '@models/apiResponse';
 @Component({
   selector: 'app-floating-balance',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CurrencyPipe],
   templateUrl: './floating-balance.component.html',
   styleUrls: ['./floating-balance.component.scss']
 })
