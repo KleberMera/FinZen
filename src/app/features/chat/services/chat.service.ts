@@ -9,7 +9,7 @@ import { Transaction } from '@models/transaction';
 export class ChatService {
   private botMessages = signal<Message[]>([{
     id: 1,
-    text: '¡Hola! 👋 Soy FinzenIA, tu asistente financiero personal. Puedo ayudarte a registrar transacciones a través de texto o con una imagen, y responder preguntas sobre finanzas personales. ¿En qué puedo ayudarte hoy?',
+    text: '¡Hola! 👋 Soy FinzenIA, tu asistente financiero personal. Por el momento puedo ayudarte a:\n\n• **Registrar transacciones** a través de texto o con una imagen 📝📸\n• **Responder preguntas generales** sobre finanzas personales 💡\n\n¿En qué puedo ayudarte hoy?',
     time: this.getCurrentTime(),
     type: 'bot',
     timestamp: Date.now()
@@ -149,7 +149,7 @@ export class ChatService {
     // Mantener solo el mensaje inicial de bienvenida
     this.botMessages.set([{
       id: 1,
-      text: '¡Hola! 👋 Soy FinzenIA, tu asistente financiero personal. Puedo ayudarte a registrar transacciones a través de texto o con una imagen, y responder preguntas sobre finanzas personales. ¿En qué puedo ayudarte hoy?',
+      text: '¡Hola! 👋 Soy FinzenIA, tu asistente financiero personal. Por el momento puedo ayudarte a:\n\n• **Registrar transacciones** a través de texto o con una imagen 📝📸\n• **Responder preguntas generales** sobre finanzas personales 💡\n\n¿En qué puedo ayudarte hoy?',
       time: this.getCurrentTime(),
       type: 'bot',
       timestamp: Date.now()
