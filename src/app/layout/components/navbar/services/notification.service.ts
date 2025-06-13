@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
@@ -23,10 +23,21 @@ export class NotificationService {
     return this._http.get<apiResponse<any>>(url);
   }
 
-  // notificationSuscribe(userId: number, subscription: any): Observable<any> {
-  //   const url = `${environment.apiUrl}/notifications/subscribe`;
-  //   return this._http.post<any>(url, { userId, subscription });
-  // }
+  getfilterNotificationsByUserId(userId: number, isRead?: string,debtId?: string,  includeAllDebts?: string): Observable<any> {
+    const url = `${environment.apiUrl}/notifications/filter/${userId}`;
+    let params = new HttpParams();
+    if (debtId) params = params.set('debtId', debtId);
+    if (isRead) params = params.set('isRead', isRead);
+    if (includeAllDebts) params = params.set('includeAllDebts', includeAllDebts);
+    return this._http.get<any>(url, { params });
+  } 
+
+  markNotificationAsRead(userId: number, notificationId: number): Observable<any> {
+    const url = `${environment.apiUrl}/notifications/mark-as-read/${notificationId}/user/${userId}`;
+    return this._http.put<any>(url, {});
+  }
+
+
 
   notificationSubscribeWithDevice(
     userId: number,
