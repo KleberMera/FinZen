@@ -1,4 +1,3 @@
-
 @for (item of debts(); track item.id) {
 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800  overflow-hidden mb-6 ">
   <!-- Cabecera con gradiente mejorado -->
@@ -43,7 +42,7 @@
             <div class="px-4 py-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-center w-full sm:min-w-36 sm:w-auto hover:bg-white/15 transition-colors mt-2 sm:mt-0">
         <p class="text-xs text-blue-100/80 mb-1 font-medium">Total a Pagar</p>
         <p class="text-xl font-bold text-white">
-          {{getTotalAmortizaciones(item) | currency : "USD" : "symbol" : "1.2-2" }}
+          {{ item.remainingAmount| currency : "USD" : "symbol" : "1.2-2" }}
         </p>
       </div>
    }
@@ -124,7 +123,7 @@
             <p class="text-xs font-medium text-emerald-700 dark:text-emerald-400">Total Pagado</p>
           </div>
           <p class="text-lg font-bold text-emerald-700 dark:text-emerald-300">
-            {{ getTotalPagado(item) | currency : "USD" : "symbol" : "1.2-2" }}
+            {{ item.totalPaidAmount | currency : "USD" : "symbol" : "1.2-2" }}
           </p>
         </div>
       </div>
@@ -139,13 +138,13 @@
             <p class="text-xs font-medium text-amber-700 dark:text-amber-400">Por Pagar</p>
           </div>
           <p class="text-lg font-bold text-amber-700 dark:text-amber-300">
-            {{ getTotalPorPagar(item) | currency : "USD" : "symbol" : "1.2-2" }}
+            {{ item.remainingAmount | currency : "USD" : "symbol" : "1.2-2" }}
           </p>
         </div>
       </div>
       
 
-      @if (getCuotasAtrasadas(item) === 0) {
+      @if (!item.hasOverduePayments) {
         <div class="group relative bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/10 dark:to-green-900/10 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800/20 hover:shadow-md transition-all hover:border-emerald-200 dark:hover:border-emerald-700/30">
           <div class="absolute inset-0 bg-emerald-500/5 dark:bg-emerald-300/5 rounded-xl group-hover:bg-emerald-500/10 dark:group-hover:bg-emerald-300/10 transition-colors"></div>
           <div class="relative flex flex-col">
@@ -165,7 +164,6 @@
             </div>
           </div>
         </div>
- 
      } @else {
       <div class="group relative bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/10 dark:to-rose-900/10 p-4 rounded-xl border border-red-100 dark:border-red-800/20 hover:shadow-sm transition-all">
         <div class="absolute inset-0 bg-red-500/5 dark:bg-red-300/5 rounded-xl"></div>
@@ -177,10 +175,10 @@
             <p class="text-xs font-medium text-red-700 dark:text-red-400">Cuotas Atrasadas</p>
           </div>
           <p class="text-lg font-bold text-red-700 dark:text-red-300">
-            {{ getCuotasAtrasadas(item) }}
+            {{ item.overdueInstallments }}
             <span class="text-sm font-normal">cuota(s)</span>
           </p>
-          @if (getCuotasAtrasadas(item) > 0) {
+          @if (item.overdueInstallments! > 0) {
           <span class="absolute top-3 right-3 flex h-3 w-3">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
@@ -207,12 +205,12 @@
           <div class="px-2.5 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center gap-1.5">
             <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
             <span class="text-xs font-medium text-indigo-700 dark:text-indigo-300">
-              {{ getPagadas(item) }}/{{ item.duration_months }}
+              {{ item.paidInstallments }}/{{ item.totalInstallments }}
             </span>
           </div>
           
           <span class="text-xs font-medium px-2.5 py-1 bg-gray-100 dark:bg-gray-700/70 rounded-lg text-gray-600 dark:text-gray-400">
-            {{ (getPagadas(item) / item.duration_months * 100).toFixed(1) }}%
+            {{ item.paymentProgress?.toFixed(1) }}%
           </span>
         </div>
       </div>
@@ -221,7 +219,7 @@
         <div class="absolute inset-0 bg-indigo-500/10 dark:bg-indigo-300/10"></div>
         <div class="absolute inset-0 overflow-hidden">
           <div class="h-full bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-500 dark:to-blue-400 transition-all duration-500 rounded-full" 
-              [style.width]="(getPagadas(item) / item.duration_months * 100) + '%'">
+              [style.width]="item.paymentProgress + '%'">
           </div>
         </div>
       </div>

@@ -4,7 +4,11 @@ import { Debt } from '@models/debt';
 import { MethodService } from '../../services/method.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-details.component";
-import { Amortization } from '@models/amortization';
+import { Amortization, UpdateAllStatusDto } from '@models/amortization';
+import { DebtService } from '../../services/debt.service';
+import { format } from '@formkit/tempo';
+import { toast } from 'ngx-sonner';
+
 
 @Component({
   selector: 'app-card-amortization',
@@ -19,8 +23,11 @@ export class CardAmortizationComponent {
   selectedAmortization = signal<Amortization | null>(null);
   debtId = signal<number>(0);
   updateSuccess = output<void>();
-  private readonly _methodService = inject(MethodService);
+  //private readonly _methodService = inject(MethodService);
   isSidebarOpen = signal(false);
+  selectedItems = signal<number[]>([]);
+  protected readonly _debtService = inject(DebtService);
+  private readonly _methodService = inject(MethodService);
 
   ondebtClick(amortization: Amortization): void {
     console.log('Recibido', amortization);
@@ -67,6 +74,36 @@ export class CardAmortizationComponent {
 
   protected calculateTotal(field: 'quota' | 'interest' | 'amortized'): number {
     return this.datos().reduce((sum: any, item: any) => sum + item[field], 0);
+  }
+
+  toggleSelection(amortization: Amortization, event: Event) {
+    event.stopPropagation();
+    if (amortization.status === 'Pagado') return;
+    
+    const currentSelected = this.selectedItems();
+    const id = amortization.id!;
+    
+    if (currentSelected.includes(id)) {
+      this.selectedItems.set(currentSelected.filter(item => item !== id));
+    } else {
+      this.selectedItems.set([...currentSelected, id]);
+    }
+  }
+
+  async onUpdateMultipleAmortizations() {
+    const updateDto: UpdateAllStatusDto = {
+      ids: this.selectedItems(),
+      status: 'Pagado',
+      payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
+    };
+
+    this._debtService.updateDebtStatusAll(this.debtId(), updateDto).subscribe({
+      next: () => {
+        toast.success('Pagos actualizados correctamente');
+        this.updateSuccess.emit();
+        this.selectedItems.set([]);
+      },
+    });
   }
 
 

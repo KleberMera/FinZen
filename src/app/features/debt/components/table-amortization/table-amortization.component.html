@@ -1,5 +1,4 @@
-
-  <!-- Encabezado -->
+<!-- Encabezado -->
 <!-- Header Section -->
 <div class="flex flex-col md:flex-row justify-between items-center mb-6 p-2">
   <div class="flex items-center space-x-3">
@@ -62,6 +61,16 @@
         class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50">
           <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
             <div class="flex items-center space-x-2">
+              @if (fila.status !== 'Pagado') {
+                <div class="flex items-center h-5">
+                  <input
+                    type="checkbox"
+                    [checked]="selectedItems().includes(fila.id!)"
+                    (click)="toggleSelection(fila, $event)"
+                    class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  >
+                </div>
+              }
               <span class="bg-gray-100 dark:bg-gray-700 w-8 h-8 rounded-full flex items-center justify-center font-semibold">
                 {{fila.number_months}}
               </span>
@@ -105,7 +114,19 @@
   </div>
 </div>
 
-
+<!-- Botón flotante para pagos múltiples -->
+@if (selectedItems().length > 0) {
+  <div class="fixed bottom-6 right-6 z-10">
+    <button
+      (click)="onUpdateMultipleAmortizations()"
+      class="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow-lg">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      Pagar {{ selectedItems().length }} cuotas seleccionadas
+    </button>
+  </div>
+}
 
 @if (filters()) {
   @if (isSidebarOpen()) {
@@ -119,4 +140,4 @@
 }
 
 
-  
+

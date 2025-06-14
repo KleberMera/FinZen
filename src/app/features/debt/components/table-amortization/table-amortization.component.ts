@@ -3,7 +3,12 @@ import { FormGroup } from '@angular/forms';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Debt } from '@models/debt';
 import { SidebarDebDetailsComponent } from '../sidebar-deb-details/sidebar-deb-details.component';
-import { Amortization } from '@models/amortization';
+import { Amortization, UpdateAllStatusDto } from '@models/amortization';
+import { DebtService } from '../../services/debt.service';
+import { MethodService } from '../../services/method.service';
+import { format } from '@formkit/tempo';
+import { toast } from 'ngx-sonner';
+
 
 @Component({
   selector: 'app-table-amortization',
@@ -14,6 +19,8 @@ import { Amortization } from '@models/amortization';
 export class TableAmortizationComponent {
   readonly totalMonths = signal<number>(0);
   readonly sortOrderStatus = signal<'asc' | 'desc' | null>(null);
+  protected readonly _debtService = inject(DebtService);
+  private readonly _methodService = inject(MethodService);
   readonly formData = input<FormGroup>();
   readonly filters = input<Debt[]>();
   updateSuccess = output<void>();
@@ -52,6 +59,9 @@ export class TableAmortizationComponent {
   selectedAmortization = signal<Amortization | null>(null);
   debtId = signal<number>(0);
   isSidebarOpen = signal(false);
+  selectedItems = signal<number[]>([]);
+
+
 
   ondebtClick(amortization: Amortization): void {
     console.log('Recibido', amortization);
@@ -61,7 +71,6 @@ export class TableAmortizationComponent {
     this.isSidebarOpen.set(true); // Abre el sidebar
   }
 
-
   // Método para cerrar el sidebar
   closeUserSidebar(): void {
     console.log('Cerrando sidebar...');
@@ -70,8 +79,39 @@ export class TableAmortizationComponent {
     this.debtId.set(0);
   }
 
-   // Método para manejar el evento de actualización del sidebar
-   onSidebarUpdateSuccess(): void {
+  // Método para manejar el evento de actualización del sidebar
+  onSidebarUpdateSuccess(): void {
     this.updateSuccess.emit(); // Propaga el evento hacia ListDebtComponent
+  }
+
+  toggleSelection(amortization: Amortization, event: Event) {
+    event.stopPropagation(); // Evitar que se abra el sidebar
+    if (amortization.status === 'Pagado') return;
+
+    const currentSelected = this.selectedItems();
+    const id = amortization.id!;
+
+    if (currentSelected.includes(id)) {
+      this.selectedItems.set(currentSelected.filter((item) => item !== id));
+    } else {
+      this.selectedItems.set([...currentSelected, id]);
+    }
+  }
+
+  async onUpdateMultipleAmortizations() {
+    const updateDto: UpdateAllStatusDto = {
+      ids: this.selectedItems(),
+      status: 'Pagado',
+      payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
+    };
+    const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
+  
+    this._debtService.updateDebtStatusAll(debtId, updateDto).subscribe({
+      next: () => {
+        toast.success('Pagos actualizados correctamente');
+        this.updateSuccess.emit();
+        this.selectedItems.set([]);
+      },
+    });
   }
 }

@@ -15,12 +15,33 @@ export interface Debt {
   end_date: string;
   status: string;
   amortizations: Amortization[];
+  // Nuevos campos
+  formattedStartDate?: string;
+  formattedEndDate?: string;
+  loanAmount?: number;
+  totalAmountToPay?: number;
   totalPaidAmount: number;
-  paidInstallmentsCount: number;
-  remainingInstallments: number;
   remainingAmount: number;
-  minimumPayment?: number
-  isOverdue?: boolean
+  totalInterest?: number;
+  paidInterest?: number;
+  remainingInterest?: number;
+  totalAmortized?: number;
+  paidAmortized?: number;
+  remainingAmortized?: number;
+  totalInstallments?: number;
+  paidInstallments: number;
+  pendingInstallments?: number;
+  overdueInstallments?: number;
+  paymentProgress?: number;
+  installmentProgress?: number;
+  nextPaymentDue?: string;
+  nextPaymentAmount?: string;
+  nextPaymentFormatted?: string;
+  lastPaymentDate?: string | null;
+  lastPaymentAmount?: number | null;
+  lastPaymentFormatted?: string | null;
+  totalOverdueAmount?: number;
+  hasOverduePayments?: boolean;
 }
 
 export interface StrategyMethod {

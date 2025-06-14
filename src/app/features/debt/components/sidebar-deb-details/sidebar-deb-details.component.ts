@@ -22,24 +22,6 @@ export class SidebarDebDetailsComponent {
     this.closeUserSidebar.emit();
   }
 
-  // async onUpdateAmortizations() {
-  //   const updateDto: UpdateAllStatusDto = {
-  //     ids: [this.amortization().id!], // Conversión segura
-  //     status: 'Pagado',
-  //     payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
-  //   };
-
-  //   console.log('updateDto', updateDto, this.debtId());
-
-  //   this._debtService.updateDebtStatusAll(this.debtId(), updateDto).subscribe({
-  //     next: (response) => {
-  //       console.log('Amortizaciones actualizadas:', response);
-  //       toast.success('Pagos actualizados correctamente');
-  //       this.updateSuccess.emit(); // Emitir el evento de éxito
-  //       this.close();
-  //     },
-  //   });
-  // }
 
     async onUpdateAmortization() {
     const updateDto: UpdateStatusDto = {
