@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, input, output } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Amortization } from '@models/amortization';
 import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-details.component";
@@ -21,11 +21,12 @@ import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-d
   imports: [SidebarDebDetailsComponent]
 })
 export class DebtSidebarContainerComponent {
-  @Input() isOpen = false;
-  @Input() debtId!: number;
-  @Input() amortization!: Amortization;
-  @Output() closeUserSidebar = new EventEmitter<void>();
-  @Output() updateSuccess = new EventEmitter<void>();
+  readonly isOpen = input(false);
+  readonly debtId = input.required<number>();
+  readonly amortization = input.required<Amortization>();
+  readonly closeUserSidebar = output<void>();
+  readonly updateSuccess = output<void>();
+ // @Output() updateSuccess = new EventEmitter<void>();
 
   close() {
     this.closeUserSidebar.emit();

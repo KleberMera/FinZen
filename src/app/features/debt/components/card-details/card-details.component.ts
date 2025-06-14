@@ -1,10 +1,10 @@
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { Debt } from '@models/debt';
 
 @Component({
   selector: 'app-card-details',
-  imports: [CurrencyPipe, DatePipe, TitleCasePipe],
+  imports: [CurrencyPipe, DatePipe],
   templateUrl: './card-details.component.html',
   styleUrl: './card-details.component.scss',
 })
