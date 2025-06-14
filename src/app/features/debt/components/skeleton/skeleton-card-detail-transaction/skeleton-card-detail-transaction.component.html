@@ -1,125 +1,72 @@
-@for (item of [1]; track $index) {
-    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 overflow-hidden mb-6 animate-pulse">
-      <!-- Cabecera con gradiente simulado -->
-      <div class="relative p-6 bg-gradient-to-r from-blue-600 to-indigo-700 overflow-hidden opacity-60">
-        <!-- Elementos decorativos de fondo -->
-        <div class="absolute top-0 left-0 w-full h-full opacity-10">
-          <div class="absolute top-0 right-0 w-40 h-40 bg-white rounded-full blur-3xl -translate-y-20 translate-x-20"></div>
-          <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-300 rounded-full blur-3xl translate-y-20 -translate-x-20"></div>
-        </div>
-        
-        <div class="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex flex-col gap-2 w-full sm:w-auto">
-            <div class="flex items-center gap-3 flex-wrap">
-              <!-- Título skeleton -->
-              <div class="h-8 w-48 bg-white/30 rounded-lg"></div>
-              
-              <!-- Status skeleton -->
-              <div class="h-6 w-24 bg-white/30 rounded-full"></div>
-              
-              <!-- Icono notificación skeleton -->
-              <div class="w-6 h-6 rounded-full bg-white/30"></div>
-            </div>
-            
-            <!-- Descripción skeleton -->
-            <div class="h-4 w-full sm:w-64 bg-white/30 rounded-md mb-1"></div>
-            <div class="h-4 w-5/6 sm:w-56 bg-white/30 rounded-md"></div>
-          </div>
-          
-          <!-- Monto skeleton -->
-          <div class="px-4 py-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/20 w-full sm:min-w-36 sm:w-auto mt-2 sm:mt-0">
-            <div class="h-3 w-24 bg-white/30 rounded-md mb-2"></div>
-            <div class="h-6 w-32 bg-white/30 rounded-md"></div>
-          </div>
-        </div>
-      </div>
-    
-      <div class="p-5 sm:p-6">
-        <!-- Información principal en cards skeleton -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-          @for (card of [1, 2, 3, 4]; track $index) {
-          <div class="bg-gray-50 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-100 dark:border-gray-700/30">
-            <div class="flex items-center gap-2 mb-1">
-              <div class="p-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                <div class="w-3.5 h-3.5 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
-              </div>
-              <div class="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-            </div>
-            <div class="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-          </div>
-          }
-        </div>
-        
-        <!-- Estado de pagos skeleton -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <!-- Total Pagado skeleton -->
-          <div class="group relative bg-gray-100 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-200 dark:border-gray-700/30">
-            <div class="relative flex flex-col">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="p-1 rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></div>
-                </div>
-                <div class="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-              </div>
-              <div class="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-            </div>
-          </div>
-          
-          <!-- Por Pagar skeleton -->
-          <div class="group relative bg-gray-100 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-200 dark:border-gray-700/30">
-            <div class="relative flex flex-col">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="p-1 rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></div>
-                </div>
-                <div class="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-              </div>
-              <div class="h-6 w-28 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-            </div>
-          </div>
-          
-          <!-- Cuotas Atrasadas skeleton -->
-          <div class="group relative bg-gray-100 dark:bg-gray-800/70 p-4 rounded-xl border border-gray-200 dark:border-gray-700/30">
-            <div class="relative flex flex-col">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="p-1 rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600"></div>
-                </div>
-                <div class="h-3 w-32 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-              </div>
-              <div class="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Barra de progreso skeleton -->
-        <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700/30">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <div class="p-1.5 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                <div class="w-3.5 h-3.5 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
-              </div>
-              <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <div class="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg w-16 h-6"></div>
-              <div class="px-2.5 py-1 bg-gray-200 dark:bg-gray-700 rounded-lg w-14 h-6"></div>
-            </div>
-          </div>
-          
-          <div class="relative h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div class="h-full w-2/3 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-          </div>
-        </div>
-        
-        <!-- Método de pago skeleton -->
-        <div class="flex items-center gap-2 px-2 py-1.5 bg-gray-50 dark:bg-gray-800/30 rounded-lg border border-gray-100 dark:border-gray-700/20 w-fit">
-          <div class="p-1 bg-gray-200 dark:bg-gray-700 rounded-md">
-            <div class="w-3.5 h-3.5 bg-gray-300 dark:bg-gray-600 rounded-sm"></div>
-          </div>
-          <div class="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
-        </div>
+<!-- Header Section Skeleton -->
+<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-3 sm:p-6 transition-all duration-500 mb-6">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+    <div class="flex items-center space-x-3">
+      <div class="p-2 sm:p-3 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse w-10 h-10"></div>
+      <div>
+        <div class="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse mb-2"></div>
+        <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
       </div>
     </div>
+    <div class="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+  </div>
+
+  <!-- Stats Grid Skeleton -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+    @for (item of [1,2,3,4]; track item) {
+      <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-md p-4 sm:p-6">
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <div class="p-2 sm:p-3 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse w-8 h-8"></div>
+          <div class="min-w-0 flex-1">
+            <div class="h-4 w-20 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse mb-2"></div>
+            <div class="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
+          </div>
+        </div>
+      </div>
     }
+  </div>
+
+  <!-- Estado de Cuotas Skeleton -->
+  <div class="mt-4">
+    <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-md p-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+        <div>
+          <div class="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse mb-2"></div>
+          <div class="h-5 w-16 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
+        </div>
+      </div>
+      <div class="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+
+  <!-- Progreso y detalles Skeleton -->
+  <div class="mt-6 space-y-4">
+    <!-- Barra de progreso Skeleton -->
+    <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-md p-4">
+      <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          <div class="h-4 w-28 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+          <div class="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+        </div>
+      </div>
+      <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div class="h-full bg-gray-300 dark:bg-gray-600 rounded-full animate-pulse" style="width: 60%"></div>
+      </div>
+    </div>
+
+    <!-- Información adicional Skeleton -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      @for (item of [1,2,3,4]; track item) {
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-md p-4">
+          <div class="h-3 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
+          <div class="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
