@@ -20,6 +20,7 @@ export class CardSalaryComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _salaryService = inject(SalaryService);
   seletdUserId = signal(this._storage.getUserId());
+  showMoreDetails = signal(false);
   openSideBar = signal(false);
   currentMonth = computed(() =>
     format(this.timeNow(), 'MMMM', this.lenguaje())
