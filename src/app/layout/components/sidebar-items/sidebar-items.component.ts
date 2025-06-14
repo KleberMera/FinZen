@@ -119,18 +119,25 @@ export class SidebarItemsComponent {
       ],
     },
     {
-      type: 'dropdown',
-      label: 'Tickets',
+      type: 'link',
+      label: 'Chat',
       icon: ChatIconComponent,
-      subItems: [
-        {
-          label: 'Chat',
-          route: 'chat',
-         // route: 'metas',
-        },
-               
-      ],
+      route: 'chat',
+      //activeClass: 'bg-gray-100 dark:bg-gray-700',
     },
+    // {
+    //   type: 'dropdown',
+    //   label: 'Tickets',
+    //   icon: ChatIconComponent,
+    //   subItems: [
+    //     {
+    //       label: 'Chat',
+    //       route: 'chat',
+    //      // route: 'metas',
+    //     },
+               
+    //   ],
+    // },
     {
       type: 'dropdown',
       label: 'Charts',
