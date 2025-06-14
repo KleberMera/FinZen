@@ -6,23 +6,23 @@ module.exports = {
     // "./node_modules/flowbite/**/*.js", // add this line
   ],
   theme: {
-    // extend: {
-    //   colors: {
-    //   //   primary: {
-    //   //     50: "#eff6ff",
-    //   //     100: "#dbeafe",
-    //   //     200: "#bfdbfe",
-    //   //     300: "#93c5fd",
-    //   //     400: "#60a5fa",
-    //   //     500: "#3b82f6",
-    //   //     600: "#2563eb",
-    //   //     700: "#1d4ed8",
-    //   //     800: "#1e40af",
-    //   //     900: "#1e3a8a",
-    //   //     950: "#172554",
-    //   //   },
-    //   // },
-    // },
+    extend: {
+      colors: {
+        "jacksons-purple": {
+          50: "#eaf2ff",
+          100: "#d9e7ff",
+          200: "#bad1ff",
+          300: "#90b1ff",
+          400: "#6585ff",
+          500: "#4159ff",
+          600: "#2029ff",
+          700: "#151aed",
+          800: "#151cbe",
+          900: "#1a2293",
+          950: "#101356",
+        },
+      },
+    },
     fontFamily: {
       body: [
         "Inter",

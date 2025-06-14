@@ -1,7 +1,7 @@
-<ul class="space-y-2" [@listAnimation]="visibleMenuItems().length">
+<ul class="space-y-2 " [@listAnimation]="visibleMenuItems().length">
   @for (item of visibleMenuItems(); track item.label) {
   @if (item.type === 'link') {
-  <li >
+  <li>
     <a [routerLink]="item.route"
       routerLinkActive="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-inner"
       (click)="onItemClick()"
