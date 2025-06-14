@@ -5,14 +5,14 @@ import { SalaryService } from '../../services/salary.service';
 import { format } from '@formkit/tempo';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Salary } from '@models/salary';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, NgClass } from '@angular/common';
 import { apiResponse } from '@models/apiResponse';
 import { toast } from 'ngx-sonner';
 import { SidebarSalaryDataComponent } from "../sidebar-salary-data/sidebar-salary-data.component";
 
 @Component({
   selector: 'app-card-salary',
-  imports: [ReactiveFormsModule, CurrencyPipe, SidebarSalaryDataComponent],
+  imports: [ReactiveFormsModule, CurrencyPipe, SidebarSalaryDataComponent, DecimalPipe],
   templateUrl: './card-salary.component.html',
   styleUrl: './card-salary.component.scss',
 })
@@ -48,11 +48,6 @@ export class CardSalaryComponent {
         month_name: this.capitalizeFirstLetter(this.currentMonth()),
         effective_date: this.currenDate(),
       });
-      console.log(
-        'currentMonthSelected: ',
-        this.capitalizeFirstLetter(this.currentMonth())
-      );
-      console.log('currentDateSelected: ', this.currenDate());
     });
   }
 
@@ -72,6 +67,23 @@ export class CardSalaryComponent {
   });
 
 
+ currentFinancialSumary = rxResource({
+    request: () => ({
+      userId: this.seletdUserId(),
+      startMonth: parseInt(this.currentMonthNumber()),
+      startYear: parseInt(this.currenYear()),
+    }),
+    loader: ({ request }) =>
+      this._salaryService.getFinancialSummaryRange(
+        request.userId,
+        request.startMonth,
+        request.startYear,   
+        null,
+        null
+      ),
+  });
+
+
 
 
 
@@ -86,6 +98,7 @@ export class CardSalaryComponent {
         next: (response) => {
           // Recargar los datos del salario después de guardar
           this.salary.reload();
+          this.currentFinancialSumary.reload();
           toast.success('Salario guardado correctamente');
         },
         error: (error) => {
@@ -95,55 +108,7 @@ export class CardSalaryComponent {
     }
   }
 
-  expenseByMonth = rxResource({
-    request: () => ({
-      userId: this.seletdUserId(),
-      month: parseInt(this.currentMonthNumber()),
-      year: parseInt(this.currenYear()),
-    }),
-    loader: ({ request }) =>
-      this._salaryService.getTotalExpenseByUserAndMonth(request),
-  });
 
-
-  incomeByMonth = rxResource({
-    request: () => ({
-      userId: this.seletdUserId(),
-      month: parseInt(this.currentMonthNumber()),
-      year: parseInt(this.currenYear()),
-    }),
-    loader: ({ request }) =>
-      this._salaryService.getTotalIncomeByUserAndMonth(request),
-  });
-
-// Método para calcular el porcentaje de gasto
-percentage = computed(() => {
-  const salaryData = this.salary.value()?.data?.salary_amount || 0;
-  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
-  const expenseData = this.expenseByMonth.value()?.data?.total || 0;
-  if (totalIncome > 0) {
-    return Math.min(Math.round((expenseData / totalIncome) * 100), 100);
-  }
-  return 0;
-});
-
-// Método para calcular el monto restante
-remaining = computed(() => {
-  const salaryData = this.salary.value()?.data?.salary_amount || 0;
-  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
-  const expenseData = this.expenseByMonth.value()?.data?.total || 0;
-  return Math.max(totalIncome - expenseData, 0);
-});
-
-//SEñal computada del total mas ingresos
-totalIncome = computed(() => {
-  const salaryData = this.salary.value()?.data?.salary_amount || 0;
-  const incomeData = this.incomeByMonth.value()?.data?.total || 0;
-  const totalIncome = parseFloat(String(salaryData)) + parseFloat(String(incomeData));
-  return totalIncome;
-});
 
 toggleSidebar() {
   this.openSideBar.set(!this.openSideBar());
@@ -157,6 +122,7 @@ reloadSalary() {
   handleSalarySaved() {
     this.toggleSidebar(); // Cerrar el sidebar
     this.reloadSalary(); // Recargar las contribuciones
+    this.currentFinancialSumary.reload();
   }
 
  

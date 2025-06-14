@@ -78,6 +78,18 @@ export class SalaryService {
     return this._http.post<apiResponse<FinanceSummary>>(url, data);
   }
 
+  getFinancialSummaryRange(
+    userId: number,
+    startMonth: number,
+    startYear: number,
+    endMonth?: number | null,
+    endYear?: number | null
+  ): Observable<apiResponse<FinanceSummary[]>> {
+    const url = `${environment.apiUrl}/finance/summary/range/${userId}`;
+    const data = { startMonth, startYear, endMonth, endYear };
+    return this._http.post<apiResponse<FinanceSummary[]>>(url, data);
+  }
+
 
   salaryForm(){
    const salaryForm = signal<FormGroup>(
