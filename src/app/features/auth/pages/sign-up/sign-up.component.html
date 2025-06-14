@@ -14,7 +14,7 @@
         <!-- Logo y título en mobile -->
         @if (_BreakpointService.isMobile()) {
           <div class="flex flex-col items-center mb-8">
-            <div class="w-16 h-16 md:w-20 md:h-20 mb-4 transform hover:scale-105 transition-transform duration-300 text-primary-600">
+            <div class="w-16 h-16 md:w-20 md:h-20 mb-4 transform hover:scale-105 transition-transform duration-300 text-blue-600">
               <logo-app></logo-app>
             </div>
             <span class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -75,7 +75,7 @@
                 <button type="button" 
                   (click)="verifyEmail()"
                   [disabled]="isVerifyingEmail() || !form().get('email')?.valid"
-                  class="px-4 py-2 rounded-lg font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 min-w-[120px]">
+                  class="px-4 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 min-w-[120px]">
                   @if (isVerifyingEmail()) {
                     <app-spinner></app-spinner>
                     Verificando...
@@ -214,7 +214,7 @@
             <!-- Botón submit -->
             <div class="md:col-span-2">
               <button type="submit" [disabled]="form().invalid || isSubmitting()"
-                class="w-full py-3 px-4 lg:py-4 lg:px-6 rounded-xl font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
+                class="w-full py-3 px-4 lg:py-4 lg:px-6 rounded-xl font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2">
                 @if (isSubmitting()) {
                   <app-spinner></app-spinner>
                   Creando cuenta...
@@ -230,7 +230,7 @@
               <p class="text-sm text-gray-600 dark:text-gray-400">
                 ¿Ya tienes una cuenta?
                 <a [routerLink]="pages()"
-                  class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-300 inline-flex items-center gap-1">
+                  class="font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-300 inline-flex items-center gap-1">
                   Inicia sesión aquí
                 </a>
               </p>

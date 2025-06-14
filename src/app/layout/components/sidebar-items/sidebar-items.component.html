@@ -3,15 +3,15 @@
   @if (item.type === 'link') {
   <li >
     <a [routerLink]="item.route"
-      routerLinkActive="bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-inner"
+      routerLinkActive="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-inner"
       (click)="onItemClick()"
       class="flex items-center p-3 text-base font-medium rounded-xl dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-800/80 group hover:shadow-lg transform hover:scale-102 transition-all duration-300 relative overflow-hidden">
       
       <!-- Efecto de brillo en hover -->
-      <div class="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/10 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
       @if (item.icon) {
-      <div class="relative z-10 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 transform group-hover:scale-110">
+      <div class="relative z-10 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all duration-300 transform group-hover:scale-110">
         <ng-container [ngComponentOutlet]="item.icon" />
       </div>
       }
@@ -29,17 +29,17 @@
         [class.shadow-inner]="isDropdownOpen()(item.label)">
         
         <!-- Gradiente de fondo mejorado -->
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-primary-500/10 to-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-blue-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
         @if (item.icon) {
-        <div class="relative z-10 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 transform group-hover:scale-110">
+        <div class="relative z-10 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all duration-300 transform group-hover:scale-110">
           <ng-container [ngComponentOutlet]="item.icon" />
         </div>
         }
         <span class="relative z-10 flex-1 ml-3 text-left whitespace-nowrap group-hover:translate-x-1 transition-all duration-300">
           {{ item.label }}
         </span>
-        <svg class="relative z-10 w-5 h-5 text-gray-600 dark:text-gray-400 transition-all duration-300 group-hover:text-primary-600 dark:group-hover:text-primary-400"
+        <svg class="relative z-10 w-5 h-5 text-gray-600 dark:text-gray-400 transition-all duration-300 group-hover:text-blue-600 dark:group-hover:text-blue-400"
           [class.rotate-180]="isDropdownOpen()(item.label)"
 
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -53,14 +53,14 @@
         @for (subItem of item.subItems; track subItem.label) {
         <li>
           <a [routerLink]="subItem.route"
-            routerLinkActive="bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-inner"
+            routerLinkActive="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-inner"
             (click)="onItemClick()"
             class="flex items-center p-2.5 w-full text-sm font-medium text-gray-600 dark:text-gray-400 rounded-xl transition-all duration-300 group hover:bg-white/80 dark:hover:bg-gray-800/80 hover:shadow-md relative overflow-hidden">
             
-            <div class="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/10 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
             @if (subItem.icon) {
-            <div class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-all duration-300 transform group-hover:scale-110">
+            <div class="relative z-10 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all duration-300 transform group-hover:scale-110">
               <ng-container [ngComponentOutlet]="subItem.icon" />
             </div>
             }
