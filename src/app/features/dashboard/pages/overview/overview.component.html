@@ -1,50 +1,120 @@
 <app-dashboard-header></app-dashboard-header>
 
-
-
-  @if (rolIdUser() === 1) {
+@if (rolIdUser() === 1) {
   <!-- Menú de pestañas para administradores -->
   <div class="space-y-8">
     <div class="flex space-x-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner">
       <button 
         class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
-        [ngClass]="{
-          'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400': activeTab === 'admin',
-          'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200': activeTab !== 'admin'
-        }"
+        [class]="activeTab() === 'admin' ? 'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
         (click)="setActiveTab('admin')">
         <i class="pi pi-shield mr-2"></i> Vista de Administrador
       </button>
       <button 
         class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
-        [ngClass]="{
-          'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400': activeTab === 'user',
-          'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200': activeTab !== 'user'
-        }"
+        [class]="activeTab() === 'user' ? 'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
         (click)="setActiveTab('user')">
         <i class="pi pi-user mr-2"></i> Vista de Usuario
       </button>
     </div>
 
     <div class="space-y-6">
-      @if (activeTab === 'admin') {
+      @if (activeTab() === 'admin') {
         <!-- Contenido de administrador -->
         <app-overview-admin></app-overview-admin>
- 
       } @else {
-        <!-- Contenido de usuario normal -->
-   
-          <app-card-month-summary></app-card-month-summary>
-          <app-card-salary></app-card-salary>
-      
-        <app-card-movements></app-card-movements>
+        <!-- Contenido de usuario normal con sub-tabs -->
+        <div class="space-y-6">
+          <!-- Sub-tabs para usuario -->
+          <div class="flex space-x-2 p-1 bg-gray-50 dark:bg-gray-900/50 rounded-xl shadow-inner border border-gray-200/50 dark:border-gray-700/50">
+            <button 
+              class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+              [class]="userActiveTab() === 'current' ? 'bg-white dark:bg-gray-700 shadow-md text-emerald-600 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+              (click)="setUserActiveTab('current')">
+              <i class="pi pi-chart-line mr-2"></i> Movimientos Actuales
+            </button>
+            <button 
+              class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+              [class]="userActiveTab() === 'history' ? 'bg-white dark:bg-gray-700 shadow-md text-emerald-600 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+              (click)="setUserActiveTab('history')">
+              <i class="pi pi-history mr-2"></i> Historial
+            </button>
+          </div>
+
+          <!-- Contenido de los sub-tabs -->
+          @if (userActiveTab() === 'current') {
+            <!-- Movimientos actuales -->
+            <div class="space-y-6 animate-in slide-in-from-right-4 duration-300">
+              <app-card-month-summary></app-card-month-summary>
+              <app-card-salary></app-card-salary>
+              <app-card-movements></app-card-movements>
+            </div>
+          } @else if (userActiveTab() === 'history') {
+            <!-- Historial -->
+            <div class="animate-in slide-in-from-right-4 duration-300">
+              <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-2xl p-8 text-center">
+                <div class="mx-auto w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+                  <i class="pi pi-history text-white text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Historial</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                  Esta sección estará disponible próximamente
+                </p>
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-400">
+                  <i class="pi pi-clock"></i>
+                  <span>En desarrollo</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
       }
     </div>
   </div>
-
-  } @else if (rolIdUser() === 2) {
+} @else if (rolIdUser() === 2) {
   <!-- Contenido para usuarios normales -->
-    <app-card-month-summary></app-card-month-summary>
-    <app-card-salary></app-card-salary>
-    <app-card-movements></app-card-movements>
-  }
+  <div class="space-y-6">
+    <!-- Sub-tabs para usuario normal -->
+    <div class="flex space-x-2 p-1 bg-gray-50 dark:bg-gray-900/50 rounded-xl shadow-inner border border-gray-200/50 dark:border-gray-700/50">
+      <button 
+        class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+        [class]="userActiveTab() === 'current' ? 'bg-white dark:bg-gray-700 shadow-md text-emerald-600 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+        (click)="setUserActiveTab('current')">
+        <i class="pi pi-chart-line mr-2"></i> Movimientos Actuales
+      </button>
+      <button 
+        class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+        [class]="userActiveTab() === 'history' ? 'bg-white dark:bg-gray-700 shadow-md text-emerald-600 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+        (click)="setUserActiveTab('history')">
+        <i class="pi pi-history mr-2"></i> Historial
+      </button>
+    </div>
+
+    <!-- Contenido de los sub-tabs -->
+    @if (userActiveTab() === 'current') {
+      <!-- Movimientos actuales -->
+      <div class="space-y-6 animate-in slide-in-from-right-4 duration-300">
+        <app-card-month-summary></app-card-month-summary>
+        <app-card-salary></app-card-salary>
+        <app-card-movements></app-card-movements>
+      </div>
+    } @else if (userActiveTab() === 'history') {
+      <!-- Historial -->
+      <div class="animate-in slide-in-from-right-4 duration-300">
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-2xl p-8 text-center">
+          <div class="mx-auto w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <i class="pi pi-history text-white text-3xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Historial</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Esta sección estará disponible próximamente
+          </p>
+          <div class="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-600 dark:text-gray-400">
+            <i class="pi pi-clock"></i>
+            <span>En desarrollo</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

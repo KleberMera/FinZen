@@ -25,11 +25,19 @@ export default class OverviewComponent {
   protected readonly _storageService = inject(StorageService);
   rolIdUser = signal<number>(this._storageService.getRole()!);
   
-  // Control de pestañas
-  activeTab: 'admin' | 'user' = 'admin';
+  // Control de pestañas principales (para admin)
+  activeTab = signal<'admin' | 'user'>('admin');
   
-  // Método para cambiar entre pestañas
+  // Control de sub-tabs para usuarios
+  userActiveTab = signal<'current' | 'history'>('current');
+  
+  // Método para cambiar entre pestañas principales
   setActiveTab(tab: 'admin' | 'user'): void {
-    this.activeTab = tab;
+    this.activeTab.set(tab);
+  }
+
+  // Método para cambiar entre sub-tabs de usuario
+  setUserActiveTab(tab: 'current' | 'history'): void {
+    this.userActiveTab.set(tab);
   }
 }
