@@ -6,11 +6,11 @@ import { es } from 'date-fns/locale';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { ChartRecordComponent, FinanceSummary } from "../chart-record/chart-record.component";
 
 @Component({
   selector: 'app-card-record',
-  imports: [CurrencyPipe, DecimalPipe, FormsModule],
+  imports: [CurrencyPipe, DecimalPipe, FormsModule, ChartRecordComponent],
   templateUrl: './card-record.component.html',
   styleUrl: './card-record.component.scss',
 })
@@ -97,22 +97,24 @@ export class CardRecordComponent {
   // Signal para mostrar/ocultar filtros
   showFilters = signal(false);
 
+  // Current financial summary data with type
   currentFinancialSumary = rxResource({
     request: () => ({
       userId: this.seletdUserId(),
       startMonth: this.startMonth(),
       startYear: this.startYear(),
       endMonth: this.endMonth(),
-      endYear: this.endYear(),
+      endYear: this.endYear()
     }),
-    loader: ({ request }) =>
-      this._salaryService.getFinancialSummaryRange(
+    loader: ({ request }) => {
+      return this._salaryService.getFinancialSummaryRange(
         request.userId,
         request.startMonth,
         request.startYear,
         request.endMonth,
         request.endYear
-      ),
+      );
+    }
   });
 
   // Método para cambiar el rango de meses predefinido

@@ -307,4 +307,13 @@
           </div>
         }
       </div>
+  <!-- Chart Section -->
+  @if (currentFinancialSumary.value()?.data) {
+    @let financialData = currentFinancialSumary.value()?.data || [];
+    @if (financialData && financialData.length > 0) {
+      <div class="mt-6">
+        <app-chart-record [financialData]="financialData"></app-chart-record>
+      </div>
+    }
+  }
 </div>
