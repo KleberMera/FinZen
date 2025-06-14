@@ -3,11 +3,10 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { FloatingBalanceComponent } from "../shared/components/floating-balance/floating-balance.component";
 
 @Component({
   selector: 'app-layout',
-  imports: [NavbarComponent, RouterOutlet, SidebarComponent, FloatingBalanceComponent],
+  imports: [NavbarComponent, RouterOutlet, SidebarComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
