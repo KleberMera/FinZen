@@ -8,11 +8,12 @@ import { DebtService } from '../../services/debt.service';
 import { MethodService } from '../../services/method.service';
 import { format } from '@formkit/tempo';
 import { toast } from 'ngx-sonner';
+import { DebtSidebarContainerComponent } from '../debt-sidebar-container/debt-sidebar-container.component';
 
 
 @Component({
   selector: 'app-table-amortization',
-  imports: [CurrencyPipe, DatePipe, SidebarDebDetailsComponent],
+  imports: [CurrencyPipe, DatePipe, DebtSidebarContainerComponent],
   templateUrl: './table-amortization.component.html',
   styleUrl: './table-amortization.component.scss',
 })

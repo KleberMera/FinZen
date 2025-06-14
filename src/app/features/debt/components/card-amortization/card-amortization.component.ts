@@ -8,11 +8,12 @@ import { Amortization, UpdateAllStatusDto } from '@models/amortization';
 import { DebtService } from '../../services/debt.service';
 import { format } from '@formkit/tempo';
 import { toast } from 'ngx-sonner';
+import { DebtSidebarContainerComponent } from '../debt-sidebar-container/debt-sidebar-container.component';
 
 
 @Component({
   selector: 'app-card-amortization',
-  imports: [CurrencyPipe, DatePipe, SidebarDebDetailsComponent],
+  imports: [CurrencyPipe, DatePipe, DebtSidebarContainerComponent],
   templateUrl: './card-amortization.component.html',
   styleUrl: './card-amortization.component.scss',
 })

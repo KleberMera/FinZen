@@ -1,114 +1,86 @@
-<div class="fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm sidebar-overlay"
-    (click)="close()">
-    </div>
-    <div class="fixed bottom-0 md:bottom-auto md:top-1/2 left-1/2 -translate-x-1/2 md:-translate-y-1/2 w-full md:w-[600px] h-auto max-h-[90vh] bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto rounded-t-xl md:rounded-xl sidebar-panel">
-        <div class="flex justify-center py-2">
+<div class="fixed bottom-0 md:bottom-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[600px] h-auto max-h-[90vh] bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl overflow-y-auto rounded-t-xl md:rounded-xl border border-gray-200/50 dark:border-gray-700/50">
+        <!-- Línea de arrastre solo visible en móvil -->
+        <div class="flex justify-center py-2 md:hidden">
             <div class="w-12 h-1 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
         </div>
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900 z-10">
+        <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl z-10">
             <div class="flex items-center justify-between">
-                <h2 class="flex items-center gap-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
+                <h2 class="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
                     Información de Cuota
                     <span [class]="amortization().status === 'Pendiente' 
-                        ? 'px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-800/30'
-                        : 'px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 border border-green-200 dark:border-green-800/30'">
+                        ? 'px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
+                        : 'px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'">
+                        <span class="w-1.5 h-1.5 rounded-full inline-block mr-1.5"
+                              [class]="amortization().status === 'Pendiente' ? 'bg-amber-500' : 'bg-emerald-500'"></span>
                         {{ amortization().status }}
                     </span>
                 </h2>
-                <div class="flex items-center gap-2">
-                    <button (click)="close()"
-                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                        title="Cerrar">
-                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                <button (click)="close()"
+                    class="p-2 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors">
+                    <i class="pi pi-times text-gray-600 dark:text-gray-400"></i>
+                </button>
             </div>
         </div>
         
-        <!-- Información de la cuota -->
         <div class="p-5">
-            <div class="mb-6 bg-gray-50 dark:bg-gray-800/30 rounded-xl p-4">
+            <div class="mb-6 bg-gray-50/50 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50">
                 <div class="space-y-4">
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transitsion-color">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            Mes:
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Cuota mensual</p>
+                            <p class="text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                                {{ amortization().quota | currency }}
+                            </p>
                         </div>
-                        <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ amortization().number_months }}</div>
+                        <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Mes</p>
+                            <p class="text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                                {{ amortization().number_months }}
+                            </p>
+                        </div>
                     </div>
-                    
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            Fecha:
+
+                    <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Fecha de pago</p>
+                            <p class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                                <i class="pi pi-calendar mr-2 text-gray-400"></i>
+                                {{ amortization().date | date:'dd/MM/yyyy' }}
+                            </p>
                         </div>
-                        <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ amortization().date | date:'dd/MM/yyyy' }}</div>
                     </div>
-                    
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Cuota:
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Interés</p>
+                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                {{ amortization().interest | currency }}
+                            </p>
                         </div>
-                        <div class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ amortization().quota | currency : "USD" : "symbol" : "1.2-2" }}</div>
+                        <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Amortización</p>
+                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                {{ amortization().amortized | currency }}
+                            </p>
+                        </div>
                     </div>
-                    
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
-                            </svg>
-                            Interés:
-                        </div>
-                        <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ amortization().interest | currency : "USD" : "symbol" : "1.2-2" }}</div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Amortizado:
-                        </div>
-                        <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ amortization().amortized | currency : "USD" : "symbol" : "1.2-2" }}</div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-2 rounded-lg hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                        <div class="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center">
-                            <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Pendiente:
-                        </div>
-                        <div class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ amortization().outstanding | currency : "USD" : "symbol" : "1.2-2" }}</div>
+
+                    <div class="p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Saldo pendiente</p>
+                        <p class="text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                            {{ amortization().outstanding | currency }}
+                        </p>
                     </div>
                 </div>
             </div>
             
-            <!-- Usando el nuevo control de flujo para el botón con estilo diferente -->
             @if (amortization().status === 'Pendiente') {
-                <div class="mt-6">
-                    <button 
-    (click)="onUpdateAmortization()"
-    class="px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-medium w-full flex items-center justify-center gap-2">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-    </svg>
-    Marcar como Pagado
-</button>
-                </div>
+                <button 
+                    (click)="onUpdateAmortization()"
+                    class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 font-medium">
+                    <i class="pi pi-check-circle"></i>
+                    Marcar como Pagado
+                </button>
             }
         </div>
     </div>
-</div>
