@@ -54,17 +54,14 @@ export class CardSalaryComponent {
 
   salary = rxResource<
     apiResponse<Salary>,
-    { userId: number; currentMonth: string }
+    { userId: number; month: number; year: number }
   >({
     request: () => ({
       userId: this.seletdUserId(),
-      currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
     }),
-    loader: ({ request }) =>
-      this._salaryService.getSalaryByMonth(
-        request.userId,
-        request.currentMonth
-      ),
+    loader: ({ request }) => this._salaryService.getSalaryByMonth(request.userId, request.month,request.year)
   });
 
 
