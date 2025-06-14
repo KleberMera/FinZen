@@ -12,4 +12,8 @@ export interface FinanceSummary {
   expectedExpensesByTime: number;
   timeAdjustedExpensePercentage: number;
   recommendation: string;
+  monthName: string
+  month: number;
+  year: number;
+
 }

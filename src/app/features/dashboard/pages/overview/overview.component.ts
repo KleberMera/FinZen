@@ -6,18 +6,20 @@ import { CardMovementsComponent } from "../../components/card-movements/card-mov
 import { StorageService } from '@services/storage.service';
 import { CardMonthSummaryComponent } from "../../components/card-month-summary/card-month-summary.component";
 import { OverviewAdminComponent } from "../../components/admin/overview-admin/overview-admin.component";
+import { CardRecordComponent } from "../../components/card-record/card-record.component";
 
 @Component({
   selector: 'app-overview',
   standalone: true,
   imports: [
     CommonModule,
-    DashboardHeaderComponent, 
-    CardSalaryComponent, 
-    CardMovementsComponent, 
-    CardMonthSummaryComponent, 
-    OverviewAdminComponent
-  ],
+    DashboardHeaderComponent,
+    CardSalaryComponent,
+    CardMovementsComponent,
+    CardMonthSummaryComponent,
+    OverviewAdminComponent,
+    CardRecordComponent
+],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
