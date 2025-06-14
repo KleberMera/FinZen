@@ -59,9 +59,8 @@ export class TableAmortizationComponent {
   selectedAmortization = signal<Amortization | null>(null);
   debtId = signal<number>(0);
   isSidebarOpen = signal(false);
-  selectedItems = signal<number[]>([]);
-
-
+  readonly selectionMode = signal<boolean>(false);
+  readonly selectedItems = signal<number[]>([]);
 
   ondebtClick(amortization: Amortization): void {
     console.log('Recibido', amortization);
@@ -84,8 +83,15 @@ export class TableAmortizationComponent {
     this.updateSuccess.emit(); // Propaga el evento hacia ListDebtComponent
   }
 
+  toggleSelectionMode() {
+    this.selectionMode.update((mode) => !mode);
+    if (!this.selectionMode()) {
+      this.selectedItems.set([]);
+    }
+  }
+
   toggleSelection(amortization: Amortization, event: Event) {
-    event.stopPropagation(); // Evitar que se abra el sidebar
+    event.stopPropagation();
     if (amortization.status === 'Pagado') return;
 
     const currentSelected = this.selectedItems();
