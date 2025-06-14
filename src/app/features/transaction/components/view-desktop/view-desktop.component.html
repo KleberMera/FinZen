@@ -1,48 +1,60 @@
 <!-- Tabla de Transacciones con Diseño Mejorado -->
-<div
-  class="overflow-hidden shadow-xl sm:rounded-lg ring-1 ring-gray-200/50 dark:ring-gray-700/50 bg-white dark:bg-gray-800">
+<div class="bg-white/80 dark:bg-gray-900/80  rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
   <!-- Tabla con scrolling horizontal en dispositivos pequeños -->
-  <div class="overflow-x-auto relative">
-    <table class="w-full text-sm text-gray-700 dark:text-gray-300">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
       <!-- Cabecera con gradiente mejorado -->
-      <thead
-        class="text-xs uppercase bg-gray-700">
-        <tr class="border-b border-gray-200/80 dark:border-gray-700">
-          <th scope="col"
-            class="px-5 py-4 hidden sm:table-cell font-semibold text-gray-600 dark:text-gray-300 align-middle">N°</th>
-          <th scope="col" class="px-5 py-4 font-semibold text-gray-600 dark:text-gray-300 align-middle">Categoría</th>
-          <th scope="col" class="px-5 py-4 font-semibold text-gray-600 dark:text-gray-300 align-middle">Nombre</th>
-          <th scope="col" class="px-5 py-4 font-semibold text-gray-600 dark:text-gray-300 align-middle">Tipo</th>
-          <th scope="col"
-            class="px-5 py-4 hidden md:table-cell font-semibold text-gray-600 dark:text-gray-300 align-middle">Fecha
+      <thead>
+        <tr class="bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+          <th scope="col" class="px-6 py-4 text-left hidden sm:table-cell">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">N°</span>
           </th>
-          <th scope="col" class="px-5 py-4 font-semibold text-gray-600 dark:text-gray-300 text-right align-middle">Monto
+          <th scope="col" class="px-6 py-4 text-left">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Categoría</span>
+          </th>
+          <th scope="col" class="px-6 py-4 text-left">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Nombre</span>
+          </th>
+          <th scope="col" class="px-6 py-4 text-left">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Tipo</span>
+          </th>
+          <th scope="col" class="px-6 py-4 text-left hidden md:table-cell">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Fecha</span>
+          </th>
+          <th scope="col" class="px-6 py-4 text-right">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Monto</span>
           </th>
         </tr>
       </thead>
 
       <!-- Cuerpo de la tabla con hover y transiciones suaves -->
-      <tbody class="divide-y divide-gray-200/50 dark:divide-gray-700/30">
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
         @for (transaccion of sortBy(); track transaccion.id) {
         <tr
-        (click)="onTransactionClick(transaccion)"
-          class="bg-white dark:bg-gray-800 hover:bg-blue-50/30 dark:hover:bg-gray-700/50 transition-colors duration-150">
-          <td class="px-5 py-4 hidden sm:table-cell font-medium text-gray-500 dark:text-gray-400">{{ transaccion.id }}
+          (click)="onTransactionClick(transaccion)"
+          class="transition-all duration-200 hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
+          <td class="px-6 py-4 hidden sm:table-cell font-medium text-gray-500 dark:text-gray-400">{{ transaccion.id }}
           </td>
 
-          <td class="px-5 py-4">
+          <td class="px-6 py-4">
             <div class="flex items-center gap-3">
               <div class="h-9 w-9 flex items-center justify-center rounded-lg bg-blue-100/50 dark:bg-blue-900/20">
                 <span [class]="transaccion.category?.icon || 'pi pi-folder'"
                   class="text-blue-600 dark:text-blue-400 text-lg"></span>
               </div>
-              <span class="font-medium">{{ transaccion.category?.name }}</span>
+              <span class="px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 font-medium">
+                {{ transaccion.category?.name }}
+              </span>
             </div>
           </td>
 
-          <td class="px-5 py-4 font-medium max-w-[200px] truncate">{{ transaccion.name }}</td>
+          <td class="px-6 py-4">
+            <span class="px-3 py-1.5 rounded-lg bg-gray-50/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 font-medium inline-block max-w-[200px] truncate">
+              {{ transaccion.name }}
+            </span>
+          </td>
 
-          <td class="px-5 py-4">
+          <td class="px-6 py-4">
             <span [class]="
               transaccion.category?.type === 'Ingreso' 
                 ? 'bg-gradient-to-br from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-800/30 text-green-700 dark:text-green-300' 
@@ -54,14 +66,14 @@
             </span>
           </td>
 
-          <td class="px-5 py-4 hidden md:table-cell">
+          <td class="px-6 py-4 hidden md:table-cell">
             <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
               <span class="pi pi-calendar"></span>
               {{ transaccion.date | date : "shortDate" }}
             </div>
           </td>
 
-          <td class="px-5 py-4 text-right">
+          <td class="px-6 py-4 text-right">
             <span [class]="
               transaccion.category?.type === 'Ingreso' 
                 ? 'bg-green-50/50 dark:bg-green-900/20 text-green-700 dark:text-green-400' 
@@ -76,15 +88,18 @@
         @empty {
         <tr>
           <td colspan="6" class="py-16">
-            <div class="flex flex-col items-center justify-center max-w-[300px] mx-auto text-center">
-              <div
-                class="h-16 w-16 flex items-center justify-center rounded-full bg-blue-100/50 dark:bg-blue-900/20 mb-4">
-                <span class="pi pi-inbox text-2xl text-blue-600 dark:text-blue-400"></span>
+            <div class="flex flex-col items-center justify-center gap-4">
+              <div class="p-4 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl shadow-lg">
+                <i class="pi pi-inbox text-white text-2xl"></i>
               </div>
-              <h4 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Sin transacciones</h4>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">
-                No se encontraron registros con los filtros seleccionados
-              </p>
+              <div class="text-center">
+                <h4 class="text-lg font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  Sin transacciones
+                </h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  No se encontraron registros con los filtros seleccionados
+                </p>
+              </div>
             </div>
           </td>
         </tr>
@@ -92,8 +107,7 @@
       </tbody>
 
       <!-- Pie de tabla mejorado -->
-      <tfoot
-        class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-gray-700 dark:to-gray-800 border-t-2 border-gray-200/80 dark:border-gray-700">
+      <tfoot class="bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-200/50 dark:border-gray-700/50">
         <tr>
           <td colspan="4" class="text-right font-semibold text-gray-600 dark:text-gray-300">Total:</td>
           <td class="px-5 py-2" colspan="2">
@@ -113,66 +127,67 @@
   </div>
 
   <!-- Paginación Mejorada -->
-  <div
-    class="flex flex-col sm:flex-row justify-between items-center px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-    <!-- Información de paginación -->
-    <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 sm:mb-0">
-      Mostrando
-      <span class="font-medium text-gray-700 dark:text-gray-300">
-        {{ filteredTransactions().pagination?.count }}
-      </span>
-      {{ filteredTransactions().pagination?.count === 1 ? 'dato' : 'datos' }}
-      {{'de la Pagína'}}
+  <div class="px-6 py-4 bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-200/50 dark:border-gray-700/50">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Información de paginación -->
+      <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 sm:mb-0">
+        Mostrando
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ filteredTransactions().pagination?.count }}
+        </span>
+        {{ filteredTransactions().pagination?.count === 1 ? 'dato' : 'datos' }}
+        {{'de la Pagína'}}
 
-      <span class="font-medium text-gray-700 dark:text-gray-300">
-        {{ filteredTransactions().pagination?.page }}
-      </span>
+        <span class="font-medium text-gray-700 dark:text-gray-300">
+          {{ filteredTransactions().pagination?.page }}
+        </span>
 
-    </div>
-
-    <!-- Controles de paginación -->
-    <div class="flex items-center space-x-2">
-      <!-- Botón página anterior -->
-      <!-- Botón página anterior -->
-      <button [disabled]="filteredTransactions().pagination?.page! <= 1"
-        (click)="goToPage(filteredTransactions().pagination?.page! - 1)"
-        class="flex items-center justify-center h-8 w-8 rounded-md bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
-        <span class="pi pi-chevron-left"></span>
-      </button>
-
-      <!-- Botones de páginas -->
-      <div class="hidden sm:flex space-x-1">
-        @for (page of getPaginationRange(); track page) {
-        <button
-          [class]="page === filteredTransactions().pagination?.page! ? 
-      'bg-blue-600 text-white hover:bg-blue-700' : 
-      'bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'"
-          (click)="goToPage(page)"
-          class="flex items-center justify-center h-8 w-8 rounded-md transition-colors duration-150">
-          {{ page }}
-        </button>
-        }
       </div>
 
-      <!-- Botón página siguiente -->
-      <button [disabled]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
-        (click)="goToPage(filteredTransactions().pagination?.page! + 1)"
-        class="flex items-center justify-center h-8 w-8 rounded-md bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
-        <span class="pi pi-chevron-right"></span>
-      </button>
+      <!-- Controles de paginación -->
+      <div class="flex items-center space-x-2">
+        <!-- Botón página anterior -->
+        <!-- Botón página anterior -->
+        <button [disabled]="filteredTransactions().pagination?.page! <= 1"
+          (click)="goToPage(filteredTransactions().pagination?.page! - 1)"
+          class="flex items-center justify-center h-8 w-8 rounded-md bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
+          <span class="pi pi-chevron-left"></span>
+        </button>
+
+        <!-- Botones de páginas -->
+        <div class="hidden sm:flex space-x-1">
+          @for (page of getPaginationRange(); track page) {
+          <button
+            [class]="page === filteredTransactions().pagination?.page! ? 
+        'bg-blue-600 text-white hover:bg-blue-700' : 
+        'bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'"
+            (click)="goToPage(page)"
+            class="flex items-center justify-center h-8 w-8 rounded-md transition-colors duration-150">
+            {{ page }}
+          </button>
+          }
+        </div>
+
+        <!-- Botón página siguiente -->
+        <button [disabled]="filteredTransactions().pagination?.page! >= filteredTransactions().pagination?.totalPages!"
+          (click)="goToPage(filteredTransactions().pagination?.page! + 1)"
+          class="flex items-center justify-center h-8 w-8 rounded-md bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
+          <span class="pi pi-chevron-right"></span>
+        </button>
 
 
 
-      <!-- Selector de límite por página -->
-      <!-- Selector de límite por página -->
-      <select [ngModel]="itemsPerPage()" (ngModelChange)="changeItemsPerPage($event)"
-        class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm p-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
+        <!-- Selector de límite por página -->
+        <!-- Selector de límite por página -->
+        <select [ngModel]="itemsPerPage()" (ngModelChange)="changeItemsPerPage($event)"
+          class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm p-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

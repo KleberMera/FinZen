@@ -2,25 +2,25 @@
   @for (transaccion of sortBy(); track transaccion.id) {
   <div
     (click)="onTransactionClick(transaccion)"
-    class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transform hover:-translate-y-1 transition-all duration-200 border border-gray-200/80 dark:border-gray-700 overflow-hidden"
+    class="group bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 border border-gray-200/50 dark:border-gray-700/50 overflow-hidden"
   >
     <div class="p-4 sm:p-5">
-      <!-- Barra lateral de color según tipo -->
       <div class="flex items-stretch">
+        <!-- Barra lateral con gradiente -->
         <div [class]="
               transaccion.category?.type === 'Ingreso'
-                ? 'bg-green-500 dark:bg-green-600'
-                : 'bg-red-500 dark:bg-red-600'
+                ? 'bg-gradient-to-b from-green-400 to-emerald-600 dark:from-green-500 dark:to-emerald-700'
+                : 'bg-gradient-to-b from-red-400 to-rose-600 dark:from-red-500 dark:to-rose-700'
             " class="w-1 rounded-full mr-3 my-1"></div>
             
         <div class="flex-1">
           <!-- Header superior -->
           <div class="flex justify-between items-start mb-3">
-            <!-- Badge con icono mejorado -->
+            <!-- Badge con gradiente suave -->
             <span [class]="
                   transaccion.category?.type === 'Ingreso'
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 ring-1 ring-green-200 dark:ring-green-800/50'
-                    : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 ring-1 ring-red-200 dark:ring-red-800/50'
+                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 text-green-700 dark:text-green-300 ring-1 ring-green-200/50 dark:ring-green-700/50'
+                    : 'bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 text-red-700 dark:text-red-300 ring-1 ring-red-200/50 dark:ring-red-700/50'
                 " class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium">
               <span class="pi text-xs" 
                     [class.pi-arrow-up]="transaccion.category?.type === 'Ingreso'"
@@ -40,7 +40,7 @@
             </div>
           </div>
 
-          <!-- Contenido principal -->
+          <!-- Contenido principal con mejores contrastes -->
           <div class="flex items-center justify-between gap-4">
             <div>
               <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white/90 mb-1 line-clamp-1">
@@ -54,12 +54,12 @@
               </div>
             </div>
 
-            <!-- Monto con énfasis -->
+            <!-- Monto con gradiente en el texto -->
             <span [class]="
                   transaccion.category?.type === 'Ingreso'
-                    ? 'text-green-600 dark:text-green-400'
-                    : 'text-red-600 dark:text-red-400'
-                " class="text-lg sm:text-xl font-bold whitespace-nowrap">
+                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400'
+                    : 'bg-gradient-to-r from-red-600 to-rose-600 dark:from-red-400 dark:to-rose-400'
+                " class="text-lg sm:text-xl font-bold whitespace-nowrap bg-clip-text text-transparent">
               {{ transaccion.category?.type === 'Ingreso' ? '+' : '-' }}
               {{ transaccion.amount | currency : "USD" : "symbol" : "1.2-2" }}
             </span>

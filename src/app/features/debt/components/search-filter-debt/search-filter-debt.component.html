@@ -31,13 +31,13 @@
         id="debt-selector" 
         [ngModel]="selectedDebtId()" 
         (ngModelChange)="selectedDebtId.set($event)"
-        class="w-full p-4 pl-12 px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 
-               rounded-lg bg-white dark:bg-gray-800 
-               text-gray-900 dark:text-gray-100 
+        class="w-full px-4 py-2.5 pl-11 
+               bg-white dark:bg-gray-800 
+               border border-gray-300 dark:border-gray-600 
+               rounded-lg text-gray-900 dark:text-gray-100 
                focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 
                focus:border-transparent
-               "
-      >
+               appearance-none">
         @if (nameDebts.value()?.data!.length === 0) {
           <option value="" disabled selected class="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700">
             No hay deudas disponibles
