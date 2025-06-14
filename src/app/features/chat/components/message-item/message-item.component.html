@@ -42,6 +42,28 @@
       <span class="text-xs text-gray-500 dark:text-gray-400 mt-3 block font-medium">{{ message().time }}</span>
     </div>
   </div>
+} @else if (message().type === 'bot-multiple-transactions') {
+  <div class="flex flex-col items-center animate-fade-in mb-6 group hover:bg-gray-50/50 dark:hover:bg-gray-900/20 p-2 rounded-lg transition-all duration-200">
+    <div class="flex w-full justify-start mb-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-sm border-l-4 border-l-blue-500">
+      <div class="w-10 h-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center shadow-sm">
+        <div class="w-8 h-8 overflow-hidden">
+          <logo-app class="w-full h-full"></logo-app>
+        </div>
+      </div>
+      <div class="ml-3 flex flex-col justify-center">
+        <span class="text-sm font-medium text-blue-700 dark:text-blue-300">
+          Se han detectado múltiples transacciones
+        </span>
+      </div>
+    </div>
+    <div class="bg-blue-50 dark:bg-blue-900/40 rounded-2xl p-3 md:p-4 max-w-full sm:max-w-[90%] md:max-w-[85%] shadow-sm border-spacing-4 border-blue-100/50 dark:border-blue-800/30 w-full">   
+      <app-chat-multiple-transactions-card 
+        [idMessage]="message().id"
+        [transactionsData]="message().transactions!"
+        [receiptImageS3Key]="message().receiptImageS3Key || ''"></app-chat-multiple-transactions-card>
+      <span class="text-xs text-gray-500 dark:text-gray-400 mt-3 block font-medium">{{ message().time }}</span>
+    </div>
+  </div>
 } @else {
   <div class="flex items-start justify-end space-x-4 animate-fade-in mb-6 group hover:bg-gray-50/50 dark:hover:bg-gray-900/20 p-2 rounded-lg transition-all duration-200">
     <div class="bg-indigo-50 dark:bg-indigo-900/40 rounded-2xl rounded-tr-none p-3 md:p-4 max-w-[80%] md:max-w-[75%] shadow-sm border border-indigo-100/50 dark:border-indigo-800/30">

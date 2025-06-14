@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ImageService } from '../../services/image.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-image-preview',
@@ -9,6 +10,7 @@ import { ImageService } from '../../services/image.service';
 })
 export class ImagePreviewComponent {
   private imageService = inject(ImageService);
+  private chatService = inject(ChatService);
   
   get selectedImage() {
     return this.imageService.selectedImage;
@@ -16,6 +18,10 @@ export class ImagePreviewComponent {
   
   get selectedImageUrl() {
     return this.imageService.selectedImageUrl;
+  }
+  
+  get isProcessing() {
+    return this.chatService.analyzingImage;
   }
   
   removeSelectedImage(): void {

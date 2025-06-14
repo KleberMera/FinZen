@@ -1,5 +1,5 @@
 <!-- app/pages/chat/components/image-preview/image-preview.component.html -->
-@if (selectedImage()) {
+@if (selectedImage() && !isProcessing()) {
   <div class="bg-gray-50 dark:bg-gray-700/80 p-3 md:p-4 border-t border-gray-200 dark:border-gray-700 backdrop-blur-sm">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-3">

@@ -97,6 +97,24 @@ export class ChatService {
     this.messageCounter.update(count => count + 1);
   }
 
+  // Método para añadir múltiples transacciones para confirmación
+  addMultipleTransactionsMessage(transactions: Transaction[], receiptImageS3Key?: string): void {
+    const id = this.messageCounter();
+    this.botMessages.update(messages => [
+      ...messages,
+      {
+        id,
+        text: '', 
+        time: this.getCurrentTime(),
+        type: 'bot-multiple-transactions',
+        timestamp: Date.now(),
+        transactions, // Pasamos el array de transacciones
+        receiptImageS3Key // Pasamos la clave S3 de la imagen si existe
+      }
+    ]);
+    this.messageCounter.update(count => count + 1);
+  }
+
   // Método mejorado para mostrar animación de typing
   // Ahora devuelve una función para detener la animación cuando sea necesario
   startTypingAnimation(): () => void {

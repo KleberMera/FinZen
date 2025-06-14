@@ -11,16 +11,28 @@ import { Observable } from 'rxjs';
 export class ProcessService {
   private readonly _http = inject(HttpClient);
 
-  imageProcess(image: File, userId: number) {
+  imageProcess(image: File, userId: number, additionalText?: string, multipleMode: boolean = false) {
     const url = `${environment.apiUrl}/tickets/process-receipt/${userId}`;
     const formData = new FormData();
     formData.append('file', image);
-    return this._http.post<apiResponse<Transaction>>(url, formData);
+    
+    if (additionalText) {
+      formData.append('additionalText', additionalText);
+    }
+    
+    formData.append('multipleMode', multipleMode.toString());
+    
+    return this._http.post<apiResponse<Transaction | Transaction[]>>(url, formData);
   }
 
-  textProcess(text: string, userId: number): Observable<apiResponse<Transaction | null>> {
+  textProcess(text: string, userId: number, multipleMode: boolean = false): Observable<apiResponse<Transaction | Transaction[] | null>> {
     const url = `${environment.apiUrl}/tickets/process-text/${userId}`;
-    return this._http.post<apiResponse<Transaction | null>>(url, { text });
+    return this._http.post<apiResponse<Transaction | Transaction[] | null>>(url, { text, multipleMode });
+  }
+  
+  confirmTransactions(transactions: Transaction[], userId: number, receiptImageS3Key?: string): Observable<apiResponse<Transaction[]>> {
+    const url = `${environment.apiUrl}/tickets/confirm-transactions/${userId}`;
+    return this._http.post<apiResponse<Transaction[]>>(url, { transactions, receiptImageS3Key });
   }
   
   resetConversation(userId: number): Observable<apiResponse<null>> {
