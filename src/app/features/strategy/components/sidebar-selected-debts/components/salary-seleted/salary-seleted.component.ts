@@ -18,22 +18,28 @@ export class SalarySeletedComponent {
   protected readonly _methodPlanService = inject(MethodPlanService);
 
   includeSalary = signal(false);
+  lenguaje = signal<string>('es');
+  timeNow = signal<any>(new Date());
 
+
+  currentMonthNumber = computed(() =>
+    format(this.timeNow(), 'M', this.lenguaje())
+  );
   seletdUserId = signal(this._storage.getUserId());
   currentMonth = computed(() => format(new Date(), 'MMMM', 'es'));
+
+  currenYear = computed(() => format(this.timeNow(), 'YYYY', this.lenguaje()));
+
   salary = rxResource<
     apiResponse<Salary>,
-    { userId: number; currentMonth: string }
+    { userId: number; month: number; year: number }
   >({
     request: () => ({
       userId: this.seletdUserId(),
-      currentMonth: this.capitalizeFirstLetter(this.currentMonth()),
+      month: parseInt(this.currentMonthNumber()),
+      year: parseInt(this.currenYear()),
     }),
-    loader: ({ request }) =>
-      this._methodPlanService.getSalaryByMonth(
-        request.userId,
-        request.currentMonth
-      ),
+    loader: ({ request }) => this._methodPlanService.getSalaryByMonth(request.userId, request.month,request.year)
   });
 
   capitalizeFirstLetter(value: string): string {

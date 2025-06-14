@@ -12,7 +12,7 @@ export const strategyRoutes: Routes = [
       {
         path: STRATEGY_PAGES.STRATEGY,
         loadComponent: () =>
-          import('./components/strategy-main/strategy-main.component'),
+          import('./pages/strategy/strategy.component'),
         children: [
           {
             path: STRATEGY_PAGES.SNOWBALL,

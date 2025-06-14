@@ -20,10 +20,13 @@ export class MethodPlanService {
 
   getSalaryByMonth(
     userId: number,
-    month: string
+    month: number,
+    year: number,
   ): Observable<apiResponse<Salary>> {
-    const url = `${environment.apiUrl}/salary/user/${userId}/month?month=${month}`;
-    return this._http.get<apiResponse<Salary>>(url);
+    const url = `${environment.apiUrl}/salary/user/${userId}/month`;
+    return this._http.get<apiResponse<Salary>>(url, {
+      params: { month, year },
+    });
   }
 
   findDebtsByUserWithAmortizations(
