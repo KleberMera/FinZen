@@ -1,150 +1,148 @@
-<!-- Header con botón de selección -->
-  <div class="flex justify-between items-center mb-6">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Cuotas mensuales</h3>
+<!-- Header Section -->
+<div class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 p-4 sm:p-6 mb-6">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex items-center space-x-3">
+      <div class="p-2 sm:p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+        <i class="pi pi-wallet text-white text-lg sm:text-xl"></i>
+      </div>
+      <div>
+        <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+          Cuotas mensuales
+        </h3>
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+          Detalle de pagos mensuales
+        </p>
+      </div>
+    </div>
+    
     @if (filters()) {
       <button 
         (click)="toggleSelectionMode()"
-        class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg"
-        [class]="selectionMode() ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300'">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
+        class="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200"
+        [class]="selectionMode() ? 
+          'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:shadow-lg' : 
+          'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'">
+        <i class="pi" [class]="selectionMode() ? 'pi-times' : 'pi-list'"></i>
         {{ selectionMode() ? 'Cancelar selección' : 'Seleccionar cuotas' }}
       </button>
     }
   </div>
+</div>
 
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
   @for (fila of datos(); track $index) {
-  <div 
-  (click)="ondebtClick(fila)"
-  class="group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-800 mb-5">
-    <!-- Cabecera con diseño moderno -->
-    <div class="relative px-6 py-5 overflow-hidden rounded-t-xl bg-gray-900/50">
-      <div class="relative flex flex-col space-y-3">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-3">
-            <div class="flex items-center justify-center h-10 w-10 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
-              <span class="text-white font-bold text-lg/none">{{fila.number_months}}</span>
+    <div 
+      (click)="ondebtClick(fila)"
+      class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-lg border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-xl">
+      
+      <!-- Card Header -->
+      <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold">
+              {{fila.number_months}}
             </div>
-            <span class="bg-white/15 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full font-medium border border-white/20">
-              {{fila.date | date:'dd/MM/yyyy'}}
-            </span>
-          </div>
-          <div class="flex flex-col items-end">
-            <span class="text-white/90 text-xs font-medium mb-1">Progreso</span>
-            <div class="flex items-center space-x-2">
-              <div class="w-16 h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div class="h-full bg-white rounded-full" [style.width.%]="(fila.number_months/totalMonths() * 100)"></div>
-              </div>
-              <span class="text-white font-medium text-sm">
-                {{(fila.number_months/totalMonths() * 100).toFixed(0)}}%
-              </span>
+            <div>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Cuota</p>
+              <p class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                {{fila.quota | currency}}
+              </p>
             </div>
           </div>
-        </div>
-  
-        <div class="flex items-center justify-between mt-1">
-          <span class="text-sm text-blue-100 font-medium">Cuota mensual</span>
-          <span class="text-xl text-white font-bold">
-            {{fila.quota | currency : "USD" : "symbol" : "1.2-2"}}
-          </span>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Contenido Principal -->
-    <div class="p-5 space-y-4">
-      <!-- Grid de métricas con diseño moderno -->
-      <div class="grid grid-cols-2 gap-4">
-        <!-- Interés -->
-        <div class="flex flex-col p-4 bg-gray-50 dark:bg-gray-900/30 rounded-xl border border-gray-100 dark:border-gray-700/50 hover:shadow-sm transition-all duration-200">
-          <div class="flex items-center gap-2 mb-1.5">
-            <div class="p-1.5 bg-indigo-100/50 dark:bg-indigo-900/30 rounded-lg">
-              <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Interés</span>
-          </div>
-          <div class="text-xl font-bold text-gray-900 dark:text-white">
-            {{fila.interest | currency : "USD" : "symbol" : "1.2-2"}}
-          </div>
-        </div>
-  
-        <!-- Amortización -->
-        <div class="flex flex-col p-4 bg-gray-50 dark:bg-gray-900/30 rounded-xl border border-gray-100 dark:border-gray-700/50 hover:shadow-sm transition-all duration-200">
-          <div class="flex items-center gap-2 mb-1.5">
-            <div class="p-1.5 bg-indigo-100/50 dark:bg-indigo-900/30 rounded-lg">
-              <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Amortización</span>
-          </div>
-          <div class="text-xl font-bold text-gray-900 dark:text-white">
-            {{fila.amortized | currency : "USD" : "symbol" : "1.2-2"}}
-          </div>
-        </div>
-      </div>
-  
-      <!-- Saldo y progreso -->
-      <div class="mt-3 pt-3 border-t dark:border-gray-700/30">
-        <div class="flex flex-col space-y-3">
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500 dark:text-gray-400">Saldo pendiente</span>
-            <span class="font-semibold text-gray-900 dark:text-white">
-              {{fila.outstanding | currency : "USD" : "symbol" : "1.2-2"}}
-            </span>
-          </div>
-  
-          <!-- Barra de progreso rediseñada -->
-          <div class="relative">
-            <div class="h-2.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-              <div class="absolute inset-0 bg-indigo-500/5 dark:bg-indigo-500/10"></div>
-              <div class="h-full bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-500 dark:to-blue-400 rounded-full transition-all duration-500 ease-out"
-                [style.width.%]="(fila.number_months/totalMonths() * 100)"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      @if (filters()) {
-      <div class="pt-3 mt-3 border-t dark:border-gray-700/30">
-        <div class="flex items-center justify-between px-5 py-3 border-t dark:border-gray-700/30">
-          <div class="flex items-center space-x-2">
-            <span [class]="fila.status === 'Pagado' ? 
-              'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/40' :
-              'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/40'"
-              class="inline-flex items-center px-3 py-1.5 rounded-lg border text-sm font-medium">
-              <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                @if (fila.status === 'Pagado') {
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                } @else {
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                }
-              </svg>
+          @if (filters()) {
+            <span class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5"
+                  [class]="fila.status === 'Pagado' ? 
+                    'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 
+                    'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'">
+              <span class="w-1.5 h-1.5 rounded-full"
+                    [class]="fila.status === 'Pagado' ? 'bg-emerald-500' : 'bg-amber-500'"></span>
               {{fila.status}}
             </span>
+          }
+        </div>
+
+        <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+          <i class="pi pi-calendar"></i>
+          <span>{{fila.date | date:'dd/MM/yyyy'}}</span>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-4 space-y-4">
+        <!-- Detalles de pago -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg">
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Interés</p>
+            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              {{fila.interest | currency}}
+            </p>
           </div>
-          
-          @if (selectionMode() && fila.status !== 'Pagado') {
-            <div class="flex items-center space-x-2">
+          <div class="p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg">
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Amortización</p>
+            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              {{fila.amortized | currency}}
+            </p>
+          </div>
+        </div>
+
+        <!-- Saldo pendiente -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm text-gray-600 dark:text-gray-400">Saldo pendiente</span>
+            <span class="text-sm font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              {{fila.outstanding | currency}}
+            </span>
+          </div>
+          <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-500 rounded-full" 
+                 [style.width]="(fila.number_months/totalMonths() * 100) + '%'">
+            </div>
+          </div>
+          <div class="flex justify-end mt-1">
+            <span class="text-xs text-gray-500 dark:text-gray-400">
+              {{(fila.number_months/totalMonths() * 100).toFixed(0)}}% completado
+            </span>
+          </div>
+        </div>
+
+        @if (filters() && selectionMode() && fila.status !== 'Pagado') {
+          <div class="pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
+            <div class="flex justify-end">
               <input
                 type="checkbox"
                 [checked]="selectedItems().includes(fila.id!)"
                 (click)="toggleSelection(fila, $event)"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                class="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600 dark:ring-offset-gray-800"
               >
             </div>
-          }
-        </div>
+          </div>
+        }
       </div>
-      }
     </div>
-  </div>
   }
+</div>
+
+@if (selectedItems().length > 0) {
+  <div class="fixed bottom-6 right-6 z-10">
+    <button
+      (click)="onUpdateMultipleAmortizations()"
+      class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200">
+      <i class="pi pi-check-circle"></i>
+      <span class="font-medium">Pagar {{ selectedItems().length }} cuota(s)</span>
+    </button>
+  </div>
+}
+
+@if (filters() && isSidebarOpen()) {
+  <app-sidebar-deb-details
+    [debtId]="debtId()"
+    [amortization]="selectedAmortization()!"
+    (closeUserSidebar)="closeUserSidebar()"
+    (updateSuccess)="onSidebarUpdateSuccess()"
+  ></app-sidebar-deb-details>
+}
+   
 
   <!-- Botón flotante para pagos múltiples -->
   @if (selectedItems().length > 0) {
