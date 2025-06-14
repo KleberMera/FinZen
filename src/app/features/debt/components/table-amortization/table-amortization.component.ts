@@ -63,6 +63,8 @@ export class TableAmortizationComponent {
   readonly selectedItems = signal<number[]>([]);
 
   ondebtClick(amortization: Amortization): void {
+    if (this.selectionMode()) return; // No abrir sidebar en modo selección
+    
     console.log('Recibido', amortization);
     const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
     this.debtId.set(debtId);

@@ -25,11 +25,14 @@ export class CardAmortizationComponent {
   updateSuccess = output<void>();
   //private readonly _methodService = inject(MethodService);
   isSidebarOpen = signal(false);
-  selectedItems = signal<number[]>([]);
+  readonly selectionMode = signal<boolean>(false);
+  readonly selectedItems = signal<number[]>([]);
   protected readonly _debtService = inject(DebtService);
   private readonly _methodService = inject(MethodService);
 
   ondebtClick(amortization: Amortization): void {
+    if (this.selectionMode()) return; // No abrir sidebar en modo selección
+    
     console.log('Recibido', amortization);
     const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
     this.debtId.set(debtId);
@@ -76,6 +79,13 @@ export class CardAmortizationComponent {
     return this.datos().reduce((sum: any, item: any) => sum + item[field], 0);
   }
 
+  toggleSelectionMode() {
+    this.selectionMode.update(mode => !mode);
+    if (!this.selectionMode()) {
+      this.selectedItems.set([]);
+    }
+  }
+
   toggleSelection(amortization: Amortization, event: Event) {
     event.stopPropagation();
     if (amortization.status === 'Pagado') return;
@@ -90,18 +100,20 @@ export class CardAmortizationComponent {
     }
   }
 
-  async onUpdateMultipleAmortizations() {
+  onUpdateMultipleAmortizations() {
     const updateDto: UpdateAllStatusDto = {
       ids: this.selectedItems(),
       status: 'Pagado',
       payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
     };
+    const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
 
-    this._debtService.updateDebtStatusAll(this.debtId(), updateDto).subscribe({
+    this._debtService.updateDebtStatusAll(debtId, updateDto).subscribe({
       next: () => {
         toast.success('Pagos actualizados correctamente');
         this.updateSuccess.emit();
         this.selectedItems.set([]);
+        this.selectionMode.set(false);
       },
     });
   }
