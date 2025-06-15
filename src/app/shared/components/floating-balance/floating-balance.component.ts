@@ -75,7 +75,49 @@ export class FloatingBalanceComponent implements OnInit {
       // Cargar el balance
       //this.balanceResource.reload();
     }
+
+    // Calcula la posición inicial en la esquina inferior derecha
+    this.setInitialPosition();
+    // Recalcula la posición cuando la ventana cambie de tamaño
+    window.addEventListener('resize', () => this.setInitialPosition());
   }
 
- 
+  private setInitialPosition() {
+    // Aumentamos el padding a 32px (equivalente a right-8 y bottom-8)
+    const padding = 32;
+    // Ajustamos el offset para el tamaño del botón
+    const buttonSize = 64; // aproximadamente el tamaño del botón circular
+    
+    this.position.set({
+      x: window.innerWidth - buttonSize - padding,
+      y: window.innerHeight - buttonSize - padding
+    });
+  }
+
+  position = signal({ x: 0, y: 0 });
+  isDragging = signal(false);
+  offset = { x: 0, y: 0 };
+
+  onMouseDown(event: MouseEvent) {
+    this.isDragging.set(true);
+    const element = event.target as HTMLElement;
+    const rect = element.getBoundingClientRect();
+    this.offset = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (this.isDragging()) {
+      this.position.set({
+        x: event.clientX - this.offset.x,
+        y: event.clientY - this.offset.y
+      });
+    }
+  }
+
+  onMouseUp() {
+    this.isDragging.set(false);
+  }
 }

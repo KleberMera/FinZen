@@ -36,27 +36,31 @@ function generatePieChartSVG(
   if (!categories || categories.length === 0) {
     return `
       <svg width="400" height="150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="150" fill="#f8fafc"/>
         <text x="200" y="75" font-size="16" font-weight="bold" text-anchor="middle">No hay datos disponibles para ${title}</text>
       </svg>
     `;
   }
 
   const width = 400;
-  const height = 355; // Aumentado para dar más espacio a la leyenda
-  const radius = 80; // Reducido ligeramente
+  const height = 375;
+  const radius = 85;
   const centerX = width / 2;
-  const centerY = 120; // Movido hacia arriba para dar más espacio a la leyenda
+  const centerY = 130;
 
   let startAngle = 0;
   let slices = '';
   let legend = '';
 
-  // Añadir sombra para efecto 3D
   const defs = `
     <defs>
       <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-        <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.3" />
+        <feDropShadow dx="3" dy="3" stdDeviation="3" flood-opacity="0.2"/>
       </filter>
+      <linearGradient id="backgroundGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#f8fafc"/>
+        <stop offset="100%" style="stop-color:#f1f5f9"/>
+      </linearGradient>
     </defs>
   `;
 
@@ -106,41 +110,21 @@ function generatePieChartSVG(
 
     startAngle = endAngle;
   });
-
-  // Añadir un círculo central para un aspecto más elegante
-  const centerCircle = `<circle cx="${centerX}" cy="${centerY}" r="40" fill="white" stroke="#e5e7eb" stroke-width="1"></circle>`;
-
-  // Número total para mostrar en el centro
   const totalAmount = categories.reduce((sum, cat) => sum + cat.total, 0);
-  const centerText = `
-    <text x="${centerX}" y="${
-    centerY - 10
-  }" font-size="12" text-anchor="middle" font-family="Helvetica" fill="#6b7280">Total</text>
-    <text x="${centerX}" y="${
-    centerY + 15
-  }" font-size="16" font-weight="bold" text-anchor="middle" font-family="Helvetica" fill="#111827">$ ${totalAmount.toFixed(
-    2
-  )}</text>
-  `;
-
-  // Ensamblar el SVG completo con título elegante
+  // Ensamblar el SVG completo con fondo mejorado
   const svg = `
     <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       ${defs}
-      <text x="${
-        width / 2
-      }" y="30" font-size="16" font-weight="bold" text-anchor="middle" font-family="Helvetica">${title}</text>
-      <line x1="50" y1="45" x2="${
-        width - 50
-      }" y2="45" stroke="#e5e7eb" stroke-width="1"></line>
+      <rect width="${width}" height="${height}" fill="url(#backgroundGrad)" rx="10" ry="10"/>
+      <text x="${width/2}" y="30" font-size="18" font-weight="bold" text-anchor="middle" font-family="Helvetica" fill="#334155">${title}</text>
+      <line x1="50" y1="45" x2="${width-50}" y2="45" stroke="#e2e8f0" stroke-width="2"/>
       
       <g transform="translate(0, 10)">
         ${slices}
-        ${centerCircle}
-        ${centerText}
+        <circle cx="${centerX}" cy="${centerY}" r="42" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+        <text x="${centerX}" y="${centerY-10}" font-size="13" text-anchor="middle" font-family="Helvetica" fill="#64748b">Total</text>
+        <text x="${centerX}" y="${centerY+15}" font-size="17" font-weight="bold" text-anchor="middle" font-family="Helvetica" fill="#334155">$ ${totalAmount.toFixed(2)}</text>
       </g>
-      
-
       
       <g transform="translate(10, 0)">
         ${legend}
@@ -254,33 +238,77 @@ export const generatePDFService = (
   const content: any[] = [];
 
   // Primera página - Resumen general y tabla de transacciones
-  // Encabezado con logo y título
   content.push({
-    columns: [
-      { image: variable64.miVar, width: 50, margin: [0, 10, 0, 0] }, // Logo con margen
+    stack: [
+      // Logo y título principal en la primera fila
+      {
+        columns: [
+          { image: variable64.miVar, width: 50, margin: [0, 5, 20, 0] }, // Añadido margen derecho al logo
+          {
+            stack: [
+              { 
+                text: [
+                  { text: 'Finzen', style: 'finzenBrand' }, 
+                  { text: 'App', style: 'finzenBrand' } // Cambiado a finzenBrand para mantener el mismo estilo
+                ],
+                alignment: 'left',
+                margin: [0, 0, 0, 5] // Espacio entre FinzenApp y Movimientos
+              },
+              { 
+                text: 'Movimientos Transaccionales', 
+                style: 'subheader',
+                alignment: 'left'
+              }
+            ],
+            width: '*'
+          }
+        ]
+      },
+      // Información de generación en la segunda fila con más espacio
       {
         stack: [
-          { text: 'Finzen App', style: 'header' },
-          { text: 'Reporte de Transacciones', style: 'subheader' },
-          { text: `Fecha: ${format(reportDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' },
-          ...(fromDate ? [{ text: `Fecha desde: ${format(fromDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
-          ...(toDate ? [{ text: `Fecha hasta: ${format(toDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
-          ...(generatedBy ? [{ text: `Generado por: ${generatedBy}`, style: 'dateText' }] : []),
-          ...(singleDate ? [{ text: `Fecha de Transacciones: ${format(singleDate, 'YYYY-MM-DD', 'es')}`, style: 'dateText' }] : []),
-        ],
-        alignment: 'right',
-      },
+          { 
+            text: [
+              { text: 'Generado el: ', style: 'dateText' },
+              { text: format(reportDate, 'long', 'es'), style: 'dateTextBold' },
+              { text: ', por ', style: 'dateText' },
+              { text: generatedBy || 'Usuario', style: 'dateTextBold' }
+            ],
+            margin: [0, 25, 0, 0] // Aumentado el espacio superior
+          },
+          ...(singleDate ? [{
+            text: [
+              { text: 'En atención a su requerimiento, adjuntamos detalles de las transacciones\ncorrespondiente a la fecha: ', style: 'reportMessage' },
+              { text: format(singleDate, 'long', 'es'), style: 'dateHighlight' }
+            ],
+            margin: [0, 5, 0, 0]
+          }] : []),
+          ...(!singleDate && fromDate && toDate ? [{
+            text: [
+              { text: 'En atención a su requerimiento, adjuntamos detalles de las transacciones\ncorrespondiente del: ', style: 'reportMessage' },
+              { text: format(fromDate, 'long', 'es'), style: 'dateHighlight' },
+              { text: ' al ', style: 'reportMessage' },
+              { text: format(toDate, 'long', 'es'), style: 'dateHighlight' }
+            ],
+            margin: [0, 5, 0, 0]
+          }] : [])
+        ]
+      }
     ],
-    margin: [0, 0, 0, 20], // Espacio debajo del encabezado
+    margin: [0, 0, 0, 20]
   });
+  
+  // Añadimos el código QR integrado en el encabezado
+  // content.push({
+  //   qr: 'https://fin-zen.vercel.app',
+  //   fit: 80,
+  //   alignment: 'right',
+  //   margin: [0, -100, 0, 20] // Posicionamiento para que aparezca junto al encabezado
+  // });
+  
+  // Eliminamos el código QR separado ya que ahora está integrado en el encabezado
 
-  // Código QR
-  content.push({
-    qr: 'https://fin-zen.vercel.app',
-    fit: 80,
-    alignment: 'right',
-    margin: [0, 0, 0, 20],
-  });
+  // El código QR ahora está integrado en el encabezado
 
   // Tabla de transacciones
   content.push({
@@ -335,7 +363,7 @@ export const generatePDFService = (
   // Encabezado de la sección de análisis
   content.push({
     stack: [
-      { text: 'Análisis Visual de Transacciones', style: 'analysisHeader' },
+      { text: 'Reporte Visual de Transacciones', style: 'analysisHeader' },
       { text: `Periodo: ${fromDate ? `${fromDate} - ${toDate || reportDate}` : reportDate}`, style: 'dateText' },
     ],
     margin: [0, 0, 0, 30],
@@ -423,13 +451,23 @@ export const generatePDFService = (
   // Definir estilos con mejor UI
   const styles = {
     header: {
-      fontSize: 18,
+      fontSize: 24,
       bold: true,
       color: '#1f2937', // gray-800
       margin: [0, 0, 0, 4],
     },
+    finzenBrand: {
+      fontSize: 24,
+      bold: true,
+      color: '#3b82f6', // blue-500
+    },
+    appText: {
+      fontSize: 24,
+      bold: true,
+      color: '#111827', // gray-900
+    },
     subheader: {
-      fontSize: 14,
+      fontSize: 18,
       bold: true,
       color: '#4b5563', // gray-600
       margin: [0, 0, 0, 4],
@@ -437,6 +475,31 @@ export const generatePDFService = (
     dateText: {
       fontSize: 12,
       color: '#6b7280', // gray-500
+    },
+    dateTextBold: {
+      fontSize: 12,
+      bold: true,
+      color: '#4b5563', // gray-600
+    },
+    dateHighlight: {
+      fontSize: 12,
+      bold: true,
+      color: '#3b82f6', // blue-500
+      lineHeight: 1.4,
+    },
+    reportMessage: {
+      fontSize: 12,
+      color: '#4b5563', // gray-600
+      lineHeight: 1.4,
+    },
+    generatedByLabel: {
+      fontSize: 12,
+      color: '#6b7280', // gray-500
+    },
+    generatedByName: {
+      fontSize: 12,
+      bold: true,
+      color: '#111827', // gray-900
     },
     tableHeader: {
       fontSize: 12,
@@ -469,9 +532,9 @@ export const generatePDFService = (
       margin: [0, 4, 0, 4],
     },
     analysisHeader: {
-      fontSize: 22,
+      fontSize: 24,
       bold: true,
-      color: '#1f2937', // gray-800
+      color: '#334155', // slate-700
       margin: [0, 0, 0, 5],
     },
     sectionHeader: {
@@ -533,6 +596,9 @@ export const generatePDFService = (
     .createPdf(docDefinition)
     .download(`reporte_transacciones_${reportDate}.pdf`);
 };
+
+
+
 
 
 

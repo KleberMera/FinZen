@@ -1,8 +1,21 @@
 <!-- Botón flotante que muestra el saldo disponible solo cuando el usuario está autenticado -->
 @if (isAuthenticated()) {
-  <div class="fixed bottom-6 right-6 z-50">
+  <div class="fixed z-50 group"
+       [style.left.px]="position().x"
+       [style.top.px]="position().y"
+       (mousedown)="onMouseDown($event)"
+       (document:mousemove)="onMouseMove($event)"
+       (document:mouseup)="onMouseUp()"
+       [class.cursor-grab]="!isDragging()"
+       [class.cursor-grabbing]="isDragging()">
+    <!-- Tooltip -->
+    <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+      Sueldo disponible
+      <!-- Flecha del tooltip -->
+      <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+    </div>
     <div 
-      class="flex items-center justify-center rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-3 cursor-pointer hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+      class="flex items-center justify-center rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-3 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
       [class.animate-pulse]="salaryData.isLoading()"
     >
       @if (salaryData.isLoading()) {
