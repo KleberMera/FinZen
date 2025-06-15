@@ -1,6 +1,6 @@
-<div class="bg-white dark:bg-gray-800 mb-6">
+<div class="">
   <!-- Encabezado -->
-  <div class="p-2">
+  <div class="p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-gray-50/50 to-gray-100/50 dark:from-gray-800/50 dark:to-gray-900/50">
     <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -9,76 +9,95 @@
     </h3>
     <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Así es como irás pagando tus deudas cada mes hasta liberarte de ellas</p>
   </div>
-<!-- Leyenda horizontal con chips -->
-<!-- Leyenda horizontal con chips personalizados -->
-<div class="p-2 flex flex-wrap gap-2 text-s">
-  <!-- Pago prioritario -->
-  <div class="flex items-center gap-2 bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 px-3 py-1 rounded-full">
-    <span>⭐</span>
-    <span>Pago prioritario a deuda vencida</span>
-  </div>
-  <!-- Método bola de nieve -->
-  <div class="flex items-center gap-2 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full">
-    <span>❄️</span>
-    <span>Pago extra con método bola de nieve</span>
-  </div>
-  <!-- Método avalancha -->
-  <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full">
-    <span>🏔️</span>
-    <span>Pago extra con método avalancha</span>
-  </div>
-</div>
 
-
-
-  <!-- Tabla -->
-  <div class="p-5">
-    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-        <thead class="bg-gray-50 dark:bg-gray-800">
-          <tr>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Mes</th>
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
-            @for (debt of processedDebts(); track debt.id) {
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ debt.name }}</th>
-            }
-            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Enfoque</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-          @for (month of paymentPlan(); track month.month; let i = $index) {
-            <tr [ngClass]="i % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'" class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150">
-              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ month.month }}</td>
-              <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ month.date }}</td>
-              @for (debt of processedDebts(); track debt.id) {
-                <td class="px-4 py-3 whitespace-nowrap">
-                  <div class="flex flex-col items-end">
-                    <span 
-                      [ngClass]="{ 
-                        'text-green-600 dark:text-green-400 font-medium': isHighlightedPayment(findPayment(month, debt.name)?.type)
-                      }"
-                    >
-                      Pagas: ${{ findPayment(month, debt.name)?.amount || "0.00" }}
-                      @if (findPayment(month, debt.name)?.type === "prioritario") { <span class="text-yellow-500 dark:text-yellow-400">⭐</span> }
-                      @if (findPayment(month, debt.name)?.type === "bola de nieve") { <span class="text-red-500 dark:text-red-400">❄️</span> }
-                      @if (findPayment(month, debt.name)?.type === "avalancha") { <span class="text-blue-500 dark:text-blue-400">🏔️</span> }
-                    </span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">(Interés: ${{ findPayment(month, debt.name)?.interestAmount || "0.00" }})</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">Te queda: ${{ findBalance(month, debt.name)?.amount || "0.00" }}</span>
-                  </div>
-                </td>
-              }
-              <td class="px-4 py-3 whitespace-nowrap text-sm">
-                @if (month.extraDetails.focusDebt) {
-                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                    {{ month.extraDetails.focusDebt }}
-                  </span>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+  <!-- Leyenda mejorada -->
+  <div class="px-6 py-4 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+    <div class="flex flex-wrap gap-3">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-yellow-50/50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300">
+        <span class="p-1 bg-yellow-100 dark:bg-yellow-900/50 rounded-md">⭐</span>
+        <span class="text-sm font-medium">Pago prioritario a deuda vencida</span>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
+        <span class="p-1 bg-blue-100 dark:bg-blue-900/50 rounded-md">❄️</span>
+        <span class="text-sm font-medium">Bola de nieve</span>
+      </div>
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-50/50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300">
+        <span class="p-1 bg-purple-100 dark:bg-purple-900/50 rounded-md">🏔️</span>
+        <span class="text-sm font-medium">Avalancha</span>
+      </div>
     </div>
   </div>
+
+  <!-- Tabla con scroll -->
+  <div class="overflow-x-auto custom-scrollbar">
+    <table class="w-full text-base">
+      <thead>
+        <tr class="bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+          <th class="px-6 py-4 text-left w-20">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Mes</span>
+          </th>
+          <th class="px-6 py-4 text-left min-w-[100px]">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Fecha</span>
+          </th>
+          @for (debt of processedDebts(); track debt.id) {
+            <th class="px-6 py-4 text-left min-w-[250px]">
+              <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">{{ debt.name }}</span>
+            </th>
+          }
+          <th class="px-6 py-4 text-left min-w-[100px]">
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Enfoque</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        @for (month of paymentPlan(); track month.month; let i = $index) {
+          <tr class="transition-all duration-200 hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
+            <td class="px-6 py-4 font-medium text-gray-700 dark:text-gray-300 text-base">{{ month.month }}</td>
+            <td class="px-6 py-4 text-gray-600 dark:text-gray-400 text-base">{{ month.date }}</td>
+            @for (debt of processedDebts(); track debt.id) {
+              <td class="px-6 py-4">
+                <div class="flex flex-col space-y-2">
+                  <!-- Pago -->
+                  <div class="flex items-center justify-between">
+                    <span class="text-base text-gray-600 dark:text-gray-400">Pagas:</span>
+                    <span [class]="
+                      findPayment(month, debt.name)?.type === 'prioritario' ? 'text-yellow-600 dark:text-yellow-400' :
+                      findPayment(month, debt.name)?.type === 'bola de nieve' ? 'text-blue-600 dark:text-blue-400' :
+                      findPayment(month, debt.name)?.type === 'avalancha' ? 'text-purple-600 dark:text-purple-400' :
+                      'text-emerald-600 dark:text-emerald-400'
+                    " class="font-medium text-base">
+                      ${{ findPayment(month, debt.name)?.amount || "0.00" }}
+                      @if (findPayment(month, debt.name)?.type === "prioritario") { <span class="ml-1">⭐</span> }
+                      @if (findPayment(month, debt.name)?.type === "bola de nieve") { <span class="ml-1">❄️</span> }
+                      @if (findPayment(month, debt.name)?.type === "avalancha") { <span class="ml-1">🏔️</span> }
+                    </span>
+                  </div>
+                  <!-- Interés -->
+                  <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">Interés:</span>
+                    <span class="text-gray-600 dark:text-gray-400">${{ findPayment(month, debt.name)?.interestAmount || "0.00" }}</span>
+                  </div>
+                  <!-- Saldo -->
+                  <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-500 dark:text-gray-400">Saldo:</span>
+                    <span class="font-medium text-gray-700 dark:text-gray-300">${{ findBalance(month, debt.name)?.amount || "0.00" }}</span>
+                  </div>
+                </div>
+              </td>
+            }
+            <td class="px-6 py-4">
+              @if (month.extraDetails.focusDebt) {
+                <span class="inline-flex px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50/50 dark:bg-green-900/20 text-green-700 dark:text-green-300">
+                  {{ month.extraDetails.focusDebt }}
+                </span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+
 </div>

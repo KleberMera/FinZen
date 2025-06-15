@@ -89,6 +89,15 @@ export class DebtCalculatorService {
     let currentDateObj = new Date(currentDate)
     const totalMonthlyAvailable = monthlyAvailable
 
+    // Nuevo: Ordenar las deudas vencidas según el método seleccionado
+    const sortOverdueDebts = (debts: typeof currentDebts) => {
+      if (method === "bola-de-nieve") {
+        return debts.sort((a, b) => a.balance - b.balance) // Menor balance primero
+      } else {
+        return debts.sort((a, b) => (b.interestRate || 0) - (a.interestRate || 0)) // Mayor interés primero
+      }
+    }
+
     // Continue until all debts are paid
     while (currentDebts.some((debt) => debt.balance > 0)) {
       month++
@@ -144,87 +153,57 @@ export class DebtCalculatorService {
       const overdueDebts = currentDebts.filter((debt) => debt.isOverdue && debt.balance > 0)
 
       if (overdueDebts.length > 0) {
-        // Sort overdue debts by balance (lowest to highest)
-        overdueDebts.sort((a, b) => a.balance - b.balance)
+        // Ordenar deudas vencidas según el método
+        const sortedOverdueDebts = sortOverdueDebts(overdueDebts)
 
-        monthData.extraDetails.explanation = "Este mes hay deudas vencidas. Primero debemos ponerlas al día."
-        monthData.extraDetails.focusDebt = overdueDebts[0].name
+        monthData.extraDetails.explanation = `Este mes hay ${overdueDebts.length} deuda(s) vencida(s). Se priorizan según el método ${method === "bola-de-nieve" ? "bola de nieve" : "avalancha"}.`
+        monthData.extraDetails.focusDebt = sortedOverdueDebts[0].name
 
-        // Pay minimums on all non-overdue debts
+        // Primero pagar los mínimos de todas las deudas
+        let minimumPayments = 0
         currentDebts.forEach((debt) => {
-          if (!debt.isOverdue && debt.balance > 0) {
+          if (debt.balance > 0) {
             const payment = Math.min(debt.minimumPayment, debt.balance)
+            minimumPayments += payment
             debt.balance -= payment
-            availableFunds -= payment
 
-            // Calculate how much of the payment is interest
             const interestPortion = monthData.extraDetails.interestPaid.find((i) => i.name === debt.name)
             const interestAmount = interestPortion ? Number.parseFloat(interestPortion.amount) : 0
-            const principalAmount = payment - interestAmount
 
             monthData.payments.push({
               name: debt.name,
               amount: payment.toFixed(2),
-              type: "mínimo",
+              type: debt.isOverdue ? "vencida" : "mínimo",
               interestAmount: interestAmount.toFixed(2),
             })
           }
         })
 
+        // Calcular el dinero extra disponible después de pagar todos los mínimos
+        availableFunds = totalMonthlyAvailable - minimumPayments
         monthData.extraDetails.availableAfterMinimums = availableFunds
 
-        // Pay the smallest overdue debt first
-        for (let i = 0; i < overdueDebts.length; i++) {
-          const debt = currentDebts.find((d) => d.name === overdueDebts[i].name)!
+        // Aplicar el dinero extra solo a la deuda vencida priorizada
+        if (availableFunds > 0) {
+          const priorityDebt = currentDebts.find((d) => d.name === sortedOverdueDebts[0].name)!
+          if (priorityDebt && priorityDebt.balance > 0) {
+            const extraPayment = Math.min(availableFunds, priorityDebt.balance)
+            
+            if (extraPayment > 0) {
+              priorityDebt.balance -= extraPayment
 
-          if (i === 0) {
-            // For the smallest overdue debt, pay as much as we can
-            const payment = Math.min(availableFunds, debt.balance)
-            debt.balance -= payment
-            availableFunds -= payment
+              // Actualizar el pago existente para la deuda priorizada
+              const paymentIndex = monthData.payments.findIndex((p) => p.name === priorityDebt.name)
+              if (paymentIndex !== -1) {
+                const currentPayment = Number.parseFloat(monthData.payments[paymentIndex].amount)
+                monthData.payments[paymentIndex].amount = (currentPayment + extraPayment).toFixed(2)
+                monthData.payments[paymentIndex].type = "prioritario"
 
-            // Calculate how much of the payment is interest
-            const interestPortion = monthData.extraDetails.interestPaid.find((i) => i.name === debt.name)
-            const interestAmount = interestPortion ? Number.parseFloat(interestPortion.amount) : 0
-            const principalAmount = payment - interestAmount
-
-            monthData.payments.push({
-              name: debt.name,
-              amount: payment.toFixed(2),
-              type: "prioritario",
-              interestAmount: interestAmount.toFixed(2),
-            })
-
-            monthData.extraDetails.extraPayment = {
-              name: debt.name,
-              amount: payment - debt.minimumPayment > 0 ? (payment - debt.minimumPayment).toFixed(2) : "0.00",
-            }
-
-            // If we paid in full, mark as not overdue
-            if (debt.balance <= 0) {
-              debt.isOverdue = false
-            }
-          } else {
-            // For other overdue debts, pay the minimum
-            const payment = Math.min(debt.minimumPayment, debt.balance)
-            debt.balance -= payment
-            availableFunds -= payment
-
-            // Calculate how much of the payment is interest
-            const interestPortion = monthData.extraDetails.interestPaid.find((i) => i.name === debt.name)
-            const interestAmount = interestPortion ? Number.parseFloat(interestPortion.amount) : 0
-            const principalAmount = payment - interestAmount
-
-            monthData.payments.push({
-              name: debt.name,
-              amount: payment.toFixed(2),
-              type: "mínimo",
-              interestAmount: interestAmount.toFixed(2),
-            })
-
-            // If we paid in full, mark as not overdue
-            if (debt.balance <= 0) {
-              debt.isOverdue = false
+                monthData.extraDetails.extraPayment = {
+                  name: priorityDebt.name,
+                  amount: extraPayment.toFixed(2),
+                }
+              }
             }
           }
         }

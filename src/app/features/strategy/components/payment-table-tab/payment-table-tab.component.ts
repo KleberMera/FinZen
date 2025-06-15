@@ -6,7 +6,7 @@ import { MonthlyPayment } from "../../types/debt-types"
 @Component({
   selector: "app-payment-table-tab",
   standalone: true,
-  imports: [CommonModule, NgClass],
+  imports: [],
   templateUrl: "./payment-table-tab.component.html",
 })
 export class PaymentTableTabComponent {
