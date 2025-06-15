@@ -7,7 +7,7 @@ import { FloatingBalanceComponent } from "../shared/components/floating-balance/
 
 @Component({
   selector: 'app-layout',
-  imports: [NavbarComponent, RouterOutlet, SidebarComponent, FloatingBalanceComponent],
+  imports: [NavbarComponent, RouterOutlet, SidebarComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
