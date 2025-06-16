@@ -14,15 +14,36 @@
     75% { transform: rotate(10deg); }
   }
   
+  @keyframes typing {
+    from { 
+      width: 0;
+      border-right: 2px solid;
+    }
+    to { 
+      width: 100%;
+      border-right: 2px solid;
+    }
+  }
+  
   .animate-shimmer {
     animation: shimmer 2s infinite;
   }
   
   .animate-gradient-x {
     background-size: 200% 200%;
-    animation: gradient-x 3s ease infinite;
+    animation: gradient-x 4s ease infinite;
+    filter: blur(0.1px); // Reducimos el blur para menos brillo
   }
   
   .animate-wave {
     animation: wave 2s ease-in-out infinite;
+  }
+  
+  .typewriter-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2s steps(30, end);
+    border-right: 2px solid transparent;
+    padding-right: 4px;
   }
