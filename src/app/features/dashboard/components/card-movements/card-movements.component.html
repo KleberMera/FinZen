@@ -31,7 +31,7 @@
   }
   
   <!-- Chart Container -->
-  @else if (grafics.value()?.data && grafics.value()!.data!.length > 0) {
+  @else if (grafics.value()?.data && hasMovements()) {
     <div class="relative h-80 w-full">
       <canvas id="weeklyMovementsChart"></canvas>
     </div>

@@ -138,4 +138,10 @@ export class CardMovementsComponent {
   getTotalIngresos() {  
     return this.grafics.value()?.data!.reduce((total, item) => total + (item.ingreso || 0), 0);
   }
+
+  hasMovements(): boolean {
+    if (!this.grafics.value()?.data) return false;
+    
+    return this.grafics.value()!.data!.some(day => day.gasto > 0 || day.ingreso > 0);
+  }
 }
