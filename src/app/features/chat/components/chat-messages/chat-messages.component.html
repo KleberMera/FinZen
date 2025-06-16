@@ -1,17 +1,17 @@
 <!-- app/pages/chat/components/chat-messages/chat-messages.component.html -->
-<div class="space-y-4">
-    <!-- Mensajes en orden cronológico -->
-    @for (message of chatService.allMessages(); track message.id) {
-      <app-message-item [message]="message"></app-message-item>
-    }
+<div class="py-6 space-y-6">
+  <!-- Mensajes en orden cronológico -->
+  @for (message of chatService.allMessages(); track message.id) {
+    <app-message-item [message]="message"></app-message-item>
+  }
+
+  <!-- Indicador de Escritura -->
+  @if (chatService.isTyping()) {
+    <app-typing-indicator></app-typing-indicator>
+  }
   
-    <!-- Indicador de Escritura -->
-    @if (chatService.isTyping()) {
-      <app-typing-indicator></app-typing-indicator>
-    }
-    
-    <!-- Indicador de Análisis de Imagen -->
-    @if (chatService.analyzingImage()) {
-      <app-analysis-indicator></app-analysis-indicator>
-    }
-  </div>
+  <!-- Indicador de Análisis de Imagen -->
+  @if (chatService.analyzingImage()) {
+    <app-analysis-indicator></app-analysis-indicator>
+  }
+</div>
