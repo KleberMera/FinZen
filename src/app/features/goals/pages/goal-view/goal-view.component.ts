@@ -95,16 +95,26 @@ export class GoalViewComponent {
     });
   }
 
-    deleteGoal(goalId: number) {
-    const promise = firstValueFrom(
-      this.goalService.deleteGoal(goalId));
-      toast.promise(promise, {
-        loading: 'Eliminando objetivo...',
-        success: (data) => {
-          return data.message;
-        },
-        
-      });
-   
+    // Calculate progress percentage for the selected goal
+  progressPercentage = computed(() => {
+    const goal = this.selectedGoal();
+    if (!goal?.target_amount || goal.target_amount <= 0) return 0;
+    
+    // For now, just return 0% if no contributions, 100% if has contributions
+    return goal.hasContributions ? 100 : 0;
+  });
+
+  deleteGoal(goalId: number) {
+    const promise = firstValueFrom(this.goalService.deleteGoal(goalId));
+    toast.promise(promise, {
+      loading: 'Eliminando objetivo...',
+      success: (data) => {
+        // Reload goals after deletion
+        this.goal.reload();
+        this.goalId.set(null);
+        return data.message;
+      },
+
+    });
   }
 }

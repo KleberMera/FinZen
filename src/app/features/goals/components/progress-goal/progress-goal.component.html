@@ -1,22 +1,20 @@
-<div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/40 dark:border-gray-700/40 p-6 shadow-lg hover:shadow-2xl transition-all duration-300">
-    @if (goalProgress.isLoading()) {
-      <div class="flex flex-col items-center justify-center py-12 space-y-3">
-        <div class="relative">
-          <div class="animate-spin rounded-full h-10 w-10 border-3 border-indigo-200 border-t-indigo-600"></div>
-        </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm font-medium animate-pulse">Calculando progreso...</p>
-      </div>
-    } @else if (goalProgressData()) {
+
+  <div class="space-y-4 sm:space-y-6 mb-2">
+    <div class="bg-white/60 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-md p-4 sm:p-6">
       <!-- Header con indicador de estado -->
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <div class="flex items-center space-x-3">
-          <div class="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-md group-hover:scale-110 transition-transform duration-300">
-            <i class="pi pi-chart-bar text-white text-lg"></i>
+          <div class="p-2 sm:p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+            <i class="pi pi-chart-bar text-white text-lg sm:text-xl"></i>
           </div>
-          <h3 class="text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 dark:from-indigo-400 dark:via-purple-400 dark:to-indigo-300 bg-clip-text text-transparent">Progreso de Meta</h3>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+              Progreso de Meta
+            </h3>
+          </div>
         </div>
         
-        <span class="px-3 py-1.5 rounded-full text-xs font-semibold border
+        <span class="px-3 py-1.5 rounded-full text-xs font-semibold border shadow-sm
                     {{ getStatusClass(goalProgressData().progress.progressStatus) }}">
           {{ goalProgressData().progress.progressStatus }}
         </span>
@@ -94,73 +92,59 @@
         </div>
       </div>
   
-      <!-- Barras de progreso consolidadas -->
-      <div class="space-y-4">
+      <!-- Barras de progreso con nuevo estilo -->
+      <div class="space-y-4 mt-6">
         <!-- Progreso Financiero -->
-        <div class="relative overflow-hidden rounded-xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-3 group hover:shadow-lg transition-all duration-300">
-          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-400/5 to-purple-400/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-700"></div>
-          <div class="relative space-y-2">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-2">
-                <div class="p-1.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
-                  <i class="pi pi-dollar text-white text-xs"></i>
-                </div>
-                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Progreso Financiero</span>
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-xl p-4">
+          <div class="flex justify-between items-center mb-3">
+            <div class="flex items-center space-x-2">
+              <div class="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-sm">
+                <i class="pi pi-dollar text-white text-sm"></i>
               </div>
-              <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                {{ getPercentValue(goalProgressData().progress.financialProgress) | percent }}
-              </span>
+              <span class="font-semibold text-gray-700 dark:text-gray-300">Progreso Financiero</span>
             </div>
-            
-            <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 rounded-full transition-all duration-1000 ease-out"
-                   [style.width.%]="goalProgressData().progress.financialProgress">
-              </div>
+            <span class="text-sm font-bold text-indigo-600 dark:text-indigo-400">
+              {{ getPercentValue(goalProgressData().progress.financialProgress) | percent }}
+            </span>
+          </div>
+          
+          <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 rounded-full transition-all duration-1000 ease-out"
+                 [style.width.%]="goalProgressData().progress.financialProgress">
             </div>
-            
-            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span class="font-medium">{{ goalProgressData().progress.totalContributed | currency }}</span>
-              <span class="font-medium">{{ goalProgressData().progress.targetAmount | currency }}</span>
-            </div>
+          </div>
+          
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span class="font-medium">{{ goalProgressData().progress.totalContributed | currency }}</span>
+            <span class="font-medium">{{ goalProgressData().progress.targetAmount | currency }}</span>
           </div>
         </div>
   
-        <!-- Progreso Temporal -->
-        <div class="relative overflow-hidden rounded-xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 p-3 group hover:shadow-lg transition-all duration-300">
-          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/5 to-emerald-400/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-700"></div>
-          <div class="relative space-y-2">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-2">
-                <div class="p-1.5 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-sm group-hover:scale-110 transition-transform duration-300">
-                  <i class="pi pi-clock text-white text-xs"></i>
-                </div>
-                <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Progreso Temporal</span>
+        <!-- Progreso Temporal con nuevo estilo -->
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-xl p-4">
+          <div class="flex justify-between items-center mb-3">
+            <div class="flex items-center space-x-2">
+              <div class="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-sm">
+                <i class="pi pi-clock text-white text-sm"></i>
               </div>
-              <span class="text-sm font-bold {{ goalProgressData().progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
-                {{ getPercentValue(goalProgressData().progress.timeProgress) | percent }}
-              </span>
+              <span class="font-semibold text-gray-700 dark:text-gray-300">Progreso Temporal</span>
             </div>
-            
-            <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
-              <div class="absolute inset-0 rounded-full transition-all duration-1000 ease-out {{ goalProgressData().progress.isOverdue ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-green-500 to-emerald-500' }}"
-                   [style.width.%]="goalProgressData().progress.timeProgress">
-              </div>
+            <span class="text-sm font-bold {{ goalProgressData().progress.isOverdue ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400' }}">
+              {{ getPercentValue(goalProgressData().progress.timeProgress) | percent }}
+            </span>
+          </div>
+          
+          <div class="relative h-3 bg-gray-200/60 dark:bg-gray-700/60 rounded-full overflow-hidden">
+            <div class="absolute inset-0 rounded-full transition-all duration-1000 ease-out {{ goalProgressData().progress.isOverdue ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gradient-to-r from-green-500 to-emerald-500' }}"
+                 [style.width.%]="goalProgressData().progress.timeProgress">
             </div>
-            
-            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-              <span class="font-medium">{{ goalProgressData().progress.startDate }}</span>
-              <span class="font-medium">{{ goalProgressData().progress.deadline }}</span>
-            </div>
+          </div>
+          
+          <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+            <span class="font-medium">{{ goalProgressData().progress.startDate }}</span>
+            <span class="font-medium">{{ goalProgressData().progress.deadline }}</span>
           </div>
         </div>
       </div>
-      
-    } @else {
-      <div class="flex flex-col items-center justify-center py-12 space-y-3">
-        <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-full">
-          <i class="pi pi-info-circle text-gray-400 dark:text-gray-500 text-2xl"></i>
-        </div>
-        <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">No hay información de progreso disponible</p>
-      </div>
-    }
+    </div>
   </div>
