@@ -61,18 +61,19 @@
     </div>
   </div>
 
-  <!-- Tarjetas de resumen - Se mantiene el componente existente -->
-  <app-summary-cards></app-summary-cards>
-
-    <!-- New Debt Details Component -->
-    <app-debt-details></app-debt-details>
-
   
   @if (insufficientFunds()) {
 
     <app-insufficient-funds-warning></app-insufficient-funds-warning>
   } @else {
+    
+  <!-- Tarjetas de resumen - Se mantiene el componente existente -->
+  <app-summary-cards></app-summary-cards>
+
     <app-payment-plan-summary></app-payment-plan-summary>
+    <!-- New Debt Details Component -->
+    <app-debt-details></app-debt-details>
+
   
     <!-- Panel de tabs mejorado -->
     <div class="bg-white/80 dark:bg-gray-900/80 rounded-md shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden transition-all ">
