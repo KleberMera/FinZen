@@ -1,20 +1,37 @@
 import { Injectable } from "@angular/core"
+// Importaciones necesarias para manejo de fechas y tipos
 import { addMonths, format, differenceInDays, isBefore } from "date-fns"
 import { es } from "date-fns/locale"
 import type { Debt, MonthlyPayment, DebtData } from "../types/debt-types"
 
+/**
+ * Define la estructura para almacenar cuándo se terminará de pagar cada deuda
+ * - month: número del mes en que se termina de pagar
+ * - date: fecha en formato texto (ej: "Ene 2024")
+ */
 interface DebtCompletionDate {
   month: number
   date: string
 }
 
+/**
+ * Servicio principal para calcular estrategias de pago de deudas
+ * Implementa métodos de bola de nieve y avalancha
+ */
 @Injectable({
   providedIn: "root",
 })
 export class DebtCalculatorService {
   constructor() {}
 
-  // Process debts with additional information
+  /**
+   * Prepara las deudas para el cálculo añadiendo:
+   * - Estado de vencimiento (isOverdue)
+   * - Pago mínimo mensual según el tipo de deuda:
+   *   * Por cuotas: usa el valor de la primera amortización
+   *   * Por meses: divide el monto total entre la duración
+   *   * Por días: calcula un equivalente mensual
+   */
   processDebts(debts: Debt[], currentDate: string): Debt[] {
     const currentDateObj = new Date(currentDate)
 
@@ -45,7 +62,10 @@ export class DebtCalculatorService {
     })
   }
 
-  // Calculate the monthly available amount
+  /**
+   * Calcula cuánto dinero hay disponible mensualmente para pagar deudas
+   * Fórmula: Salario base + Ingresos recurrentes - Gastos recurrentes
+   */
   calculateMonthlyAvailable(debtData: DebtData): number {
     const salary = Number(debtData.salaryData)
     const income = debtData.recurringTransactions
@@ -58,7 +78,17 @@ export class DebtCalculatorService {
     return salary + income - expenses
   }
 
-  // Calculate payment plan
+  /**
+   * Genera el plan mensual de pagos según la estrategia elegida:
+   * - Bola de nieve: Prioriza la deuda más pequeña
+   * - Avalancha: Prioriza la deuda con mayor tasa de interés
+   * 
+   * El proceso para cada mes:
+   * 1. Calcula intereses según el método de cada deuda
+   * 2. Paga el mínimo de todas las deudas
+   * 3. El dinero extra se aplica a la deuda priorizada
+   * 4. Si hay deudas vencidas, tienen prioridad
+   */
   calculatePaymentPlan(
     debts: Debt[],
     method: "bola-de-nieve" | "avalancha",
@@ -293,6 +323,10 @@ export class DebtCalculatorService {
     return monthlyPayments
   }
 
+  /**
+   * Analiza el plan de pagos para determinar en qué mes
+   * se terminará de pagar cada una de las deudas
+   */
   findDebtCompletionDates(paymentPlan: MonthlyPayment[], processedDebts: Debt[]): Record<string, DebtCompletionDate> {
     const dates: Record<string, DebtCompletionDate> = {}
     processedDebts.forEach((debt) => {
@@ -309,7 +343,10 @@ export class DebtCalculatorService {
     return dates
   }
 
-  // Calculate chart data
+  /**
+   * Prepara los datos para la gráfica de líneas que muestra
+   * cómo van disminuyendo los saldos mes a mes
+   */
   calculateChartData(paymentPlan: MonthlyPayment[]): any[] {
     return paymentPlan.map((month) => {
       const data: any = { month: month.date }
@@ -320,7 +357,10 @@ export class DebtCalculatorService {
     })
   }
 
-  // Calculate pie data
+  /**
+   * Prepara los datos para el gráfico de torta que muestra
+   * la proporción de cada deuda respecto al total
+   */
   calculatePieData(processedDebts: Debt[]): any[] {
     return processedDebts.map((debt) => ({
       name: debt.name,
@@ -329,21 +369,31 @@ export class DebtCalculatorService {
     }))
   }
 
-  // Calculate total interest paid
+  /**
+   * Suma todos los intereses que se pagarán durante
+   * la ejecución del plan de pagos
+   */
   calculateTotalInterestPaid(paymentPlan: MonthlyPayment[]): number {
     return paymentPlan.reduce((total, month) => {
       return total + month.extraDetails.totalInterest
     }, 0)
   }
 
-  // Calculate total paid
+  /**
+   * Calcula el monto total que se pagará sumando:
+   * - Capital original de todas las deudas
+   * - Intereses generados durante el plan
+   */
   calculateTotalPaid(paymentPlan: MonthlyPayment[]): number {
     return paymentPlan.reduce((total, month) => {
       return total + month.payments.reduce((sum, payment) => sum + Number.parseFloat(payment.amount), 0)
     }, 0)
   }
 
-  // Calculate original debt total
+  /**
+   * Suma el monto inicial de todas las deudas
+   * sin considerar intereses futuros
+   */
   calculateOriginalDebtTotal(processedDebts: Debt[]): number {
     return processedDebts.reduce((total, debt) => total + Number.parseFloat(debt.amount), 0)
   }
