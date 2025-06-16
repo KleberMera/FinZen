@@ -9,6 +9,7 @@ import { DebtService } from '../../services/debt.service';
 import { format } from '@formkit/tempo';
 import { toast } from 'ngx-sonner';
 import { DebtSidebarContainerComponent } from '../debt-sidebar-container/debt-sidebar-container.component';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -109,14 +110,19 @@ export class CardAmortizationComponent {
     };
     const debtId = this.filters() ? this.filters()![0].id : this.formData()?.get('id')?.value;
 
-    this._debtService.updateDebtStatusAll(debtId, updateDto).subscribe({
-      next: () => {
-        toast.success('Pagos actualizados correctamente');
-        this.updateSuccess.emit();
+
+
+    const promise = firstValueFrom(
+      this._debtService.updateDebtStatusAll(debtId, updateDto));
+      toast.promise(promise, {
+        loading: 'Actualizando pagos...',
+        success: (data) => {
+           this.updateSuccess.emit();
         this.selectedItems.set([]);
         this.selectionMode.set(false);
-      },
-    });
+          return data.message
+        },
+      })
   }
 
 

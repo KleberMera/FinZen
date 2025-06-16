@@ -4,6 +4,7 @@ import { Amortization, UpdateAllStatusDto, UpdateStatusDto } from '@models/amort
 import { DebtService } from '../../services/debt.service';
 import { toast } from 'ngx-sonner';
 import { format } from '@formkit/tempo';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-deb-details',
@@ -30,14 +31,26 @@ export class SidebarDebDetailsComponent {
       payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
     };
 
-    console.log('updateDto', updateDto, this.debtId());
+    // console.log('updateDto', updateDto, this.debtId());
 
-    this._debtService.updateDebtStatus(this.debtId(), updateDto).subscribe({
-      next: (response) => {
-        console.log('Amortizaciones actualizadas:', response);
-        toast.success('Pagos actualizados correctamente');
-        this.updateSuccess.emit(); // Emitir el evento de éxito
+    // this._debtService.updateDebtStatus(this.debtId(), updateDto).subscribe({
+    //   next: (response) => {
+    //     console.log('Amortizaciones actualizadas:', response);
+    //     toast.success('Pagos actualizados correctamente');
+    //     this.updateSuccess.emit(); // Emitir el evento de éxito
+    //     this.close();
+    //   },
+    // });
+
+    const promise = firstValueFrom(
+      this._debtService.updateDebtStatus(this.debtId(), updateDto)
+    );
+    toast.promise(promise, {
+      loading: 'Actualizando pago...',
+      success: (data) => {
+        this.updateSuccess.emit();
         this.close();
+        return data.message
       },
     });
   }
