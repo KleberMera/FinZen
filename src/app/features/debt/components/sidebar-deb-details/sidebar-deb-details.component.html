@@ -42,10 +42,20 @@
 
                     <div class="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex justify-between items-center">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Fecha de pago</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Fecha programada</p>
                             <p class="text-sm font-medium text-gray-800 dark:text-gray-200">
                                 <i class="pi pi-calendar mr-2 text-gray-400"></i>
                                 {{ amortization().date | date:'dd/MM/yyyy' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Fecha de pago real</p>
+                            <p class="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                                <i class="pi pi-check-circle mr-2"></i>
+                                {{ amortization().payment_date ? (amortization().payment_date | date:'dd/MM/yyyy') : 'Sin fecha' }}
                             </p>
                         </div>
                     </div>

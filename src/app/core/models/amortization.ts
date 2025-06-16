@@ -7,6 +7,7 @@ export interface Amortization {
   amortized: number;
   outstanding: number;
   status: string;
+  payment_date?: string;
 }
 
 // Primero crea la interfaz del DTO (en tu archivo de interfaces)
