@@ -9,7 +9,8 @@
             }
         } @else {
             <app-card-details 
-            [debts]="filteredDebts()">
+            [debts]="filteredDebts()"
+            >
             </app-card-details>
             @if (_screenService.isMobile()) {
                 <app-card-amortization 

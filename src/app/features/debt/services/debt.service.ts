@@ -84,5 +84,10 @@ export class DebtService {
     return this._http.put<apiResponse<Debt>>(url, updateData);
   }
 
+  deleteDebt(debtId: number): Observable<apiResponse<Debt>> {
+    const url = `${environment.apiUrl}/debt/delete/${debtId}`;
+    return this._http.delete<apiResponse<Debt>>(url);
+  }
+
 
 }
