@@ -74,4 +74,9 @@ export class GoalService {
     const url = `${environment.apiUrl}/goal/contribution/${goalContributionId}`;
     return this._htpp.delete<apiResponse<GoalContribution>>(url);
   }
+
+  deleteGoal(goalId: number): Observable<apiResponse<Goal>> {
+    const url = `${environment.apiUrl}/goal/${goalId}`;
+    return this._htpp.delete<apiResponse<Goal>>(url);
+  }
 }

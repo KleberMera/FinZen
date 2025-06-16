@@ -94,4 +94,17 @@ export class GoalViewComponent {
      
     });
   }
+
+    deleteGoal(goalId: number) {
+    const promise = firstValueFrom(
+      this.goalService.deleteGoal(goalId));
+      toast.promise(promise, {
+        loading: 'Eliminando objetivo...',
+        success: (data) => {
+          return data.message;
+        },
+        
+      });
+   
+  }
 }

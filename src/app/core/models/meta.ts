@@ -5,6 +5,7 @@ export interface Goal {
     description?: string;
     target_amount: number;
     deadline?: string;
+    hasContributions?: boolean;
 
     start_date?: string;
     status?: string;
