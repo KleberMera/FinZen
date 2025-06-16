@@ -139,18 +139,6 @@ export class SidebarItemsComponent {
     //   ],
     // },
     {
-      type: 'dropdown',
-      label: 'Charts',
-      icon: ChartIconComponent,
-      subItems: [
-        {
-          label: 'Estadisticas',
-          route: 'estadisticas',
-         // route: 'metas',
-        },
-               
-      ],
-    },{
       type: 'link',
       label: 'Gestión de Usuarios',
       icon: UserIconSettingsComponent,
