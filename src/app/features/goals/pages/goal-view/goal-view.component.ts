@@ -8,11 +8,13 @@ import { FormContributionComponent } from "../../components/form-contribution/fo
 import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
 import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
+import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
+import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent],
+  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, BottomSheetComponent, BottomSheetContentComponent],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
@@ -22,6 +24,8 @@ export class GoalViewComponent {
   userId = signal<number>(this.storageService.getUserId());
   goalId = signal<number | null>(null);
   showSidebar = signal<boolean>(false);
+  isBottomSheetOpen = signal<boolean>(false);
+
   goal = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) => this.goalService.getGoalByUserId(request.userId),
@@ -71,6 +75,10 @@ export class GoalViewComponent {
 
   toggleSidebar() {
     this.showSidebar.set(!this.showSidebar());
+  }
+
+  closeBottomSheet() {
+    this.isBottomSheetOpen.set(false);
   }
   
   // Método para manejar cuando se guarda una contribución

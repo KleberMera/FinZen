@@ -1,13 +1,12 @@
 
 
-@if (isOpen()) {
-    <div class="fixed inset-0 z-50" [@slideAnimation]>
-        <div class="absolute inset-0 bg-gray-600/60 dark:bg-gray-900/70 backdrop-blur-sm" (click)="close()"></div>
-        <app-sidebar-deb-details
-            [debtId]="debtId()"
-            [amortization]="amortization()"
-            (closeUserSidebar)="close()"
-            (updateSuccess)="onUpdateSuccess()"
-        ></app-sidebar-deb-details>
-    </div>
-}
+<app-bottom-sheet 
+  [isOpen]="isOpen()" 
+  (closeSheet)="close()">
+  <app-sidebar-deb-details
+    [debtId]="debtId()"
+    [amortization]="amortization()"
+    (closeUserSidebar)="close()"
+    (updateSuccess)="onUpdateSuccess()"
+  ></app-sidebar-deb-details>
+</app-bottom-sheet>

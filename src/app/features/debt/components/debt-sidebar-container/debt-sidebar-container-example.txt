@@ -1,12 +1,26 @@
+// Ejemplo de cómo usar el nuevo componente bottom-sheet
+
+// En el archivo HTML
+<app-bottom-sheet 
+  [isOpen]="isOpen()" 
+  (closeSheet)="close()">
+  <app-sidebar-deb-details
+    [debtId]="debtId()"
+    [amortization]="amortization()"
+    (closeUserSidebar)="close()"
+    (updateSuccess)="onUpdateSuccess()"
+  ></app-sidebar-deb-details>
+</app-bottom-sheet>
+
+// En el archivo TS
 import { Component, input, output } from '@angular/core';
 import { Amortization } from '@models/amortization';
 import { SidebarDebDetailsComponent } from "../sidebar-deb-details/sidebar-deb-details.component";
-import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet";
+import { BottomSheetComponent } from "../../../shared/components/bottom-sheet";
 
 @Component({
   selector: 'app-debt-sidebar-container',
   templateUrl: './debt-sidebar-container.component.html',
-  standalone: true,
   imports: [SidebarDebDetailsComponent, BottomSheetComponent]
 })
 export class DebtSidebarContainerComponent {

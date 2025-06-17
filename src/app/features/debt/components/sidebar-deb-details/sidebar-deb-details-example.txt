@@ -1,0 +1,61 @@
+// Ejemplo de cómo adaptar el componente sidebar-deb-details para usar el nuevo bottom-sheet-content
+
+// En el archivo HTML
+<app-bottom-sheet-content 
+  [title]="'Información de Cuota'" 
+  (closeSheet)="close()">
+  <div class="mb-6">
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Cuota mensual</p>
+          <p class="text-sm font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+            {{ amortization().quota | currency }}
+          </p>
+        </div>
+        <!-- Resto del contenido... -->
+      </div>
+    </div>
+  </div>
+  
+  @if (amortization().status === 'Pendiente') {
+    <button 
+      (click)="onUpdateAmortization()"
+      class="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 font-medium">
+      <i class="pi pi-check-circle"></i>
+      Marcar como Pagado
+    </button>
+  }
+</app-bottom-sheet-content>
+
+// En el archivo TS
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, inject, input, output } from '@angular/core';
+import { Amortization, UpdateStatusDto } from '@models/amortization';
+import { DebtService } from '../../services/debt.service';
+import { toast } from 'ngx-sonner';
+import { format } from '@formkit/tempo';
+import { firstValueFrom } from 'rxjs';
+import { BottomSheetContentComponent } from '../../../shared/components/bottom-sheet';
+
+@Component({
+  selector: 'app-sidebar-deb-details',
+  imports: [DatePipe, CurrencyPipe, BottomSheetContentComponent],
+  templateUrl: './sidebar-deb-details.component.html',
+  styleUrl: './sidebar-deb-details.component.scss',
+})
+export class SidebarDebDetailsComponent {
+  closeUserSidebar = output<void>();
+  readonly amortization = input.required<Amortization>();
+  readonly debtId = input.required<number>();
+  private readonly _debtService = inject(DebtService);
+  updateSuccess = output<void>();
+
+  close() {
+    this.closeUserSidebar.emit();
+  }
+
+  async onUpdateAmortization() {
+    // Implementación existente...
+  }
+}
