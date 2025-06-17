@@ -5,7 +5,7 @@ import { StorageService } from '../../../../../shared/services/storage.service';
 import { DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { SideSheetContentComponent } from "../../../../../shared/components/side-sheet/side-sheet-content.component";
-import { SimpleGradient, TitleGradient } from '@models/styleClass';
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-user-notification-sidebar',
@@ -16,7 +16,7 @@ import { SimpleGradient, TitleGradient } from '@models/styleClass';
 export class UserNotificationSidebarComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _notifications = inject(NotificationService);
-  Title = SimpleGradient;
+  Title = TitleGradient;
   
   // Señales para controlar los filtros
   protected readonly _filterType = signal<'all' | 'read' | 'unread'>('unread'); // Por defecto no leídas

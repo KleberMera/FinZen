@@ -33,13 +33,19 @@ export class SideSheetComponent {
   getAnimationParams() {
     if (this.position() === 'right') {
       return {
-        initialTransform: 'translateX(100%)',
-        finalTransform: 'translateX(0)'
+        value: 'right', // Puedes usar 'right' como un valor de estado si lo necesitaras para animaciones más complejas, pero aquí es un marcador.
+        params: { // ¡Esta es la clave! Los parámetros van dentro de 'params'.
+          initialTransform: 'translateX(100%)',
+          finalTransform: 'translateX(0)'
+        }
       };
     } else {
       return {
-        initialTransform: 'translateX(-100%)',
-        finalTransform: 'translateX(0)'
+        value: 'left', // Similar al anterior
+        params: {
+          initialTransform: 'translateX(-100%)',
+          finalTransform: 'translateX(0)'
+        }
       };
     }
   }

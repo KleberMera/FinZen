@@ -2,20 +2,24 @@
 
 <app-side-sheet-content
     [title]="'Notificaciones'"
-    [titleClasses]="Title.RED_ORANGE"
+    [titleClasses]="Title.BLUE_CYAN"
     (closeSheet)="close()"
 >
-    @if (unreadCount > 0) {
+    <!-- Contenedor principal con espaciado consistente -->
+    <div class="space-y-4">
+        <!-- Botón marcar todas como leídas -->
+        @if (unreadCount > 0) {
         <button (click)="markAllAsRead()"
-            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+            class="w-full flex items-center justify-center p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium"
             title="Marcar todas como leídas">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
+            Marcar todas como leídas
         </button>
         }
         
-        <!-- Filtros -->
+        <!-- Filtros con mejor espaciado -->
         <div class="space-y-3">
             <!-- Filtros de estado de lectura -->
             <div class="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
@@ -137,4 +141,5 @@
             }
         </div>
         }
+    </div>
 </app-side-sheet-content>
