@@ -120,7 +120,7 @@
 
       <!-- Notifications Button -->
       <button
-        (click)="onNotificationClick()"
+        (click)="isUserNotificationOpen.set(true)"
         class="relative p-2 rounded-lg hover:bg-white/90 dark:hover:bg-gray-800 transition-all duration-200 hover:shadow-lg text-gray-600 dark:text-gray-400"
       >
         <svg
@@ -193,7 +193,10 @@
 
 
 <!-- Sidebar de notificaciones usando el nuevo componente side-sheet -->
-<app-side-sheet 
+
+
+@if (isUserNotificationOpen()) {
+  <app-side-sheet 
   [isOpen]="isUserNotificationOpen()" 
   [position]="'right'"
   (closeSheet)="closeNotificationSidebar()">
@@ -201,3 +204,5 @@
     (closeUserSidebar)="closeNotificationSidebar()"
   ></app-user-notification-sidebar>
 </app-side-sheet>
+
+}

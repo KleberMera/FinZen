@@ -49,9 +49,7 @@ export class NavbarComponent {
     this.isUserSidebarOpen.update((value) => !value);
   }
 
-  onNotificationClick() {
-    this.isUserNotificationOpen.update((value) => !value);
-  }
+
 
   closeUserSidebar() {
     this.isUserSidebarOpen.set(false);
