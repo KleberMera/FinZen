@@ -36,10 +36,6 @@ export class GoalViewComponent {
 
 
 
-  onCreateSuccess() {
-    this.goal.reload(); // Recargar las metas después de crear una nueva
-  }
-
   closeSideSheet() {
     this.isSideSheetOpen.set(false);
   }
@@ -76,8 +72,6 @@ export class GoalViewComponent {
   selectGoal(id: number) {
     this.goalId.set(id);
     console.log('Seleccionado goal', id);
-    return 
-
   }
 
   // Método para traducir el estado de la meta
@@ -100,6 +94,12 @@ export class GoalViewComponent {
     this.goalContributions.reload();
   }
 
+  
+  onCreateSuccess() {
+    this.goal.reload(); // Recargar las metas después de crear una nueva
+  }
+
+
  
 
 
@@ -108,11 +108,6 @@ export class GoalViewComponent {
     
   }
 
-  // Método para manejar cuando se guarda una contribución
-  handleContributionSaved() {
-   // this.toggleSidebar(); // Cerrar el sidebar
-    this.reloadContributions(); // Recargar las contribuciones
-  }
 
   deleteContribution(contributionId: number) {
     // this.goalService.deleteGoalContribution(contributionId).subscribe(() => {
@@ -143,7 +138,7 @@ export class GoalViewComponent {
   deleteGoal(goalId: number) {
     const promise = firstValueFrom(this.goalService.deleteGoal(goalId));
     toast.promise(promise, {
-      loading: 'Eliminando objetivo...',
+      loading: 'Eliminando meta...',
       success: (data) => {
         // Reload goals after deletion
         this.goal.reload();

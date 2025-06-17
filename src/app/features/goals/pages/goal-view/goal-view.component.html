@@ -265,7 +265,7 @@
         [title]="'Registrar Aporte'">
           <app-form-contribution 
         [goalId]="selectedGoal()!.id!" 
-        (onSave)="handleContributionSaved()"
+        (onSave)="reloadContributions()"
         [userId]="userId()"
       ></app-form-contribution>
       </app-side-sheet>

@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   input,
+  output,
   Output,
   signal,
 } from '@angular/core';
@@ -29,8 +30,8 @@ export class FormContributionComponent {
   protected readonly form = this._goalService.formGoalContribution();
   protected isSaving = signal<boolean>(false);
 
-  @Output() onSave = new EventEmitter<void>();
-  @Output() onCancel = new EventEmitter<void>();
+  protected onSave = output<void>();
+  protected onCancel = output<void>();
 
   // Inicializar el formulario con el ID de la meta
   constructor() {
