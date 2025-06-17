@@ -280,9 +280,11 @@
 
 </div>
 
- 
-  <app-goal-container
-    [isOpen]="isBottomSheetOpen()"
+<app-bottom-sheet 
+  [isOpen]="isBottomSheetOpen()" 
+  (closeSheet)="closeBottomSheet()">
+  <app-goal-register
     (closeUserSidebar)="closeBottomSheet()"
     (createSuccess)="onCreateSuccess()"
-  ></app-goal-container>
+  ></app-goal-register>
+</app-bottom-sheet>

@@ -1,21 +1,28 @@
-import { Component, inject, signal, computed, output } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GoalService } from '../../services/goal.service';
 import { StorageService } from '@services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Goal, GoalContribution } from '@models/meta';
 import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
 import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
+import { GoalRegisterComponent } from "../../components/goal-register/goal-register.component";
+
 import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
 import { TitleGradient } from '@models/styleClass';
-import { GoalContainerComponent } from "../../components/goal-container/goal-container.component";
+import { BottomSheetComponent } from '../../../../shared/components/bottom-sheet';
 
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, GoalContainerComponent],
+  imports: [
+    CommonModule, 
+    FormContributionComponent, 
+    ProgressGoalComponent, 
+    GoalRegisterComponent,
+    BottomSheetComponent
+  ],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
