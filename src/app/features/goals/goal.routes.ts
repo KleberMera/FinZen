@@ -10,13 +10,7 @@ export const goalRoutes: Routes = [
   {
     path: '',
     children: [
-        {
-            path: CONFIG_PAGES.METAS,
-            loadComponent: () =>
-              import('./pages/register-meta/register-meta.component').then(
-                (m) => m.RegisterMetaComponent
-              ),
-          },
+
           {
             path: CONFIG_PAGES.SEGUIMIENTO,
             loadComponent: () =>

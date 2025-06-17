@@ -1,6 +1,5 @@
 import { Component, input, output } from '@angular/core';
 import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
-import { RegisterMetaComponent } from "../../pages/register-meta/register-meta.component";
 import { GoalRegisterComponent } from "../goal-register/goal-register.component";
 
 @Component({

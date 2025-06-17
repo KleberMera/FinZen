@@ -5,6 +5,7 @@ import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { GoalService } from '../../services/goal.service';
 import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-goal-register',
@@ -13,6 +14,8 @@ import { BottomSheetContentComponent } from "../../../../shared/components/botto
   styleUrl: './goal-register.component.scss'
 })
 export class GoalRegisterComponent {
+  title = signal<string>('Registrar Meta');
+  titleClass = TitleGradient.INDIGO_PURPLE;
   
   protected readonly _goalService = inject(GoalService);
   private readonly _storageService = inject(StorageService);

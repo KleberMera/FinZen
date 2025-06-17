@@ -1,5 +1,5 @@
 <app-bottom-sheet-content 
-[title]="'Información de Cuota'" (closeSheet)="close()">
+[title]="title()" [titleClasses]="titleClass" (closeSheet)="close()">
 
   
   <form [formGroup]="form()" (submit)="saveMeta($event)" >
