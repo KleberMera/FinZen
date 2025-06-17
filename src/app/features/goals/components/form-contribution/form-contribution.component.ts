@@ -4,10 +4,11 @@ import { GoalContribution } from '@models/meta';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { toast } from 'ngx-sonner';
+import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
 
 @Component({
   selector: 'app-form-contribution',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, BottomSheetComponent],
   templateUrl: './form-contribution.component.html',
   styleUrl: './form-contribution.component.scss',
 })

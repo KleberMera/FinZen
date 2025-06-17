@@ -1,22 +1,8 @@
-<div class="mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
-  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
-    <div class="space-y-2 w-full">
-      <h2 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700 dark:from-emerald-400 dark:via-teal-400 dark:to-green-300 bg-clip-text text-transparent flex items-center gap-3">
-        <span class="p-2 bg-gradient-to-br from-emerald-500 to-teal-600 dark:from-emerald-400 dark:to-teal-500 rounded-lg shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd" />
-          </svg>
-        </span>
-        Nueva Meta
-      </h2>
-      <div class="h-1 w-full bg-gradient-to-r from-emerald-500 to-teal-600 dark:from-emerald-400 dark:to-teal-500 rounded-full"></div>
-      <p class="text-gray-600 dark:text-gray-400 font-medium">
-        Define tus objetivos financieros
-      </p>
-    </div>
-  </div>
+<app-bottom-sheet-content 
+[title]="'Información de Cuota'" (closeSheet)="close()">
+
   
-  <form [formGroup]="form()" (submit)="saveMeta($event)" class="space-y-6">
+  <form [formGroup]="form()" (submit)="saveMeta($event)" >
     <!-- Nombre -->
     <div>
       <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -190,5 +176,10 @@
       </button>
     </div>
   </form>
-</div>
+
   
+
+
+
+</app-bottom-sheet-content>
+

@@ -41,7 +41,7 @@
                   </p>
                 </div>
 
-                @if (goalItem.hasContributions) {
+                @if (!goalItem.hasContributions) {
                   <button 
                     (click)="$event.stopPropagation(); deleteGoal(goalItem.id!)"
                     class="ml-2 p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
@@ -275,19 +275,14 @@
     }
     
   </div>
+
+</div>
+
 </div>
 
  
-
-<app-bottom-sheet 
-  [isOpen]="isBottomSheetOpen()" 
-  (closeSheet)="closeBottomSheet()">
-  <app-bottom-sheet-content 
-    [title]="'Título del Bottom Sheet'" 
-    (closeSheet)="closeBottomSheet()">
-    <!-- Contenido personalizado aquí -->
-    <div class="p-4">
-      <p>Este es el contenido del bottom sheet</p>
-    </div>
-  </app-bottom-sheet-content>
-</app-bottom-sheet>
+  <app-goal-container
+    [isOpen]="isBottomSheetOpen()"
+    (closeUserSidebar)="closeBottomSheet()"
+    (createSuccess)="onCreateSuccess()"
+  ></app-goal-container>

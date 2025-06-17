@@ -1,0 +1,11 @@
+
+
+<app-bottom-sheet 
+  [isOpen]="isOpen()" 
+  (closeSheet)="close()">
+  <app-register-meta
+
+    (closeUserSidebar)="close()"
+    (createSuccess)="onCreateSuccess()"
+  ></app-register-meta>
+</app-bottom-sheet>

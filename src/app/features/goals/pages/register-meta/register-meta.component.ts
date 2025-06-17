@@ -1,24 +1,31 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { GoalService } from '../../services/goal.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormValidationService } from '@services/form-validation.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
+import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
 
 @Component({
   selector: 'app-register-meta',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, BottomSheetContentComponent],
   templateUrl: './register-meta.component.html',
   styleUrl: './register-meta.component.scss',
 })
 export class RegisterMetaComponent {
+   
   protected readonly _goalService = inject(GoalService);
   private readonly _storageService = inject(StorageService);
   protected readonly _validationService = inject(FormValidationService);
   protected readonly seletedUser = signal<number>(
     this._storageService.getUserId()
   );
+    closeUserSidebar = output<void>();
 
+    createSuccess = output<void>();
+    close() {
+    this.closeUserSidebar.emit();
+  }
   form = this._goalService.formGoal();
   protected readonly isSubmitting = signal(false);
 
@@ -49,6 +56,8 @@ export class RegisterMetaComponent {
         toast.success(res.message);
         this.formReset();
         this.isSubmitting.set(false);
+        this.createSuccess.emit();
+        this.closeUserSidebar.emit();
       });
     } catch (error) {
       console.log(error);

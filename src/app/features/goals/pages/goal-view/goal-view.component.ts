@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GoalService } from '../../services/goal.service';
 import { StorageService } from '@services/storage.service';
@@ -10,11 +10,16 @@ import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
 import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
 import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
+import { TitleGradient } from '@models/styleClass';
+import { GoalRegisterComponent } from "../goal-register/goal-register.component";
+import { RegisterMetaComponent } from "../register-meta/register-meta.component";
+import { GoalContainerComponent } from "../../components/goal-container/goal-container.component";
+
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, BottomSheetComponent, BottomSheetContentComponent],
+  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, BottomSheetComponent, BottomSheetContentComponent, GoalRegisterComponent, RegisterMetaComponent, GoalContainerComponent],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
@@ -25,6 +30,14 @@ export class GoalViewComponent {
   goalId = signal<number | null>(null);
   showSidebar = signal<boolean>(false);
   isBottomSheetOpen = signal<boolean>(false);
+  titleClass = TitleGradient.GREEN_EMERALD
+
+
+onCreateSuccess(){
+  this.goal.reload(); // Recargar las metas después de crear una nueva
+}
+
+
 
   goal = rxResource({
     request: () => ({ userId: this.userId() }),

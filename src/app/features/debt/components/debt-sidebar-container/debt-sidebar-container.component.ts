@@ -11,9 +11,10 @@ import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet
 })
 export class DebtSidebarContainerComponent {
   readonly isOpen = input(false);
+  readonly closeUserSidebar = output<void>();
   readonly debtId = input.required<number>();
   readonly amortization = input.required<Amortization>();
-  readonly closeUserSidebar = output<void>();
+
   readonly updateSuccess = output<void>();
 
   close() {
