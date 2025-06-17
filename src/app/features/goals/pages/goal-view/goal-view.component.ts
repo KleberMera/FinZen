@@ -1,27 +1,24 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { GoalService } from '../../services/goal.service';
-import { StorageService } from '../../../../shared/services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
-import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
-import { GoalRegisterComponent } from "../../components/goal-register/goal-register.component";
-
+import { FormContributionComponent } from '../../components/form-contribution/form-contribution.component';
+import { ProgressGoalComponent } from '../../components/progress-goal/progress-goal.component';
+import { GoalRegisterComponent } from '../../components/goal-register/goal-register.component';
 import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
 import { TitleGradient } from '@models/styleClass';
+import { StorageService } from '@services/storage.service';
 import { BottomSheetComponent } from '../../../../shared/components/bottom-sheet';
-
 
 @Component({
   selector: 'app-goal-view',
-  standalone: true,
   imports: [
-    CommonModule, 
-    FormContributionComponent, 
-    ProgressGoalComponent, 
+    CurrencyPipe,
+    FormContributionComponent,
+    ProgressGoalComponent,
     GoalRegisterComponent,
-    BottomSheetComponent
+    BottomSheetComponent,
   ],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
@@ -32,15 +29,17 @@ export class GoalViewComponent {
   userId = signal<number>(this.storageService.getUserId());
   goalId = signal<number | null>(null);
   showSidebar = signal<boolean>(false);
-  isBottomSheetOpen = signal<boolean>(false);
-  titleClass = TitleGradient.GREEN_EMERALD
+  titleClass = TitleGradient.GREEN_EMERALD;
 
+  // Cambiar a signal con defer para retrasar la carga del componente
+  protected readonly bottomSheetState = signal({
+    isOpen: false,
+    shouldRender: false,
+  });
 
-onCreateSuccess(){
-  this.goal.reload(); // Recargar las metas después de crear una nueva
-}
-
-
+  onCreateSuccess() {
+    this.goal.reload(); // Recargar las metas después de crear una nueva
+  }
 
   goal = rxResource({
     request: () => ({ userId: this.userId() }),
@@ -56,32 +55,42 @@ onCreateSuccess(){
       if (!request.goalId) return;
       return request;
     },
-    loader: ({ request }) => this.goalService.getGoalTrackingByUserIdAndGoalId(request!.userId!, request!.goalId!),
+    loader: ({ request }) =>
+      this.goalService.getGoalTrackingByUserIdAndGoalId(
+        request!.userId!,
+        request!.goalId!
+      ),
   });
 
   // Computed para obtener la meta seleccionada
   selectedGoal = computed(() => {
     if (!this.goalId() || !this.goal.value()?.data) return null;
     // Cambiamos user_id por meta_id como identificador único
-    return this.goal.value()?.data!.find(g => g.id === this.goalId());
+    return this.goal.value()?.data!.find((g) => g.id === this.goalId());
   });
 
   // Método para seleccionar una meta
   selectGoal(id: number) {
     this.goalId.set(id);
+    console.log('Seleccionado goal', id);
+    
     // Recargar las contribuciones cuando se selecciona una meta
-    this.goalContributions.reload();
+    //this.goalContributions.reload();
   }
-  
+
   // Método para traducir el estado de la meta
   getStatusTranslation(status: string | undefined): string {
     if (!status) return 'En progreso';
-    
+
     switch (status) {
-      case 'Active': return 'Activo';
-      case 'Completed': return 'Completado';
-      case 'Cancelled': return 'Cancelado';
-      default: return status;
+      case 'Active':
+        return 'Activo';
+      case 'Completed':
+        return 'Completado';
+      case 'Cancelled':
+        return 'Cancelado';
+      default:
+        return status;
     }
   }
 
@@ -93,10 +102,29 @@ onCreateSuccess(){
     this.showSidebar.set(!this.showSidebar());
   }
 
-  closeBottomSheet() {
-    this.isBottomSheetOpen.set(false);
+  openBottomSheet() {
+    // Primero activamos el render
+    this.bottomSheetState.set({
+      isOpen: false,
+      shouldRender: true,
+    });
+
+    // Luego en el siguiente tick abrimos el sheet
+    requestAnimationFrame(() => {
+      this.bottomSheetState.set({
+        isOpen: true,
+        shouldRender: true,
+      });
+    });
   }
-  
+
+  closeBottomSheet() {
+    this.bottomSheetState.set({
+      isOpen: false,
+      shouldRender: false,
+    });
+  }
+
   // Método para manejar cuando se guarda una contribución
   handleContributionSaved() {
     this.toggleSidebar(); // Cerrar el sidebar
@@ -108,22 +136,23 @@ onCreateSuccess(){
     //   this.reloadContributions();
     // });
 
-    const goalPromise = firstValueFrom(this.goalService.deleteGoalContribution(contributionId));
+    const goalPromise = firstValueFrom(
+      this.goalService.deleteGoalContribution(contributionId)
+    );
     toast.promise(goalPromise, {
       loading: 'Eliminando aporte...',
-      success: (res)=> {
+      success: (res) => {
         this.reloadContributions();
         return res.message;
       },
-     
     });
   }
 
-    // Calculate progress percentage for the selected goal
+  // Calculate progress percentage for the selected goal
   progressPercentage = computed(() => {
     const goal = this.selectedGoal();
     if (!goal?.target_amount || goal.target_amount <= 0) return 0;
-    
+
     // For now, just return 0% if no contributions, 100% if has contributions
     return goal.hasContributions ? 100 : 0;
   });
@@ -138,7 +167,6 @@ onCreateSuccess(){
         this.goalId.set(null);
         return data.message;
       },
-
     });
   }
 }

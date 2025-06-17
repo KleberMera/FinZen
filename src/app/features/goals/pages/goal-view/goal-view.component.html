@@ -68,7 +68,7 @@
     <div class="p-3 border-t border-gray-200/30 dark:border-gray-700/30">
       <button 
         class="w-full py-2.5 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-        (click)="isBottomSheetOpen.set(true)">
+        (click)=" openBottomSheet()">
         <i class="pi pi-plus"></i>
         <span>Nueva Meta</span>
       </button>
@@ -278,13 +278,16 @@
 
 </div>
 
-</div>
-
-<app-bottom-sheet 
-  [isOpen]="isBottomSheetOpen()" 
-  (closeSheet)="closeBottomSheet()">
-  <app-goal-register
-    (closeUserSidebar)="closeBottomSheet()"
-    (createSuccess)="onCreateSuccess()"
-  ></app-goal-register>
-</app-bottom-sheet>
+<!-- Reemplazar el bottom sheet existente con esta versión optimizada -->
+@if (bottomSheetState().shouldRender) {
+  <app-bottom-sheet 
+    [isOpen]="bottomSheetState().isOpen" 
+    (closeSheet)="closeBottomSheet()">
+    @defer {
+      <app-goal-register
+        (closeUserSidebar)="closeBottomSheet()"
+        (createSuccess)="onCreateSuccess()"
+      ></app-goal-register>
+    }
+  </app-bottom-sheet>
+}

@@ -9,6 +9,7 @@ import { SimpleGradient, SolidColor } from '@models/styleClass';
 
 @Component({
   selector: 'app-goal-register',
+  standalone: true,
   imports: [BottomSheetContentComponent, ReactiveFormsModule],
   templateUrl: './goal-register.component.html',
   styleUrl: './goal-register.component.scss',
@@ -77,5 +78,10 @@ export class GoalRegisterComponent {
 
   close() {
     this.closeUserSidebar.emit();
+  }
+
+  // Agregar trackBy para mejorar rendimiento de listas si las hay
+  protected trackById(index: number, item: any): number {
+    return item.id;
   }
 }
