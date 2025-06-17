@@ -4,8 +4,6 @@
   height: 100%;
 }
 
-
-
 /* Animación para el panel lateral */
 .side-panel {
   animation: slideInSide 0.3s ease-out;
@@ -21,4 +19,16 @@
     opacity: 1;
     transform: translateX(0); 
   }
+}
+
+.close-icon {
+  transition: transform 0.2s ease-in-out;
+  &:active {
+    transform: rotate(90deg);
+  }
+}
+
+// Si prefieres que la animación se active al hover:
+.close-icon:hover {
+  transform: rotate(90deg);
 }
