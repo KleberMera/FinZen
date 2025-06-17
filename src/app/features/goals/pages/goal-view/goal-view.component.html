@@ -262,12 +262,14 @@
       <app-side-sheet
         [isOpen]="isSideSheetOpen()"
         (closeSheet)="closeSideSheet()"
-        [title]="'Registrar Aporte'">
-          <app-form-contribution 
-        [goalId]="selectedGoal()!.id!" 
-        (onSave)="reloadContributions()"
-        [userId]="userId()"
-      ></app-form-contribution>
+        >
+             <app-form-contribution 
+                (onCancel)="closeSideSheet()"
+                (onSave)="reloadContributions()"
+                [goalId]="selectedGoal()!.id!" 
+                (onSave)="reloadContributions()"
+                [userId]="userId()"
+             ></app-form-contribution>
       </app-side-sheet>
     
     }

@@ -10,7 +10,7 @@ import { toast } from 'ngx-sonner';
 import { TitleGradient } from '@models/styleClass';
 import { StorageService } from '@services/storage.service';
 import { BottomSheetComponent } from '../../../../shared/components/bottom-sheet';
-import { SideSheetComponent } from "../../../../shared/components/side-sheet/side-sheet.component";
+import { SideSheetComponent } from '../../../../shared/components/side-sheet/side-sheet.component';
 
 @Component({
   selector: 'app-goal-view',
@@ -20,8 +20,8 @@ import { SideSheetComponent } from "../../../../shared/components/side-sheet/sid
     ProgressGoalComponent,
     GoalRegisterComponent,
     BottomSheetComponent,
-    SideSheetComponent
-],
+    SideSheetComponent,
+  ],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
@@ -33,12 +33,6 @@ export class GoalViewComponent {
   titleClass = TitleGradient.GREEN_EMERALD;
   isBottomSheetOpen = signal<boolean>(false);
   isSideSheetOpen = signal<boolean>(false);
-
-
-
-  closeSideSheet() {
-    this.isSideSheetOpen.set(false);
-  }
 
   goal = rxResource({
     request: () => ({ userId: this.userId() }),
@@ -94,29 +88,20 @@ export class GoalViewComponent {
     this.goalContributions.reload();
   }
 
-  
   onCreateSuccess() {
     this.goal.reload(); // Recargar las metas después de crear una nueva
   }
 
-
- 
-
-
   closeBottomSheet() {
     this.isBottomSheetOpen.set(false);
-    
   }
 
+  closeSideSheet() {
+    this.isSideSheetOpen.set(false);
+  }
 
   deleteContribution(contributionId: number) {
-    // this.goalService.deleteGoalContribution(contributionId).subscribe(() => {
-    //   this.reloadContributions();
-    // });
-
-    const goalPromise = firstValueFrom(
-      this.goalService.deleteGoalContribution(contributionId)
-    );
+    const goalPromise = firstValueFrom(this.goalService.deleteGoalContribution(contributionId));
     toast.promise(goalPromise, {
       loading: 'Eliminando aporte...',
       success: (res) => {
