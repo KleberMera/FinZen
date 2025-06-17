@@ -63,6 +63,7 @@ export class FormContributionComponent {
           this.form().controls['date'].reset();
           this.form().controls['note'].reset();
           this.onSave.emit();
+          this.cancel();
         },
       });
   }
