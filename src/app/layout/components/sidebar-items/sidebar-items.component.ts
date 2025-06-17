@@ -103,21 +103,13 @@ export class SidebarItemsComponent {
       ],
     },
     {
-      type: 'dropdown',
+      type: 'link',
       label: 'Metas',
       icon: CashRegisterIconComponent,
-      subItems: [
-        {
-          label: 'Nueva Meta',
-          route: 'metas',
-        },
-        {
-          label: 'Seguimiento',
-          route: 'meta-seguimiento',
-        },
-               
-      ],
+      route: 'meta-seguimiento',
+      //activeClass: 'bg-gray-100 dark:bg-gray-700',
     },
+
     {
       type: 'link',
       label: 'Chat',

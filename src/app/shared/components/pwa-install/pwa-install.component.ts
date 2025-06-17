@@ -1,14 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import { TitleGradient } from '@models/styleClass';
 import { BottomSheetComponent, BottomSheetContentComponent } from '../bottom-sheet';
 import { PwaService } from '../../services/pwa.service';
 
 @Component({
   selector: 'app-pwa-install',
-  standalone: true,
-  imports: [CommonModule, BottomSheetComponent, BottomSheetContentComponent],
+  imports: [ BottomSheetComponent, BottomSheetContentComponent],
   template: `
     @if (pwaService.isInstallable()) {
       <button 
