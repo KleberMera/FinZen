@@ -1,5 +1,5 @@
 @if (salaryData.isLoading()) {
-  <div class="mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
+  <div class="mb-8 mx-auto p-4 sm:p-6 bg-white/60 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-lg border border-gray-200/30 dark:border-gray-700/50 transition-all duration-500">
     <div class="flex flex-col justify-center items-center h-80 space-y-4">
       <div class="relative">
         <div class="animate-spin rounded-full h-16 w-16 border-4 border-gradient-to-r from-blue-500 via-slate-500 to-gray-600 border-t-transparent"></div>
@@ -10,12 +10,12 @@
   </div>
 } @else {
   @if (isFormVisible()) {
-    <div class="w-full mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80  rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500 hover:shadow-3xl">
+    <div class="w-full mb-8 mx-auto p-4 sm:p-6 bg-white/60 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-lg border border-gray-200/30 dark:border-gray-700/50 transition-all duration-500">
       <!-- Header con título y mes -->
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
         <div class="space-y-2">
-          <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-slate-600 to-gray-700 dark:from-blue-400 dark:via-slate-400 dark:to-gray-300 bg-clip-text text-transparent flex items-center gap-3">
-            <span class="p-2 bg-gradient-to-br from-blue-500 to-slate-600 dark:from-blue-400 dark:to-slate-500 rounded-lg shadow-lg">
+          <h3 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent flex items-center gap-3">
+            <span class="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
                 <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
@@ -23,31 +23,29 @@
             </span>
             Finanzas Personales
           </h3>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">
+          <p class="text-gray-700 dark:text-gray-300 font-medium">
             {{ capitalizeFirstLetter(currentMonth()) }} {{ currenYear() }}
           </p>
         </div>
         
-        <div class="flex items-center gap-3">
-          <button (click)="toggleFormVisibility()" type="button" class="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors duration-300">
-            <i class="pi pi-times"></i>
-            Cerrar
-          </button>
-        </div>
+        <button (click)="toggleFormVisibility()" type="button" 
+          class="text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-lg bg-white/60 dark:bg-gray-800/60 border border-gray-200/30 dark:border-gray-700/30 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300">
+          <i class="pi pi-times"></i>
+          Cerrar
+        </button>
       </div>
-      
-      <!-- Contenedor principal responsivo -->
+
+      <!-- Contenedor principal -->
       <div class="flex flex-col lg:flex-row gap-6">
-        <!-- Columna izquierda - Gráfico radial -->
+        <!-- Gráfico radial -->
         <div class="w-full lg:w-2/5 flex justify-center items-center">
           <div class="relative w-[300px]">
-            <!-- Contenedor del gráfico con fondo -->
+            <!-- Canvas -->
             <div class="aspect-square relative flex items-center justify-center">
-              <!-- Canvas del gráfico -->
               <canvas id="salarySummaryChart" class="absolute inset-0"></canvas>
             </div>
 
-            <!-- Leyenda -->
+            <!-- Leyenda mejorada -->
             <div class="mt-6 flex flex-row justify-center gap-4 select-none">
               <button type="button" 
                 [class]="'flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 focus:outline-none ' + 
@@ -103,14 +101,12 @@
           </div>
         </div>
         
-        <!-- Columna derecha - Tarjetas de información -->
+        <!-- Tarjetas de información -->
         <div class="w-full lg:w-3/5 space-y-4">
-          <!-- Tarjetas de Ingresos y Gastos -->
+          <!-- Ingresos y Gastos -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Tarjeta de Ingresos -->
-            <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 border-2 border-green-200 dark:border-green-700 p-4 group hover:shadow-xl transition-all duration-300">
-              <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/10 to-emerald-400/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>
-              
+            <!-- Ingresos -->
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 backdrop-blur-sm border border-green-200/30 dark:border-green-700/30 rounded-xl p-4 hover:shadow-xl transition-all duration-300">
               <div class="relative space-y-3">
                 <div class="flex items-center space-x-3">
                   <div class="p-2 bg-green-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
@@ -138,10 +134,8 @@
               </div>
             </div>
             
-            <!-- Tarjeta de Gastos -->
-            <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 dark:from-red-900/20 dark:via-rose-900/20 dark:to-pink-900/20 border-2 border-red-200 dark:border-red-700 p-4 group hover:shadow-xl transition-all duration-300">
-              <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-400/10 to-rose-400/10 rounded-full -translate-y-8 translate-x-8 group-hover:scale-110 transition-transform duration-500"></div>
-              
+            <!-- Gastos -->
+            <div class="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 backdrop-blur-sm border border-red-200/30 dark:border-red-700/30 rounded-xl p-4 hover:shadow-xl transition-all duration-300">
               <div class="relative space-y-3">
                 <div class="flex items-center space-x-3">
                   <div class="p-2 bg-red-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
@@ -170,8 +164,8 @@
             </div>
           </div>
           
-          <!-- Tarjeta de Resumen -->
-          <div class="relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-4 group hover:shadow-xl transition-all duration-300">
+          <!-- Resumen -->
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-xl p-4 hover:shadow-xl transition-all duration-300">
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center space-x-3">
                 <div class="p-2 bg-blue-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
@@ -215,8 +209,8 @@
             </div>
           </div>
           
-          <!-- Tarjeta de Recomendación -->
-          <div class="relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-4 group hover:shadow-xl transition-all duration-300">
+          <!-- Recomendación -->
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-xl p-4 hover:shadow-xl transition-all duration-300">
             <div class="flex items-start gap-3">
               <div class="p-2 rounded-xl" [class]="getRecommendationIconClass()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -240,7 +234,7 @@
 
     } @else {
       <button (click)="toggleFormVisibility()" type="button"
-  class="flex items-center mb-5 gap-2  text-blue-400 hover:text-blue-300 transition-colors duration-200">
+  class="flex items-center mb-5 gap-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
     <path fill-rule="evenodd"
       d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
