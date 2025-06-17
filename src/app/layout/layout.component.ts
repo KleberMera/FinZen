@@ -4,10 +4,16 @@ import { filter } from 'rxjs';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FloatingBalanceComponent } from "../shared/components/floating-balance/floating-balance.component";
+import { PwaInstallComponent } from '../shared/components/pwa-install/pwa-install.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [NavbarComponent, RouterOutlet, SidebarComponent],
+  imports: [
+    NavbarComponent, 
+    RouterOutlet, 
+    SidebarComponent,
+    PwaInstallComponent, // Agregamos el nuevo componente
+  ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
