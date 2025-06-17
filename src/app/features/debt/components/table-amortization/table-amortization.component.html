@@ -149,13 +149,16 @@
 }
 
 @if (filters()) {
-  <app-debt-sidebar-container
-    [isOpen]="isSidebarOpen()"
-    [debtId]="debtId()"
-    [amortization]="selectedAmortization()!"
-    (closeUserSidebar)="closeUserSidebar()"
-    (updateSuccess)="onSidebarUpdateSuccess()"
-  ></app-debt-sidebar-container>
+  <app-bottom-sheet 
+    [isOpen]="isSidebarOpen()" 
+    (closeSheet)="closeUserSidebar()">
+    <app-sidebar-deb-details
+      [debtId]="debtId()"
+      [amortization]="selectedAmortization()!"
+      (closeUserSidebar)="closeUserSidebar()"
+      (updateSuccess)="onSidebarUpdateSuccess()"
+    ></app-sidebar-deb-details>
+  </app-bottom-sheet>
 }
 
 

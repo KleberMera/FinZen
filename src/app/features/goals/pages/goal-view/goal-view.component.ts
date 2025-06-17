@@ -8,18 +8,14 @@ import { FormContributionComponent } from "../../components/form-contribution/fo
 import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";
 import { firstValueFrom } from 'rxjs';
 import { toast } from 'ngx-sonner';
-import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
-import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
 import { TitleGradient } from '@models/styleClass';
-import { GoalRegisterComponent } from "../goal-register/goal-register.component";
-import { RegisterMetaComponent } from "../register-meta/register-meta.component";
 import { GoalContainerComponent } from "../../components/goal-container/goal-container.component";
 
 
 @Component({
   selector: 'app-goal-view',
   standalone: true,
-  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, BottomSheetComponent, BottomSheetContentComponent, GoalRegisterComponent, RegisterMetaComponent, GoalContainerComponent],
+  imports: [CommonModule, FormContributionComponent, ProgressGoalComponent, GoalContainerComponent],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
