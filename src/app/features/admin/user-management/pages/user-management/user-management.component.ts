@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserAdminService } from '../../services/user-admin.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../../shared/services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { SidebarDataUserComponent } from '../../components/sidebar-data-user/sidebar-data-user.component';
 import { User } from '@models/user';

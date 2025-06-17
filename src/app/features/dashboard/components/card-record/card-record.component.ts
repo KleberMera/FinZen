@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { SalaryService } from '../../services/salary.service';
 import { format, subMonths } from 'date-fns';
 import { es } from 'date-fns/locale';

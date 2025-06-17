@@ -1,7 +1,7 @@
 import { CanActivateFn } from '@angular/router';
 import { ROLE } from './rol';
 import { inject } from '@angular/core';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../shared/services/storage.service';
 import { Router } from '@angular/router';
 
 export const hasRoleGuard = (roles: ROLE[]): CanActivateFn => {

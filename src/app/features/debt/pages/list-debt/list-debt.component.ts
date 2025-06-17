@@ -1,5 +1,5 @@
 import { Component, computed, inject, viewChild } from '@angular/core';
-import { BreakpointService } from '@services/breakpoint.service';
+import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { CardAmortizationComponent, CardDetailsComponent, SearchFilterDebtComponent, SkeletonCardDetailTransactionComponent, SkeletonTableAmortizationComponent, TableAmortizationComponent} from '../../components';
 import { SkeletonCardAmortizationComponent } from "../../components/skeleton/skeleton-card-amortization/skeleton-card-amortization.component";
 

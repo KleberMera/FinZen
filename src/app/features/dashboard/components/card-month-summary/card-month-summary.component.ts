@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { BalanceService } from '../../services/balance.service';
 import { format } from '@formkit/tempo';
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';

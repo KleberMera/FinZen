@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FilterDebtService } from '../../services/filter-debt.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NEVER } from 'rxjs';

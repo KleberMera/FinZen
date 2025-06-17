@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { format } from '@formkit/tempo';
 import { DebtData } from '../../types/debt-types';
 import { SalarySeletedComponent } from './components/salary-seleted/salary-seleted.component';

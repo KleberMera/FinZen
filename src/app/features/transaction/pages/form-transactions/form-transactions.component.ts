@@ -8,9 +8,9 @@ import {
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { toast } from 'ngx-sonner';
-import { FormValidationService } from '@services/form-validation.service';
+import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { CategoryName } from '@models/category';
 import { CardSalaryTransactionComponent } from '../../components/card-salary-transaction/card-salary-transaction.component';
 

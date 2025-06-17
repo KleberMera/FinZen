@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { FirebaseService } from '../../../../features/auth/services/firebase.service';
-import { StorageService } from '../../../../services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { CommonModule } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';

@@ -1,6 +1,6 @@
 import { CanMatchFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthStateService } from '@services/auth-state.service';
+import { AuthStateService } from '../../shared/services/auth-state.service';
 import { toast } from 'ngx-sonner';
 
 export const authGuard: CanMatchFn = (route, segments) => {

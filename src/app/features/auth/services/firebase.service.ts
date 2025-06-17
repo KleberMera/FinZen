@@ -4,7 +4,7 @@ import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../shared/services/storage.service';
 import { tap } from 'rxjs';
 
 

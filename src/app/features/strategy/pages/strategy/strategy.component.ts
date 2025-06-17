@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import StrategyMainComponent from '../../components/strategy-main/strategy-main.component';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import StrategyStateService from '../../services/strategy-state.service';
 import { STRATEGY_PAGES } from '../../strategy.routes';
 import { rxResource } from '@angular/core/rxjs-interop';

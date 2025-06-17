@@ -1,7 +1,7 @@
 import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { STRATEGY_PAGES } from '../../strategy.routes';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import StrategyStateService from '../../services/strategy-state.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 

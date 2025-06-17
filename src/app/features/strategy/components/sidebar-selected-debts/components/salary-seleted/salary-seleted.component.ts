@@ -2,7 +2,7 @@ import { Component, computed, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { apiResponse } from '@models/apiResponse';
 import { Salary } from '@models/salary';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../../../shared/services/storage.service';
 
 import { format } from '@formkit/tempo';
 import { MethodPlanService } from '../../../../../debt/services/method-plan.service';

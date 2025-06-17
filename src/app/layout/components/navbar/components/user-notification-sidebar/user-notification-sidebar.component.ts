@@ -1,7 +1,7 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../../shared/services/storage.service';
 import { DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 

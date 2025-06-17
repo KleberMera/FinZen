@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { dayEnd, format, monthEnd } from '@formkit/tempo';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { SalaryService } from '../../../dashboard/services/salary.service';
 import { apiResponse } from '@models/apiResponse';
 import { CurrencyPipe, NgClass } from '@angular/common';

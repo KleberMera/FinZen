@@ -1,13 +1,12 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { BalanceService } from '../../../features/dashboard/services/balance.service';
-import { StorageService } from '../../../services/storage.service';
-import { AuthStateService } from '../../../services/auth-state.service';
+import { CurrencyPipe } from '@angular/common';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { SalaryService } from '../../../features/dashboard/services/salary.service';
 import { format } from '@formkit/tempo';
 import { FinanceSummary } from '@models/finance';
 import { apiResponse } from '@models/apiResponse';
+import { StorageService } from '@services/storage.service';
+import { AuthStateService } from '@services/auth-state.service';
 
 @Component({
   selector: 'app-floating-balance',

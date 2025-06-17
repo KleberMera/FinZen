@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FormValidationService } from '@services/form-validation.service';
+import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { toast } from 'ngx-sonner';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { User } from '@models/user';
-import { BreakpointService } from '@services/breakpoint.service';
+import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { LockComponent } from '@icons/lock/lock.component';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { EyeSlashComponent } from '../../components/icons/eye-slash/eye-slash.component';

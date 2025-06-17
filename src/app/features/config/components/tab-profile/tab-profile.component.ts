@@ -2,8 +2,8 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProfileService } from '../../services/profile.service';
-import { StorageService } from '@services/storage.service';
-import { ProfileImageService } from '@services/profile-image.service';
+import { StorageService } from '../../../../shared/services/storage.service';
+import { ProfileImageService } from '../../../../shared/services/profile-image.service';
 import { toast } from 'ngx-sonner';
 
 @Component({

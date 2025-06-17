@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { Category } from '@models/category';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { FormCategoryComponent } from '../../components/form-category/form-category.component';
 import { toast } from 'ngx-sonner';

@@ -3,10 +3,10 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../auth/services/auth.service';
-import { AuthStateService } from '@services/auth-state.service';
+import { AuthStateService } from '../../../../shared/services/auth-state.service';
 
 @Component({
   selector: 'app-tab-password',

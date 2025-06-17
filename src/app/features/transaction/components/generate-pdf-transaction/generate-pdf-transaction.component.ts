@@ -4,7 +4,7 @@ import generatePDF from './pdf';
 import { format } from '@formkit/tempo';
 import { PdfService } from '../../services/pdf.service';
 import { toast } from 'ngx-sonner';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 
 @Component({
   selector: 'app-generate-pdf-transaction',

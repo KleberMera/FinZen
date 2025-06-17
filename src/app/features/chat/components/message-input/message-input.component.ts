@@ -2,7 +2,7 @@ import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { ImageService } from '../../services/image.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { ProcessService } from '../../services/process.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

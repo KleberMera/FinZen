@@ -4,9 +4,9 @@ import { ViewDesktopComponent } from '../../components/view-desktop/view-desktop
 import { ViewMobileComponent } from '../../components/view-mobile/view-mobile.component';
 import { SkeletonFiltersComponent } from '../../components/skeleton-filters/skeleton-filters.component';
 import { SkeletonTableTransactionComponent } from '../../components/skeleton-table-transaction/skeleton-table-transaction.component';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { FilterTransactionService } from '../../services/filter-transaction.service';
-import { BreakpointService } from '@services/breakpoint.service';
+import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { apiResponse } from '@models/apiResponse';
 import { TransactionName, TransactionReport } from '@models/transaction';
 import { CategoryName } from '@models/category';

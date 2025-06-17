@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProcessService } from '../../services/process.service';
 import { ChatService } from '../../services/chat.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { Transaction, TransactionMultiple } from '@models/transaction';
 
 @Component({

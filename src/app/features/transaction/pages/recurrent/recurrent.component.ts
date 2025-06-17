@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { TransactionService } from '../../services/transaction.service';
 import { FormsModule } from '@angular/forms';
 import { CategoryName } from '@models/category';

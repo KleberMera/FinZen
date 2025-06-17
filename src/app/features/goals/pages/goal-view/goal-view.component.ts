@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GoalService } from '../../services/goal.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormContributionComponent } from "../../components/form-contribution/form-contribution.component";
 import { ProgressGoalComponent } from "../../components/progress-goal/progress-goal.component";

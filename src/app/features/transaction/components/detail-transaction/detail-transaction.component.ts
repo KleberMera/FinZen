@@ -4,7 +4,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Transaction } from '@models/transaction';
 import { TransactionService } from '../../services/transaction.service';
 import { toast } from 'ngx-sonner';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { CategoryName } from '@models/category';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom, NEVER } from 'rxjs';

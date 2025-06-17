@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { format } from '@formkit/tempo';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { GraficService } from '../../services/grafic.service';
 import { FormsModule } from '@angular/forms';
 import { ChartMonthComponent } from "../../components/chart-month/chart-month.component";

@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DeviceService } from '../../services/device.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { Device } from '@models/device';
 import { DeviceUtilService } from '../../services/device-util.service';
 import { toast } from 'ngx-sonner';

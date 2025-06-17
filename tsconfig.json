@@ -6,7 +6,7 @@
     "paths": {
       //"@shared/*": ["./src/app/shared/*"],
       "@icons/*": ["./src/app/shared/icons/*"],
-      "@services/*": ["./src/app/services/*"],
+      "@services/*": ["./src/app/shared/services/*"],
       "@components/*": ["./src/app/components/*"],
       "@models/*": ["./src/app/core/models/*"],
       "@environments/*": ["./src/environments/*"],

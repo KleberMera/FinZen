@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { GraficsService } from '../../services/grafics.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { Chart, registerables } from 'chart.js';

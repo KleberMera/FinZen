@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { SalaryService } from '../../services/salary.service';
 import { format } from '@formkit/tempo';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';

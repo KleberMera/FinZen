@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { UserProfileSidebarComponent } from './components/user-profile-sidebar/user-profile-sidebar.component';
 import { UserNotificationSidebarComponent } from './components/user-notification-sidebar/user-notification-sidebar.component';
 import { LogoComponent } from '@icons/logo/logo.component';
-import { ProfileImageService } from '@services/profile-image.service';
-import { StorageService } from '@services/storage.service';
+import { ProfileImageService } from '../../../shared/services/profile-image.service';
+import { StorageService } from '../../../shared/services/storage.service';
 
 @Component({
   selector: 'app-navbar',

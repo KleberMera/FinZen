@@ -10,7 +10,7 @@ import { CalendarTabComponent } from '../calendar-tab/calendar-tab.component';
 import { SummaryCardsComponent } from '../summary-cards/summary-cards.component';
 import { DebtDetailsComponent } from '../debt-details/debt-details.component';
 import StrategyStateService from '../../services/strategy-state.service';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { toast } from 'ngx-sonner';
 
 @Component({

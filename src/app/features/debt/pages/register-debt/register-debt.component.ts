@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { DebtService } from '../../services/debt.service';
-import { FormValidationService } from '@services/form-validation.service';
+import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { addDay, addMonth, format } from '@formkit/tempo';
 import { toast } from 'ngx-sonner';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { TableAmortizationComponent } from '../../components/table-amortization/table-amortization.component';
-import { BreakpointService } from '@services/breakpoint.service';
+import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { CardAmortizationComponent } from '../../components/card-amortization/card-amortization.component';
 import { MethodService } from '../../services/method.service';
 import { firstValueFrom } from 'rxjs';

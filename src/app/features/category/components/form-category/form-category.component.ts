@@ -2,7 +2,7 @@ import { Component, computed, inject, input, output, signal, OnInit } from '@ang
 import { CategoryService } from '../../services/category.service';
 import { toast } from 'ngx-sonner';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { firstValueFrom } from 'rxjs';
 import { Category } from '@models/category';
 

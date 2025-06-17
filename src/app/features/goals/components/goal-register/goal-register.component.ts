@@ -1,7 +1,7 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormValidationService } from '@services/form-validation.service';
-import { StorageService } from '@services/storage.service';
+import { FormValidationService } from '../../../../shared/services/form-validation.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { toast } from 'ngx-sonner';
 import { GoalService } from '../../services/goal.service';
 import { BottomSheetContentComponent } from '../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component';

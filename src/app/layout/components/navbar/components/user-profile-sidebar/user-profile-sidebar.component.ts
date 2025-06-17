@@ -2,9 +2,9 @@ import { CommonModule, DatePipe, NgOptimizedImage } from '@angular/common';
 import { Component, inject, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../../shared/services/storage.service';
 import { UserProfileService } from '../../services/user-profile.service';
-import { ProfileImageService } from '@services/profile-image.service';
+import { ProfileImageService } from '../../../../../shared/services/profile-image.service';
 
 import { apiResponse } from '@models/apiResponse';
 import { User } from '@models/user';
@@ -12,7 +12,7 @@ import { UserProfileSidebarSkeletonComponent } from '../user-profile-sidebar-ske
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../../../features/auth/services/auth.service';
-import { AuthStateService } from '@services/auth-state.service';
+import { AuthStateService } from '../../../../../shared/services/auth-state.service';
 
 @Component({
   selector: 'app-user-profile-sidebar',

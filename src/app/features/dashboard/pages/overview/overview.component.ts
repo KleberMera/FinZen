@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardHeaderComponent } from "../../components/dashboard-header/dashboard-header.component";
 import { CardSalaryComponent } from "../../components/card-salary/card-salary.component";
 import { CardMovementsComponent } from "../../components/card-movements/card-movements.component";
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 import { CardMonthSummaryComponent } from "../../components/card-month-summary/card-month-summary.component";
 import { OverviewAdminComponent } from "../../components/admin/overview-admin/overview-admin.component";
 import { CardRecordComponent } from "../../components/card-record/card-record.component";

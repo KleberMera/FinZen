@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../../shared/services/storage.service';
 
 
 function getTimeBasedGreeting(): string {

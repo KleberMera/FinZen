@@ -11,7 +11,7 @@ import { UserIconSettingsComponent } from '@icons/user-icon-settings/user-icon-s
 import { TRANSACTION_PAGES } from '../../../features/transaction/transaaction.routes';
 import { ChartIconComponent } from '@icons/chart-icon/chart-icon.component';
 import { SettingIconComponent } from '@icons/setting-icon/setting-icon.component';
-import { StorageService } from '@services/storage.service';
+import { StorageService } from '../../../shared/services/storage.service';
 
 interface MenuItem {
   type: 'link' | 'dropdown';
