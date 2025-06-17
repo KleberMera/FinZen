@@ -15,7 +15,7 @@ import { TitleGradient } from '@models/styleClass';
 })
 export class GoalRegisterComponent {
   title = signal<string>('Registrar Meta');
-  titleClass = TitleGradient.INDIGO_PURPLE;
+  titleClass = TitleGradient
   
   protected readonly _goalService = inject(GoalService);
   private readonly _storageService = inject(StorageService);

@@ -1,4 +1,6 @@
-<app-bottom-sheet-content [title]="'Información de Cuota'" (closeSheet)="close()">
+<app-bottom-sheet-content [title]="'Información de Cuota'" 
+  [titleClasses]="TitleGradient.INDIGO_PURPLE"
+(closeSheet)="close()">
   @if (amortization()) {
     <div class="mb-6">
         <div class="space-y-4">

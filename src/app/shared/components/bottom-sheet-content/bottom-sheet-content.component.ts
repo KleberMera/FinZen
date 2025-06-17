@@ -12,7 +12,12 @@ import { TitleGradient } from '@models/styleClass';
 })
 export class BottomSheetContentComponent {
   readonly title = input<string>('');
-  readonly titleClasses = input<string>(`flex items-center gap-3 text-xl font-bold ${TitleGradient.INDIGO_PURPLE} bg-clip-text text-transparent`);
+  readonly titleClasses = input<string>('');
+  private readonly baseClasses = `flex items-center gap-3 text-xl font-bold ${TitleGradient.INDIGO_PURPLE} bg-clip-text text-transparent`;
+
+  getTitleClasses(): string {
+    return this.titleClasses() ? `${this.baseClasses} ${this.titleClasses()}` : this.baseClasses;
+  }
 
   readonly closeSheet = output<void>();
 

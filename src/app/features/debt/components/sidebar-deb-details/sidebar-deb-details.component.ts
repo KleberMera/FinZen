@@ -6,6 +6,7 @@ import { toast } from 'ngx-sonner';
 import { format } from '@formkit/tempo';
 import { firstValueFrom } from 'rxjs';
 import { BottomSheetContentComponent } from '../../../../shared/components/bottom-sheet';
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-sidebar-deb-details',
@@ -16,6 +17,7 @@ import { BottomSheetContentComponent } from '../../../../shared/components/botto
 })
 export class SidebarDebDetailsComponent {
   closeUserSidebar = output<void>();
+  TitleGradient = TitleGradient;
   readonly amortization = input.required<Amortization>();
   readonly debtId = input.required<number>();
   private readonly _debtService = inject(DebtService);
