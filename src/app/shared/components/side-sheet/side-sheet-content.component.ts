@@ -10,6 +10,8 @@ import { TitleGradient } from '@models/styleClass';
 export class SideSheetContentComponent {
   readonly title = input<string>('');
   readonly titleClasses = input<string>('');
+   readonly icon = input<string | undefined>(undefined);
+
   private readonly baseClasses = `flex items-center gap-3 text-xl font-bold ${TitleGradient.INDIGO_PURPLE} bg-clip-text text-transparent`;
 
   getTitleClasses(): string {
