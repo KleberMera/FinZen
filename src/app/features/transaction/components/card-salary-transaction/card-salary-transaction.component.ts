@@ -233,8 +233,18 @@ export class CardSalaryTransactionComponent {
 
   isFormVisible = signal<boolean>(true);
   toggleFormVisibility(): void {
-    this.isFormVisible.set(!this.isFormVisible());
-  }
+    const visible = !this.isFormVisible();
+    this.isFormVisible.set(visible);
+    if (visible) {
+      // Espera a que el DOM pinte el canvas
+      setTimeout(() => this.createDoughnutChart(), 0);
+    } else {
+      // Destruye el gráfico si existe
+      if (this.doughnutChart) {
+        this.doughnutChart.destroy();
+        this.doughnutChart = null;
+      }
+    }}
 
   activeMetric = signal<'actual' | 'expected' | 'days'>('actual');
 
