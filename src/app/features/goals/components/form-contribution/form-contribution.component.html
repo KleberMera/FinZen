@@ -1,4 +1,11 @@
-<form [formGroup]="form()" (ngSubmit)="saveContribution()" class="space-y-6">
+
+<app-side-sheet-content
+ [title]="'Añadir aporte'"
+ [titleClasses]="title.GREEN"
+ [icon]="'pi pi-plus'"
+>
+
+  <form [formGroup]="form()" (ngSubmit)="saveContribution()" >
   <!-- Campo oculto para goal_id -->
   <input type="hidden" formControlName="goal_id">
   
@@ -71,4 +78,7 @@
     </button>
   </div>
 </form>
+
+
+</app-side-sheet-content>
 

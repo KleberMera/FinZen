@@ -184,6 +184,7 @@
                       </h3>
                     </div>
                     <button 
+                      (click)="isSideSheetOpen.set(true)"
                    
                       class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                       <i class="pi pi-plus"></i>
@@ -255,28 +256,23 @@
   </div>
 
 
-<div class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 {{ showSidebar() ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" (click)="toggleSidebar()"></div>
 
-<div class="fixed top-0 right-0 h-full w-full max-w-xs sm:max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out {{ showSidebar() ? 'translate-x-0' : 'translate-x-full' }} overflow-auto">
-  <div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">Añadir aporte</h2>
-      <button (click)="toggleSidebar()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-        <i class="pi pi-times text-gray-500 dark:text-gray-400"></i>
-      </button>
-    </div>
    
     @if (selectedGoal()) {
-      <app-form-contribution 
+      <app-side-sheet
+        [isOpen]="isSideSheetOpen()"
+        (closeSheet)="closeSideSheet()"
+        [title]="'Registrar Aporte'">
+          <app-form-contribution 
         [goalId]="selectedGoal()!.id!" 
         (onSave)="handleContributionSaved()"
         [userId]="userId()"
       ></app-form-contribution>
+      </app-side-sheet>
+    
     }
     
-  </div>
 
-</div>
 
 <!-- Reemplazar el bottom sheet existente con esta versión optimizada -->
 @if (isBottomSheetOpen()) {

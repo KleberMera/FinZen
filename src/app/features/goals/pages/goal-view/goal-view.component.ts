@@ -10,6 +10,7 @@ import { toast } from 'ngx-sonner';
 import { TitleGradient } from '@models/styleClass';
 import { StorageService } from '@services/storage.service';
 import { BottomSheetComponent } from '../../../../shared/components/bottom-sheet';
+import { SideSheetComponent } from "../../../../shared/components/side-sheet/side-sheet.component";
 
 @Component({
   selector: 'app-goal-view',
@@ -19,7 +20,8 @@ import { BottomSheetComponent } from '../../../../shared/components/bottom-sheet
     ProgressGoalComponent,
     GoalRegisterComponent,
     BottomSheetComponent,
-  ],
+    SideSheetComponent
+],
   templateUrl: './goal-view.component.html',
   styleUrl: './goal-view.component.scss',
 })
@@ -28,18 +30,18 @@ export class GoalViewComponent {
   protected readonly storageService = inject(StorageService);
   userId = signal<number>(this.storageService.getUserId());
   goalId = signal<number | null>(null);
-  showSidebar = signal<boolean>(false);
   titleClass = TitleGradient.GREEN_EMERALD;
   isBottomSheetOpen = signal<boolean>(false);
+  isSideSheetOpen = signal<boolean>(false);
 
-  // // Cambiar a signal con defer para retrasar la carga del componente
-  // protected readonly bottomSheetState = signal({
-  //   isOpen: false,
-  //   shouldRender: false,
-  // });
+
 
   onCreateSuccess() {
     this.goal.reload(); // Recargar las metas después de crear una nueva
+  }
+
+  closeSideSheet() {
+    this.isSideSheetOpen.set(false);
   }
 
   goal = rxResource({
@@ -74,9 +76,8 @@ export class GoalViewComponent {
   selectGoal(id: number) {
     this.goalId.set(id);
     console.log('Seleccionado goal', id);
-    
-    // Recargar las contribuciones cuando se selecciona una meta
-    //this.goalContributions.reload();
+    return 
+
   }
 
   // Método para traducir el estado de la meta
@@ -99,10 +100,7 @@ export class GoalViewComponent {
     this.goalContributions.reload();
   }
 
-  toggleSidebar() {
-    this.showSidebar.set(!this.showSidebar());
-  }
-
+ 
 
 
   closeBottomSheet() {
@@ -112,7 +110,7 @@ export class GoalViewComponent {
 
   // Método para manejar cuando se guarda una contribución
   handleContributionSaved() {
-    this.toggleSidebar(); // Cerrar el sidebar
+   // this.toggleSidebar(); // Cerrar el sidebar
     this.reloadContributions(); // Recargar las contribuciones
   }
 
