@@ -30,12 +30,13 @@ export class GoalViewComponent {
   goalId = signal<number | null>(null);
   showSidebar = signal<boolean>(false);
   titleClass = TitleGradient.GREEN_EMERALD;
+  isBottomSheetOpen = signal<boolean>(false);
 
-  // Cambiar a signal con defer para retrasar la carga del componente
-  protected readonly bottomSheetState = signal({
-    isOpen: false,
-    shouldRender: false,
-  });
+  // // Cambiar a signal con defer para retrasar la carga del componente
+  // protected readonly bottomSheetState = signal({
+  //   isOpen: false,
+  //   shouldRender: false,
+  // });
 
   onCreateSuccess() {
     this.goal.reload(); // Recargar las metas después de crear una nueva
@@ -102,27 +103,11 @@ export class GoalViewComponent {
     this.showSidebar.set(!this.showSidebar());
   }
 
-  openBottomSheet() {
-    // Primero activamos el render
-    this.bottomSheetState.set({
-      isOpen: false,
-      shouldRender: true,
-    });
 
-    // Luego en el siguiente tick abrimos el sheet
-    requestAnimationFrame(() => {
-      this.bottomSheetState.set({
-        isOpen: true,
-        shouldRender: true,
-      });
-    });
-  }
 
   closeBottomSheet() {
-    this.bottomSheetState.set({
-      isOpen: false,
-      shouldRender: false,
-    });
+    this.isBottomSheetOpen.set(false);
+    
   }
 
   // Método para manejar cuando se guarda una contribución
