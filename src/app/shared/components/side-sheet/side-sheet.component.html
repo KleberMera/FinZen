@@ -1,0 +1,8 @@
+@if (isOpen()) {
+    <div class="fixed inset-0 z-50" [@slideAnimation]="getAnimationParams()">
+        <div class="absolute inset-0 bg-gray-600/60 dark:bg-gray-900/70 backdrop-blur-sm" (click)="close()"></div>
+        <div class="content-container" [class.right-side]="position() === 'right'" [class.left-side]="position() === 'left'">
+            <ng-content></ng-content>
+        </div>
+    </div>
+}

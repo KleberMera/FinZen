@@ -4,16 +4,19 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '../../../../../shared/services/storage.service';
 import { DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
+import { SideSheetContentComponent } from "../../../../../shared/components/side-sheet/side-sheet-content.component";
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-user-notification-sidebar',
-  imports: [DatePipe],
+  imports: [DatePipe, SideSheetContentComponent],
   templateUrl: './user-notification-sidebar.component.html',
   styleUrl: './user-notification-sidebar.component.scss',
 })
 export class UserNotificationSidebarComponent {
   protected readonly _storage = inject(StorageService);
   protected readonly _notifications = inject(NotificationService);
+  Title = TitleGradient;
   
   // Señales para controlar los filtros
   protected readonly _filterType = signal<'all' | 'read' | 'unread'>('unread'); // Por defecto no leídas

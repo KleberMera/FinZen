@@ -1,0 +1,47 @@
+.content-container {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 350px;
+  overflow-y: auto;
+  will-change: transform;
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.right-side {
+  right: 0;
+}
+
+.left-side {
+  left: 0;
+}
+
+@media (min-width: 640px) {
+  .content-container {
+    max-width: 400px;
+  }
+}
+
+/* Animaciones */
+.sidebar-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tema oscuro */
+@media (prefers-color-scheme: dark) {
+  .content-container {
+    background-color: #1f2937; /* dark:bg-gray-900 */
+  }
+}
+
+/* Soporte para modo oscuro con clases */
+:host-context(.dark) .content-container {
+  background-color: #1f2937; /* dark:bg-gray-900 */
+}

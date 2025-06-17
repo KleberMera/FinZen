@@ -7,6 +7,7 @@ import { UserNotificationSidebarComponent } from './components/user-notification
 import { LogoComponent } from '@icons/logo/logo.component';
 import { ProfileImageService } from '../../../shared/services/profile-image.service';
 import { StorageService } from '../../../shared/services/storage.service';
+import { SideSheetComponent, SideSheetContentComponent } from '../../../shared/components/side-sheet';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,7 @@ import { StorageService } from '../../../shared/services/storage.service';
     LogoComponent,
     UserProfileSidebarComponent,
     UserNotificationSidebarComponent,
+    SideSheetComponent,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
