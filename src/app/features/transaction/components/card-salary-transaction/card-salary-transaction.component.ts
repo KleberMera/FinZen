@@ -6,6 +6,8 @@ import { SalaryService } from '../../../dashboard/services/salary.service';
 import { apiResponse } from '@models/apiResponse';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { FinanceSummary } from '@models/finance';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-card-salary-transaction',
@@ -54,13 +56,175 @@ export class CardSalaryTransactionComponent {
       ),
   });
 
+  private doughnutChart: Chart | null = null;
+
   constructor() {
     effect(() => {
       if (this.stateReset() === true) {
         this.salaryData.reload();
         this.stateReset.set(false);
       }
+      // Redibujar gráfico cuando cambian los datos
+      const data = this.salaryData.value()?.data;
+      if (data) {
+        setTimeout(() => this.createDoughnutChart(), 0);
+      }
     });
+  }
+
+  private createDoughnutChart() {
+    const data = this.salaryData.value()?.data;
+    const ctx = document.getElementById('salarySummaryChart') as HTMLCanvasElement;
+    if (!ctx || !data) return;
+    if (this.doughnutChart) {
+      this.doughnutChart.destroy();
+      this.doughnutChart = null;
+    }
+
+    // Definición de colores y estilos
+    const colorActual = '#2563eb';
+    const colorEsperado = '#fb923c';
+    const colorDias = '#22c55e';
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const trackColor = isDark ? '#334155' : '#f3f4f6';
+
+    // Plugin para texto central dentro del canvas
+    const centerTextPlugin = {
+      id: 'centerText',
+      afterDraw: (chart: any) => {
+        const { ctx, chartArea, width, height } = chart;
+        ctx.save();
+        // Calcula el centro del canvas
+        const centerX = width / 2;
+        const centerY = height / 2;
+        // Calcula tamaño de fuente relativo al canvas
+        const valueFontSize = Math.round(height / 7);
+        const labelFontSize = Math.round(height / 18);
+        // Obtiene valor y etiqueta
+        let value = '0';
+        let label = '';
+        switch (this.activeMetric()) {
+          case 'actual':
+            value = parseFloat(String(data.expensePercentage)).toFixed(2);
+            label = 'Gastos actuales';
+            break;
+          case 'expected':
+            value = parseFloat(String(data.timeAdjustedExpensePercentage)).toFixed(2);
+            label = 'Gastos esperados';
+            break;
+          case 'days':
+            value = parseFloat(String(data.daysPassedPercentage)).toFixed(2);
+            label = 'Días transcurridos';
+            break;
+        }
+        // Detecta dark mode
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Valor central
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `bold ${valueFontSize}px sans-serif`;
+        ctx.fillStyle = isDark ? '#fff' : '#1f2937';
+        ctx.shadowColor = isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.04)';
+        ctx.shadowBlur = 2;
+        ctx.fillText(value + '%', centerX, centerY - valueFontSize/5);
+        ctx.shadowBlur = 0;
+        // Etiqueta
+        ctx.font = `normal ${labelFontSize}px sans-serif`;
+        ctx.fillStyle = isDark ? '#cbd5e1' : '#64748b';
+        ctx.fillText(label, centerX, centerY + valueFontSize/1.2);
+        ctx.restore();
+      }
+    };
+
+    this.doughnutChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Gastado', 'Esperado', 'Días'],
+        datasets: [
+          {
+            label: 'Gastos actuales',
+            data: [data.expensePercentage, 100 - data.expensePercentage],
+            backgroundColor: [colorActual, trackColor],
+            borderWidth: 0,
+            weight: 1,
+            circumference: 360,
+            rotation: -90,
+            hoverOffset: 4,
+          },
+          {
+            label: 'Gastos esperados',
+            data: [data.timeAdjustedExpensePercentage, 100 - data.timeAdjustedExpensePercentage],
+            backgroundColor: [colorEsperado, trackColor],
+            borderWidth: 0,
+            weight: 0.7,
+            circumference: 360,
+            rotation: -90,
+            hoverOffset: 4,
+          },
+          {
+            label: 'Días transcurridos',
+            data: [data.daysPassedPercentage, 100 - data.daysPassedPercentage],
+            backgroundColor: [colorDias, trackColor],
+            borderWidth: 0,
+            weight: 0.4,
+            circumference: 360,
+            rotation: -90,
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: true,
+            backgroundColor: 'rgba(17, 24, 39, 0.8)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            padding: 10,
+            cornerRadius: 8,
+            displayColors: false,
+            callbacks: {
+              label: function(context) {
+                const value = context.parsed || 0;
+                return `${value.toFixed(2)}%`;
+              },
+              title: function(context) {
+                return context[0].dataset.label;
+              }
+            }
+          },
+        },
+        onHover: (event, elements) => {
+          if (elements && elements.length > 0) {
+            const datasetIndex = elements[0].datasetIndex;
+            switch (datasetIndex) {
+              case 0:
+                this.setActiveMetric('actual');
+                break;
+              case 1:
+                this.setActiveMetric('expected');
+                break;
+              case 2:
+                this.setActiveMetric('days');
+                break;
+            }
+          }
+        },
+        cutout: '70%',
+      },
+      plugins: [centerTextPlugin],
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.doughnutChart) {
+      this.doughnutChart.destroy();
+      this.doughnutChart = null;
+    }
   }
 
   capitalizeFirstLetter(value: string): string {
@@ -74,8 +238,12 @@ export class CardSalaryTransactionComponent {
 
   activeMetric = signal<'actual' | 'expected' | 'days'>('actual');
 
-  setActiveMetric(metric: 'actual' | 'expected' | 'days'): void {
+  setActiveMetric(metric: 'actual' | 'expected' | 'days') {
     this.activeMetric.set(metric);
+    // Fuerza actualización inmediata del gráfico si existe
+    if (this.doughnutChart) {
+      this.doughnutChart.update();
+    }
   }
 
   displayPercentage(): string {

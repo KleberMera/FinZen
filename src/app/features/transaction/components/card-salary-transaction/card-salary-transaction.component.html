@@ -1,4 +1,3 @@
-
 @if (salaryData.isLoading()) {
   <div class="mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
     <div class="flex flex-col justify-center items-center h-80 space-y-4">
@@ -41,88 +40,65 @@
       <div class="flex flex-col lg:flex-row gap-6">
         <!-- Columna izquierda - Gráfico radial -->
         <div class="w-full lg:w-2/5 flex justify-center items-center">
-          <div class="relative">
-            <svg width="250" height="250" viewBox="0 0 100 100" class="max-w-full h-auto">
-              <!-- Fondo oscuro para el texto central -->
-              <circle cx="50" cy="50" r="22" fill="#1f2937" class="dark:fill-gray-800 fill-slate-300"></circle>
-              
-              <!-- Círculos de fondo -->
-              <circle cx="50" cy="50" r="45" fill="transparent" stroke="#e5e7eb" class="dark:stroke-gray-700 stroke-slate-200" stroke-width="8"></circle>
-              <circle cx="50" cy="50" r="35" fill="transparent" stroke="#e5e7eb" class="dark:stroke-gray-700 " stroke-width="8"></circle>
-              <circle cx="50" cy="50" r="25" fill="transparent" stroke="#e5e7eb" class="dark:stroke-gray-700" stroke-width="8"></circle>
-              
-              <!-- Círculo para días del mes (exterior) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="45" 
-                fill="transparent" 
-                stroke="#3b82f6" 
-                stroke-width="8" 
-                stroke-dasharray="282.6" 
-                [attr.stroke-dashoffset]="282.6 - (282.6 * salaryData.value()?.data!.daysPassedPercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('days')"
-              ></circle>
-              
-              <!-- Círculo para gastos esperados (medio) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="35" 
-                fill="transparent" 
-                stroke="#facc15" 
-                stroke-width="8" 
-                stroke-dasharray="219.8" 
-                [attr.stroke-dashoffset]="219.8 - (219.8 * salaryData.value()?.data!.timeAdjustedExpensePercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('expected')"
-              ></circle>
-              
-              <!-- Círculo para gastos actuales (interior) -->
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="25" 
-                fill="transparent" 
-                [attr.stroke]="salaryData.value()?.data!.expensePercentage < 50 ? '#3b82f6' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"
-                stroke-width="8" 
-                stroke-dasharray="157" 
-                [attr.stroke-dashoffset]="157 - (157 * salaryData.value()?.data!.expensePercentage / 100)"
-                stroke-linecap="round"
-                transform="rotate(-90 50 50)"
-                class="transition-all duration-500 ease-out cursor-pointer"
-                (mouseover)="setActiveMetric('actual')"
-              ></circle>
-              
-              <!-- Texto central -->
-              <text x="50" y="46" text-anchor="middle" class="text-base font-bold" fill="white" class="dark:fill-white">
-                {{ displayPercentage() }}%
-              </text>
-              <text x="50" y="56" text-anchor="middle" class="text-xs" fill="#94a3b8" textLength="36" lengthAdjust="spacingAndGlyphs">
-                {{ activeMetricLabel() }}
-              </text>
-            </svg>
-            
-            <!-- Leyenda de Gráficos -->
-            <div class="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div class="flex flex-col items-center cursor-pointer transition-transform hover:scale-110" (mouseover)="setActiveMetric('days')">
-                <div class="w-3 h-3 rounded-full bg-blue-500 mb-1"></div>
-                <span class="text-xs text-gray-600 dark:text-gray-300 truncate">Días</span>
-              </div>
-              <div class="flex flex-col items-center cursor-pointer transition-transform hover:scale-110" (mouseover)="setActiveMetric('expected')">
-                <div class="w-3 h-3 rounded-full bg-yellow-400 mb-1"></div>
-                <span class="text-xs text-gray-600 dark:text-gray-300 truncate">Esperado</span>
-              </div>
-              <div class="flex flex-col items-center cursor-pointer transition-transform hover:scale-110" (mouseover)="setActiveMetric('actual')">
-                <div class="w-3 h-3 rounded-full" 
-                  [style.background-color]="salaryData.value()?.data!.expensePercentage < 50 ? '#3b82f6' : salaryData.value()?.data!.expensePercentage < 80 ? '#facc15' : '#ef4444'"></div>
-                <span class="text-xs text-gray-600 dark:text-gray-300 truncate">Gastado</span>
-              </div>
+          <div class="relative w-[300px]">
+            <!-- Contenedor del gráfico con fondo -->
+            <div class="aspect-square relative flex items-center justify-center">
+              <!-- Canvas del gráfico -->
+              <canvas id="salarySummaryChart" class="absolute inset-0"></canvas>
+            </div>
+
+            <!-- Leyenda -->
+            <div class="mt-6 flex flex-row justify-center gap-4 select-none">
+              <button type="button" 
+                [class]="'flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 focus:outline-none ' + 
+                  (activeMetric() === 'actual' ? 
+                    'border-blue-500 bg-blue-100 dark:bg-blue-800/60 shadow-lg scale-105' : 
+                    'border-blue-100 dark:border-blue-900 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-700/60')"
+                (mouseenter)="setActiveMetric('actual')" 
+                (focus)="setActiveMetric('actual')"
+                (click)="setActiveMetric('actual')">
+                <span class="inline-block w-4 h-4 rounded-full border-2 border-blue-400 transition-transform duration-200" 
+                  [class]="{'scale-110': activeMetric() === 'actual'}"
+                  style="background-color: #2563eb;"></span>
+                <span class="text-xs font-semibold" 
+                  [class]="activeMetric() === 'actual' ? 'text-blue-800 dark:text-blue-100' : 'text-blue-700 dark:text-blue-300'">
+                  Gastado
+                </span>
+              </button>
+
+              <button type="button" 
+                [class]="'flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 focus:outline-none ' + 
+                  (activeMetric() === 'expected' ? 
+                    'border-orange-500 bg-orange-100 dark:bg-orange-800/60 shadow-lg scale-105' : 
+                    'border-orange-100 dark:border-orange-900 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-700/60')"
+                (mouseenter)="setActiveMetric('expected')" 
+                (focus)="setActiveMetric('expected')"
+                (click)="setActiveMetric('expected')">
+                <span class="inline-block w-4 h-4 rounded-full border-2 border-orange-400 transition-transform duration-200"
+                  [class]="{'scale-110': activeMetric() === 'expected'}"
+                  style="background-color: #fb923c;"></span>
+                <span class="text-xs font-semibold"
+                  [class]="activeMetric() === 'expected' ? 'text-orange-800 dark:text-orange-100' : 'text-orange-700 dark:text-orange-300'">
+                  Esperado
+                </span>
+              </button>
+
+              <button type="button" 
+                [class]="'flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all duration-200 focus:outline-none ' + 
+                  (activeMetric() === 'days' ? 
+                    'border-green-500 bg-green-100 dark:bg-green-800/60 shadow-lg scale-105' : 
+                    'border-green-100 dark:border-green-900 bg-green-50 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-700/60')"
+                (mouseenter)="setActiveMetric('days')" 
+                (focus)="setActiveMetric('days')"
+                (click)="setActiveMetric('days')">
+                <span class="inline-block w-4 h-4 rounded-full border-2 border-green-400 transition-transform duration-200"
+                  [class]="{'scale-110': activeMetric() === 'days'}"
+                  style="background-color: #22c55e;"></span>
+                <span class="text-xs font-semibold"
+                  [class]="activeMetric() === 'days' ? 'text-green-800 dark:text-green-100' : 'text-green-700 dark:text-green-300'">
+                  Días
+                </span>
+              </button>
             </div>
           </div>
         </div>
