@@ -4,31 +4,31 @@ import { FormValidationService } from '@services/form-validation.service';
 import { StorageService } from '@services/storage.service';
 import { toast } from 'ngx-sonner';
 import { GoalService } from '../../services/goal.service';
-import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
+import { BottomSheetContentComponent } from '../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component';
 import { SimpleGradient, SolidColor } from '@models/styleClass';
 
 @Component({
   selector: 'app-goal-register',
   imports: [BottomSheetContentComponent, ReactiveFormsModule],
   templateUrl: './goal-register.component.html',
-  styleUrl: './goal-register.component.scss'
+  styleUrl: './goal-register.component.scss',
 })
 export class GoalRegisterComponent {
+  // Título y estilos
   title = signal<string>('Registrar Meta');
   titleClass = SolidColor;
-  
+  // Inyecciones de servicios
   protected readonly _goalService = inject(GoalService);
   private readonly _storageService = inject(StorageService);
   protected readonly _validationService = inject(FormValidationService);
   protected readonly seletedUser = signal<number>(
     this._storageService.getUserId()
   );
-    closeUserSidebar = output<void>();
 
-    createSuccess = output<void>();
-    close() {
-    this.closeUserSidebar.emit();
-  }
+  // Eventos
+  closeUserSidebar = output<void>();
+  createSuccess = output<void>();
+
   form = this._goalService.formGoal();
   protected readonly isSubmitting = signal(false);
 
@@ -73,5 +73,9 @@ export class GoalRegisterComponent {
     this.form().patchValue({
       user_id: this.seletedUser(),
     });
+  }
+
+  close() {
+    this.closeUserSidebar.emit();
   }
 }
