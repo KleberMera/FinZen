@@ -39,7 +39,7 @@ import { PwaService } from '../../../core/services/pwa.service';
               </li>
               <li class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
                 <i class="pi pi-check-circle text-emerald-500"></i>
-                <span>Funciona como una aplicación</span>
+                <span>Usa el chat para gestionar tus transacciones</span>
               </li>
             </ul>
           </div>
