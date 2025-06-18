@@ -178,7 +178,6 @@
 
 
         <!-- Selector de límite por página -->
-        <!-- Selector de límite por página -->
         <select [ngModel]="itemsPerPage()" (ngModelChange)="changeItemsPerPage($event)"
           class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md text-sm p-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="5">5</option>
@@ -194,9 +193,16 @@
 
 
 @if (isSidebarOpen()) {
-  <app-detail-transaction
+  <app-bottom-sheet
+  [isOpen]="isSidebarOpen()"
+  (close)="closeUserSidebar()"
+  
+  >
+      <app-detail-transaction
     [transaction]="selectedTransaction()!"
     (closeUserSidebar)="closeUserSidebar()"
     (deleteSuccess)="onDetailDeleteSuccess()"
   ></app-detail-transaction>
+  </app-bottom-sheet>
+
 }

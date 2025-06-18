@@ -14,10 +14,11 @@ import { TransactionService } from '../../services/transaction.service';
 import { apiResponse } from '@models/apiResponse';
 import { FormsModule, NgModel } from '@angular/forms';
 import { DetailTransactionComponent } from "../detail-transaction/detail-transaction.component";
+import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
 
 @Component({
   selector: 'view-desktop',
-  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent],
+  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent, BottomSheetComponent],
   templateUrl: './view-desktop.component.html',
   styleUrl: './view-desktop.component.scss',
 })

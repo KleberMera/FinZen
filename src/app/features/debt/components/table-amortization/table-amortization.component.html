@@ -154,8 +154,8 @@
     (closeSheet)="closeUserSidebar()">
     <app-sidebar-deb-details
       [debtId]="debtId()"
-      [amortization]="selectedAmortization()!"
       (closeUserSidebar)="closeUserSidebar()"
+      [amortization]="selectedAmortization()!"
       (updateSuccess)="onSidebarUpdateSuccess()"
     ></app-sidebar-deb-details>
   </app-bottom-sheet>

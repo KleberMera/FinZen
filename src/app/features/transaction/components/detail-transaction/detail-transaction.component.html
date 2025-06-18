@@ -1,44 +1,15 @@
-<div class="fixed inset-0 z-50 overflow-hidden">
-  <!-- Fondo oscuro con blur -->
-  <div class="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity duration-300" (click)="close()"></div>
-  
-  <!-- Sidebar -->
-  <div class="absolute right-0 top-0 h-full w-full  max-w-xs sm:max-w-md md:max-w-md bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl border-l border-gray-200/50 dark:border-gray-700/50 transition-transform duration-300 ease-in-out transform translate-x-0 overflow-hidden flex flex-col">
-    <!-- Encabezado del sidebar -->
-    <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl z-10">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <span class="p-2 bg-gradient-to-br from-blue-500 to-teal-600 dark:from-blue-400 dark:to-teal-500 rounded-lg shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 2h8a1 1 0 010 2H6a1 1 0 010-2zm0 3h8a1 1 0 010 2H6a1 1 0 010-2zm0 3h4a1 1 0 010 2H6a1 1 0 010-2z" clip-rule="evenodd" />
-            </svg>
-          </span>
-          <h2 class="text-xl font-semibold bg-gradient-to-r from-blue-600 to-teal-700 dark:from-blue-400 dark:to-teal-300 bg-clip-text text-transparent">
-            @if (isEditing()) {
-              Editar Transacción
-            } @else {
-              Detalles de la Transacción
-            }
-          </h2>
-        </div>
-        <button (click)="close()" class="p-2 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors" title="Cerrar">
-          <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="h-1 w-full bg-gradient-to-r from-blue-500 to-teal-600 dark:from-blue-400 dark:to-teal-500 rounded-full mt-2"></div>
-    </div>
-  
-    <!-- Cuerpo del sidebar con scroll -->
-    <div class="flex-1 overflow-y-auto custom-scrollbar">
-      <div class="p-4 space-y-6">
+ <app-bottom-sheet-content
+    [title]="isEditing() ? 'Editar Transacción' : 'Detalles de la Transacción'"
+    [titleClasses]="Title.BLUE"
+    (closeSheet)="close()"
+   >
+      <div class="space-y-6">
         <!-- Resumen principal -->
         <div class="bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg p-4 shadow-sm">
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ transaction().name }}</h3>
           <div class="mt-2 flex items-center">
             @if (isEditing()) {
-              <div [formGroup]="transactionForm()" class="flex-1 flex flex-col space-y-4">
+              <div [formGroup]="transactionForm()">
                 <!-- Selector de tipo -->
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tipo de Transacción</label>
@@ -291,7 +262,7 @@
           </div>
         }
       </div>
-    </div>
+
     
     @if (!isEditing()) {
       <!-- Footer con botón eliminar (solo en modo vista) -->
@@ -308,5 +279,7 @@
         </div>
       </div>
     }
-  </div>
-</div>
+   </app-bottom-sheet-content>
+  
+
+    

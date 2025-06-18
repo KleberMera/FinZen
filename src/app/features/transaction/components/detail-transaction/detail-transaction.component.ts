@@ -8,6 +8,8 @@ import { StorageService } from '../../../../shared/services/storage.service';
 import { CategoryName } from '@models/category';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { firstValueFrom, NEVER } from 'rxjs';
+import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
+import { SolidColor } from '@models/styleClass';
 
 @Component({
   selector: 'app-detail-transaction',
@@ -16,14 +18,16 @@ import { firstValueFrom, NEVER } from 'rxjs';
     CurrencyPipe,
     DatePipe,
     FormsModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    BottomSheetContentComponent
+],
   templateUrl: './detail-transaction.component.html',
   styleUrl: './detail-transaction.component.scss'
 })
 export class DetailTransactionComponent {
   closeUserSidebar = output<void>();
   deleteSuccess = output<void>();
+  Title = SolidColor
   readonly transaction = input.required<Transaction>();
   
   private readonly _transactionService = inject(TransactionService);
@@ -76,14 +80,6 @@ export class DetailTransactionComponent {
       }
     });
 
-    // Effect para resetear categoría cuando cambie el tipo
-    effect(() => {
-      const type = this.selectedType();
-      if (type && this.isEditing()) {
-        // Solo resetear si estamos editando y el tipo cambió
-     //   this.transactionForm().patchValue({ category_id: 0 });
-      }
-    });
   }
 
   // Métodos utilitarios
@@ -110,6 +106,8 @@ export class DetailTransactionComponent {
   // Métodos de acción
   close(): void {
     this.closeUserSidebar.emit();
+    this.isEditing.set(false);
+    
   }
 
   toggleEdit(): void {
