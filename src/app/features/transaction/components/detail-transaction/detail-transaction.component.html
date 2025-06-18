@@ -8,10 +8,10 @@
         <div class="bg-gray-50/80 dark:bg-gray-800/70 rounded-md p-4 shadow-sm">
           <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ transaction().name }}</h3>
           <div class="mt-2 flex items-center ">
-@if (isEditing()) {
+    @if (isEditing()) {
   <div [formGroup]="transactionForm()" class="flex-1 flex flex-col space-y-6 p-6">
 
-    <div class="mb-4">
+    <div class="">
       <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Tipo de Transacción</label>
       <div class="flex rounded-lg shadow-sm" role="group">
         <button
