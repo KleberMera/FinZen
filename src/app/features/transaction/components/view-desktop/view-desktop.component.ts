@@ -28,7 +28,7 @@ export class ViewDesktopComponent {
   readonly currentPage = input.required<number>();
   readonly itemsPerPage = input.required<number>();
   selectedTransaction = signal<Transaction | null>(null);
-  isSidebarOpen = signal(false);
+  isSidebarOpen = signal<boolean>(false);
   // Nuevo Output para propagar la eliminación
   readonly deleteSuccess = output<void>();
   // Método para manejar el clic en una transacción
@@ -41,8 +41,10 @@ export class ViewDesktopComponent {
   // Método para cerrar el sidebar
   closeUserSidebar(): void {
     console.log('Cerrando sidebar...');
+
     this.isSidebarOpen.set(false); // Cierra el sidebar
     this.selectedTransaction.set(null); // Limpia la transacción seleccionada
+    
   }
   // Outputs
   readonly pageChange = output<number>();

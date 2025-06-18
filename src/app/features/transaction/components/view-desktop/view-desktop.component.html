@@ -194,15 +194,13 @@
 
 @if (isSidebarOpen()) {
   <app-bottom-sheet
-  [isOpen]="isSidebarOpen()"
-  (close)="closeUserSidebar()"
-  
+    [isOpen]="isSidebarOpen()"
+    (closeSheet)="closeUserSidebar()"
   >
-      <app-detail-transaction
-    [transaction]="selectedTransaction()!"
-    (closeUserSidebar)="closeUserSidebar()"
-    (deleteSuccess)="onDetailDeleteSuccess()"
-  ></app-detail-transaction>
+    <app-detail-transaction
+      [transaction]="selectedTransaction()!"
+      (closeUserSidebar)="closeUserSidebar()"
+      (deleteSuccess)="onDetailDeleteSuccess()"
+    ></app-detail-transaction>
   </app-bottom-sheet>
-
 }

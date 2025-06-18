@@ -105,6 +105,8 @@ export class DetailTransactionComponent {
 
   // Métodos de acción
   close(): void {
+    console.log('Cerrando sidebar...');
+    
     this.closeUserSidebar.emit();
     this.isEditing.set(false);
     

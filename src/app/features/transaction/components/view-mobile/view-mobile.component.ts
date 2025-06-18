@@ -5,10 +5,11 @@ import { TransactionService } from '../../services/transaction.service';
 import { apiResponse } from '@models/apiResponse';
 import { FormsModule } from '@angular/forms';
 import { DetailTransactionComponent } from '../detail-transaction/detail-transaction.component';
+import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
 
 @Component({
   selector: 'view-mobile',
-  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent],
+  imports: [CurrencyPipe, DatePipe, FormsModule, DetailTransactionComponent, BottomSheetComponent],
   templateUrl: './view-mobile.component.html',
 
   styleUrl: './view-mobile.component.scss',
