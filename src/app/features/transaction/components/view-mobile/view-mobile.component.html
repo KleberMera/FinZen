@@ -178,7 +178,7 @@
 @if (isSidebarOpen()) {
   <app-bottom-sheet
   [isOpen]="isSidebarOpen()"
-  (close)="closeUserSidebar()"
+  (closeSheet)="closeUserSidebar()"
   >
       <app-detail-transaction
     [transaction]="selectedTransaction()!"
