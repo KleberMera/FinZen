@@ -182,6 +182,7 @@
 </nav>
 
 <!-- Sidebar de perfil de usuario usando el nuevo componente side-sheet -->
+ @if (isUserSidebarOpen()) {
 <app-side-sheet 
   [isOpen]="isUserSidebarOpen()" 
   [position]="'right'"
@@ -190,6 +191,8 @@
     (closeSidebar)="closeUserSidebar()"
   ></app-user-profile-sidebar>
 </app-side-sheet>
+
+ }
 
 
 <!-- Sidebar de notificaciones usando el nuevo componente side-sheet -->

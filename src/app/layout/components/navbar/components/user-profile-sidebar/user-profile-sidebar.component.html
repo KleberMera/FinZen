@@ -1,44 +1,17 @@
-<div class="fixed inset-0 z-50 flex justify-end">
+
+  
+<app-side-sheet-content
+    [title]="'Perfil de Usuario'"
+    [titleClasses]="Title.BLUE_CYAN"
+    [icon]="'pi pi-user'"
+    (closeSheet)="close()"
+>
+
+  
+  
   @if (user.isLoading()) {
-    <app-user-profile-sidebar-skeleton></app-user-profile-sidebar-skeleton>
+ 
   } @else {
-    <!-- Fondo oscuro -->
-    <div 
-      class="absolute inset-0 bg-gray-900/60 dark:bg-gray-950/70 backdrop-blur-sm transition-opacity duration-300"
-      (click)="close()">
-    </div>
-  
-    <!-- Sidebar -->
-    <div class="relative w-full max-w-[20rem] xs:max-w-[24rem] sm:max-w-[28rem] bg-white dark:bg-gray-900 shadow-xl rounded-l-lg overflow-hidden transform transition-all duration-300 ease-in-out translate-x-0">
-      
-      <!-- Header -->
-      <div class="p-4 sm:p-6 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-100 dark:border-blue-800/30">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg sm:text-xl font-semibold text-blue-700 dark:text-blue-300 tracking-tight">Mi Perfil</h2>
-          <div class="flex items-center gap-2 sm:gap-3">
-            <button 
-              (click)="this._authService.logout()"
-              class="py-1.5 px-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md group">
-              <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-              </svg>
-              Cerrar Sesión
-            </button>
-            <button 
-              (click)="close()"
-              class="p-2 rounded-full bg-blue-100 dark:bg-blue-800/50 hover:bg-blue-200 dark:hover:bg-blue-700/70 transition-all duration-300 group"
-              title="Cerrar">
-              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Contenido -->
-      <div class="p-4 sm:p-6 space-y-6 overflow-y-auto h-full">
-        <!-- Avatar y nombre -->
         <div class="flex flex-col items-center">
           <div class="relative mb-3">
             @if (profileImageService.hasSafePhotoUrl()) {
@@ -119,7 +92,15 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+         <button 
+              (click)="this._authService.logout()"
+              class="py-1.5 px-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md group">
+              <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Cerrar Sesión
+            </button>
   }
-</div>
+
+</app-side-sheet-content>

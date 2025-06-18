@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../../../features/auth/services/auth.service';
 import { AuthStateService } from '../../../../../shared/services/auth-state.service';
+import { SideSheetContentComponent } from "../../../../../shared/components/side-sheet/side-sheet-content.component";
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-user-profile-sidebar',
@@ -20,12 +22,14 @@ import { AuthStateService } from '../../../../../shared/services/auth-state.serv
     DatePipe,
     ReactiveFormsModule,
     UserProfileSidebarSkeletonComponent,
-  ],
+    SideSheetContentComponent
+],
   templateUrl: './user-profile-sidebar.component.html',
   styleUrl: './user-profile-sidebar.component.scss',
 })
 export class UserProfileSidebarComponent {
   readonly _storageService = inject(StorageService);
+  Title = TitleGradient;
 
   readonly _userProfileService = inject(UserProfileService);
   protected readonly _authService = inject(AuthStateService);
