@@ -11,7 +11,6 @@ import { User } from '@models/user';
 import { UserProfileSidebarSkeletonComponent } from '../user-profile-sidebar-skeleton/user-profile-sidebar-skeleton.component';
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { AuthService } from '../../../../../features/auth/services/auth.service';
 import { AuthStateService } from '../../../../../shared/services/auth-state.service';
 import { SideSheetContentComponent } from "../../../../../shared/components/side-sheet/side-sheet-content.component";
 import { TitleGradient } from '@models/styleClass';
@@ -21,7 +20,6 @@ import { TitleGradient } from '@models/styleClass';
   imports: [
     DatePipe,
     ReactiveFormsModule,
-    UserProfileSidebarSkeletonComponent,
     SideSheetContentComponent
 ],
   templateUrl: './user-profile-sidebar.component.html',
