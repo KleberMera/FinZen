@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { AuthStateService } from '../../../../../shared/services/auth-state.service';
 import { SideSheetContentComponent } from "../../../../../shared/components/side-sheet/side-sheet-content.component";
-import { TitleGradient } from '@models/styleClass';
+import { SolidColor, TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-user-profile-sidebar',
@@ -27,7 +27,7 @@ import { TitleGradient } from '@models/styleClass';
 })
 export class UserProfileSidebarComponent {
   readonly _storageService = inject(StorageService);
-  Title = TitleGradient;
+  Title = SolidColor;
 
   readonly _userProfileService = inject(UserProfileService);
   protected readonly _authService = inject(AuthStateService);

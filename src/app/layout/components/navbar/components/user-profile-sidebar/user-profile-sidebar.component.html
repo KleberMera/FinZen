@@ -1,105 +1,171 @@
-<app-side-sheet-content [title]="'Perfil de Usuario'" [titleClasses]="Title.SKY_BLUE_INDIGO" [icon]="'pi pi-user'"
+<app-side-sheet-content 
+  [title]="'Perfil de Usuario'" 
+  [titleClasses]="Title.BLUE" 
+  [icon]="'pi pi-user'"
   (closeSheet)="close()">
 
-
-
   @if (user.isLoading()) {
-
-  } @else {
-  <div class="flex flex-col items-center">
-    <div class="relative mb-3">
-      @if (profileImageService.hasSafePhotoUrl()) {
-      <img [src]="profileImageService.getSafePhotoUrl()" (error)="handleImageError()" alt="Avatar del usuario"
-        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300 hover:ring-blue-300">
-      } @else {
-      <img [src]="profileImageService.getDefaultAvatarUrl()" alt="Avatar por defecto"
-        class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300 hover:ring-blue-300">
-      }
-      <span
-        class="absolute bottom-0 right-0 w-4 h-4 sm:w-5 sm:h-5 bg-green-500 dark:bg-green-400 border-2 border-white dark:border-gray-900 rounded-full"></span>
-    </div>
-    <h3 class="text-lg sm:text-xl font-medium text-gray-900 dark:text-gray-100 tracking-wide">
-      {{user.value()?.data?.name}} {{user.value()?.data?.last_name}}
-    </h3>
-    <p class="text-sm text-blue-600 dark:text-blue-400 mt-1">
-      {{user.value()?.data?.rol_id === 1 ? 'Administrador' : 'Cliente'}}
-    </p>
-  </div>
-
-  <!-- Información personal -->
-  <div class="space-y-3">
-    <h4
-      class="text-base font-medium text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-1">
-      Información Personal</h4>
-    <div class="grid gap-3">
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">UID</span>
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate max-w-[60%] sm:max-w-[70%]">
-          {{user.value()?.data?.firebaseUid || 'Debe Sincronizar con Google'}}
-        </span>
-      </div>
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Usuario</span>
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
-          {{user.value()?.data?.username}}
-        </span>
-      </div>
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Email</span>
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate max-w-[60%] sm:max-w-[70%]">
-          {{user.value()?.data?.email}}
-        </span>
-      </div>
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Teléfono</span>
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
-          {{user.value()?.data?.phone || 'N/A'}}
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Configuración de cuenta -->
-  <div class="space-y-3">
-    <h4
-      class="text-base font-medium text-gray-700 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 pb-1">
-      Configuración de Cuenta</h4>
-    <div class="grid gap-3">
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Estado</span>
-        <div class="flex items-center gap-2">
-          <span class="inline-block w-2.5 h-2.5 rounded-full"
-            [class]="user.value()?.data?.status ? 'bg-green-500' : 'bg-red-500'">
-          </span>
-          <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
-            {{user.value()?.data?.status ? 'Activo' : 'Inactivo'}}
-          </span>
+    <!-- Skeleton loader -->
+    <div class="animate-pulse space-y-6 p-4">
+      <!-- Avatar skeleton -->
+      <div class="flex flex-col items-center space-y-3">
+        <div class="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+        <div class="space-y-2 text-center">
+          <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
         </div>
       </div>
-      <div
-        class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-all duration-200">
-        <span class="text-sm text-gray-600 dark:text-gray-400">Fecha de registro</span>
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
-          {{user.value()?.data?.createdAt | date:'mediumDate'}}
-        </span>
+
+      <!-- Secciones skeleton -->
+      @for (section of [1,2]; track section) {
+        <div class="space-y-3">
+          <div class="h-5 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>
+          <div class="space-y-2">
+            @for (item of [1,2]; track item) {
+              <div class="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <!-- Contenido del perfil -->
+    <div class="flex flex-col h-full">
+      
+      <!-- Avatar y info básica -->
+      <div class="flex flex-col items-center space-y-4 pb-6">
+        <div class="relative">
+          @if (profileImageService.hasSafePhotoUrl()) {
+            <img 
+              [src]="profileImageService.getSafePhotoUrl()" 
+              (error)="handleImageError()" 
+              alt="Avatar del usuario"
+              class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300">
+          } @else {
+            <img 
+              [src]="profileImageService.getDefaultAvatarUrl()" 
+              alt="Avatar por defecto"
+              class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200 dark:ring-blue-700/50 transition-all duration-300">
+          }
+          
+          <!-- Indicador de estado -->
+          <span class="absolute bottom-0 right-0 w-5 h-5 bg-green-500 dark:bg-green-400 border-2 border-white dark:border-gray-900 rounded-full"></span>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            {{user.value()?.data?.name}} {{user.value()?.data?.last_name}}
+          </h3>
+          <p class="text-sm text-blue-600 dark:text-blue-400 mt-1">
+            {{user.value()?.data?.rol_id === 1 ? 'Administrador' : 'Cliente'}}
+          </p>
+        </div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="flex-1 overflow-y-auto space-y-6 p-1 custom-scrollbar">
+        
+        <!-- Información personal -->
+        <div class="space-y-3">
+          <div class="flex items-center space-x-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+            <i class="pi pi-user text-blue-500"></i>
+            <h4 class="text-base font-medium text-gray-700 dark:text-gray-300">
+              Información Personal
+            </h4>
+          </div>
+          
+          <div class="space-y-2">
+            <!-- UID -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-id-card text-purple-500"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">UID</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate max-w-[60%]">
+                {{user.value()?.data?.firebaseUid || 'Debe Sincronizar'}}
+              </span>
+            </div>
+
+            <!-- Usuario -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-at text-green-500"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Usuario</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {{user.value()?.data?.username}}
+              </span>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-envelope text-blue-500"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Email</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate max-w-[60%]">
+                {{user.value()?.data?.email}}
+              </span>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-phone text-indigo-500"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Teléfono</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {{user.value()?.data?.phone || 'N/A'}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuración de cuenta -->
+        <div class="space-y-3">
+          <div class="flex items-center space-x-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+            <i class="pi pi-cog text-purple-500"></i>
+            <h4 class="text-base font-medium text-gray-700 dark:text-gray-300">
+              Configuración de Cuenta
+            </h4>
+          </div>
+          
+          <div class="space-y-2">
+            <!-- Estado -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-circle-fill text-green-500" [class]="user.value()?.data?.status ? 'text-green-500' : 'text-red-500'"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Estado</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {{user.value()?.data?.status ? 'Activo' : 'Inactivo'}}
+              </span>
+            </div>
+
+            <!-- Fecha de registro -->
+            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/80 transition-colors duration-200">
+              <div class="flex items-center space-x-3">
+                <i class="pi pi-calendar text-blue-500"></i>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Fecha de registro</span>
+              </div>
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {{user.value()?.data?.createdAt | date:'mediumDate'}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón cerrar sesión -->
+      <div class="pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
+        <button 
+          (click)="this._authService.logout()"
+          class="w-full py-3 px-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm font-medium shadow-sm hover:shadow-md">
+          <i class="pi pi-sign-out"></i>
+          Cerrar Sesión
+        </button>
       </div>
     </div>
-  </div>
-
-  <button (click)="this._authService.logout()"
-    class="py-1.5 px-3 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm shadow-sm hover:shadow-md group">
-    <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-300" fill="none"
-      stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-    Cerrar Sesión
-  </button>
   }
 
 </app-side-sheet-content>
