@@ -75,16 +75,16 @@
                   <span 
                     class="text-xs px-2 py-0.5 rounded-full font-medium inline-block mt-1 w-fit"
                     [ngClass]="{
-                      'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': transaction.category?.type === 'Ingreso',
-                      'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': transaction.category?.type === 'Gasto'
+                      'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': transaction.category.type === 'Ingreso',
+                      'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': transaction.category.type === 'Gasto'
                     }"
                   >
-                    {{ transaction.category?.type }}
+                    {{ transaction.category.type }}
                   </span>
                 </div>
               </div>
               <div class="flex flex-col items-end">
-                @if (transaction.category?.type === 'Ingreso') {
+                @if (transaction.category.type === 'Ingreso') {
                   <span class="font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                     ${{ transaction.amount }}
                   </span>
@@ -102,22 +102,3 @@
   }
 </div>
 
-<style>
-  .custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
-    border-radius: 20px;
-  }
-  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(75, 85, 99, 0.5);
-  }
-</style>
