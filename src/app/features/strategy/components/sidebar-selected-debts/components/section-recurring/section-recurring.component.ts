@@ -2,12 +2,12 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { StorageService } from '../../../../../../shared/services/storage.service';
 
-import { DatePipe, NgClass } from '@angular/common';
+import { CommonModule, DatePipe, NgClass, NgIf } from '@angular/common';
 import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
 
 @Component({
   selector: 'app-section-recurring',
-  imports: [NgClass],
+  imports: [NgClass, CommonModule],
   templateUrl: './section-recurring.component.html',
   styleUrl: './section-recurring.component.scss'
 })

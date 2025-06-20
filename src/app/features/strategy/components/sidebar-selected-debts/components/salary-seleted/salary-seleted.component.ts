@@ -6,10 +6,11 @@ import { StorageService } from '../../../../../../shared/services/storage.servic
 
 import { format } from '@formkit/tempo';
 import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-salary-seleted',
-  imports: [],
+  imports: [NgIf],
   templateUrl: './salary-seleted.component.html',
   styleUrl: './salary-seleted.component.scss',
 })

@@ -1,54 +1,68 @@
-@if (salary.isLoading()) {
-    <div class="animate-pulse mb-6">
-      <div class="h-5 w-24 bg-gray-600 rounded mb-2"></div>
-      <div class="flex">
-        <div class="h-10 w-28 bg-gray-600 rounded-s-lg"></div>
-        <div class="h-10 flex-grow bg-gray-600 rounded-e-lg"></div>
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-lg font-semibold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">Salario</h2>
+  </div>
+
+  <!-- Usando el nuevo control flow de Angular -->
+  @if (salary.isLoading()) {
+    <!-- Skeleton loader mejorado -->
+    <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-lg p-4 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-5 w-5 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse"></div>
+          <div class="flex flex-col gap-1">
+            <div class="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            <div class="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+        </div>
+        <div class="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+      </div>
+    </div>
+  } @else if (salary.error()) {
+    <!-- Error state -->
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+      <div class="flex items-center justify-center space-x-2 mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="font-medium text-red-800 dark:text-red-300">Error</span>
+      </div>
+      <p class="text-sm text-red-600 dark:text-red-400">
+        Error al cargar la información de salario. Por favor, intenta de nuevo.
+      </p>
+    </div>
+  } @else if (!salary.value()?.data) {
+    <!-- No salary data -->
+    <div class="bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+      <div class="flex flex-col items-center justify-center py-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+        <p class="text-gray-600 dark:text-gray-300 font-medium">No hay información de salario disponible.</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Configura tu salario en tu perfil</p>
       </div>
     </div>
   } @else {
-    @if (salary.value()?.data; as salaryData) {
-      <div class="">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Sueldo actual
-        </h3>
-        <div class="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 p-4 md:rounded-md border border-green-200 dark:border-green-700 hover:bg-green-100 dark:hover:bg-green-900/70 transition-all duration-200 shadow-sm">
-          <div class="flex items-center">
-            <input 
-              type="checkbox" 
-              id="include-salary"
-              [checked]="includeSalary()"
-              (change)="toggleSalary()"
-              class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-            >
-            <label for="include-salary" class="ms-3 flex-1 cursor-pointer">
-              <div class="text-base font-semibold text-gray-800 dark:text-gray-200">
-                Sueldo de {{ salaryData.month_name }}
-              </div>
-              <div class="flex items-center mt-1">
-                <span class="text-lg font-bold text-green-600 dark:text-green-400">
-                  ${{ salaryData.salary_amount }}
-                </span>
-                <span class="ml-2 px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs rounded-full font-semibold">
-                  Ingreso mensual
-                </span>
-              </div>
-            </label>
+    <!-- Salary data available -->
+    <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="include-salary"
+            [checked]="includeSalary()"
+            (change)="toggleSalary()"
+            class="form-checkbox h-5 w-5 text-purple-600 dark:text-purple-400 rounded transition duration-150 ease-in-out focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+          />
+          <div class="flex flex-col">
+            <span class="font-medium text-gray-800 dark:text-gray-200">Sueldo de {{ salary.value()?.data?.month_name }}</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">{{ salary.value()?.data?.month_name }}</span>
           </div>
         </div>
+        <span class="font-bold bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+          ${{ salary.value()?.data?.salary_amount }}
+        </span>
       </div>
-    } @else {
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        Sueldo no disponible
-      </h3>
-      <p class="text-gray-500 dark:text-gray-400">No tienes un sueldo registrado.</p>
     </div>
   }
-}
+</div>

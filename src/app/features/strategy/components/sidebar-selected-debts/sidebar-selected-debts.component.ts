@@ -8,13 +8,14 @@ import { SectionDebtsComponent } from './components/section-debts/section-debts.
 import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
 import { MethodPlanService } from '../../../debt/services/method-plan.service';
 import StrategyStateService from '../../services/strategy-state.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar-selected-debts',
   standalone: true,
   templateUrl: './sidebar-selected-debts.component.html',
   styleUrls: ['./sidebar-selected-debts.component.scss'],
-  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent]
+  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent, NgIf]
 })
 export default class SidebarSelectedDebtsComponent {
   private router = inject(Router);
@@ -74,9 +75,111 @@ export default class SidebarSelectedDebtsComponent {
 
   hasSelection = computed(
     () =>
-      this.salaryComponent()!.includeSalary() ||
-      this.debtComponent()!.selectedDebtIds().length >= 2
+      this.salaryComponent()!.includeSalary() &&
+      (this.debtComponent()!.selectedDebtIds().length > 0 ||
+       this.recurringComponent()!.selectedTransactionIds().length > 0)
   );
+
+  calculateDebtTotal(): string {
+    let total = 0;
+    
+    // Calcular el total de deudas seleccionadas
+    if (this.debtComponent()?.debts.value()?.data) {
+      this.debtComponent()
+        ?.debts.value()
+        ?.data!.forEach((debt) => {
+          if (this.debtComponent()?.isDebtSelected(debt.id!)) {
+            total += parseFloat(String(debt.amount));
+          }
+        });
+    }
+
+    return total.toFixed(2);
+  }
+
+  calculateDebtTotalAmortization(): string {
+    let total = 0;
+    
+    // Calcular el total de cuotas de amortizaciones de deudas seleccionadas
+    if (this.debtComponent()?.debts.value()?.data) {
+      this.debtComponent()
+        ?.debts.value()
+        ?.data!.forEach((debt) => {
+          if (this.debtComponent()?.isDebtSelected(debt.id!) && 
+              debt.amortizations?.length > 0) {
+            
+            // Sumar todas las cuotas de las amortizaciones de esta deuda
+            debt.amortizations.forEach((amortization) => {
+              if (amortization.quota) {
+                total += parseFloat(String(amortization.quota));
+              }
+            });
+          }
+        });
+    }
+
+    return total.toFixed(2);
+  }
+
+  calculateDebtTotalAmortizationPending(): string {
+    let total = 0;
+    
+    // Calcular el total de cuotas de amortizaciones de deudas seleccionadas
+    if (this.debtComponent()?.debts.value()?.data) {
+      this.debtComponent()
+        ?.debts.value()
+        ?.data!.forEach((debt) => {
+          if (this.debtComponent()?.isDebtSelected(debt.id!) && 
+              debt.amortizations?.length > 0) {
+            
+            // Sumar solo las cuotas pendientes de las amortizaciones de esta deuda
+            debt.amortizations.forEach((amortization) => {
+              if (amortization.quota && amortization.status === 'Pendiente') {
+                total += parseFloat(String(amortization.quota));
+              }
+            });
+          }
+        });
+    }
+
+    return total.toFixed(2);
+  }
+
+  calculateRecurringIncomeTotal(): string {
+    let total = 0;
+    
+    // Calcular el total de ingresos recurrentes seleccionados
+    if (this.recurringComponent()?.recurringTransactions.value()) {
+      this.recurringComponent()
+        ?.recurringTransactions.value()
+        ?.forEach((transaction) => {
+          if (this.recurringComponent()?.isTransactionSelected(transaction.id!) && 
+              transaction.category?.type === 'Ingreso') {
+            total += parseFloat(String(transaction.amount));
+          }
+        });
+    }
+
+    return total.toFixed(2);
+  }
+
+  calculateRecurringExpenseTotal(): string {
+    let total = 0;
+    
+    // Calcular el total de gastos recurrentes seleccionados
+    if (this.recurringComponent()?.recurringTransactions.value()) {
+      this.recurringComponent()
+        ?.recurringTransactions.value()
+        ?.forEach((transaction) => {
+          if (this.recurringComponent()?.isTransactionSelected(transaction.id!) && 
+              transaction.category?.type === 'Gasto') {
+            total += parseFloat(String(transaction.amount));
+          }
+        });
+    }
+
+    return total.toFixed(2);
+  }
 
   calculateTotal(): string {
     let total = 0;
@@ -89,26 +192,11 @@ export default class SidebarSelectedDebtsComponent {
     }
 
     // Añadir las deudas seleccionadas
-    if (this.debtComponent()?.debts.value()?.data) {
-      this.debtComponent()
-        ?.debts.value()
-        ?.data!.forEach((debt) => {
-          if (this.debtComponent()?.isDebtSelected(debt.id!)) {
-            total += parseFloat(String(debt.amount));
-          }
-        });
-    }
+    total += parseFloat(this.calculateDebtTotal());
 
-    // Añadir los montos de las transacciones recurrentes
-    if (this.recurringComponent()?.recurringTransactions.value()) {
-      this.recurringComponent()
-        ?.recurringTransactions.value()
-        ?.forEach((transaction) => {
-          if (this.recurringComponent()?.isTransactionSelected(transaction.id!)) {
-            total += parseFloat(String(transaction.amount));
-          }
-        });
-    }
+    // Añadir los montos de las transacciones recurrentes (ingresos y gastos)
+    total += parseFloat(this.calculateRecurringIncomeTotal());
+    total += parseFloat(this.calculateRecurringExpenseTotal());
 
     return total.toFixed(2);
   }
