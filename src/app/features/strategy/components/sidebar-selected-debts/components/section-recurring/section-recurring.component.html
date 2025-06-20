@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-4 w-full">
   <div class="flex items-center justify-between">
     <h2 class="text-lg font-semibold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">Transacciones Recurrentes</h2>
     <div class="flex items-center gap-2">
@@ -15,7 +15,7 @@
   <!-- Usando el nuevo control flow de Angular -->
   @if (recurringTransactions.isLoading()) {
     <!-- Skeleton loader mejorado -->
-    <div class="grid grid-cols-1 gap-3">
+    <div class="grid grid-cols-1 gap-3 w-full">
       @for (i of [1, 2, 3]; track i) {
         <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-lg p-4 shadow-sm">
           <div class="flex items-center justify-between">
@@ -35,7 +35,7 @@
     </div>
   } @else if (recurringTransactions.error()) {
     <!-- Error state -->
-    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center w-full">
       <div class="flex items-center justify-center space-x-2 mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -48,7 +48,7 @@
     </div>
   } @else if (!recurringTransactions.value() || recurringTransactions.value()!.length === 0) {
     <!-- No transactions data -->
-    <div class="bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
+    <div class="bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center w-full">
       <div class="flex flex-col items-center justify-center py-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
@@ -58,44 +58,66 @@
     </div>
   } @else {
     <!-- Transactions data available -->
-    <div class="grid grid-cols-1 gap-3">
-      @for (transaction of recurringTransactions.value(); track transaction.id) {
-        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <input
-                type="checkbox"
-                [checked]="isTransactionSelected(transaction.id!)"
-                (change)="toggleTransaction(transaction.id!)"
-                class="form-checkbox h-5 w-5 text-purple-600 dark:text-purple-400 rounded transition duration-150 ease-in-out focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-              />
-              <div class="flex flex-col">
-                <span class="font-medium text-gray-800 dark:text-gray-200">{{ transaction.name }}</span>
-                <span 
-                  class="text-xs px-2 py-0.5 rounded-full font-medium inline-block mt-1 w-fit"
-                  [ngClass]="{
-                    'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': transaction.category?.type === 'Ingreso',
-                    'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': transaction.category?.type === 'Gasto'
-                  }"
-                >
-                  {{ transaction.category?.type }}
-                </span>
+    <div class="w-full h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+      <div class="grid grid-cols-1 gap-3">
+        @for (transaction of recurringTransactions.value(); track transaction.id) {
+          <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/30 dark:border-gray-700/30 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  [checked]="isTransactionSelected(transaction.id!)"
+                  (change)="toggleTransaction(transaction.id!)"
+                  class="form-checkbox h-5 w-5 text-purple-600 dark:text-purple-400 rounded transition duration-150 ease-in-out focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
+                />
+                <div class="flex flex-col">
+                  <span class="font-medium text-gray-800 dark:text-gray-200">{{ transaction.name }}</span>
+                  <span 
+                    class="text-xs px-2 py-0.5 rounded-full font-medium inline-block mt-1 w-fit"
+                    [ngClass]="{
+                      'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300': transaction.category?.type === 'Ingreso',
+                      'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300': transaction.category?.type === 'Gasto'
+                    }"
+                  >
+                    {{ transaction.category?.type }}
+                  </span>
+                </div>
+              </div>
+              <div class="flex flex-col items-end">
+                @if (transaction.category?.type === 'Ingreso') {
+                  <span class="font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                    ${{ transaction.amount }}
+                  </span>
+                } @else {
+                  <span class="font-bold bg-gradient-to-r from-red-600 to-rose-600 dark:from-red-400 dark:to-rose-400 bg-clip-text text-transparent">
+                    ${{ transaction.amount }}
+                  </span>
+                }
               </div>
             </div>
-            <div class="flex flex-col items-end">
-              @if (transaction.category?.type === 'Ingreso') {
-                <span class="font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                  ${{ transaction.amount }}
-                </span>
-              } @else {
-                <span class="font-bold bg-gradient-to-r from-red-600 to-rose-600 dark:from-red-400 dark:to-rose-400 bg-clip-text text-transparent">
-                  ${{ transaction.amount }}
-                </span>
-              }
-            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     </div>
   }
 </div>
+
+<style>
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 20px;
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.5);
+  }
+</style>
