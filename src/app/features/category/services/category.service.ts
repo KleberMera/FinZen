@@ -1,3 +1,4 @@
+
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,9 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import  iconsData  from '@public/icons.json';
 import { environment } from '@environments/environment';
 
-export interface primeIcons {
-  icon: string;
-}
+type IconsData = Record<string, { icon: string }[]>;
+
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +19,43 @@ export interface primeIcons {
 
 export class CategoryService {
   private apiUrl = environment.apiUrl;
-  public readonly primeIcons = iconsData;
+ // public readonly primeIcons = iconsData;
   private readonly htpp = inject(HttpClient);
 
+  //public readonly primeIcons: iconsData
+ public readonly primeIcons = iconsData;
+ // private readonly htpp = inject(HttpClient);
+
   public getPrimeIcons() {
+    // Convertir el objeto de categorías en un array plano
+    const flatIcons: { icon: string }[] = [];
+    
+    Object.values(this.primeIcons).forEach(categoryIcons => {
+      flatIcons.push(...categoryIcons);
+    });
+    
+    return flatIcons;
+  }
+
+  public getPrimeIconsByCategory() {
     return this.primeIcons;
   }
 
+
+// O usando Object.prototype.hasOwnProperty para mayor seguridad
+public getIconsByCategory(category: string) {
+  return this.primeIcons.hasOwnProperty(category) 
+    ? (this.primeIcons as any)[category] 
+    : [];
+}
+
+
+
+  // Método adicional para obtener las categorías disponibles
+  public getAvailableCategories(): string[] {
+    return Object.keys(this.primeIcons);
+  }
+  
   createCategoria(categoria: Category): Observable<apiResponse<Category>> {
     const url = `${this.apiUrl}/category`;
     return this.htpp.post<apiResponse<Category>>(url, categoria);

@@ -1,104 +1,233 @@
-[
-    {
-        "icon": "pi pi-users"
-    },
-    {
-        "icon": "pi pi-shopping-cart"
-    },
-    {
-        "icon": "pi pi-shop"
-    },
-    {
-        "icon": "pi pi-credit-card"
-    },
-    {
-        "icon": "pi pi-calendar"
-    },
-    {
-        "icon": "pi pi-check"
-    },
-    {
-        "icon": "pi pi-cloud"
-    },
-    {
-        "icon": "pi pi-exclamation-triangle"
-    },
-    {
-        "icon": "pi pi-external-link"
-    },
-    {
-        "icon": "pi pi-file"
-    },
-    {
-        "icon": "pi pi-flag"
-    },
-    {
-        "icon": "pi pi-heart"
-    },
-    {
-        "icon": "pi pi-info-circle"
-    },
-    {
-        "icon": "pi pi-lock"
-    },
-    {
-        "icon": "pi pi-map-marker"
-    },
-    {
-        "icon": "pi pi-minus"
-    },
-    {
-        "icon": "pi pi-paperclip"
-    },
-    {
-        "icon": "pi pi-pencil"
-    },
-    {
-        "icon": "pi pi-plus"
-    },
-    {
-        "icon": "pi pi-search"
-    },
-    {
-        "icon": "pi pi-star"
-    },
-    {
-        "icon": "pi pi-tag"
-    },
-    {
-        "icon": "pi pi-tags"
-    },
-    {
-        "icon": "pi pi-trash"
-    },
-    {
-        "icon": "pi pi-user"
-    },
-    {
-        "icon": "pi pi-user-edit"
-    },
-    {
-        "icon": "pi pi-user-minus"
-    },
-    {
-        "icon": "pi pi-user-plus"
-    },
-    {
-        "icon": "pi pi-volume-down"
-    },
-    {
-        "icon": "pi pi-volume-off"
-    },
-    {
-        "icon": "pi pi-volume-up"
-    },
-    {
-        "icon": "pi pi-wifi"
-    },
-    {
-        "icon": "pi pi-wrench"
-    },
-    {
-        "icon": "pi pi-headphones"
-    }
-]
+{
+  "Dirección y Contacto": [
+    {"icon": "pi pi-address-book"},
+    {"icon": "pi pi-envelope"},
+    {"icon": "pi pi-phone"},
+    {"icon": "pi pi-inbox"}
+  ],
+  "Alineación y Texto": [
+    {"icon": "pi pi-align-center"},
+    {"icon": "pi pi-align-justify"},
+    {"icon": "pi pi-align-left"},
+    {"icon": "pi pi-align-right"},
+    {"icon": "pi pi-list"},
+    {"icon": "pi pi-list-check"}
+  ],
+  "Flechas y Direcciones": [
+    {"icon": "pi pi-arrow-down"},
+    {"icon": "pi pi-arrow-up"},
+    {"icon": "pi pi-arrow-left"},
+    {"icon": "pi pi-arrow-right"},
+    {"icon": "pi pi-chevron-down"},
+    {"icon": "pi pi-chevron-up"},
+    {"icon": "pi pi-chevron-left"},
+    {"icon": "pi pi-chevron-right"},
+    {"icon": "pi pi-directions"}
+  ],
+  "Multimedia": [
+    {"icon": "pi pi-camera"},
+    {"icon": "pi pi-image"},
+    {"icon": "pi pi-images"},
+    {"icon": "pi pi-video"},
+    {"icon": "pi pi-volume-up"},
+    {"icon": "pi pi-volume-down"},
+    {"icon": "pi pi-volume-off"}
+  ],
+  "Archivos y Documentos": [
+    {"icon": "pi pi-file"},
+    {"icon": "pi pi-file-o"},
+    {"icon": "pi pi-file-pdf"},
+    {"icon": "pi pi-file-excel"},
+    {"icon": "pi pi-file-word"},
+    {"icon": "pi pi-folder"},
+    {"icon": "pi pi-folder-open"}
+  ],
+  "Acciones y Controles": [
+    {"icon": "pi pi-play"},
+    {"icon": "pi pi-pause"},
+    {"icon": "pi pi-stop"},
+    {"icon": "pi pi-backward"},
+    {"icon": "pi pi-forward"},
+    {"icon": "pi pi-fast-backward"},
+    {"icon": "pi pi-fast-forward"},
+    {"icon": "pi pi-eject"},
+    {"icon": "pi pi-refresh"},
+    {"icon": "pi pi-sync"},
+    {"icon": "pi pi-undo"}
+  ],
+  "Formas y Símbolos": [
+    {"icon": "pi pi-circle"},
+    {"icon": "pi pi-star"},
+    {"icon": "pi pi-heart"},
+    {"icon": "pi pi-plus"},
+    {"icon": "pi pi-minus"},
+    {"icon": "pi pi-times"},
+    {"icon": "pi pi-check"}
+  ],
+  "Sistema y Configuración": [
+    {"icon": "pi pi-cog"},
+    {"icon": "pi pi-lock"},
+    {"icon": "pi pi-unlock"},
+    {"icon": "pi pi-power-off"},
+    {"icon": "pi pi-wifi"},
+    {"icon": "pi pi-cloud"},
+    {"icon": "pi pi-database"},
+    {"icon": "pi pi-server"}
+  ],
+  "Editores y Diseño": [
+    {"icon": "pi pi-pencil"},
+    {"icon": "pi pi-eraser"},
+    {"icon": "pi pi-palette"}
+  ],
+  "Notificaciones y Alertas": [
+    {"icon": "pi pi-bell"},
+    {"icon": "pi pi-exclamation-triangle"},
+    {"icon": "pi pi-info-circle"},
+    {"icon": "pi pi-question-circle"}
+  ],
+  "Redes Sociales y Marcas": [
+    {"icon": "pi pi-facebook"},
+    {"icon": "pi pi-twitter"},
+    {"icon": "pi pi-youtube"},
+    {"icon": "pi pi-linkedin"},
+    {"icon": "pi pi-github"},
+    {"icon": "pi pi-amazon"},
+    {"icon": "pi pi-android"},
+    {"icon": "pi pi-apple"},
+    {"icon": "pi pi-microsoft"},
+    {"icon": "pi pi-google"},
+    {"icon": "pi pi-slack"},
+    {"icon": "pi pi-discord"},
+    {"icon": "pi pi-whatsapp"},
+    {"icon": "pi pi-telegram"},
+    {"icon": "pi pi-twitch"},
+    {"icon": "pi pi-vimeo"},
+    {"icon": "pi pi-reddit"},
+    {"icon": "pi pi-instagram"},
+    {"icon": "pi pi-pinterest"},
+    {"icon": "pi pi-paypal"}
+
+  ],
+  "Moneda": [
+    {"icon": "pi pi-dollar"},
+    {"icon": "pi pi-euro"},
+    {"icon": "pi pi-pound"},
+    {"icon": "pi pi-turkish-lira"},
+    {"icon": "pi pi-bitcoin"},
+    {"icon": "pi pi-ethereum"},
+    {"icon": "pi pi-indian-rupee"}
+  ],
+    "Usuarios": [
+    {"icon": "pi pi-user"},
+    {"icon": "pi pi-users"},
+    {"icon": "pi pi-user-plus"},
+    {"icon": "pi pi-user-minus"},
+    {"icon": "pi pi-user-edit"}
+  ],
+  "Comercio y Compras": [
+    {"icon": "pi pi-shopping-cart"},
+    {"icon": "pi pi-shopping-bag"},
+    {"icon": "pi pi-cart-plus"},
+    {"icon": "pi pi-cart-minus"},
+    {"icon": "pi pi-money-bill"},
+    {"icon": "pi pi-credit-card"},
+    {"icon": "pi pi-wallet"},
+    {"icon": "pi pi-tag"},
+    {"icon": "pi pi-tags"}
+
+  ],
+  "Gráficos y Estadísticas": [
+    {"icon": "pi pi-chart-bar"},
+    {"icon": "pi pi-chart-line"},
+    {"icon": "pi pi-chart-pie"},
+    {"icon": "pi pi-chart-scatter"}
+  ],
+   "Mapas y Lugares": [
+    {"icon": "pi pi-map"},
+    {"icon": "pi pi-map-marker"},
+    {"icon": "pi pi-globe"}
+  ],
+
+  "Búsqueda": [
+    {"icon": "pi pi-search"},
+    {"icon": "pi pi-search-plus"},
+    {"icon": "pi pi-search-minus"}
+  ],
+ "Varios": [
+    {"icon": "pi pi-asterisk"},
+    {"icon": "pi pi-at"},
+    {"icon": "pi pi-ban"},
+    {"icon": "pi pi-barcode"},
+    {"icon": "pi pi-box"},
+    {"icon": "pi pi-briefcase"},
+    {"icon": "pi pi-bullseye"},
+    {"icon": "pi pi-calculator"},
+    {"icon": "pi pi-car"},
+    {"icon": "pi pi-compass"},
+    {"icon": "pi pi-ellipsis-h"},
+    {"icon": "pi pi-ellipsis-v"},
+    {"icon": "pi pi-equals"},
+    {"icon": "pi pi-external-link"},
+    {"icon": "pi pi-eye"},
+    {"icon": "pi pi-eye-slash"},
+    {"icon": "pi pi-flag"},
+    {"icon": "pi pi-gift"},
+    {"icon": "pi pi-graduation-cap"},
+    {"icon": "pi pi-hammer"},
+    {"icon": "pi pi-hashtag"},
+    {"icon": "pi pi-headphones"},
+    {"icon": "pi pi-home"},
+    {"icon": "pi pi-id-card"},
+    {"icon": "pi pi-key"},
+    {"icon": "pi pi-language"},
+    {"icon": "pi pi-lightbulb"},
+    {"icon": "pi pi-link"},
+    {"icon": "pi pi-megaphone"},
+    {"icon": "pi pi-mobile"},
+    {"icon": "pi pi-moon"},
+    {"icon": "pi pi-objects-column"},
+    {"icon": "pi pi-paperclip"},
+    {"icon": "pi pi-percentage"},
+    {"icon": "pi pi-print"},
+    {"icon": "pi pi-qrcode"},
+    {"icon": "pi pi-receipt"},
+    {"icon": "pi pi-send"},
+    {"icon": "pi pi-share-alt"},
+    {"icon": "pi pi-shield"},
+    {"icon": "pi pi-sign-in"},
+    {"icon": "pi pi-sign-out"},
+    {"icon": "pi pi-sitemap"},
+    {"icon": "pi pi-sliders-h"},
+    {"icon": "pi pi-sliders-v"},
+    {"icon": "pi pi-sort"},
+    {"icon": "pi pi-sort-alpha-down"},
+    {"icon": "pi pi-sort-alpha-down-alt"},
+    {"icon": "pi pi-sort-alpha-up"},
+    {"icon": "pi pi-sort-alpha-up-alt"},
+    {"icon": "pi pi-sort-amount-down"},
+    {"icon": "pi pi-sort-amount-down-alt"},
+    {"icon": "pi pi-sort-amount-up"},
+    {"icon": "pi pi-sort-amount-up-alt"},
+    {"icon": "pi pi-sparkles"},
+    {"icon": "pi pi-spinner"},
+    {"icon": "pi pi-stopwatch"},
+    {"icon": "pi pi-sun"},
+    {"icon": "pi pi-table"},
+    {"icon": "pi pi-tablet"},
+    {"icon": "pi pi-th-large"},
+    {"icon": "pi pi-thumbtack"},
+    {"icon": "pi pi-ticket"},
+    {"icon": "pi pi-trash"},
+    {"icon": "pi pi-trophy"},
+    {"icon": "pi pi-truck"},
+    {"icon": "pi pi-upload"},
+    {"icon": "pi pi-venus"},
+    {"icon": "pi pi-verified"},
+    {"icon": "pi pi-warehouse"},
+    {"icon": "pi pi-wave-pulse"},
+    {"icon": "pi pi-window-maximize"},
+    {"icon": "pi pi-window-minimize"},
+    {"icon": "pi pi-wrench"}
+
+ ]
+}

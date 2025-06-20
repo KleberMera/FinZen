@@ -16,7 +16,9 @@ import { Category } from '@models/category';
 export class FormCategoryComponent implements OnInit {
   readonly onReload = output<SubmitEvent>();
   readonly onClose = output<void>();
-    protected readonly isSubmitting = signal(false);
+  Object = Object;
+  
+  protected readonly isSubmitting = signal(false);
   category = input<Category | null>(null);
   isEditMode = input<boolean>(false);
 
@@ -24,9 +26,31 @@ export class FormCategoryComponent implements OnInit {
   readonly userid = signal<number | null>(this._storage.getUserId());
   readonly showMoreIcons = signal<boolean>(false);
   private _categService = inject(CategoryService);
+  protected selectedCategory = signal<string | null>(null);
 
-  protected readonly icons = this._categService.getPrimeIcons();
+  // Obtener todas las categorías de iconos
+  protected readonly iconCategories = this._categService.getPrimeIconsByCategory();
+  
+  // Obtener todos los iconos inicialmente
+  protected readonly allIcons = this._categService.getPrimeIcons();
+  
+  // Form reactive
   protected form = this._categService.formCategory(this.category() || undefined);
+
+  // Computed para obtener iconos filtrados
+  protected getIconsForDisplay = computed(() => {
+    if (this.selectedCategory()) {
+      return this._categService.getIconsByCategory(this.selectedCategory()!);
+    }
+    // Si no hay categoría seleccionada, mostrar todos los iconos
+    return this.allIcons;
+  });
+
+  // Computed para iconos visibles (con paginación)
+  protected visibleIcons = computed(() => {
+    const icons = this.getIconsForDisplay();
+    return this.showMoreIcons() ? icons : icons.slice(0, 10);
+  });
 
   ngOnInit() {
     // If in edit mode and category is provided, patch the form with category data
@@ -41,6 +65,23 @@ export class FormCategoryComponent implements OnInit {
     }
   }
 
+  // Método para seleccionar una categoría de iconos
+  selectIconCategory(category: string) {
+    this.selectedCategory.set(category);
+    // Resetear la vista "mostrar más" cuando se cambia de categoría
+    this.showMoreIcons.set(false);
+  }
+
+  // Método para limpiar el filtro de categoría
+  clearCategoryFilter() {
+    this.selectedCategory.set(null);
+    this.showMoreIcons.set(false);
+  }
+
+  // Método para alternar mostrar más iconos
+  toggleShowMoreIcons() {
+    this.showMoreIcons.set(!this.showMoreIcons());
+  }
 
   async saveCategory(event: SubmitEvent) {
     if (this.form().invalid || this.isSubmitting()) {
@@ -58,7 +99,7 @@ export class FormCategoryComponent implements OnInit {
       } else {
         this.isSubmitting.set(true);
         const catPromise = firstValueFrom(this._categService.createCategoria(category));
-         toast.promise(catPromise, {
+        toast.promise(catPromise, {
           loading: 'Guardando categoría...',
           success: (res) => {
             this.onReload.emit(event);
@@ -77,10 +118,6 @@ export class FormCategoryComponent implements OnInit {
       console.error('Error saving category:', error);
     }
   }
-  protected visibleIcons = computed(() => {
-    return this.showMoreIcons() ? this.icons : this.icons.slice(0, 10);
-  });
-  
 
   async updateCategory(event: SubmitEvent) {
     if (this.form().invalid || !this.category()?.id) {
@@ -95,7 +132,7 @@ export class FormCategoryComponent implements OnInit {
     );
     
     this.isSubmitting.set(true);
-     toast.promise(catPromise, {
+    toast.promise(catPromise, {
       loading: 'Actualizando categoría...',
       success: (res) => {
         this.onReload.emit(event);
