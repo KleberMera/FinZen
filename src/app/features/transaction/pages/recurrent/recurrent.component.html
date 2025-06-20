@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 py-8">
   <!-- Título principal -->
-  <div class="mb-10">
+  <div class="mb-3">
     <h3 class="text-2xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-300 bg-clip-text text-transparent flex items-center gap-3 mb-2">
       <span class="p-2 bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500 rounded-lg shadow-lg">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -32,7 +32,7 @@
   } @else {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
       <!-- Selector de Tipo y Categoría -->
-      <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200/40 dark:border-gray-700/40 rounded-xl p-6 shadow-2xl hover:shadow-indigo-200/30 dark:hover:shadow-indigo-900/30 transition-all duration-300">
+      <div class="bg-white/70 dark:bg-gray-900/70  border border-gray-200/40 dark:border-gray-700/40 rounded-md p-6 shadow-2xl hover:shadow-indigo-200/30 dark:hover:shadow-indigo-900/30 transition-all duration-300">
         <div class="flex items-center space-x-3 mb-4">
           <div class="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-md">
             <i class="pi pi-list text-white"></i>
@@ -66,7 +66,7 @@
           <select 
             [ngModel]="selectedCategoryId()" 
             (ngModelChange)="handleCategoryChange($event)"
-            class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-e-lg border-l-0 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
+            class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-md border-l-0 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
           >
             <option value="" disabled class="text-gray-500 dark:text-gray-400">Selecciona una categoría</option>
             @for (categoria of filteredCategories(); track categoria.id) {
