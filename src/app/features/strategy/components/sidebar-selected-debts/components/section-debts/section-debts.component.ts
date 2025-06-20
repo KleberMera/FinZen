@@ -4,11 +4,11 @@ import { StorageService } from '../../../../../../shared/services/storage.servic
 import { format } from '@formkit/tempo';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MethodPlanService } from '../../../../../debt/services/method-plan.service';
-import { NgFor, NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-section-debts',
-  imports: [NgIf, NgFor],
+  imports: [],
   templateUrl: './section-debts.component.html',
   styleUrl: './section-debts.component.scss',
 })

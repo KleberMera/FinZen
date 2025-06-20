@@ -7,7 +7,7 @@ import { MethodPlanService } from '../../../../../debt/services/method-plan.serv
 
 @Component({
   selector: 'app-section-recurring',
-  imports: [NgClass, CommonModule],
+  imports: [NgClass],
   templateUrl: './section-recurring.component.html',
   styleUrl: './section-recurring.component.scss'
 })

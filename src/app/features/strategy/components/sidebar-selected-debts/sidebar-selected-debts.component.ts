@@ -8,14 +8,13 @@ import { SectionDebtsComponent } from './components/section-debts/section-debts.
 import { SectionRecurringComponent } from "./components/section-recurring/section-recurring.component";
 import { MethodPlanService } from '../../../debt/services/method-plan.service';
 import StrategyStateService from '../../services/strategy-state.service';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar-selected-debts',
   standalone: true,
   templateUrl: './sidebar-selected-debts.component.html',
   styleUrls: ['./sidebar-selected-debts.component.scss'],
-  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent, NgIf]
+  imports: [SalarySeletedComponent, SectionDebtsComponent, SectionRecurringComponent]
 })
 export default class SidebarSelectedDebtsComponent {
   private router = inject(Router);
