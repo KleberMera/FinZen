@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { dayEnd, format, monthEnd } from '@formkit/tempo';
+import { dayEnd, format, monthEnd, monthStart } from '@formkit/tempo';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { SalaryService } from '../../../dashboard/services/salary.service';
 import { apiResponse } from '@models/apiResponse';
@@ -231,7 +231,7 @@ export class CardSalaryTransactionComponent {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  isFormVisible = signal<boolean>(true);
+  isFormVisible = signal<boolean>(false);
   toggleFormVisibility(): void {
     const visible = !this.isFormVisible();
     this.isFormVisible.set(visible);
@@ -320,6 +320,11 @@ export class CardSalaryTransactionComponent {
 
   getCurrentDay(): number {
     return dayEnd(this.timeNow()).getDate();
+  }
+  
+  //Primer día del mes
+  getFirstDayOfMonth(): number {
+    return monthStart(this.timeNow()).getDate();
   }
 
   getDaysInMonth(): number {
