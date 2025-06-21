@@ -78,6 +78,15 @@ export class TransactionService {
     return this._http.post<any>(url, data);
   }
 
+  editRecurringTransaction(
+    id: number,
+    data: RecurringTransaction,
+    userid: number
+  ): Observable<any> {
+    const url = `${environment.apiUrl}/recurrent-transaction/${id}/${userid}`;
+    return this._http.patch<any>(url, data);
+  }
+
 
 
   getTransactionByUserId(id: number): Observable<apiResponse<Transaction[]>> {

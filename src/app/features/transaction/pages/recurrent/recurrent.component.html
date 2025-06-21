@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4 py-8">
+<div class="">
   <!-- Título principal -->
   <div class="mb-3">
     <h3 class="text-2xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-300 bg-clip-text text-transparent flex items-center gap-3 mb-2">
@@ -13,163 +13,183 @@
     <p class="text-gray-600 dark:text-gray-400 font-medium">Configura tus transacciones recurrentes para controlar tus finanzas</p>
   </div>
 
-  @if (categories.isLoading()) {
-    <!-- Skeleton loader -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="bg-white/10 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200/10 dark:border-gray-700/50">
-        <div class="h-6 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md mb-4 animate-pulse"></div>
-        <div class="flex">
-          <div class="h-12 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-s-lg animate-pulse"></div>
-          <div class="h-12 flex-grow bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-e-lg animate-pulse"></div>
-        </div>
-      </div>
-      <div class="bg-white/10 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200/10 dark:border-gray-700/50">
-        <div class="h-6 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md mb-4 animate-pulse"></div>
-        <div class="h-12 w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse"></div>
-      </div>
-    </div>
-    <div class="h-96 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-xl animate-pulse shadow-lg"></div>
-  } @else {
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-      <!-- Selector de Tipo y Categoría -->
-      <div class="bg-white/70 dark:bg-gray-900/70  border border-gray-200/40 dark:border-gray-700/40 rounded-md p-6 shadow-2xl hover:shadow-indigo-200/30 dark:hover:shadow-indigo-900/30 transition-all duration-300">
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-md">
-            <i class="pi pi-list text-white"></i>
-          </div>
-          <label class="text-base font-semibold text-gray-700 dark:text-gray-300">
-            Filtrar por tipo y categoría
-          </label>
-        </div>
-        <div class="flex relative">
-          <!-- Botón para seleccionar tipo -->
-          <button 
-            id="type-button"
-            type="button"
-            [class]="selectedType() === 'Ingreso' ? 
-              'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700 hover:bg-green-100 dark:hover:bg-green-900/30' : 
-              selectedType() === 'Todos' ? 
-              'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30' : 
-              'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700 hover:bg-red-100 dark:hover:bg-red-900/30'"
-            class="shrink-0 z-10 inline-flex items-center py-3 px-4 text-sm font-medium border rounded-s-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 transition-all duration-200"
-            (click)="toggleTypeDropdown()"
-          >
-            <i [class]="selectedType() === 'Ingreso' ? 
-              'pi pi-arrow-up mr-2 text-green-600 dark:text-green-400' : 
-              selectedType() === 'Todos' ? 
-              'pi pi-arrows-v mr-2 text-blue-600 dark:text-blue-400' : 
-              'pi pi-arrow-down mr-2 text-red-600 dark:text-red-400'"></i>
-            {{ selectedType() }}
-            <i class="pi pi-chevron-down ml-2 text-xs opacity-60"></i>
-          </button>
-          <!-- Selector de categorías -->
-          <select 
-            [ngModel]="selectedCategoryId()" 
-            (ngModelChange)="handleCategoryChange($event)"
-            class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-md border-l-0 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
-          >
-            <option value="" disabled class="text-gray-500 dark:text-gray-400">Selecciona una categoría</option>
-            @for (categoria of filteredCategories(); track categoria.id) {
-              <option [value]="categoria.id" class="text-gray-900 dark:text-gray-100">
-                {{ categoria.name }}
-              </option>
-            }
-          </select>
-          <!-- Dropdown de tipos -->
-          <div 
-            id="type-dropdown" 
-            class="absolute z-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg dark:shadow-gray-900/20 w-44 mt-1 left-0 overflow-hidden" 
-            [class.hidden]="!isTypeDropdownOpen()"
-          >
-            <ul class="py-1">
-              @for (tipo of types(); track $index) {
-                <li>
-                  <button 
-                    type="button" 
-                    class="inline-flex w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150 focus:bg-gray-100 dark:focus:bg-gray-600 focus:outline-none"
-                    (click)="handleTypeChange(tipo)"
-                  >
-                    <i [class]="tipo === 'Ingreso' ? 
-                      'pi pi-arrow-up mr-3 text-green-600 dark:text-green-400' : 
-                      tipo === 'Todos' ? 
-                      'pi pi-arrows-v mr-3 text-blue-600 dark:text-blue-400' : 
-                      'pi pi-arrow-down mr-3 text-red-600 dark:text-red-400'"></i>
-                    {{ tipo }}
-                  </button>
-                </li>
-              }
-            </ul>
+  <!-- Tabs -->
+  <div class="flex space-x-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-inner mb-6">
+    <button 
+      class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+      [class]="tab() === 'actual' ? 'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+      (click)="setTab('actual')">
+      <i class="pi pi-list mr-2"></i> Configuración
+    </button>
+    <button 
+      class="flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-[1.02]"
+      [class]="tab() === 'recurrent' ? 'bg-white dark:bg-gray-700 shadow-md text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'"
+      (click)="setTab('recurrent')">
+      <i class="pi pi-history mr-2"></i> Historial
+    </button>
+  </div>
+
+  @if (tab() === 'actual') {
+    @if (categories.isLoading()) {
+      <!-- Skeleton loader -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white/10 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200/10 dark:border-gray-700/50">
+          <div class="h-6 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md mb-4 animate-pulse"></div>
+          <div class="flex">
+            <div class="h-12 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-s-lg animate-pulse"></div>
+            <div class="h-12 flex-grow bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-e-lg animate-pulse"></div>
           </div>
         </div>
-      </div>
-      <!-- Transacción -->
-      @if (!selectedCategoryId()) {
-        <div class="flex items-center justify-center p-6 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl border border-gray-200/40 dark:border-gray-700/40 shadow-2xl h-full transition-all duration-300 hover:shadow-xl">
-          <div class="text-center">
-            <div class="inline-flex items-center justify-center p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-4">
-              <i class="pi pi-info-circle text-2xl text-blue-600 dark:text-blue-400"></i>
-            </div>
-            <p class="text-gray-700 dark:text-gray-300 font-medium">Selecciona una categoría para ver las transacciones disponibles</p>
-          </div>
-        </div>
-      } @else if (transactions.isLoading()) {
-        <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl p-6 shadow-2xl border border-gray-200/40 dark:border-gray-700/40">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-md">
-              <i class="pi pi-list text-white"></i>
-            </div>
-            <div class="h-5 w-24 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md animate-pulse"></div>
-          </div>
+        <div class="bg-white/10 dark:bg-gray-800/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-200/10 dark:border-gray-700/50">
+          <div class="h-6 w-32 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md mb-4 animate-pulse"></div>
           <div class="h-12 w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse"></div>
         </div>
-      } @else {
-        <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200/40 dark:border-gray-700/40 rounded-xl p-6 shadow-2xl hover:shadow-xl transition-all duration-300">
+      </div>
+      <div class="h-96 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-xl animate-pulse shadow-lg"></div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <!-- Selector de Tipo y Categoría -->
+        <div class="bg-white/70 dark:bg-gray-900/70  border border-gray-200/40 dark:border-gray-700/40 rounded-md p-6 shadow-2xl hover:shadow-indigo-200/30 dark:hover:shadow-indigo-900/30 transition-all duration-300">
           <div class="flex items-center space-x-3 mb-4">
-            <div class="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-md">
+            <div class="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-md">
               <i class="pi pi-list text-white"></i>
             </div>
             <label class="text-base font-semibold text-gray-700 dark:text-gray-300">
-              Transacción
+              Filtrar por tipo y categoría
             </label>
           </div>
-          <div class="relative">
-            <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
-                <i class="pi pi-tag"></i>
-              </span>
-              <select 
-                [ngModel]="selectedTransactionId()"
-                (ngModelChange)="handleTransactionChange($event)"
-                class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 pl-10 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
-                [disabled]="filteredTransactions().length === 0"
-              >
-                <option value="" disabled class="text-gray-500 dark:text-gray-400">Selecciona una transacción</option>
-                @for (transaction of filteredTransactions(); track transaction.id) {
-                  <option [value]="transaction.id" class="text-gray-900 dark:text-gray-100">
-                    {{ transaction.name }}
-                  </option>
+          <div class="flex relative">
+            <!-- Botón para seleccionar tipo -->
+            <button 
+              id="type-button"
+              type="button"
+              [class]="selectedType() === 'Ingreso' ? 
+                'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700 hover:bg-green-100 dark:hover:bg-green-900/30' : 
+                selectedType() === 'Todos' ? 
+                'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30' : 
+                'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700 hover:bg-red-100 dark:hover:bg-red-900/30'"
+              class="shrink-0 z-10 inline-flex items-center py-3 px-4 text-sm font-medium border rounded-s-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 transition-all duration-200"
+              (click)="toggleTypeDropdown()"
+            >
+              <i [class]="selectedType() === 'Ingreso' ? 
+                'pi pi-arrow-up mr-2 text-green-600 dark:text-green-400' : 
+                selectedType() === 'Todos' ? 
+                'pi pi-arrows-v mr-2 text-blue-600 dark:text-blue-400' : 
+                'pi pi-arrow-down mr-2 text-red-600 dark:text-red-400'"></i>
+              {{ selectedType() }}
+              <i class="pi pi-chevron-down ml-2 text-xs opacity-60"></i>
+            </button>
+            <!-- Selector de categorías -->
+            <select 
+              [ngModel]="selectedCategoryId()" 
+              (ngModelChange)="handleCategoryChange($event)"
+              class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-md border-l-0 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
+            >
+              <option value="" disabled class="text-gray-500 dark:text-gray-400">Selecciona una categoría</option>
+              @for (categoria of filteredCategories(); track categoria.id) {
+                <option [value]="categoria.id" class="text-gray-900 dark:text-gray-100">
+                  {{ categoria.name }}
+                </option>
+              }
+            </select>
+            <!-- Dropdown de tipos -->
+            <div 
+              id="type-dropdown" 
+              class="absolute z-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg dark:shadow-gray-900/20 w-44 mt-1 left-0 overflow-hidden" 
+              [class.hidden]="!isTypeDropdownOpen()"
+            >
+              <ul class="py-1">
+                @for (tipo of types(); track $index) {
+                  <li>
+                    <button 
+                      type="button" 
+                      class="inline-flex w-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150 focus:bg-gray-100 dark:focus:bg-gray-600 focus:outline-none"
+                      (click)="handleTypeChange(tipo)"
+                    >
+                      <i [class]="tipo === 'Ingreso' ? 
+                        'pi pi-arrow-up mr-3 text-green-600 dark:text-green-400' : 
+                        tipo === 'Todos' ? 
+                        'pi pi-arrows-v mr-3 text-blue-600 dark:text-blue-400' : 
+                        'pi pi-arrow-down mr-3 text-red-600 dark:text-red-400'"></i>
+                      {{ tipo }}
+                    </button>
+                  </li>
                 }
-              </select>
+              </ul>
             </div>
-            @if (filteredTransactions().length === 0) {
-              <p class="mt-2 text-sm text-amber-600 dark:text-amber-400 flex items-center">
-                <i class="pi pi-exclamation-triangle mr-1.5 text-xs"></i>
-                No hay transacciones disponibles en esta categoría
-              </p>
-            }
           </div>
         </div>
-      }
-    </div>
-    <!-- Detalle de la transacción -->
-    @if (selectedTransaction()) {
-      <div class="mt-8">
-        <app-card-recurrent 
-          [selectedTransaction]="selectedTransaction()" 
-          [selectedType]="selectedType()"
-          (reloadTransactionsEvent)="reloadTransactions()">
-        </app-card-recurrent>
+        <!-- Transacción -->
+        @if (!selectedCategoryId()) {
+          <div class="flex items-center justify-center p-6 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl border border-gray-200/40 dark:border-gray-700/40 shadow-2xl h-full transition-all duration-300 hover:shadow-xl">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-4">
+                <i class="pi pi-info-circle text-2xl text-blue-600 dark:text-blue-400"></i>
+              </div>
+              <p class="text-gray-700 dark:text-gray-300 font-medium">Selecciona una categoría para ver las transacciones disponibles</p>
+            </div>
+          </div>
+        } @else if (transactions.isLoading()) {
+          <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl p-6 shadow-2xl border border-gray-200/40 dark:border-gray-700/40">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-md">
+                <i class="pi pi-list text-white"></i>
+              </div>
+              <div class="h-5 w-24 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-md animate-pulse"></div>
+            </div>
+            <div class="h-12 w-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg animate-pulse"></div>
+          </div>
+        } @else {
+          <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200/40 dark:border-gray-700/40 rounded-xl p-6 shadow-2xl hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-md">
+                <i class="pi pi-list text-white"></i>
+              </div>
+              <label class="text-base font-semibold text-gray-700 dark:text-gray-300">
+                Transacción
+              </label>
+            </div>
+            <div class="relative">
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none">
+                  <i class="pi pi-tag"></i>
+                </span>
+                <select 
+                  [ngModel]="selectedTransactionId()"
+                  (ngModelChange)="handleTransactionChange($event)"
+                  class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 pl-10 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
+                  [disabled]="filteredTransactions().length === 0"
+                >
+                  <option value="" disabled class="text-gray-500 dark:text-gray-400">Selecciona una transacción</option>
+                  @for (transaction of filteredTransactions(); track transaction.id) {
+                    <option [value]="transaction.id" class="text-gray-900 dark:text-gray-100">
+                      {{ transaction.name }}
+                    </option>
+                  }
+                </select>
+              </div>
+              @if (filteredTransactions().length === 0) {
+                <p class="mt-2 text-sm text-amber-600 dark:text-amber-400 flex items-center">
+                  <i class="pi pi-exclamation-triangle mr-1.5 text-xs"></i>
+                  No hay transacciones disponibles en esta categoría
+                </p>
+              }
+            </div>
+          </div>
+        }
       </div>
+      <!-- Detalle de la transacción -->
+      @if (selectedTransaction()) {
+        <div class="mt-8">
+          <app-card-recurrent 
+            [selectedTransaction]="selectedTransaction()" 
+            [selectedType]="selectedType()"
+            (reloadTransactionsEvent)="reloadTransactions()">
+          </app-card-recurrent>
+        </div>
+      }
     }
+  } @else {
+    <app-transaction-recurrent></app-transaction-recurrent>
   }
 </div>

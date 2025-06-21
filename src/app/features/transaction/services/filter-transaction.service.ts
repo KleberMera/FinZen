@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { apiResponse } from '@models/apiResponse';
 import { CategoryName } from '@models/category';
+import { RecurringTransaction, RecurringTransactionAll } from '@models/debt';
 import { Transaction, TransactionName, TransactionReport } from '@models/transaction';
 import { map, Observable } from 'rxjs';
 
@@ -26,5 +27,10 @@ export class FilterTransactionService {
   getFilteredTransactions(userId: number, filters: any): Observable<apiResponse<TransactionReport[]>> {
     const url = `${environment.apiUrl}/transaction/user/${userId}/filtered`;
     return this._http.get<apiResponse<TransactionReport[]>>(url, { params: filters });
+  }
+
+  getRecurringTransactions(userId: number): Observable<RecurringTransactionAll[]> {
+    const url = `${environment.apiUrl}/recurrent-transaction/${userId}`;
+    return this._http.get<RecurringTransactionAll[]>(url);
   }
 }

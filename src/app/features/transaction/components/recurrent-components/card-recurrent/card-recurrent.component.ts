@@ -120,11 +120,26 @@ export class CardRecurrentComponent {
   }
 
   protected readonly isSubmitting = signal(false);
+  protected readonly isEditing = signal(false);
+
+  startEditRecurring() {
+    this.isEditing.set(true);
+    // Cargar datos actuales de la recurrencia en el formulario
+    const config = this.selectedTransaction().recurringConfig;
+    if (config) {
+      this.recurringForm.patchValue({
+        frequency: config.frequency || 'Mensual',
+        nextExecutionDate: config.nextExecutionDate || '',
+        endDate: config.endDate || '',
+        dayOfMonth: config.dayOfMonth || null,
+      }, { emitEvent: false });
+    }
+  }
+
   // Método para enviar el formulario
   onSubmit(): void {
     if (this.recurringForm.valid) {
       this.isSubmitting.set(true);
-      // Si la frecuencia es personalizada, guardar como 'Mensual' en la BD
       let freq = this.recurringForm.value.frequency;
       if (freq === 'Personalizada') {
         freq = 'Mensual';
@@ -135,44 +150,58 @@ export class CardRecurrentComponent {
         endDate: this.recurringForm.value.endDate ? format(this.recurringForm.value.endDate, 'YYYY-MM-DD', 'es') : undefined,
         dayOfMonth: this.recurringForm.get('dayOfMonth')?.value || undefined,
       };
-
-      this.saveRecurring.emit({
-        transactionId: this.selectedTransaction().id!,
-        recurringData,
-      });
-
-      console.log('TRANSACCION', recurringData);
-      
-
-      this._transactionService
-        .createRecurringTransaction(
+      if (this.isEditing() && this.selectedTransaction().recurringConfig?.id) {
+        // Editar recurrencia existente
+        this._transactionService.editRecurringTransaction(
+          this.selectedTransaction().recurringConfig!.id!,
           recurringData,
-          this.selectedTransaction().id!,
           this.selectedUserId()
-        )
-        .subscribe({
+        ).subscribe({
           next: (response) => {
-           // console.log('Transacción recurrente creada:', response);
-            toast.success('Transaccion Recurrente Creada')
+            toast.success('Recurrencia editada');
             this.reloadTransactionsEvent.emit();
-            this.recurringForm.reset()
-            
-            this.isSubmitting.set(false)
-            this.recurringForm.patchValue({
-              frequency: 'Mensual',
-              nextExecutionDate: '',
-              endDate: '',
-              dayOfMonth: null,
-              dayOfWeek: null,
-            })
+            this.isSubmitting.set(false);
+            this.isEditing.set(false);
           },
+          error: () => {
+            this.isSubmitting.set(false);
+          }
         });
+      } else {
+        // Crear nueva recurrencia
+        this.saveRecurring.emit({
+          transactionId: this.selectedTransaction().id!,
+          recurringData,
+        });
+        this._transactionService
+          .createRecurringTransaction(
+            recurringData,
+            this.selectedTransaction().id!,
+            this.selectedUserId()
+          )
+          .subscribe({
+            next: (response) => {
+              toast.success('Transaccion Recurrente Creada')
+              this.reloadTransactionsEvent.emit();
+              this.recurringForm.reset()
+              this.isSubmitting.set(false)
+              this.recurringForm.patchValue({
+                frequency: 'Mensual',
+                nextExecutionDate: '',
+                endDate: '',
+                dayOfMonth: null,
+                dayOfWeek: null,
+              })
+            },
+          });
+      }
     }
   }
 
   // Método para cancelar
   cancel(): void {
- 
+    this.isEditing.set(false);
+    this.initializeFormValues();
   }
 
   // Devuelve true si el formulario es válido

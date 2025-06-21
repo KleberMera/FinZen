@@ -67,3 +67,39 @@ export interface StrategyPlanComponentProps {
   currentSalary: number;
   debts: Debt[];
 }
+
+
+// {
+// 		"id": 2,
+// 		"category_id": 2,
+// 		"name": "Pago de pasaje",
+// 		"description": "Gasto en pasajes.",
+// 		"amount": "1.05",
+// 		"date": "2025-04-20",
+// 		"time": "12:08:23",
+// 		"receiptImageS3Key": null,
+// 		"isRecurring": true,
+// 		"createdAt": "2025-04-20T17:08:26.681Z",
+// 		"updatedAt": "2025-05-13T14:37:07.947Z",
+// 		"category": {
+// 			"type": "Gasto",
+// 			"icon": "pi pi-car"
+// 		}
+// 	}
+export interface RecurringTransactionAll {
+  id ?: number
+  category_id: number
+  name: string
+  description: string
+  amount: string
+  date: string
+  time: string
+  frequency: string
+  receiptImageS3Key: string | null
+  isRecurring: boolean
+    category: {
+    type: "Gasto" | "Ingreso"
+    icon: string
+  }
+
+}

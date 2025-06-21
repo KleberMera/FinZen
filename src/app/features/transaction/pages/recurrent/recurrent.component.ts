@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { CategoryName } from '@models/category';
 import { NEVER } from 'rxjs';
 import { CardRecurrentComponent } from "../../components/recurrent-components/card-recurrent/card-recurrent.component";
+import { TransactionRecurrentComponent } from '../../components/transaction-recurrent/transaction-recurrent.component';
 
 @Component({
   selector: 'app-recurrent',
-  imports: [FormsModule, CardRecurrentComponent],
+  imports: [FormsModule, CardRecurrentComponent, TransactionRecurrentComponent],
   templateUrl: './recurrent.component.html',
   styleUrl: './recurrent.component.scss',
 })
@@ -79,6 +80,13 @@ export default class RecurrentComponent {
     );
   });
   
+  // Control de tabs
+  tab = signal<'actual' | 'recurrent'>('actual');
+  
+  setTab(tab: 'actual' | 'recurrent') {
+    this.tab.set(tab);
+  }
+
   constructor() {
     // Reiniciar la transacción seleccionada cuando cambie la categoría
     effect(() => {
