@@ -21,5 +21,5 @@ export interface UpdateAllStatusDto {
 export interface UpdateStatusDto {
   id: number;
   status: 'Pagado' | 'Pendiente'; // Ajusta los valores según tus necesidades
-  payment_date: string;
+  payment_date: string | null;
 }

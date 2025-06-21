@@ -7,6 +7,7 @@ import { format } from '@formkit/tempo';
 import { firstValueFrom } from 'rxjs';
 import { BottomSheetContentComponent } from '../../../../shared/components/bottom-sheet';
 import { TitleGradient } from '@models/styleClass';
+import { da } from 'date-fns/locale';
 
 @Component({
   selector: 'app-sidebar-deb-details',
@@ -27,20 +28,35 @@ export class SidebarDebDetailsComponent {
     this.closeUserSidebar.emit();
   }
 
-  async onUpdateAmortization() {
+  async onUpdateAmortization(cancel: boolean = false) {
     try {
       const updateDto: UpdateStatusDto = {
         id: this.amortization().id!, // Conversión segura
-        status: 'Pagado',
-        payment_date: format(new Date(), 'YYYY-MM-DD', 'es'),
+        status: cancel ? 'Pendiente' : 'Pagado',
+        payment_date: cancel ? null : format(new Date(), 'YYYY-MM-DD', 'es'),
       };
 
-      await firstValueFrom(
-        this._debtService.updateDebtStatus(this.debtId(), updateDto)
-      );
+      // await firstValueFrom(
+      //   this._debtService.updateDebtStatus(this.debtId(), updateDto)
+      // );
 
-      toast.success('Pago registrado correctamente');
-      this.updateSuccess.emit();
+      // toast.success(
+      //   cancel
+      //     ? 'Pago cancelado correctamente'
+      //     : 'Pago registrado correctamente'
+      // );
+
+      const debtPromise = firstValueFrom(this._debtService.updateDebtStatus(this.debtId(), updateDto));
+      toast.promise(debtPromise,{
+        loading: cancel ? 'Cancelando pago...' : 'Registrando pago...',
+        success: (data) => {
+            this.updateSuccess.emit();
+          return cancel
+            ? 'Pago cancelado correctamente'
+            : 'Pago registrado correctamente';
+        }
+      })
+    
     } catch (error) {
       console.error(error);
       toast.error('Error al registrar el pago');
