@@ -23,7 +23,7 @@ export class MessageInputComponent {
 
   messageSent = output<void>();
   showMediaOptions = signal<boolean>(false);
-  multipleMode = signal<boolean>(true); // Por defecto activado para detectar múltiples transacciones
+  multipleMode = signal<boolean>(false); // Por defecto desactivado
   
   messageForm = signal<FormGroup>(
     new FormGroup({
@@ -195,5 +195,10 @@ export class MessageInputComponent {
     });
     
     this.messageSent.emit();
+  }
+
+  onMultipleModeChange(event: Event) {
+    const checked = (event.target as HTMLInputElement)?.checked ?? false;
+    this.multipleMode.set(checked);
   }
 }

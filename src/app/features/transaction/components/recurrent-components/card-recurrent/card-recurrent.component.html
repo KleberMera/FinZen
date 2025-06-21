@@ -120,6 +120,15 @@
               <p class="text-gray-600 dark:text-gray-300 font-bold">No recurrente</p>
             </div>
           </div>
+          <div class="flex items-center gap-2 ml-6">
+            <div class="p-2 bg-gradient-to-br from-gray-400 to-gray-600 rounded-lg shadow-md">
+              <i class="pi pi-calendar text-white"></i>
+            </div>
+            <div>
+              <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">Fecha original:</span>
+              <span class="text-base font-bold text-gray-700 dark:text-gray-200 ml-1">{{ selectedTransaction().date | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
         </div>
       }
     </div>
@@ -142,13 +151,14 @@
               <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Frecuencia</label>
               <select formControlName="frequency"
                       class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500">
-                <option value="Mensual">Mensual</option>
+                <option *ngFor="let freq of frequencyOptions" [value]="freq">{{ freq }}</option>
               </select>
             </div>
             <!-- Próxima ejecución -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Próxima ejecución</label>
               <input type="date" formControlName="nextExecutionDate"
+                     [readonly]="recurringForm.get('frequency')?.value !== 'Personalizada'"
                      class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500">
               @if (recurringForm.get('nextExecutionDate')?.invalid && recurringForm.get('nextExecutionDate')?.touched) {
                 <p class="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
@@ -165,12 +175,11 @@
               <input type="date" formControlName="endDate"
                      class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500">
             </div>
-            <!-- Día del mes -->
+            <!-- Día del mes siempre visible y deshabilitado -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Día del mes</label>
-              <input type="number" formControlName="dayOfMonth"
-                     class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 block w-full p-3 outline-none transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
-                     placeholder="Seleccionar día">
+              <input type="number" formControlName="dayOfMonth" [attr.disabled]="true"
+                     class="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 rounded-lg block w-full p-3 outline-none cursor-not-allowed">
             </div>
           </div>
           <div class="flex flex-wrap justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
