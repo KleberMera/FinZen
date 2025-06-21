@@ -151,6 +151,8 @@ export class CardRecurrentComponent {
         dayOfMonth: this.recurringForm.get('dayOfMonth')?.value || undefined,
       };
       if (this.isEditing() && this.selectedTransaction().recurringConfig?.id) {
+        console.log('Formulario:', this.recurringForm.value);
+        console.log('Datos enviados:', recurringData);
         // Editar recurrencia existente
         this._transactionService.editRecurringTransaction(
           this.selectedTransaction().recurringConfig!.id!,
@@ -173,6 +175,8 @@ export class CardRecurrentComponent {
           transactionId: this.selectedTransaction().id!,
           recurringData,
         });
+        console.log('Formulario:', this.recurringForm.value);
+        console.log('Datos enviados:', recurringData);
         this._transactionService
           .createRecurringTransaction(
             recurringData,
