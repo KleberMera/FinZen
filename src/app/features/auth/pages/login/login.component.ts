@@ -2,8 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
-import { FormValidationService } from '../../../../shared/services/form-validation.service';
-import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { AuthService } from '../../services/auth.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { LockComponent } from '@icons/lock/lock.component';
@@ -12,6 +10,8 @@ import { UserComponent } from '@icons/user/user.component';
 import { GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, SignComponent} from '../../components';
 import { AUTH_PAGES } from '../../auth.routes';
 import { firstValueFrom } from 'rxjs';
+import { FormValidationService } from '@services/form-validation.service';
+import { BreakpointService } from '@services/breakpoint.service';
 export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComponent, EyeComponent,
                         EyeSlashComponent, SpinnerComponent, SignComponent];
 
