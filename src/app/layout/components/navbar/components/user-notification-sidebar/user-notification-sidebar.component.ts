@@ -88,6 +88,18 @@ export class UserNotificationSidebarComponent {
     });
   }
 
+  // Eliminar una notificación
+  deleteNotification(notificationId: number): void {
+    this._notifications.deleteNotification(notificationId, this.userId()).subscribe({
+      next: () => {
+        this.notificationsResource.reload();
+      },
+      error: (error) => {
+        console.error('Error al eliminar notificación:', error);
+      }
+    });
+  }
+
   get currentFilterLabel(): string {
     switch (this._filterType()) {
       case 'all': return 'Todas';

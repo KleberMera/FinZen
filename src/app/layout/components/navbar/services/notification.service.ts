@@ -79,5 +79,10 @@ export class NotificationService {
     const url = `${environment.apiUrl}/notifications/filter`;
     return this._http.post<any>(url, body);
   }
+
+  deleteNotification(notificationId: number, userId: number): Observable<any> {
+    const url = `${environment.apiUrl}/notifications/delete/${notificationId}/${userId}`;
+    return this._http.delete<any>(url);
+  }
 }
   
