@@ -26,185 +26,110 @@
   </div>
 } @else {
   <div class="overflow-hidden">
-    <div class="px-6 py-8 flex flex-col items-center justify-center gap-4">
-      @switch (notificationStatus()) {
-        @case ('enabled') {
-          <div class="w-full">
-            <div class="flex flex-col lg:flex-row">
-              <!-- Panel de notificaciones -->
-              <div class="flex-1">
-                <div class="text-center">
-                  <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-green-500/20 ring-2 ring-green-500/30">
-                    <i class="pi pi-bell text-2xl text-green-400"></i>
-                  </div>
-                  <h3 class="text-xl font-semibold text-white mb-3">Notificaciones activadas</h3>
-                  
-                  <div class="mb-4">
-                    <div class="flex items-center justify-center">
-                      <div class="h-2 w-28 bg-gray-700 rounded-full overflow-hidden">
-                        <div class="h-full bg-green-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
-                      </div>
-                      <span class="text-sm text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
-                    </div>
-                  </div>
-                  
-                  <button (click)="onNotificationClick()" 
-                          class="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
-                    <i class="pi pi-bell-slash mr-2"></i> Desactivar
-                  </button>
-                </div>
+    <div class="px-6 py-8 flex flex-col lg:flex-row items-start justify-center gap-8">
+      <!-- Panel de notificaciones -->
+      <div class="flex-1 w-full max-w-lg">
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-green-500/20 ring-2 ring-green-500/30">
+            <i class="pi pi-bell text-2xl text-green-400"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Notificaciones activadas</h3>
+          <div class="mb-4">
+            <div class="flex items-center justify-center">
+              <div class="h-2 w-28 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
               </div>
-          
-              <!-- Panel de días de anticipación -->
-              <div class="flex-1  p-5 ">
-                <div class="text-center mb-3">
-                  <div class="inline-flex items-center justify-center p-4 mb-2 rounded-full bg-blue-500/20 ring-2 ring-blue-500/30">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h4 class="text-lg font-medium text-white">Días de anticipación</h4>
-                </div>
-                
-                @if (daysBeforeNotifyAllResource.isLoading()) {
-                  <div class="flex items-center justify-center py-6">
-                    <div class="w-8 h-8 border-4 border-gray-600/30 border-t-gray-600 rounded-full animate-spin"></div>
-                  </div>
-                } @else {
-                  @if (daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify === null || 
-                       daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify === 0 || 
-                       isChangingDays) {
-                    <div class="flex flex-wrap items-center justify-center gap-3 py-4">
-                      <button 
-                        (click)="updateDaysBeforeNotifyAll(1)"
-                        class="px-4 py-2 bg-gray-700 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
-                        <i class="pi pi-clock text-sm"></i>
-                        1 día
-                      </button>
-                      <button 
-                        (click)="updateDaysBeforeNotifyAll(2)"
-                        class="px-4 py-2 bg-gray-700 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
-                        <i class="pi pi-clock text-sm"></i>
-                        2 días
-                      </button>
-                      <button 
-                        (click)="updateDaysBeforeNotifyAll(3)"
-                        class="px-4 py-2 bg-gray-700 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
-                        <i class="pi pi-clock text-sm"></i>
-                        3 días
-                      </button>
-
-                      <button 
-                        (click)="isChangingDays = false"
-                        class="px-4 py-2 bg-gray-700 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
-                        Cancelar
-                      </button>
-
-                    </div>
-                  } @else {
-                    <div class="flex flex-col items-center justify-center py-2">
-                      <div class="flex items-center justify-center gap-4">
-                        <!-- Botón menos -->
-                        <button 
-                          (click)="decrementDays()"
-                          [disabled]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1"
-                          class="w-10 h-10 bg-gray-700 hover:bg-blue-600 text-white rounded-full transition-colors duration-200 flex items-center justify-center shadow-md hover:shadow-lg"
-                          [class.opacity-50]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1"
-                          [class.cursor-not-allowed]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1">
-                          <i class="pi pi-minus"></i>
-                        </button>
-                        
-                        <!-- Círculo con número -->
-                        <div class="relative">
-                          <svg class="w-20 h-20 text-blue-500/20" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" fill="currentColor" />
-                          </svg>
-                          <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-4xl font-bold text-blue-400">
-                              {{ daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify }}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <!-- Botón más -->
-                        <button 
-                          (click)="incrementDays()"
-                          [disabled]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4"
-                          class="w-10 h-10 bg-gray-700 hover:bg-blue-600 text-white rounded-full transition-colors duration-200 flex items-center justify-center shadow-md hover:shadow-lg"
-                          [class.opacity-50]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4"
-                          [class.cursor-not-allowed]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4">
-                          <i class="pi pi-plus"></i>
-                        </button>
-                      </div>
-                      
-                      <span class="text-gray-300 mt-4">Para recibir notificaciones</span>
-                    </div>
-                  }
-                }
-              </div>
+              <span class="text-sm text-gray-600 dark:text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
             </div>
           </div>
-        }
-        @case ('blocked') {
-          <div class="text-center">
-            <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-red-500/10 ring-2 ring-red-500/20">
-              <i class="pi pi-ban text-3xl text-red-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-white">Notificaciones bloqueadas</h3>
-            <p class="text-gray-300 mt-2 mb-4">Has bloqueado las notificaciones en tu navegador</p>
-            <button (click)="onNotificationClick()" 
-                    class="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200 shadow-md">
-              <i class="pi pi-info-circle mr-2"></i> Ver instrucciones
-            </button>
+          <button (click)="onNotificationClick()" 
+                  class="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
+            <i class="pi pi-bell-slash mr-2"></i> Desactivar
+          </button>
+        </div>
+      </div>
+      <!-- Panel de días de anticipación -->
+      <div class="flex-1 w-full max-w-lg p-0">
+        <div class="text-center mb-3">
+          <div class="inline-flex items-center justify-center p-4 mb-2 rounded-full bg-blue-500/20 ring-2 ring-blue-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" class="stroke-blue-400/30" stroke-width="2" fill="none"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
           </div>
-        }
-        @case ('granted-no-subscription') {
-          <div class="text-center">
-            <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-yellow-500/10 ring-2 ring-yellow-500/20">
-              <i class="pi pi-bell-slash text-3xl text-yellow-400"></i>
+          <h4 class="text-lg font-medium text-gray-900 dark:text-white">Días de anticipación</h4>
+        </div>
+        @if (daysBeforeNotifyAllResource.isLoading()) {
+          <div class="flex items-center justify-center py-6">
+            <div class="w-8 h-8 border-4 border-gray-600/30 border-t-gray-600 rounded-full animate-spin"></div>
+          </div>
+        } @else {
+          @if (daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify === null || 
+               daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify === 0 || 
+               isChangingDays) {
+            <div class="flex flex-wrap items-center justify-center gap-3 py-4">
+              <button 
+                (click)="updateDaysBeforeNotifyAll(1)"
+                class="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
+                <i class="pi pi-clock text-sm"></i>
+                1 día
+              </button>
+              <button 
+                (click)="updateDaysBeforeNotifyAll(2)"
+                class="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
+                <i class="pi pi-clock text-sm"></i>
+                2 días
+              </button>
+              <button 
+                (click)="updateDaysBeforeNotifyAll(3)"
+                class="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
+                <i class="pi pi-clock text-sm"></i>
+                3 días
+              </button>
+              <button 
+                (click)="isChangingDays = false"
+                class="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-lg text-sm transition-colors duration-200 flex items-center gap-2 hover:shadow-md">
+                Cancelar
+              </button>
             </div>
-            <h3 class="text-xl font-semibold text-white">Permisos concedidos</h3>
-            <div class="mt-2 mb-4">
-              <div class="flex items-center justify-center">
-                <div class="h-1.5 w-24 bg-gray-700 rounded-full overflow-hidden">
-                  <div class="h-full bg-yellow-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
+          } @else {
+            <div class="flex flex-col items-center justify-center py-2">
+              <div class="flex items-center justify-center gap-4">
+                <!-- Botón menos -->
+                <button 
+                  (click)="decrementDays()"
+                  [disabled]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1"
+                  class="w-10 h-10 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-full transition-colors duration-200 flex items-center justify-center shadow-md hover:shadow-lg"
+                  [class.opacity-50]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1"
+                  [class.cursor-not-allowed]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify <= 1">
+                  <i class="pi pi-minus"></i>
+                </button>
+                <!-- Círculo con número -->
+                <div class="relative">
+                  <svg class="w-20 h-20 text-blue-500/20" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="currentColor" class="rounded-full"/>
+                  </svg>
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-4xl font-bold text-blue-400">
+                      {{ daysBeforeNotifyAllResource.value()?.data?.[0]?.daysBeforeNotify }}
+                    </span>
+                  </div>
                 </div>
-                <span class="text-sm text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
+                <!-- Botón más -->
+                <button 
+                  (click)="incrementDays()"
+                  [disabled]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4"
+                  class="w-10 h-10 bg-gray-100 dark:bg-gray-700 hover:bg-blue-600 text-gray-900 dark:text-white hover:text-white rounded-full transition-colors duration-200 flex items-center justify-center shadow-md hover:shadow-lg"
+                  [class.opacity-50]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4"
+                  [class.cursor-not-allowed]="daysBeforeNotifyAllResource.value()?.data?.[0]!.daysBeforeNotify >= 4">
+                  <i class="pi pi-plus"></i>
+                </button>
               </div>
+              <span class="text-gray-600 dark:text-gray-300 mt-4">Para recibir notificaciones</span>
             </div>
-            <button (click)="onNotificationClick()" 
-                    [disabled]="subscriptionCount() >= 2"
-                    class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-200 shadow-md"
-                    [class.opacity-50]="subscriptionCount() >= 2"
-                    [class.cursor-not-allowed]="subscriptionCount() >= 2">
-              <i class="pi pi-bell mr-2"></i> Activar suscripción
-            </button>
-          </div>
+          }
         }
-        @default {
-          <div class="text-center">
-            <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-gray-600/20 ring-2 ring-gray-600/20">
-              <i class="pi pi-bell-slash text-3xl text-gray-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-white">Notificaciones desactivadas</h3>
-            <div class="mt-2 mb-4">
-              <div class="flex items-center justify-center">
-                <div class="h-1.5 w-24 bg-gray-700 rounded-full overflow-hidden">
-                  <div class="h-full bg-gray-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
-                </div>
-                <span class="text-sm text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
-              </div>
-            </div>
-            <button (click)="onNotificationClick()" 
-              [disabled]="subscriptionCount() >= 2"
-              class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-200 shadow-md"
-              [class.opacity-50]="subscriptionCount() >= 2"
-              [class.cursor-not-allowed]="subscriptionCount() >= 2">
-              <i class="pi pi-bell mr-2"></i> Activar notificaciones
-            </button>
-          </div>
-        }
-      }
+      </div>
     </div>
   </div>
 }
