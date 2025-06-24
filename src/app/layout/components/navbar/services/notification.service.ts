@@ -23,15 +23,6 @@ export class NotificationService {
     return this._http.get<apiResponse<any>>(url);
   }
 
-  getfilterNotificationsByUserId(userId: number, isRead?: string,debtId?: string,  includeAllDebts?: string): Observable<any> {
-    const url = `${environment.apiUrl}/notifications/filter/${userId}`;
-    let params = new HttpParams();
-    if (debtId) params = params.set('debtId', debtId);
-    if (isRead) params = params.set('isRead', isRead);
-    if (includeAllDebts) params = params.set('includeAllDebts', includeAllDebts);
-    return this._http.get<any>(url, { params });
-  } 
-
   markNotificationAsRead(userId: number, notificationId: number): Observable<any> {
     const url = `${environment.apiUrl}/notifications/mark-as-read/${notificationId}/user/${userId}`;
     return this._http.put<any>(url, {});
@@ -79,4 +70,14 @@ export class NotificationService {
     const url = `${environment.apiUrl}/notifications/days-before-notify-all/${userId}`;
     return this._http.get<apiResponse<BeforeNotifyAll>>(url);
   }
+
+  getFilteredNotifications(body: {
+    userId: number;
+    readStatus?: 'all' | 'read' | 'unread';
+    type?: 'all' | 'debt' | 'transaction';
+  }): Observable<any> {
+    const url = `${environment.apiUrl}/notifications/filter`;
+    return this._http.post<any>(url, body);
+  }
 }
+  

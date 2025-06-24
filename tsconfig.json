@@ -7,7 +7,7 @@
       //"@shared/*": ["./src/app/shared/*"],
       "@icons/*": ["./src/app/shared/icons/*"],
       "@services/*": ["./src/app/shared/services/*"],
-      "@components/*": ["./src/app/components/*"],
+      "@components/*": ["./src/app/shared/components/*"],
       "@models/*": ["./src/app/core/models/*"],
       "@environments/*": ["./src/environments/*"],
       "@public/*": ["./public/*"],

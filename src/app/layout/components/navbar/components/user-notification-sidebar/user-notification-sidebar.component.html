@@ -6,7 +6,6 @@
     [icon]="'pi pi-bell'"
     (closeSheet)="close()"
 >
-    <!-- Contenedor principal con espaciado consistente -->
     <div class="space-y-4 ">
         <!-- Botón marcar todas como leídas -->
         @if (unreadCount > 0) {
@@ -19,10 +18,9 @@
             Marcar todas como leídas
         </button>
         }
-        
-        <!-- Filtros con mejor espaciado -->
+
+        <!-- Filtros de estado de lectura -->
         <div class="space-y-3">
-            <!-- Filtros de estado de lectura -->
             <div class="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
                 <button (click)="setFilter('unread')"
                     [class]="_filterType() === 'unread' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'"
@@ -37,27 +35,29 @@
                     class="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">
                     Leídas
                 </button>
-                <button (click)="setFilter('all')"
-                    [class]="_filterType() === 'all' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'"
-                    class="flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">
+              
+            </div>
+
+            <!-- Filtros de tipo de notificación -->
+            <div class="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 mt-2">
+                <button (click)="setCategoryFilter('all')"
+                    [class]="_filterCategory() === 'all' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'"
+                    class="flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all duration-200">
                     Todas
                 </button>
-            </div>
-        
-            <!-- Toggle para incluir todas las deudas -->
-            <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-700 dark:text-gray-300">Incluir todas las deudas</span>
-                <button (click)="toggleIncludeAllDebts()"
-                    [class]="_includeAllDebts() ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'"
-                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    <span [class]="_includeAllDebts() ? 'translate-x-6' : 'translate-x-1'"
-                        class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ease-in-out">
-                    </span>
+                <button (click)="setCategoryFilter('debt')"
+                    [class]="_filterCategory() === 'debt' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'"
+                    class="flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all duration-200">
+                    Deudas
+                </button>
+                <button (click)="setCategoryFilter('transaction')"
+                    [class]="_filterCategory() === 'transaction' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'"
+                    class="flex-1 px-3 py-2 text-xs font-medium rounded-md transition-all duration-200">
+                    Transacciones
                 </button>
             </div>
         </div>
-        
-        
+
         @if (notificationsResource.isLoading()) {
         <!-- Skeleton loader -->
         <div class="space-y-4">
@@ -71,7 +71,7 @@
             </div>
             }
         </div>
-        } @else if (notificationsResource.value()!.data.length === 0) {
+        } @else if (notificationsResource.value()!.length === 0) {
         <div class="text-center py-8">
             <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -89,15 +89,15 @@
         } @else {
         <!-- Lista de notificaciones -->
         <div class="space-y-4">
-            @for (notification of notificationsResource.value()!.data; track notification.id) {
+            @for (notification of notificationsResource.value(); track notification.id) {
             <div [class]="notification.isRead ? 'opacity-60' : ''"
                 class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative">
-        
+
                 <!-- Indicador de no leída -->
                 @if (!notification.isRead) {
                 <div class="absolute top-3 right-3 w-2 h-2 bg-blue-500 rounded-full"></div>
                 }
-        
+
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
                         <!-- Ícono personalizado -->
@@ -112,7 +112,7 @@
                     <div class="ml-3 flex-1">
                         <p class="text-sm font-medium text-gray-800 dark:text-gray-200">{{notification.title}}</p>
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{notification.message}}</p>
-        
+
                         <!-- Información de la deuda si está disponible -->
                         @if (notification.debt) {
                         <div
@@ -124,11 +124,22 @@
                             {{notification.debt.name}}
                         </div>
                         }
-        
+
+                        <!-- Información de la transacción si está disponible -->
+                        @if (notification.recurringTransaction) {
+                        <div
+                            class="mt-1 inline-flex items-center px-2 py-1 rounded-md bg-green-50 dark:bg-green-900/30 text-xs text-green-700 dark:text-green-300">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{notification.recurringTransaction.transaction.name}}
+                        </div>
+                        }
+
                         <div class="flex items-center justify-between mt-2">
-                            <p class="text-xs text-gray-400 dark:text-gray-500">{{notification.createdAt | date:'dd/MM/yyyy
-                                HH:mm'}}</p>
-        
+                            <p class="text-xs text-gray-400 dark:text-gray-500">{{notification.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
+
                             @if (!notification.isRead) {
                             <button (click)="markAsRead(notification.id)"
                                 class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
@@ -144,3 +155,4 @@
         }
     </div>
 </app-side-sheet-content>
+       
