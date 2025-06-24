@@ -12,8 +12,7 @@
         <input
           type="email"
           formControlName="email"
-
-          class="w-full p-3 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200"
+          class="w-full p-3 pl-10 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400 outline-none transition-all duration-200 text-gray-900 dark:text-gray-100"
           placeholder="Ingresa tu correo electrónico"
           [class.border-red-500]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
         >
@@ -63,8 +62,8 @@
     <button
       type="submit"
       [disabled]="userForm.invalid || isLoading"
-      class="w-full text-white bg-blue-600 hover:bg-blue-700 
-        focus:ring-4 focus:outline-none focus:ring-blue-300 
+      class="w-full text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800
+        focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800
         font-medium rounded-lg text-sm px-5 py-2.5 text-center 
         transition-colors duration-300 ease-in-out
         disabled:opacity-50 disabled:cursor-not-allowed
