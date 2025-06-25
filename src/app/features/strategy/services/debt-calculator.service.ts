@@ -15,8 +15,8 @@ interface DebtCompletionDate {
 }
 
 /**
- * Servicio principal para calcular estrategias de pago de deudas
- * Implementa métodos de bola de nieve y avalancha
+ * Servicio principal para calcular estrategias de pago de deudas.
+ * Implementa métodos de bola de nieve y avalancha.
  */
 @Injectable({
   providedIn: "root",
@@ -37,20 +37,22 @@ export class DebtCalculatorService {
 
     return debts.map((debt) => {
       const endDate = new Date(debt.end_date)
+      // Determina si la deuda está vencida
       const isOverdue = isBefore(endDate, currentDateObj)
 
-      // Calculate minimum payment based on amortizations
+      // Calcula el pago mínimo según el tipo de deuda
       let minimumPayment = 0
 
       if (debt.amortizations.length > 0) {
+        // Si tiene amortizaciones, toma la primera cuota como pago mínimo
         minimumPayment = Number.parseFloat(debt.amortizations[0].quota)
       } else if (debt.duration_type === "months") {
+        // Si es por meses, divide el monto entre la duración
         minimumPayment = Number.parseFloat(debt.amount) / debt.duration_months
       } else if (debt.duration_type === "days") {
-        // For debts in days, calculate the daily payment and multiply by 30 to get a monthly equivalent
+        // Si es por días, calcula el pago diario y lo multiplica por 30 para obtener un equivalente mensual
         const daysRemaining = differenceInDays(new Date(debt.end_date), currentDateObj)
         minimumPayment = Number.parseFloat(debt.amount) / (daysRemaining > 0 ? daysRemaining : 1)
-        // Convert to an approximate monthly equivalent
         minimumPayment = minimumPayment * 30
       }
 
@@ -63,14 +65,16 @@ export class DebtCalculatorService {
   }
 
   /**
-   * Calcula cuánto dinero hay disponible mensualmente para pagar deudas
+   * Calcula cuánto dinero hay disponible mensualmente para pagar deudas.
    * Fórmula: Salario base + Ingresos recurrentes - Gastos recurrentes
    */
   calculateMonthlyAvailable(debtData: DebtData): number {
     const salary = Number(debtData.salaryData)
+    // Suma todos los ingresos recurrentes
     const income = debtData.recurringTransactions
       .filter((t) => t.type === "Ingreso")
       .reduce((sum, t) => sum + Number(t.amount), 0)
+    // Suma todos los gastos recurrentes
     const expenses = debtData.recurringTransactions
       .filter((t) => t.type === "Gasto")
       .reduce((sum, t) => sum + Number(t.amount), 0)
@@ -95,12 +99,12 @@ export class DebtCalculatorService {
     monthlyAvailable: number,
     currentDate: string,
   ): MonthlyPayment[] {
-    // If there are not enough funds, don't calculate the plan
+    // Si no hay fondos suficientes, no se calcula el plan
     if (monthlyAvailable <= 0) {
       return []
     }
 
-    // Prepare debts for calculation
+    // Prepara las deudas para el cálculo
     let currentDebts = debts.map((debt) => ({
       id: debt.id,
       name: debt.name,
@@ -119,7 +123,7 @@ export class DebtCalculatorService {
     let currentDateObj = new Date(currentDate)
     const totalMonthlyAvailable = monthlyAvailable
 
-    // Nuevo: Ordenar las deudas vencidas según el método seleccionado
+    // Ordena las deudas vencidas según el método seleccionado
     const sortOverdueDebts = (debts: typeof currentDebts) => {
       if (method === "bola-de-nieve") {
         return debts.sort((a, b) => a.balance - b.balance) // Menor balance primero
@@ -128,11 +132,11 @@ export class DebtCalculatorService {
       }
     }
 
-    // Continue until all debts are paid
+    // Continúa hasta que todas las deudas estén pagadas
     while (currentDebts.some((debt) => debt.balance > 0)) {
       month++
 
-      // Advance one month in the date
+      // Avanza un mes en la fecha
       currentDateObj = addMonths(new Date(currentDateObj), 1)
 
 
@@ -152,19 +156,19 @@ export class DebtCalculatorService {
         },
       }
 
-      // Calculate interest and update balances
+      // Calcula intereses y actualiza saldos
       currentDebts = currentDebts.map((debt) => {
         let interest = 0
 
-        // Calculate interest according to the amortization method
+        // Calcula intereses según el método de amortización
         if (debt.balance > 0) {
           if (debt.method === "frances") {
             interest = debt.balance * debt.interestRate
           }
-          // For method "ninguno" or any other, no additional interest is calculated
+          // Para método "ninguno" u otro, no se calcula interés adicional
         }
 
-        // Save information about interest paid
+        // Guarda información sobre intereses pagados
         if (interest > 0) {
           monthData.extraDetails.interestPaid.push({
             name: debt.name,
@@ -179,17 +183,17 @@ export class DebtCalculatorService {
         }
       })
 
-      // First pay overdue debts
+      // Primero paga deudas vencidas
       const overdueDebts = currentDebts.filter((debt) => debt.isOverdue && debt.balance > 0)
 
       if (overdueDebts.length > 0) {
-        // Ordenar deudas vencidas según el método
+        // Ordena deudas vencidas según el método
         const sortedOverdueDebts = sortOverdueDebts(overdueDebts)
 
         monthData.extraDetails.explanation = `Este mes hay ${overdueDebts.length} deuda(s) vencida(s). Se priorizan según el método ${method === "bola-de-nieve" ? "bola de nieve" : "avalancha"}.`
         monthData.extraDetails.focusDebt = sortedOverdueDebts[0].name
 
-        // Primero pagar los mínimos de todas las deudas
+        // Primero paga los mínimos de todas las deudas
         let minimumPayments = 0
         currentDebts.forEach((debt) => {
           if (debt.balance > 0) {
@@ -209,11 +213,11 @@ export class DebtCalculatorService {
           }
         })
 
-        // Calcular el dinero extra disponible después de pagar todos los mínimos
+        // Calcula el dinero extra disponible después de pagar todos los mínimos
         availableFunds = totalMonthlyAvailable - minimumPayments
         monthData.extraDetails.availableAfterMinimums = availableFunds
 
-        // Aplicar el dinero extra solo a la deuda vencida priorizada
+        // Aplica el dinero extra solo a la deuda vencida priorizada
         if (availableFunds > 0) {
           const priorityDebt = currentDebts.find((d) => d.name === sortedOverdueDebts[0].name)!
           if (priorityDebt && priorityDebt.balance > 0) {
@@ -222,7 +226,7 @@ export class DebtCalculatorService {
             if (extraPayment > 0) {
               priorityDebt.balance -= extraPayment
 
-              // Actualizar el pago existente para la deuda priorizada
+              // Actualiza el pago existente para la deuda priorizada
               const paymentIndex = monthData.payments.findIndex((p) => p.name === priorityDebt.name)
               if (paymentIndex !== -1) {
                 const currentPayment = Number.parseFloat(monthData.payments[paymentIndex].amount)
@@ -238,15 +242,15 @@ export class DebtCalculatorService {
           }
         }
       } else {
-        // Snowball or avalanche method
-        // Sort debts according to the selected method
+        // Método bola de nieve o avalancha
+        // Ordena las deudas según el método seleccionado
         const sortedDebts = [...currentDebts]
           .filter((debt) => debt.balance > 0)
           .sort((a, b) => {
             if (method === "bola-de-nieve") {
-              return a.balance - b.balance // Lowest balance first
+              return a.balance - b.balance // Menor saldo primero
             } else {
-              return (b.interestRate || 0) - (a.interestRate || 0) // Highest interest first
+              return (b.interestRate || 0) - (a.interestRate || 0) // Mayor interés primero
             }
           })
 
@@ -259,14 +263,14 @@ export class DebtCalculatorService {
           }: ${sortedDebts[0].name}.`
         }
 
-        // Pay minimums on all debts
+        // Paga los mínimos de todas las deudas
         currentDebts.forEach((debt) => {
           if (debt.balance > 0) {
             const payment = Math.min(debt.minimumPayment, debt.balance)
             debt.balance -= payment
             availableFunds -= payment
 
-            // Calculate how much of the payment is interest
+            // Calcula cuánto del pago es interés
             const interestPortion = monthData.extraDetails.interestPaid.find((i) => i.name === debt.name)
             const interestAmount = interestPortion ? Number.parseFloat(interestPortion.amount) : 0
             const principalAmount = payment - interestAmount
@@ -282,7 +286,7 @@ export class DebtCalculatorService {
 
         monthData.extraDetails.availableAfterMinimums = availableFunds
 
-        // Pay extra on the priority debt
+        // Paga extra a la deuda priorizada
         if (sortedDebts.length > 0 && availableFunds > 0) {
           const priorityDebt = currentDebts.find((d) => d.name === sortedDebts[0].name)!
           const extraPayment = Math.min(availableFunds, priorityDebt.balance)
@@ -290,7 +294,7 @@ export class DebtCalculatorService {
           if (extraPayment > 0) {
             priorityDebt.balance -= extraPayment
 
-            // Update the payment in monthData.payments
+            // Actualiza el pago en monthData.payments
             const paymentIndex = monthData.payments.findIndex((p) => p.name === priorityDebt.name)
             if (paymentIndex !== -1) {
               const currentPayment = Number.parseFloat(monthData.payments[paymentIndex].amount)
@@ -306,7 +310,7 @@ export class DebtCalculatorService {
         }
       }
 
-      // Record remaining balances
+      // Registra los saldos restantes de cada deuda
       currentDebts.forEach((debt) => {
         monthData.remainingBalances.push({
           name: debt.name,
@@ -316,7 +320,7 @@ export class DebtCalculatorService {
 
       monthlyPayments.push(monthData)
 
-      // Avoid infinite loops if something goes wrong
+      // Evita bucles infinitos si algo sale mal
       if (month > 120) break
     }
 
@@ -325,11 +329,12 @@ export class DebtCalculatorService {
 
   /**
    * Analiza el plan de pagos para determinar en qué mes
-   * se terminará de pagar cada una de las deudas
+   * se terminará de pagar cada una de las deudas.
    */
   findDebtCompletionDates(paymentPlan: MonthlyPayment[], processedDebts: Debt[]): Record<string, DebtCompletionDate> {
     const dates: Record<string, DebtCompletionDate> = {}
     processedDebts.forEach((debt) => {
+      // Busca el primer mes donde el saldo de la deuda es 0
       const completionMonth = paymentPlan.findIndex(
         (month) => month.remainingBalances.find((b) => b.name === debt.name)?.amount === "0.00",
       )
@@ -345,7 +350,7 @@ export class DebtCalculatorService {
 
   /**
    * Prepara los datos para la gráfica de líneas que muestra
-   * cómo van disminuyendo los saldos mes a mes
+   * cómo van disminuyendo los saldos mes a mes.
    */
   calculateChartData(paymentPlan: MonthlyPayment[]): any[] {
     return paymentPlan.map((month) => {
@@ -359,7 +364,7 @@ export class DebtCalculatorService {
 
   /**
    * Prepara los datos para el gráfico de torta que muestra
-   * la proporción de cada deuda respecto al total
+   * la proporción de cada deuda respecto al total.
    */
   calculatePieData(processedDebts: Debt[]): any[] {
     return processedDebts.map((debt) => ({
@@ -371,7 +376,7 @@ export class DebtCalculatorService {
 
   /**
    * Suma todos los intereses que se pagarán durante
-   * la ejecución del plan de pagos
+   * la ejecución del plan de pagos.
    */
   calculateTotalInterestPaid(paymentPlan: MonthlyPayment[]): number {
     return paymentPlan.reduce((total, month) => {
@@ -392,7 +397,7 @@ export class DebtCalculatorService {
 
   /**
    * Suma el monto inicial de todas las deudas
-   * sin considerar intereses futuros
+   * sin considerar intereses futuros.
    */
   calculateOriginalDebtTotal(processedDebts: Debt[]): number {
     return processedDebts.reduce((total, debt) => total + Number.parseFloat(debt.amount), 0)
