@@ -27,6 +27,10 @@ export class CardMovementsComponent {
   currentYear = signal<any>(format(this.timeNow(), 'YYYY', this.lenguaje()));
   userId = signal<number>(this._storage.getUserId());
 
+  // Nuevas señales para selección de mes y año
+  selectedMonth = signal<string>(this.currentMonth());
+  selectedYear = signal<string>(this.currentYear());
+
   grafics = rxResource({
     request: () => ({ userId: this.userId() }),
     loader: ({ request }) =>
@@ -34,9 +38,16 @@ export class CardMovementsComponent {
   });
 
   graficMonth = rxResource({
-    request: () => ({ userId: this.userId(), currentMonth: this.currentMonth(), currentYear: this.currentYear() }),
+    request: () => ({
+      userId: this.userId(),
+      currentMonth: this.selectedMonth(),
+      currentYear: this.selectedYear()
+    }),
     loader: ({ request }) =>
-      this._graficsService.getGraficMonthlySummaryByUserId(request.userId, { startMonth: request.currentMonth, startYear: request.currentYear }),
+      this._graficsService.getGraficMonthlySummaryByUserId(request.userId, {
+        startMonth: request.currentMonth,
+        startYear: Number(request.currentYear)
+      }),
   });
 
   tab = signal<'week' | 'month'>('week');
@@ -186,12 +197,12 @@ hasBothExpenseAndIncome(): boolean {
             backgroundColor: 'rgba(239, 68, 68, 0.15)',
             fill: true,
             tension: 0.4,
-            pointRadius: 6,
+            pointRadius: 0, // Oculta los círculos normalmente
+            pointHoverRadius: 6, // Muestra el círculo al hacer hover
             pointBackgroundColor: 'rgba(239, 68, 68, 1)',
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
-            pointHoverRadius: 8,
-            pointStyle: 'circle' // <-- Asegura puntos redondos
+            pointStyle: 'circle'
           },
           {
             label: 'Ingresos',
@@ -200,12 +211,12 @@ hasBothExpenseAndIncome(): boolean {
             backgroundColor: 'rgba(16, 185, 129, 0.15)',
             fill: true,
             tension: 0.4,
-            pointRadius: 6,
+            pointRadius: 0, // Oculta los círculos normalmente
+            pointHoverRadius: 6, // Muestra el círculo al hacer hover
             pointBackgroundColor: 'rgba(16, 185, 129, 1)',
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
-            pointHoverRadius: 8,
-            pointStyle: 'circle' // <-- Asegura puntos redondos
+            pointStyle: 'circle'
           }
         ]
       },
@@ -273,6 +284,10 @@ hasBothExpenseAndIncome(): boolean {
         elements: {
           line: { borderJoinStyle: 'round' },
           point: { hoverBorderWidth: 3, pointStyle: 'circle' }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false
         }
       }
     });
@@ -292,4 +307,32 @@ hasBothExpenseAndIncome(): boolean {
     
     return this.grafics.value()!.data!.some(day => day.gasto > 0 || day.ingreso > 0);
   }
+
+  // Métodos para cambiar mes y año
+  onMonthChange(event : any) {
+    this.selectedMonth.set(event.target.value);
+    //this.selecte  dMonth.set(month);
+  } 
+  onYearChange(event : any) {
+    this.selectedYear.set(event.target.value);
+    //this.selectedYear.set(year);
+  }
+
+  // Utilidad para obtener lista de meses y años (puedes ajustar el rango de años)
+  months = [
+    { value: '01', name: 'Enero' },
+    { value: '02', name: 'Febrero' },
+    { value: '03', name: 'Marzo' },
+    { value: '04', name: 'Abril' },
+    { value: '05', name: 'Mayo' },
+    { value: '06', name: 'Junio' },
+    { value: '07', name: 'Julio' },
+    { value: '08', name: 'Agosto' },
+    { value: '09', name: 'Septiembre' },
+    { value: '10', name: 'Octubre' },
+    { value: '11', name: 'Noviembre' },
+    { value: '12', name: 'Diciembre' }
+  ];
+
+  years = Array.from({ length: 6 }, (_, i) => (new Date().getFullYear() - i).toString());
 }

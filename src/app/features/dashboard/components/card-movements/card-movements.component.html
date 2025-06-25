@@ -96,6 +96,29 @@
 
   <!-- Gráfico Mensual -->
   @else if (tab() === 'month') {
+    <!-- Selectores de mes y año -->
+    <div class="flex flex-wrap gap-2 items-center mb-4">
+      <label class="text-sm text-gray-600 dark:text-gray-300">Mes:</label>
+      <select
+        class="rounded border px-2 py-1 text-sm dark:bg-gray-800 dark:text-gray-100"
+        [value]="selectedMonth()"
+        (change)="onMonthChange($event)">
+          @for (m of months; track $index) {
+            <option [value]="m.value" [selected]="selectedMonth() === m.value">{{ m.name }}</option>
+          }
+      </select>
+      <label class="text-sm text-gray-600 dark:text-gray-300 ml-2">Año:</label>
+      <select
+        class="rounded border px-2 py-1 text-sm dark:bg-gray-800 dark:text-gray-100"
+        [value]="selectedYear()"
+        (change)="onYearChange($event)">
+
+          @for (y of years; track $index) {
+            <option [value]="y" [selected]="selectedYear() === y">{{ y }}</option>
+          }
+      </select>
+    </div>
+
     <!-- Loading State -->
     @if (graficMonth.isLoading()) {
       <div class="flex flex-col items-center justify-center h-64">
