@@ -32,7 +32,7 @@ interface SubMenuItem {
 
 @Component({
   selector: 'app-sidebar-items',
-  imports: [RouterLink, RouterLinkActive, NgComponentOutlet],
+  imports: [RouterLink, RouterLinkActive, NgComponentOutlet, ChatIconComponent],
   templateUrl: './sidebar-items.component.html',
   styleUrl: './sidebar-items.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,7 +52,7 @@ export class SidebarItemsComponent {
   menuItems = signal<MenuItem[]>([
     {
       type: 'link',
-      label: 'Overview',
+      label: 'Dashboard',
       icon: OverviewComponent,
       route: 'dashboard',
       //activeClass: 'bg-gray-100 dark:bg-gray-700',
@@ -112,26 +112,6 @@ export class SidebarItemsComponent {
 
     {
       type: 'link',
-      label: 'Chat',
-      icon: ChatIconComponent,
-      route: 'chat',
-      //activeClass: 'bg-gray-100 dark:bg-gray-700',
-    },
-    // {
-    //   type: 'dropdown',
-    //   label: 'Tickets',
-    //   icon: ChatIconComponent,
-    //   subItems: [
-    //     {
-    //       label: 'Chat',
-    //       route: 'chat',
-    //      // route: 'metas',
-    //     },
-               
-    //   ],
-    // },
-    {
-      type: 'link',
       label: 'Gestión de Usuarios',
       icon: UserIconSettingsComponent,
       route: 'gestion-usuarios',
@@ -167,5 +147,10 @@ export class SidebarItemsComponent {
 
   onItemClick() {
     this.itemSelected.emit();
+  }
+
+  onItemClickChat() {
+    //this.itemSelected.emit();
+    this.router.navigate(['/home/chat']);
   }
 }

@@ -1,4 +1,24 @@
+<!-- Chat Button -->
+<div class="mb-4 ">
+  <a 
+    routerLink="/chat"
+    routerLinkActive="!bg-blue-600 !text-white !shadow-lg"
+    (click)="onItemClickChat()"
+    class="flex items-center justify-center text-base font-bold rounded-md text-white bg-gray-800 hover:bg-blue-600 shadow-md hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group">
+    
+    <!-- Hover effect -->
+    <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+    <div class="relative z-10 w-full flex items-center">
+      <app-chat-icon></app-chat-icon>
+      <span class="flex-1 text-center">Finzen IA</span>
+    </div>
+  </a>
+</div>
+
+<!-- Menu Items -->
 <ul class="space-y-2" [@listAnimation]="visibleMenuItems().length">
+
   @for (item of visibleMenuItems(); track item.label) {
   @if (item.type === 'link') {
   <li>
