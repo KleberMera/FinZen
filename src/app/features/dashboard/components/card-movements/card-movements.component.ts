@@ -216,7 +216,7 @@ hasBothExpenseAndIncome(): boolean {
   legend: {
             position: 'top',
             labels: {
-              color: '#6b7280',
+          
               usePointStyle: true,
               padding: 20
             }
