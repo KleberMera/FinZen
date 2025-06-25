@@ -5,6 +5,11 @@ import { apiResponse } from '@models/apiResponse';
 import { CategoryExpenseDistribution, TrendData, TransactionStatistics, WeeklyDataItem, FilterTransactionStatistics } from '@models/grafic';
 import { Observable } from 'rxjs';
 
+export interface MonthyData {
+  startMonth: string;
+  startYear: number;
+}
+
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +40,15 @@ export class GraficsService {
   ): Observable<apiResponse<WeeklyDataItem[]>> {
     const url = `${environment.apiUrl}/grafic/weekly-summary/${userId}`;
     return this._http.get<apiResponse<WeeklyDataItem[]>>(url);
+  }
+
+  getGraficMonthlySummaryByUserId(
+    userId: number,
+    data : MonthyData
+    
+  ): Observable<apiResponse<any[]>> {
+    const url = `${environment.apiUrl}/grafic/monthly-summary/${userId}`;
+    return this._http.post<apiResponse<any[]>>(url, data);
   }
 
   getExpenseDistributionByMonth(

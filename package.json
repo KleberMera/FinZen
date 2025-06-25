@@ -21,6 +21,7 @@
     "@angular/router": "^19.2.13",
     "@angular/service-worker": "^19.2.13",
     "@formkit/tempo": "^0.1.2",
+    "@lottiefiles/dotlottie-web": "^0.47.0",
     "@types/pdfmake": "^0.2.11",
     "apexcharts": "^4.7.0",
     "chart.js": "^4.4.9",

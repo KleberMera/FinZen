@@ -25,7 +25,6 @@ import { firstValueFrom } from 'rxjs';
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    GoogleComponent,
     LockComponent,
     EyeSlashComponent,
     EyeComponent,
@@ -166,31 +165,5 @@ export default class SignUpComponent {
       },
     });
   }
-
-  async signUpWithGoogle() {
-    this.isGoogleLoading.set(true);
-    toast.info('Registrando con Google...');
-    (await this._firebaseService.signUpWithGoogle()).subscribe({
-      next: (res) => {
-        const google = this._storage.get(this.keyGoogleToken());
-        const login = firstValueFrom(this._firebaseService.loginPostCreate(google as string));
-        toast.promise(login, {
-          loading: 'Iniciando sesión...',
-          success: (res) => {
-            this._router.navigate(['home']);
-            this._storage.remove(this.keyGoogleToken());
-            this.isGoogleLoading.set(false);
-            return res.message;
-          },
-          error: (error: any) => {
-            this.isGoogleLoading.set(false);
-            return error.error.message;
-          },
-        })
-      },
-      error: (error) => {
-        this.isGoogleLoading.set(false);
-      },
-    });
-  }
 }
+ 

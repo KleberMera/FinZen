@@ -25,7 +25,8 @@ export class FirebaseService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this._auth, provider);
       const idToken = await result.user.getIdToken();
-      const url = `${environment.apiUrl}/firebase/google/login`;
+      // Usar el nuevo endpoint unificado
+      const url = `${environment.apiUrl}/firebase/google/signin-or-signup`;
       return this._http.post<apiResponse<User>>(url, { idToken }).pipe(
         tap((res) => {
           console.log(res);

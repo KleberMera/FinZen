@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toast } from 'ngx-sonner';
@@ -11,6 +11,8 @@ import { GoogleComponent, EyeComponent, EyeSlashComponent, SpinnerComponent, Sig
 import { AUTH_PAGES } from '../../auth.routes';
 import { firstValueFrom } from 'rxjs';
 import { FormValidationService } from '@services/form-validation.service';
+import { DotLottie } from '@lottiefiles/dotlottie-web';
+
 import { BreakpointService } from '@services/breakpoint.service';
 export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComponent, EyeComponent,
                         EyeSlashComponent, SpinnerComponent, SignComponent];
@@ -21,7 +23,7 @@ export const IconsApp = [LogoComponent, UserComponent, LockComponent, GoogleComp
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export default class LoginComponent {
+export default class LoginComponent implements OnInit {
   private readonly _authService = inject(AuthService);
   private readonly _firebaseService = inject(FirebaseService);
   private readonly _router = inject(Router);
@@ -32,6 +34,16 @@ export default class LoginComponent {
   readonly showPassword = signal<boolean>(false);
   readonly isGoogleLoading = signal(false);
   readonly pages = signal(AUTH_PAGES.FORGOTPASSWORD);
+
+  ngOnInit(): void {
+    const dotLottie = new DotLottie({
+      autoplay: true,
+      loop: true,
+      canvas: document.querySelector('#dotlottie-canvas') as HTMLCanvasElement,
+      src: "https://lottie.host/91579913-d01a-4de0-b0b8-6bbdbeb31cce/fjwNMJrEQQ.lottie", // Cambiado a .json válido
+});
+    
+  }
 
   // Helper methods para la validación
   getErrorMessage(fieldName: string): string {
