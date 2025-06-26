@@ -3,19 +3,16 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FormValidationService } from '../../../../shared/services/form-validation.service';
 import { toast } from 'ngx-sonner';
-import { StorageService } from '../../../../shared/services/storage.service';
 import { User } from '@models/user';
 import { BreakpointService } from '../../../../shared/services/breakpoint.service';
 import { LockComponent } from '@icons/lock/lock.component';
 import { LogoComponent } from '@icons/logo/logo.component';
 import { EyeSlashComponent } from '../../components/icons/eye-slash/eye-slash.component';
 import { EyeComponent } from '../../components/icons/eye/eye.component';
-import { GoogleComponent } from '../../components/icons/google/google.component';
 import { SignComponent } from '../../components/icons/sign/sign.component';
 import { SpinnerComponent } from '../../components/icons/spinner/spinner.component';
 import { UserCicleIconComponent } from '../../components/icons/user-cicle-icon/user-cicle-icon.component';
 import { AuthService } from '../../services/auth.service';
-import { FirebaseService } from '../../services/firebase.service';
 import { AUTH_PAGES } from '../../auth.routes';
 import { PasswordStrengthService, PasswordStrength } from '../../services/password-strength.service';
 import { firstValueFrom } from 'rxjs';
@@ -39,15 +36,11 @@ import { firstValueFrom } from 'rxjs';
 export default class SignUpComponent {
   private readonly _authService = inject(AuthService);
   private readonly _validationService = inject(FormValidationService);
-  private readonly _firebaseService = inject(FirebaseService);
-  private readonly _storage = inject(StorageService);
   private readonly _router = inject(Router);
   private readonly _passwordStrength = inject(PasswordStrengthService);
   protected form = this._authService.formUserSignUp();
-  private keyGoogleToken = signal<string>('googletoken');
   protected readonly _BreakpointService = inject(BreakpointService);
   readonly isSubmitting = signal<boolean>(false);
-  readonly isGoogleLoading = signal(false);
   readonly pages = signal(AUTH_PAGES.LOGIN);
   protected showPassword = signal<boolean>(false);
   protected showConfirmPassword = signal<boolean>(false);
@@ -160,7 +153,6 @@ export default class SignUpComponent {
       error: (err) => {
         console.log(err);
         this.isSubmitting.set(false);
-        this.isGoogleLoading.set(false);
         toast.error(err.error.message);
       },
     });

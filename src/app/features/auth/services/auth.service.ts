@@ -108,10 +108,31 @@ export class AuthService {
   };
 
     private passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
-    if (!control.value) return null;
-    const strength = this._passwordStrength.checkStrength(control.value);
-    return strength.score < 2 ? { weakPassword: true } : null;
-  }
+      if (!control.value) return null;
+      
+      const password = control.value;
+      const hasMinLength = password.length >= 8;
+      const hasLower = /[a-z]/.test(password);
+      const hasUpper = /[A-Z]/.test(password);
+      const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      
+      // Verificar que cumpla con todos los requisitos
+      if (!hasMinLength || !hasLower || !hasUpper || !hasSpecial) {
+        return { 
+          weakPassword: true,
+          requirements: {
+            hasMinLength,
+            hasLower,
+            hasUpper,
+            hasSpecial
+          }
+        };
+      }
+      
+      // Verificar fortaleza general
+      const strength = this._passwordStrength.checkStrength(password);
+      return strength.score < 2 ? { weakPassword: true } : null;
+    }
 
   signUp(user: User): Observable<apiResponse<Partial<User>>> {
     const username = `${user.name.toLowerCase()}_${user.last_name.toLowerCase()}`.replace(/\s+/g, '_');

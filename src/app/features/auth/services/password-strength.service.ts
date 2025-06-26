@@ -11,31 +11,62 @@ export interface PasswordStrength {
 })
 export class PasswordStrengthService {
   checkStrength(password: string): PasswordStrength {
+    if (!password) {
+      return {
+        score: 0,
+        feedback: this.getFeedback(0),
+        color: this.getColor(0)
+      };
+    }
+
     let score = 0;
+    const hasMinLength = password.length >= 8;
+    const hasNumber = /[0-9]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     
     // Length check
-    if (password.length >= 8) score++;
+    if (hasMinLength) score++;
     if (password.length >= 12) score++;
     
     // Complexity checks
-    if (/[0-9]/.test(password)) score++;
-    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score++;
+    if (hasNumber) score++;
+    if (hasLower && hasUpper) score++;
+    if (hasSpecial) score++;
     
-    // Normalize score to 0-4 range
+    // Requisitos mínimos: longitud, mayúscula, minúscula y carácter especial
+    const meetsMinimumRequirements = hasMinLength && hasLower && hasUpper && hasSpecial;
+    
+    // Normalizar puntuación a rango 0-4
     score = Math.min(4, score);
+    
+    // Si no cumple con los requisitos mínimos, forzar puntuación máxima de 1
+    if (!meetsMinimumRequirements && score > 1) {
+      score = 1;
+    }
     
     return {
       score,
-      feedback: this.getFeedback(score),
+      feedback: this.getFeedback(score, { hasLower, hasUpper, hasSpecial, hasMinLength }),
       color: this.getColor(score)
     };
   }
 
-  private getFeedback(score: number): string {
+  private getFeedback(score: number, checks?: { hasLower: boolean; hasUpper: boolean; hasSpecial: boolean; hasMinLength: boolean }): string {
+    if (score <= 1) {
+      if (!checks) return 'Muy débil';
+      
+      const missingRequirements = [];
+      if (!checks.hasMinLength) missingRequirements.push('al menos 8 caracteres');
+      if (!checks.hasLower) missingRequirements.push('una minúscula');
+      if (!checks.hasUpper) missingRequirements.push('una mayúscula');
+      if (!checks.hasSpecial) missingRequirements.push('un carácter especial');
+      
+      return `Débil - Requiere ${missingRequirements.join(', ')}`;
+    }
+    
     switch (score) {
-      case 0: return 'Muy débil';
-      case 1: return 'Débil';
       case 2: return 'Regular';
       case 3: return 'Fuerte';
       case 4: return 'Muy fuerte';
