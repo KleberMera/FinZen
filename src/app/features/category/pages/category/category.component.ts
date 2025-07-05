@@ -8,12 +8,11 @@ import { StorageService } from '../../../../shared/services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { FormCategoryComponent } from '../../components/form-category/form-category.component';
 import { toast } from 'ngx-sonner';
-import { BottomSheetComponent } from "../../../../shared/components/bottom-sheet/bottom-sheet.component";
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [CommonModule, FormCategoryComponent, BottomSheetComponent],
+  imports: [CommonModule, FormCategoryComponent],
   templateUrl: './category.component.html',
   styleUrl: './category.component.scss',
 })
