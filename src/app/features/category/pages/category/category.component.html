@@ -1,5 +1,3 @@
-
-
 <!-- Header Section -->
   <div class="mb-6">
     <div class="flex items-center justify-between mb-4">
@@ -148,16 +146,11 @@
   </div>
 
   @if (isFormOpen()) {
-    <app-bottom-sheet
+    <app-form-category 
+      [category]="selectedCategory()"
+      [isEditMode]="isEditMode()"
       [isOpen]="isFormOpen()"
-      (closeSheet)="handleFormClose()"
-    >
-      <app-form-category 
-    [category]="selectedCategory()"
-    [isEditMode]="isEditMode()"
-    (onReload)="onReload()"
-    (onClose)="handleFormClose()">
-  </app-form-category>
-    </app-bottom-sheet>
-  
-}
+      (onReload)="onReload()"
+      (onClose)="handleFormClose()">
+    </app-form-category>
+  }
