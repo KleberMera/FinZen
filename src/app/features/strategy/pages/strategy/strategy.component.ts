@@ -18,22 +18,6 @@ export default class StrategyComponent {
   userId = signal<number>(this.storage.getUserId());
   activeTab = STRATEGY_PAGES.SNOWBALL;
 
-  // ngOnInit() {
-  //   // Verificar si existe un plan guardado
-  //   this.strategyState.getPlan(this.userId()).subscribe({
-  //     next: (response) => {
-  //       if (response.data) {
-  //         // Si hay un plan, establecer los datos y navegar al plan
-  //         const planData = JSON.parse(response.data.datajson);
-  //         this.strategyState.setSelectedData(planData);
-  //         this.router.navigate(['home/plan']);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Error al obtener el plan:', error);
-  //     }
-  //   });
-  // }
 
   dataStrategy = rxResource({
     request: () => ({ userId: this.userId() }),

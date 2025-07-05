@@ -30,22 +30,53 @@
       <!-- Panel de notificaciones -->
       <div class="flex-1 w-full max-w-lg">
         <div class="text-center">
-          <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-green-500/20 ring-2 ring-green-500/30">
-            <i class="pi pi-bell text-2xl text-green-400"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Notificaciones activadas</h3>
-          <div class="mb-4">
-            <div class="flex items-center justify-center">
-              <div class="h-2 w-28 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div class="h-full bg-green-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
-              </div>
-              <span class="text-sm text-gray-600 dark:text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
+          @if (notificationStatus() === 'enabled') {
+            <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-green-500/20 ring-2 ring-green-500/30">
+              <i class="pi pi-bell text-2xl text-green-400"></i>
             </div>
-          </div>
-          <button (click)="onNotificationClick()" 
-                  class="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
-            <i class="pi pi-bell-slash mr-2"></i> Desactivar
-          </button>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">Notificaciones activadas</h3>
+            <div class="mb-4">
+              <div class="flex items-center justify-center">
+                <div class="h-2 w-28 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div class="h-full bg-green-500 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
+                </div>
+                <span class="text-sm text-gray-600 dark:text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
+              </div>
+            </div>
+            <button (click)="onNotificationClick()" 
+                    class="px-5 py-2.5 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
+              <i class="pi pi-bell-slash mr-2"></i> Desactivar
+            </button>
+          } @else {
+            <div class="inline-flex items-center justify-center p-4 mb-3 rounded-full bg-gray-500/20 ring-2 ring-gray-500/30">
+              <i class="pi pi-bell-slash text-2xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              @if (notificationStatus() === 'blocked') {
+                Notificaciones bloqueadas
+              } @else if (notificationStatus() === 'granted-no-subscription') {
+                Permiso concedido, pero no suscrito
+              } @else {
+                Notificaciones desactivadas
+              }
+            </h3>
+            <div class="mb-4">
+              <div class="flex items-center justify-center">
+                <div class="h-2 w-28 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div class="h-full bg-gray-400 rounded-full" [style.width.%]="(subscriptionCount() / 2) * 100"></div>
+                </div>
+                <span class="text-sm text-gray-600 dark:text-gray-300 ml-3">{{ subscriptionCount() }}/2 dispositivos</span>
+              </div>
+            </div>
+            <button (click)="onNotificationClick()" 
+                    [disabled]="notificationStatus() === 'blocked'"
+                    class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
+              <i class="pi pi-bell mr-2"></i> Activar
+            </button>
+            @if (notificationStatus() === 'blocked') {
+              <div class="mt-2 text-sm text-red-400">Debes permitir notificaciones en tu navegador.</div>
+            }
+          }
         </div>
       </div>
       <!-- Panel de días de anticipación -->

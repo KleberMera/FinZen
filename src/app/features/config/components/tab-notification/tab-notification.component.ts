@@ -95,35 +95,40 @@ export default class TabNotificationComponent {
    }
 
    const userId = this.userId();
-  const deviceId = this.currentDeviceId();
+   const deviceId = this.currentDeviceId();
 
-// Verificar si el dispositivo actual tiene notificaciones activadas
-this._deviceService.hasNotifications(userId, deviceId!).subscribe({
-  next: (response) => {
-    if (response.hasNotifications!) {
-      this.notificationStatus.set('enabled');
-    } else {
-      // Si no tiene notificaciones en este dispositivo, verificar suscripción general
-      this._notifications.hasSubscription(userId).subscribe({
-        next: (subResponse) => {
-          if (subResponse.hasSubscription) {
-            this.notificationStatus.set('granted-no-subscription');
-          } else {
-            this.notificationStatus.set('disabled'); // No tiene ni notificaciones ni suscripción, permite activar
-          }
-        },
-        error: (error) => {
-          console.error('Error al verificar la suscripción:', error);
-          this.notificationStatus.set('disabled');
-        },
-      });
-    }
-  },
-  error: (error) => {
-    console.error('Error al verificar notificaciones del dispositivo:', error);
-    this.notificationStatus.set('disabled');
-  },
-});
+  // Verificar si el dispositivo actual tiene notificaciones activadas
+  this._deviceService.hasNotifications(userId, deviceId!).subscribe({
+    next: (response) => {
+      console.log(response);
+      
+      // Asegurarse de que la respuesta es interpretada correctamente como booleano
+      const hasNotifications = !!response.hasNotifications;
+      if (hasNotifications) {
+        this.notificationStatus.set('enabled');
+      } else {
+        // Si no tiene notificaciones en este dispositivo, verificar suscripción general
+        this._notifications.hasSubscription(userId).subscribe({
+          next: (subResponse) => {
+            const hasSubscription = !!subResponse.hasSubscription;
+            if (hasSubscription) {
+              this.notificationStatus.set('granted-no-subscription');
+            } else {
+              this.notificationStatus.set('disabled'); // No tiene ni notificaciones ni suscripción, permite activar
+            }
+          },
+          error: (error) => {
+            console.error('Error al verificar la suscripción:', error);
+            this.notificationStatus.set('disabled');
+          },
+        });
+      }
+    },
+    error: (error) => {
+      console.error('Error al verificar notificaciones del dispositivo:', error);
+      this.notificationStatus.set('disabled');
+    },
+  });
  }
 
  // Manejar el clic en el botón de notificaciones
