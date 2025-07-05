@@ -5,11 +5,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StorageService } from '../../../../shared/services/storage.service';
 import { firstValueFrom } from 'rxjs';
 import { Category } from '@models/category';
+import { BottomSheetContentComponent } from "../../../../shared/components/bottom-sheet-content/bottom-sheet-content.component";
+import { TitleGradient } from '@models/styleClass';
 
 @Component({
   selector: 'app-form-category',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, BottomSheetContentComponent],
   templateUrl: './form-category.component.html',
   styleUrl: './form-category.component.scss'
 })
@@ -17,6 +19,7 @@ export class FormCategoryComponent implements OnInit {
   readonly onReload = output<SubmitEvent>();
   readonly onClose = output<void>();
   Object = Object;
+  Title = TitleGradient;
   
   protected readonly isSubmitting = signal(false);
   category = input<Category | null>(null);

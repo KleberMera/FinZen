@@ -1,18 +1,11 @@
-<div class="mb-8 mx-auto p-4 sm:p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-md shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500">
-  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-6">
-    <div class="space-y-2 w-full">
-      <h2 class="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-300 bg-clip-text text-transparent flex items-center gap-3">
-        <span class="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-lg shadow-lg">
-          <i class="pi pi-tags text-white"></i>
-        </span>
-        {{ isEditMode() ? 'Editar Categoría' : 'Nueva Categoría' }}
-      </h2>
-      <div class="h-1 w-full bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-full"></div>
-      <p class="text-gray-600 dark:text-gray-400 font-medium">
-        Crea categorías para organizar tus ingresos y gastos
-      </p>
-    </div>
-  </div>
+
+<app-bottom-sheet-content
+  [title]="isEditMode() ? 'Editar Categoría' : 'Nueva Categoría'"
+  [titleClasses]="Title.BLUE_CYAN"
+  (closeSheet)="onClose.emit()"
+>
+<div >
+
   
   <form [formGroup]="form()" (ngSubmit)="saveCategory($event)" class="space-y-6">
     <!-- Nombre -->
@@ -224,3 +217,4 @@
     </div>
   </form>
 </div>
+</app-bottom-sheet-content>
