@@ -1,15 +1,37 @@
-<div class="bg-white dark:bg-gray-800 ">
-  <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-    <h3 class="text-lg font-medium text-gray-800 dark:text-white">Evolución de tus Deudas</h3>
-    <p class="text-sm text-gray-500 dark:text-gray-400">Este gráfico muestra cómo se van reduciendo tus deudas mes a mes</p>
+<div class="">
+  <!-- Encabezado -->
+  <div class="p-6 border-b border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-r from-gray-50/50 to-gray-100/50 dark:from-gray-800/50 dark:to-gray-900/50">
+    <h3 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+      </svg>
+      Evolución de tus Deudas
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Este gráfico muestra cómo se van reduciendo tus deudas mes a mes</p>
   </div>
-  <div class="p-4">
-    <div class="h-[400px] w-full bg-white dark:bg-gray-800">
-      <canvas id="debtChart"></canvas>
+
+  <!-- Leyenda de colores -->
+  <div class="px-6 py-4 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+    <div class="flex flex-wrap gap-3">
+      @for (debt of processedDebts(); track debt.id; let i = $index) {
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg" [ngStyle]="{'background-color': COLORS[i % COLORS.length] + '22'}">
+          <span class="w-4 h-4 rounded-full" [ngStyle]="{'background-color': COLORS[i % COLORS.length]}"></span>
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ debt.name }}</span>
+        </div>
+      }
     </div>
-    <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-      <p>Cada barra representa cuánto debes en cada deuda al final de ese mes.</p>
-      <p>Cuando una barra desaparece, significa que has terminado de pagar esa deuda.</p>
+  </div>
+
+  <!-- Área del gráfico -->
+  <div class="p-6">
+    <div class="rounded-xl bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+      <div class="h-[400px] w-full p-4">
+        <canvas id="debtChart"></canvas>
+      </div>
+      <div class="mt-4 text-sm text-gray-500 dark:text-gray-400 px-4 pb-4">
+        <p>Cada barra representa cuánto debes en cada deuda al final de ese mes.</p>
+        <p>Cuando una barra desaparece, significa que has terminado de pagar esa deuda.</p>
+      </div>
     </div>
   </div>
 </div>

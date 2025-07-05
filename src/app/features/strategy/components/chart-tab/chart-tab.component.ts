@@ -23,7 +23,7 @@ export class ChartTabComponent implements OnInit {
   private chart: Chart | null = null
 
   // Colors for the charts
-  COLORS = ["#ff6b6b", "#4ecdc4", "#ffd166", "#8a2be2", "#20b2aa", "#ff7f50"]
+  public COLORS = ["#ff6b6b", "#4ecdc4", "#ffd166", "#8a2be2", "#20b2aa", "#ff7f50"]
 
   constructor() {
     effect(() => {

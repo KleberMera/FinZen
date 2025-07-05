@@ -22,6 +22,17 @@ export class CalendarTabComponent {
     return this.calculatorService.findDebtCompletionDates(this.paymentPlan(), this.processedDebts())
   }
 
+  // Fechas clave ordenadas por fecha ascendente
+  get sortedDebtCompletionDates() {
+    // Convierte el objeto a array, ordena por fecha y regresa el array
+    return Object.entries(this.debtCompletionDates)
+      .sort((a, b) => {
+        // a[1].date y b[1].date son strings tipo "YYYY-MM-DD" o similar
+        return new Date(a[1].date).getTime() - new Date(b[1].date).getTime()
+      })
+      .map(([key, value]) => ({ key, value }))
+  }
+
   // Get overdue debts for dynamic details
   get overdueDebts() {
     return this.processedDebts().filter((debt) => debt.isOverdue)
